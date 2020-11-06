@@ -7,6 +7,31 @@ and the ability to perform static analysis checks against your solution using th
 
 Learn more about the Build Tools [here](https://aka.ms/buildtoolsdoc).
 
+## Setting Up Local Dev Environment
+
+Windows, macOS or Linux:
+
+- [Node.js LTS (currently v14)](https://nodejs.org/en/download/)
+- gulp CLI: ```npm install -g gulp-cli```
+- [git](https://git-scm.com/downloads)
+- [VS Code](https://code.visualstudio.com/Download) or your different favorite editor
+- recommended VSCode extensions:
+  - [EditorConfig for VS Code (editorconfig.editorconfig)](https://github.com/editorconfig/editorconfig-vscode)
+  - [ESLint (dbaeumer.vscode-eslint)](https://github.com/Microsoft/vscode-eslint)
+  - [GitLens (eamodio.gitlens)](https://github.com/eamodio/vscode-gitlens)
+  - [markdownlint (davidanson.vscode-markdownlint)](https://github.com/DavidAnson/vscode-markdownlint)
+
+## Getting Started
+
+Clone, restore modules, build and run:
+
+```bash
+git clone https://github.com/microsoft/powerplatform-build-tools.git pp-build-tools
+cd pp-build-tools
+npm install
+gulp ci
+```
+
 ## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a

@@ -1,0 +1,44 @@
+{
+  "name": "powerplatform-build-tools",
+  "version": "0.1.0",
+  "description": "Azure DevOps tasks for Power Platform",
+  "main": "index.js",
+  "scripts": {
+    "clean": "scorch",
+    "build": "node node_modules/gulp/bin/gulp.js",
+    "test": "node node_modules/gulp/bin/gulp.js test",
+    "ci": "node node_modules/gulp/bin/gulp.js ci",
+    "dist": "node node_modules/gulp/bin/gulp.js recompile && node node_modules/gulp/bin/gulp.js dist && git add -f -- ./dist"
+  },
+  "author": "PowerApps-ISV-Tools",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microsoft/powerplatform-build-tools"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.2.14",
+    "@types/mocha": "^8.0.3",
+    "@types/node": "^14.14.6",
+    "@typescript-eslint/eslint-plugin": "^4.6.1",
+    "@typescript-eslint/parser": "^4.6.1",
+    "@vercel/ncc": "^0.25.0",
+    "chai": "^4.2.0",
+    "eslint": "^7.12.1",
+    "fancy-log": "^1.3.3",
+    "fs-extra": "^9.0.1",
+    "glob": "^7.1.6",
+    "gulp": "^4.0.2",
+    "gulp-eslint": "^6.0.0",
+    "gulp-mocha": "^7.0.2",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-typescript": "^6.0.0-alpha.1",
+    "mocha": "^8.2.1",
+    "node-fetch": "^2.6.1",
+    "ps-list": "^7.2.0",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.5",
+    "unzip-stream": "^0.3.1"
+  },
+  "dependencies": {}
+}

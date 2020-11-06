@@ -1,0 +1,36 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+#
+# CI workflow for PRs and merges to master
+# https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ windows-latest ]
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        lfs: true
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v1.4.1
+      with:
+        node-version: 12.x
+
+    - name: Build and test
+      run: |
+        npm i
+        npm run ci
+      env:
+        AZ_DevOps_Read_PAT: ${{ secrets.AZ_DevOps_Read_PAT }}

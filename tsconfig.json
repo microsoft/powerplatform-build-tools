@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "target": "es6",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "sourceMap": true,
+        "outDir": "./out",
+        "strict": true,
+        "strictPropertyInitialization": true,
+        "noImplicitAny": true
+    },
+    "exclude": [
+        "node_modules"
+    ]
+}
