@@ -3,7 +3,7 @@
 #
 # CI workflow for PRs and merges to master
 # https://docs.github.com/en/free-pro-team@latest/actions/reference/workflow-syntax-for-github-actions
-name: CI
+name: PullRequest
 
 on:
   push:
