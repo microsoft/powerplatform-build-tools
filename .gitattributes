@@ -32,3 +32,4 @@
 *.dynlib filter=lfs diff=lfs merge=lfs -text
 *.pdb filter=lfs diff=lfs merge=lfs -text
 *.so filter=lfs diff=lfs merge=lfs -text
+assets/* filter=lfs diff=lfs merge=lfs -text
