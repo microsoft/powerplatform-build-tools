@@ -1,0 +1,55 @@
+{
+  "manifestVersion": 1,
+  "id": "PowerPlatform-BuildTools",
+  "publisher": "microsoft-IsvExpTools",
+  "version": "0.1.0",
+  "name": "Power Platform Build Tools",
+  "description": "Automate common build and deployment tasks related to Power Platform",
+  "categories": ["Azure Pipelines"],
+  "targets": [
+    {
+      "id": "Microsoft.VisualStudio.Services"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "uri": "https://github.com/microsoft/powerplatform-build-tools"
+  },
+  "public": false,
+  "galleryFlags": [],
+  "tags": ["Power Platform", "Dynamics 365", "Dynamics CRM", "Dynamics", "CRM"],
+  "branding": {
+    "color": "rgb(11, 11, 11)",
+    "theme": "dark"
+  },
+  "icons": {
+    "default": "assets/images/PowerPlatform_mark_128px_128.png"
+  },
+  "screenshots": [
+    {
+      "path": "assets/images/sample-pipeline.png"
+    }
+  ],
+  "content": {
+    "details": {
+      "path": "overview.md"
+    },
+    "License": {
+      "path": "assets/EULA.md"
+    }
+  },
+  "links": {
+    "getstarted": {
+      "uri": "https://aka.ms/buildtoolsdoc"
+    },
+    "support": {
+      "uri": "mailto:PPTools@microsoft.com"
+    }
+  },
+  "files": [
+    {
+      "path": "assets/images",
+      "addressable": true
+    }
+  ]
+}
