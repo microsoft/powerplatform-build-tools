@@ -8,7 +8,7 @@
     "build": "node node_modules/gulp/bin/gulp.js",
     "test": "node node_modules/gulp/bin/gulp.js test",
     "ci": "node node_modules/gulp/bin/gulp.js ci",
-    "dist": "node node_modules/gulp/bin/gulp.js recompile && node node_modules/gulp/bin/gulp.js dist && git add -f -- ./dist"
+    "dist": "node node_modules/gulp/bin/gulp.js dist"
   },
   "author": "PowerApps-ISV-Tools",
   "license": "MIT",
@@ -22,9 +22,9 @@
     "@types/node": "^14.14.6",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
-    "@vercel/ncc": "^0.25.0",
     "chai": "^4.2.0",
     "eslint": "^7.12.1",
+    "eslint-plugin-node": "^11.1.0",
     "fancy-log": "^1.3.3",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",

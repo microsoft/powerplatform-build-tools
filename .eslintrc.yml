@@ -1,0 +1,8 @@
+root: true
+extends:
+  - eslint:recommended
+  - plugin:node/recommended
+env:
+  node: true
+rules:
+  node/no-unpublished-require: off
