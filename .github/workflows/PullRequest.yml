@@ -24,7 +24,7 @@ jobs:
         lfs: true
 
     - name: Setup Node.js environment
-      uses: actions/setup-node@v1.4.1
+      uses: actions/setup-node@v2
       with:
         node-version: 14
 
