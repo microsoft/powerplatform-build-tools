@@ -1,0 +1,166 @@
+{
+  "tasks": [
+    {
+      "name": "tool-installer",
+      "id": {
+        "LIVE": "8015465b-f367-4ec4-8215-8edf682574d3",
+        "BETA": "a4243e47-8809-429e-bda4-624757b874b5",
+        "DEV": "bbb104f9-1acc-4584-8b09-93b8e2373659",
+        "EXPERIMENTAL": "133b55b8-c51f-4ceb-8270-6d68c0cac6e4"
+      }
+    },
+    {
+      "name": "backup-environment",
+      "id": {
+        "LIVE": "bfd05e80-f553-4a07-aaff-b44ab65bd61d",
+        "BETA": "68821df0-7224-4e91-8305-59afb43f3132",
+        "DEV": "72d7d839-1e31-4dd3-b436-78c52049f429",
+        "EXPERIMENTAL": "7460c79b-0e61-41c6-8ac3-e5a78da2b41a"
+      }
+    },
+    {
+      "name": "checker",
+      "id": {
+        "LIVE": "54b4d3aa-732f-436b-9996-2a96a6715191",
+        "BETA": "08021718-2ea4-4b13-9d88-a710e39c1e2a",
+        "DEV": "c8a83835-75b2-4e71-8385-4ac1e2a20199",
+        "EXPERIMENTAL": "debf78e0-0a0f-48a7-a0b1-bad5a0ef5d19"
+      }
+    },
+    {
+      "name": "copy-environment",
+      "id": {
+        "LIVE": "0dba3baf-3724-455d-b194-3c6ec0b56431",
+        "BETA": "7c45420d-73b0-44c2-ae4f-3103bec8f13e",
+        "DEV": "0f140df0-ba8c-4016-a8ef-f4a1a0113e4a",
+        "EXPERIMENTAL": "2da2d9f2-cefb-4a40-88c6-237d45217be6"
+      }
+    },
+    {
+      "name": "create-environment",
+      "id": {
+        "LIVE": "9788ca49-dc8f-4d6b-bd5a-bab0fed0bc0c",
+        "BETA": "f3cdf6df-17fd-46c4-8c53-3fccd9a99e9f",
+        "DEV": "89df434f-242d-402c-8c97-f3c050276f2c",
+        "EXPERIMENTAL": "0c49e467-a397-495b-ab23-d150adabe6f5"
+      }
+    },
+    {
+      "name": "delete-environment",
+      "id": {
+        "LIVE": "d06e33c0-b482-48fc-8376-e3623651de01",
+        "BETA": "870427b0-fd0d-472c-897f-3edaf33772ca",
+        "DEV": "e39aaa25-8ad9-4d8b-9835-496754a79544",
+        "EXPERIMENTAL": "48e25a07-6460-48e6-868f-d8f4b157d8bc"
+      }
+    },
+    {
+      "name": "deploy-package",
+      "id": {
+        "LIVE": "6eba22e9-9666-4241-8664-3d96354449c3",
+        "BETA": "6b34d73f-6224-4cfd-9c5b-1873e45e3b39",
+        "DEV": "563a0181-5eed-4847-937a-a9bd0d807193",
+        "EXPERIMENTAL": "f2a40645-efc5-4e49-b20e-e0ddd3a1ba04"
+      }
+    },
+    {
+      "name": "export-solution",
+      "id": {
+        "LIVE": "16f6dae7-e6ef-4629-ae75-7988463cb6a6",
+        "BETA": "e155303f-6906-48db-a49e-e78ff7b27b04",
+        "DEV": "cc38e876-29f0-4064-9335-98829280cc71",
+        "EXPERIMENTAL": "f74491c7-667c-4947-87c2-057e9801a225"
+      }
+    },
+    {
+      "name": "import-solution",
+      "id": {
+        "LIVE": "fb4a48f1-0eeb-4909-9e47-9bc290e1cb89",
+        "BETA": "019568f9-aa34-4088-aaf9-ff1dd5ea2023",
+        "DEV": "3127e3b7-9aeb-4baf-a624-efb7d7b849d2",
+        "EXPERIMENTAL": "4e048b05-958f-46b1-9d75-e8477c439c25"
+      }
+    },
+    {
+      "name": "pack-solution",
+      "id": {
+        "LIVE": "769929ed-e421-451b-8255-21a8d9d9d3f9",
+        "BETA": "111673cf-8cbc-4c9c-8a37-05aa4b671dfd",
+        "DEV": "a3ece755-3661-474e-8c43-a9df70c003e6",
+        "EXPERIMENTAL": "a63d23cc-3741-4275-9032-09215b8218ca"
+      }
+    },
+    {
+      "name": "publish-customizations",
+      "id": {
+        "LIVE": "da253d32-26bf-47cc-8994-ddb90bbfbe36",
+        "BETA": "bbfa358d-2268-4958-999b-48462540457d",
+        "DEV": "b0e8f336-d9b3-4089-a89d-2eb783d120b6",
+        "EXPERIMENTAL": "592edaf5-fe6f-4192-8679-f9153c2e46f1"
+      }
+    },
+    {
+      "name": "reset-environment",
+      "id": {
+        "LIVE": "6e960d4e-ff9f-4112-8dd0-db0e97a7f131",
+        "BETA": "5d24c460-208d-4eab-b57f-edf1cc7627c7",
+        "DEV": "7bbdf68e-1324-4a7d-9b0f-b0b5613ea023",
+        "EXPERIMENTAL": "c32a7efa-67ed-41d5-941b-9dcc6404422f"
+      }
+    },
+    {
+      "name": "restore-environment",
+      "id": {
+        "LIVE": "f11d7007-9076-4ecf-839f-b46e0f65dbc6",
+        "BETA": "192aba11-e4a8-43ed-9864-4863faae16fe",
+        "DEV": "c2f2e40c-9c55-4605-9ba1-39cc3e0bed66",
+        "EXPERIMENTAL": "d80157c3-8c2f-4d0f-a249-f2cc1dfe6dee"
+      }
+    },
+    {
+      "name": "set-solution-version",
+      "id": {
+        "LIVE": "2c73f444-efd5-46b6-9416-44273166267b",
+        "BETA": "03a064e5-4f43-4751-b52e-40e61f662752",
+        "DEV": "556184b9-ad78-49cf-a3c8-f34a673c1285",
+        "EXPERIMENTAL": "813b8263-04fc-4a9d-9216-6ffe878c7931"
+      }
+    },
+    {
+      "name": "unpack-solution",
+      "id": {
+        "LIVE": "3cac89bb-1ef1-4aa7-a3c6-36c6e79c700e",
+        "BETA": "b2988367-8ee9-499c-be6f-c2b7c243ac60",
+        "DEV": "0eda87ae-45ee-4588-bb2a-75e507e55736",
+        "EXPERIMENTAL": "1ce7a3de-a0d6-4f49-bfa0-2ea309efcb08"
+      }
+    },
+    {
+      "name": "whoami",
+      "id": {
+        "LIVE": "d4a5d5cd-341b-47da-88a7-1c2379a0783a",
+        "BETA": "b1fa279a-380b-4a3b-9e67-7d827dfb2e71",
+        "DEV": "49ce7160-d144-4059-a3f2-8145a66b25a5",
+        "EXPERIMENTAL": "0cc57b79-625a-4f19-96a5-4d69257997b8"
+      }
+    },
+    {
+      "name": "apply-solution-upgrade",
+      "id": {
+        "LIVE": "44baeac4-f767-4cb9-83e8-d210ce763397",
+        "BETA": "92271b19-024b-44d6-90b0-05693b91c63e",
+        "DEV": "1f531e3f-c923-4bc0-85b8-f57202f5776e",
+        "EXPERIMENTAL": "3e8722f6-49d3-46af-af32-bf5c512ccd76"
+      }
+    },
+    {
+      "name": "delete-solution",
+      "id": {
+        "LIVE": "a497eae1-e8b2-4ec8-be6a-e865c0b952c1",
+        "BETA": "5fe18d24-add7-4304-8888-88cc4bb84c41",
+        "DEV": "bd6ba7ad-eaf8-4c30-baea-f909915170d9",
+        "EXPERIMENTAL": "e5a74ab8-70b0-42a2-87c4-57000b4e2af9"
+      }
+    }
+  ]
+}
