@@ -8,7 +8,8 @@
     "build": "node node_modules/gulp/bin/gulp.js",
     "test": "node node_modules/gulp/bin/gulp.js test",
     "ci": "node node_modules/gulp/bin/gulp.js ci",
-    "dist": "node node_modules/gulp/bin/gulp.js dist"
+    "dist": "node node_modules/gulp/bin/gulp.js dist",
+    "tfx": "node node_modules/tfx-cli/_build/tfx-cli.js"
   },
   "author": "PowerApps-ISV-Tools",
   "license": "MIT",
@@ -40,5 +41,8 @@
     "ts-node": "^9.0.0",
     "typescript": "^4.0.5",
     "unzip-stream": "^0.3.1"
+  },
+  "dependencies": {
+    "@microsoft/powerplatform-cli-wrapper": "^0.1.5"
   }
 }
