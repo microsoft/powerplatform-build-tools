@@ -31,7 +31,7 @@ module.exports = async () => {
       rm(extensionBinFolder, { recursive: true }, resolve)
     );
   }
-  await mkdir(extensionBinFolder);
+  await mkdir(extensionBinFolder,  {recursive: true});
   await writeJson(resolve(extensionBinFolder, "vss-extension.json"), manifest, {
     spaces: 2,
   });

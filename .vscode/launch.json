@@ -2,35 +2,43 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "node",
+      "type": "pwa-node",
       "request": "launch",
       "name": "Mocha All tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
       "cwd": "${workspaceFolder}",
       "args": [
-        "--require", "ts-node/register",
-        "-u", "bdd",
-        "--timeout", "999999",
+        "--require",
+        "ts-node/register",
+        "-u",
+        "bdd",
+        "--timeout",
+        "--colors",
+        "999999",
         "src/test/**/*.ts"
       ],
       "internalConsoleOptions": "neverOpen"
     },
     {
-      "type": "node",
+      "type": "pwa-node",
       "request": "launch",
       "name": "Mocha Current File",
       "program": "${workspaceFolder}/node_modules/mocha/bin/mocha",
       "cwd": "${workspaceFolder}",
       "args": [
-        "--require", "ts-node/register",
-        "-u", "bdd",
-        "--timeout", "999999",
+        "--require",
+        "ts-node/register",
+        "-u",
+        "bdd",
+        "--colors",
+        "--timeout",
+        "999999",
         "${file}"
       ],
       "internalConsoleOptions": "neverOpen"
     },
     {
-      "type": "node",
+      "type": "pwa-node",
       "request": "launch",
       "name": "Launch current TypeScript src",
       "program": "${file}",
@@ -42,7 +50,7 @@
       "sourceMaps": true
     },
     {
-      "type": "node",
+      "type": "pwa-node",
       "request": "launch",
       "name": "Gulp task",
       "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
