@@ -17,3 +17,4 @@ exports.test = test;
 exports.dist = dist;
 exports.ci = gulp.series(recompile, lint, restore, test, dist);
 exports.default = recompile;
+exports.restore = restore;

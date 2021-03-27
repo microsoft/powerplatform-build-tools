@@ -1,10 +1,7 @@
 const pslist = require("ps-list");
 const log = require("fancy-log");
 const process = require("process");
-const fs = require("fs-extra");
-
-const distDir = require("./lib/distDir");
-const binDir = require("./lib/binDir");
+const { emptyDir } = require("fs-extra");
 
 module.exports = async function clean() {
   (await pslist())
@@ -13,5 +10,5 @@ module.exports = async function clean() {
       log.info(`Terminating: ${info.name} - ${info.pid}...`);
       process.kill(info.pid);
     });
-  return Promise.all([fs.emptyDir(distDir), fs.emptyDir(binDir)]);
+  await Promise.all(["dist", "out", "bin"].map((dir) => emptyDir(dir)));
 };

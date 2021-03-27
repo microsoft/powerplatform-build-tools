@@ -3,7 +3,6 @@ const { chmod } = require("fs-extra");
 const fetch = require("node-fetch");
 const path = require("path");
 const unzip = require("unzip-stream");
-const binDir = require("./binDir");
 
 module.exports = async function nugetInstall(feed, package) {
   const packageName = package.name.toLowerCase();
@@ -48,7 +47,7 @@ module.exports = async function nugetInstall(feed, package) {
     );
   }
 
-  const targetDir = path.resolve(binDir, package.internalName);
+  const targetDir = path.resolve(`bin/${package.internalName}`);
   log.info(`Extracting into folder: ${targetDir}`);
   return new Promise((resolve, reject) => {
     res.body
@@ -63,8 +62,6 @@ module.exports = async function nugetInstall(feed, package) {
         }
         resolve();
       })
-      .on("error", (err) => {
-        reject(err);
-      });
+      .on("error", reject);
   });
 };
