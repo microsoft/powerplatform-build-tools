@@ -4,6 +4,9 @@ import path = require('path');
 
 const taskPath = path.join(__dirname, '..', '..', 'extension', 'whoami', 'whoami-v0', 'index.js');
 const tmr: tmrm.TaskMockRunner = new tmrm.TaskMockRunner(taskPath);
-console.log(taskPath);
-tmr.setInput('authenticationType', 'testAuth');
+
+tmr.setInput('authenticationType', 'SPN');
+tmr.setInput('PowerPlatformEnvironment', 'Contoso');
+tmr.setInput('PowerPlatformSPN', 'SPN-Test');
+
 tmr.run();

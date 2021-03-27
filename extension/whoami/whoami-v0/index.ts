@@ -1,4 +1,3 @@
-import tl = require('azure-pipelines-task-lib/task');
 import { IWhoAmIParams, getParams } from './whoami'
 
 function run() {
