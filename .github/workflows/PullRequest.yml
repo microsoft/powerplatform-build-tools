@@ -32,6 +32,7 @@ jobs:
 
       - name: Build and test
         run: |
+          npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
           npm i
           npm run ci
         # Note: To set version:
