@@ -6,3 +6,5 @@ env:
   node: true
 rules:
   node/no-unpublished-require: off
+parserOptions:
+  ecmaVersion: 2020
