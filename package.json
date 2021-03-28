@@ -1,5 +1,5 @@
 {
-  "name": "powerplatform-build-tools",
+  "name": "@microsoft/powerplatform-build-tools",
   "version": "0.1.0",
   "description": "Azure DevOps tasks for Power Platform",
   "main": "index.js",
