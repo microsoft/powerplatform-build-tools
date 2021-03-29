@@ -6,7 +6,8 @@ const taskPath = path.join(__dirname, '..', '..', 'extension', 'whoami', 'whoami
 const tmr: tmrm.TaskMockRunner = new tmrm.TaskMockRunner(taskPath);
 
 tmr.setInput('authenticationType', 'SPN');
-tmr.setInput('PowerPlatformEnvironment', 'Contoso');
-tmr.setInput('PowerPlatformSPN', 'SPN-Test');
+tmr.setInput('url', '');
+tmr.setInput('username', '');
+tmr.setInput('password', '');
 
 tmr.run();
