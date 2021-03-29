@@ -26,8 +26,6 @@ export class AuthHandler {
       this._password = task.getInput("password", false) as string;
 
       this.authenticateWithUsernamePassword();
-    } else {
-      task.setResult(task.TaskResult.Failed, "SPN auth not implemented")
     }
   }
 
