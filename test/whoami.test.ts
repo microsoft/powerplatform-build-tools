@@ -7,9 +7,9 @@ import * as ttm from 'azure-pipelines-task-lib/mock-test';
 // https://github.com/microsoft/azure-pipelines-task-lib/blob/master/node/mock-test.ts
 // See run and getNodePath functions for reference in linked mock-test.ts.
 // Only supports specific versions of node
-describe('WhoAmI Tests', function () {
-  it('should succeed with simple inputs', function (done: Mocha.Done) {
-    const mockPath = path.join(__dirname, 'mock', 'whoami-success.mock.js');
+describe("WhoAmI Tests", function () {
+  it("should succeed with simple inputs", function (done: Mocha.Done) {
+    const mockPath = path.join(__dirname, '..', 'out', 'test', 'mock', 'whoami-success.mock.js');
     const tr: ttm.MockTestRunner = new ttm.MockTestRunner(mockPath);
     tr.run(14);
     // expect(tr.succeeded).to.be.true;
