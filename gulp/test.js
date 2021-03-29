@@ -8,7 +8,6 @@ module.exports = function test() {
     .pipe(
       mocha({
         require: ["ts-node/register"],
-        ui: "bdd",
       })
     )
     .pipe(eslint.format());
