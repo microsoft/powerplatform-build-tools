@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "scorch",
     "build": "node node_modules/gulp/bin/gulp.js",
-    "test": "node node_modules/gulp/bin/gulp.js test",
+    "test": "node node_modules/gulp/bin/gulp.js compile && node node_modules/gulp/bin/gulp.js test",
     "ci": "node node_modules/gulp/bin/gulp.js ci",
     "dist": "node node_modules/gulp/bin/gulp.js dist",
     "tfx": "node node_modules/tfx-cli/_build/tfx-cli.js"
@@ -37,6 +37,7 @@
     "gulp-mocha": "^7.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^6.0.0-alpha.1",
+    "merge-stream": "^2.0.0",
     "mocha": "^8.3.2",
     "node-fetch": "^2.6.1",
     "ps-list": "^7.2.0",

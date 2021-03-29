@@ -9,3 +9,5 @@ logs
 npm-debug.log*
 
 /.env
+
+.taskkey

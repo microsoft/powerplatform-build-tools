@@ -25,7 +25,7 @@ export class AuthHandler {
       this._username = task.getInput("username", false) as string;
       this._password = task.getInput("password", false) as string;
 
-      this.authenticateWithUsernamePassword();
+      await this.authenticateWithUsernamePassword();
     }
   }
 
