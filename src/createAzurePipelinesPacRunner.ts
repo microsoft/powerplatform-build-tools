@@ -7,7 +7,7 @@ import { platform } from "os";
 import { TaskLogger } from "./taskLogger";
 import getExePath from "./getExePath";
 
-export default function createAzureDevOpsPacRunner(): PacRunner {
+export default function createAzurePipelinesPacRunner(): PacRunner {
   return createPacRunner(
     cwd(),
     platform() === "win32"

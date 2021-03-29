@@ -2,7 +2,7 @@ import tl = require("azure-pipelines-task-lib/task");
 import { PacRunner } from "@microsoft/powerplatform-cli-wrapper";
 import { AuthHandler } from "../../../src/auth/authHandler";
 import createCliWrapperPacAuthenticator from "../../../src/auth/createCliWrapperPacAuthenticator";
-import createAzureDevOpsPacRunner from "../../../src/createAzureDevOpsPacRunner";
+import createAzurePipelinesPacRunner from "../../../src/createAzurePipelinesPacRunner";
 
 export async function run(pacFactory: () => PacRunner): Promise<void> {
   try {
@@ -27,4 +27,4 @@ export async function run(pacFactory: () => PacRunner): Promise<void> {
   }
 }
 
-run(() => createAzureDevOpsPacRunner());
+run(() => createAzurePipelinesPacRunner());
