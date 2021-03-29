@@ -1,7 +1,5 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
 import task = require("azure-pipelines-task-lib/task");
-import { Logger } from "./logger";
+import { Logger } from "@microsoft/powerplatform-cli-wrapper";
 
 export class ActionLogger implements Logger {
   info(...args: string[]): void {
