@@ -9,7 +9,7 @@ import * as ttm from "azure-pipelines-task-lib/mock-test";
 // Only supports specific versions of node
 describe("WhoAmI Tests", function () {
   it("should succeed with simple inputs", function (done: Mocha.Done) {
-    const mockPath = path.join(__dirname, "mock", "whoami-success.mock.js");
+    const mockPath = path.join(__dirname, '..', 'out', 'test', 'mock', 'whoami-success.mock.js');
     const tr: ttm.MockTestRunner = new ttm.MockTestRunner(mockPath);
     tr.run(14);
     // expect(tr.succeeded).to.be.true;
