@@ -5,11 +5,15 @@
     "moduleResolution": "node",
     "sourceMap": true,
     "outDir": "./out",
+    "resolveJsonModule": true,
     "strict": true,
     "strictPropertyInitialization": true,
-    "noImplicitAny": true
+    "noImplicitAny": true,
   },
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "tasks/**/*.json"
   ]
 }
