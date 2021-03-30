@@ -14,7 +14,6 @@
     "node_modules"
   ],
   "include": [
-    "tasks/**/*.json",
     "test/**/*.mock.ts"
   ]
 }
