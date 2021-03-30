@@ -1,14 +1,29 @@
-require('dotenv/config'); // Needed to require to initialize .env
-import tmrm = require('azure-pipelines-task-lib/mock-run');
-import { env } from 'process';
-import path = require('path');
+require("dotenv/config"); // Needed to require to initialize .env
+import { TaskMockRunner } from "azure-pipelines-task-lib/mock-run";
+import { env } from "process";
+import path = require("path");
 
-const taskPath = path.join(__dirname, '..', '..', 'out', 'tasks', 'whoami', 'whoami-v0', 'index.js');
-const tmr: tmrm.TaskMockRunner = new tmrm.TaskMockRunner(taskPath);
+const taskPath = path.join(
+  __dirname,
+  "..",
+  "..",
+  "src",
+  "tasks",
+  "whoami",
+  "whoami-v0",
+  "index.ts"
+);
+const mockRunner = new TaskMockRunner(taskPath);
 
-tmr.setInput('authenticationType', 'PowerPlatformEnvironment');
-tmr.setInput('url', env.URL ?? "");
-tmr.setInput('username', env.PPUSERNAME ?? ""); // username is env for logged in user of local machine.
-tmr.setInput('password', env.PASSWORD ?? "");
+mockRunner.setInput("authenticationType", "PowerPlatformEnvironment");
+mockRunner.registerMock("azure-pipelines-task-lib", {
+  getEndpointUrl: () => env.URL ?? "",
+  getEndpointAuthorization: () => ({
+    parameters: {
+      username: env.PPUSERNAME ?? "",
+      password: env.PASSWORD ?? "",
+    },
+  }),
+});
 
-tmr.run();
+mockRunner.run();

@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "scorch",
     "build": "node node_modules/gulp/bin/gulp.js",
-    "test": "node node_modules/gulp/bin/gulp.js compile && node node_modules/gulp/bin/gulp.js test",
+    "test": "node node_modules/gulp/bin/gulp.js test",
     "ci": "node node_modules/gulp/bin/gulp.js ci",
     "dist": "node node_modules/gulp/bin/gulp.js dist",
     "tfx": "node node_modules/tfx-cli/_build/tfx-cli.js"
