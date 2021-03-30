@@ -1,16 +1,17 @@
-import { ClientCredentials } from "@microsoft/powerplatform-cli-wrapper";
+import {
+  AuthenticationType,
+  ClientCredentials,
+} from "@microsoft/powerplatform-cli-wrapper";
 import { getEndpointAuthorization } from "azure-pipelines-task-lib";
-import AuthenticationType from "./AuthenticationType";
+import { convertAuthenticationTypeToString } from "./getAuthenticationType";
 
 export default function getClientCredentials(): ClientCredentials {
-  const authorization = getEndpointAuthorization(
-    AuthenticationType.ClientCredentials,
-    false
+  const endpointName = convertAuthenticationTypeToString(
+    AuthenticationType.ClientCredentials
   );
+  const authorization = getEndpointAuthorization(endpointName, false);
   if (authorization === undefined) {
-    throw new Error(
-      `Could not get credentials for endpoint: ${AuthenticationType.ClientCredentials}`
-    );
+    throw new Error(`Could not get credentials for endpoint: ${endpointName}`);
   }
   return {
     tenantId: authorization.parameters.tenantId,

@@ -1,16 +1,10 @@
 import task = require("azure-pipelines-task-lib/task");
 import { Logger } from "@microsoft/powerplatform-cli-wrapper";
 
-export class TaskLogger implements Logger {
-  info(...args: string[]): void {
-    task.debug(args.join());
-  }
+const logger: Logger = {
+  info: (...args: string[]) => task.debug(args.join()),
+  warn: (...args: string[]) => task.debug(args.join()),
+  error: (...args: string[]) => task.error(args.join()),
+};
 
-  warn(...args: string[]): void {
-    task.debug(args.join());
-  }
-
-  error(...args: string[]): void {
-    task.error(args.join());
-  }
-}
+export default logger;

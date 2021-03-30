@@ -48,7 +48,7 @@
     "unzip-stream": "^0.3.1"
   },
   "dependencies": {
-    "@microsoft/powerplatform-cli-wrapper": "^0.1.5",
+    "@microsoft/powerplatform-cli-wrapper": "^0.1.7",
     "azure-pipelines-task-lib": "^3.1.0"
   }
 }
