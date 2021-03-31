@@ -1,6 +1,6 @@
 import { whoAmI } from "@microsoft/powerplatform-cli-wrapper";
-import authenticationParameters from "../../../devops/auth/authenticationParameters";
-import runnerParameters from "../../../devops/runnerParameters";
+import authenticationParameters from "../../../params/auth/authenticationParameters";
+import runnerParameters from "../../../params/runnerParameters";
 
 whoAmI({
   ...authenticationParameters,
