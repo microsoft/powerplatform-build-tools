@@ -1,21 +1,22 @@
-import * as path from "path";
-import { expect } from "chai";
-import { MockTestRunner } from "azure-pipelines-task-lib/mock-test";
+import rewiremock from "./rewiremock";
+import { should, use } from "chai";
+import { stub } from "sinon";
+import * as cliWrapper from "@microsoft/powerplatform-cli-wrapper";
+import * as sinonChai from "sinon-chai";
+should();
+use(sinonChai);
 
-// Mocha test can be run with ts-node.
-// Must run tsc on task index.ts and mock runner .ts file.
-// https://github.com/microsoft/azure-pipelines-task-lib/blob/master/node/mock-test.ts
-// See run and getNodePath functions for reference in linked mock-test.ts.
-// Only supports specific versions of node
 describe("WhoAmI Tests", function () {
-  it("should succeed with simple inputs", function () {
-    const mockPath = path.join(__dirname, "mock", "whoami-success.mock.ts");
-    const testRunner = new MockTestRunner(mockPath);
-    testRunner.run(14);
+  it("should call whoAmI", function () {
+    const whoAmIStub = stub(cliWrapper, "whoAmI");
+    rewiremock("@microsoft/powerplatform-cli-wrapper").with(cliWrapper);
 
-    expect(testRunner.succeeded).to.be.true;
-    // expect(tr.warningIssues.length).to.eq(0);
-    // expect(tr.errorIssues.length).to.eq(0);
-    //expect(/##vso\[task\.debug\]success/.test(tr.stdout)).to.be.true;
+    rewiremock.enable();
+
+    require("../src/tasks/whoami/whoami-v0/index");
+
+    rewiremock.disable();
+
+    whoAmIStub.should.have.been.calledOnce;
   });
 });

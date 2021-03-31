@@ -1,4 +1,4 @@
-import task = require("azure-pipelines-task-lib/task");
+import task = require("azure-pipelines-task-lib");
 import { Logger } from "@microsoft/powerplatform-cli-wrapper";
 
 const logger: Logger = {

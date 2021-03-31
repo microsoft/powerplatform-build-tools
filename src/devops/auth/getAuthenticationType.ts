@@ -11,21 +11,28 @@ const authTypeStringMap = new Map(
 
 export default function getAuthenticationType(): AuthenticationType {
   const inputValue = getInput("authenticationType");
+  if (inputValue === undefined) {
+    throw new Error("authenticationType is undefined");
+  }
   return convertStringToAuthenticationType(inputValue);
 }
 
 export function convertStringToAuthenticationType(
   value: string
 ): AuthenticationType {
-  if (value in stringAuthTypeMap) {
-    return stringAuthTypeMap[value];
-  } else {
+  const authType = stringAuthTypeMap.get(value);
+  if (authType === undefined) {
     throw new Error(`Unsupported authentication type: ${value}`);
   }
+  return authType;
 }
 
 export function convertAuthenticationTypeToString(
   authenticationType: AuthenticationType
 ): string {
-  return authTypeStringMap[authenticationType];
+  const value = authTypeStringMap.get(authenticationType);
+  if (value === undefined) {
+    throw new Error(`Unsupported authentication type: ${authenticationType}`);
+  }
+  return value;
 }
