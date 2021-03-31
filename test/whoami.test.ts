@@ -12,9 +12,7 @@ describe("WhoAmI Tests", function () {
     rewiremock("@microsoft/powerplatform-cli-wrapper").with(cliWrapper);
 
     rewiremock.enable();
-
     require("../src/tasks/whoami/whoami-v0/index");
-
     rewiremock.disable();
 
     whoAmIStub.should.have.been.calledOnce;
