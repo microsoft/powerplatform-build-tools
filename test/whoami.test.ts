@@ -10,6 +10,7 @@ describe("WhoAmI Tests", function () {
   it("should call whoAmI", function () {
     const whoAmIStub = stub(cliWrapper, "whoAmI");
     rewiremock("@microsoft/powerplatform-cli-wrapper").with(cliWrapper);
+    rewiremock("azure-pipelines-task-lib").notToBeUsed();
 
     rewiremock.enable();
     require("../src/tasks/whoami/whoami-v0/index");
