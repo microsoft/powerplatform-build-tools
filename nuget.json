@@ -7,7 +7,7 @@
       "packages": [
         {
           "name": "Microsoft.CrmSdk.CoreTools",
-          "version": "9.1.0.49",
+          "version": "9.1.0.68",
           "internalName": "sopa"
         }
       ]
@@ -20,12 +20,12 @@
       "packages": [
         {
           "name": "Microsoft.PowerApps.CLI",
-          "version": "1.5.3-daily-21021001",
+          "version": "1.5.6-daily-21032320",
           "internalName": "pac"
         },
         {
           "name": "Microsoft.PowerApps.CLI.Core.linux-x64",
-          "version": "1.5.6-daily-21031515",
+          "version": "1.5.6-daily-21032320",
           "internalName": "pac_linux",
           "chmod": "tools/pac"
         }
