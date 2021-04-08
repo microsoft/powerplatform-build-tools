@@ -4,8 +4,8 @@ import { cwd } from "process";
 import logger from "./logger";
 
 const runnerParameters: RunnerParameters = {
-  getRunnersDir: () => resolve("..", "..", "..", "bin"),
-  getWorkingDir: () => cwd(),
+  runnersDir: resolve("..", "..", "..", "bin"),
+  workingDir: cwd(),
   logger: logger,
 };
 

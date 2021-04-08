@@ -1,15 +1,22 @@
 import {
-  AuthenticationType,
   ClientCredentials,
   UsernamePassword,
 } from "@microsoft/powerplatform-cli-wrapper";
 import { getEndpointAuthorization } from "azure-pipelines-task-lib";
-import { convertAuthenticationTypeToString } from "./getAuthenticationType";
+import getEndpointName, { EndpointName } from "./getEndpointName";
 
-export function getClientCredentials(): ClientCredentials {
-  const params = getEndpointAuthorizationParameters(
-    AuthenticationType.ClientCredentials
-  );
+export default function getCredentials(): ClientCredentials | UsernamePassword {
+  const endpointName = getEndpointName();
+  switch (endpointName) {
+    case "PowerPlatformEnvironment":
+      return getUsernamePassword();
+    case "PowerPlatformSPN":
+      return getClientCredentials();
+  }
+}
+
+function getClientCredentials(): ClientCredentials {
+  const params = getEndpointAuthorizationParameters("PowerPlatformSPN");
   return {
     tenantId: params.tenantId,
     appId: params.applicationId,
@@ -17,10 +24,8 @@ export function getClientCredentials(): ClientCredentials {
   };
 }
 
-export function getUsernamePassword(): UsernamePassword {
-  const params = getEndpointAuthorizationParameters(
-    AuthenticationType.UsernamePassword
-  );
+function getUsernamePassword(): UsernamePassword {
+  const params = getEndpointAuthorizationParameters("PowerPlatformEnvironment");
   return {
     username: params.username,
     password: params.password,
@@ -28,9 +33,8 @@ export function getUsernamePassword(): UsernamePassword {
 }
 
 function getEndpointAuthorizationParameters(
-  authenticationType: AuthenticationType
+  endpointName: EndpointName
 ): { [key: string]: string } {
-  const endpointName = convertAuthenticationTypeToString(authenticationType);
   const authorization = getEndpointAuthorization(endpointName, false);
   if (authorization === undefined) {
     throw new Error(`Could not get credentials for endpoint: ${endpointName}`);
