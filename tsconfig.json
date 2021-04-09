@@ -9,6 +9,10 @@
     "strict": true,
     "strictPropertyInitialization": true,
     "noImplicitAny": true,
+    "baseUrl": ".",
+    "paths": {
+      "@sinonjs/fake-timers": ["node_modules/@types/sinonjs__fake-timers"]
+    }
   },
   "exclude": [
     "node_modules"

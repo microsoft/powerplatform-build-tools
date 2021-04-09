@@ -1,11 +1,11 @@
 {
   "name": "@microsoft/powerplatform-build-tools",
   "version": "0.1.0",
+  "engines": {
+    "node": ">=10.0.0"
+  },
   "description": "Azure DevOps tasks for Power Platform",
   "main": "index.js",
-  "engines": {
-    "node": "10"
-  },
   "scripts": {
     "clean": "scorch",
     "build": "node node_modules/gulp/bin/gulp.js",
@@ -27,6 +27,7 @@
     "@types/q": "^1.5.4",
     "@types/sinon": "^9.0.11",
     "@types/sinon-chai": "^3.2.5",
+    "@types/sinonjs__fake-timers": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
     "argparse": "^2.0.1",

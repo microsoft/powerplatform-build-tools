@@ -16,9 +16,12 @@ describe("WhoAmI Tests", function () {
         mock(() => import("@microsoft/powerplatform-cli-wrapper")).with(
           cliWrapper
         );
-        mock(() => import("../src/params/auth/getCredentials")).with({ default: fake() });
-        mock(
-          () => import("../src/params/auth/getEnvironmentUrl")).with({ default: fake() });
+        mock(() => import("../src/params/auth/getCredentials")).with({
+          default: fake(),
+        });
+        mock(() => import("../src/params/auth/getEnvironmentUrl")).with({
+          default: fake(),
+        });
         mock(() => import("../src/params/runnerParameters")).notToBeUsed();
       }
     );
