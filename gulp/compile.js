@@ -9,5 +9,5 @@ module.exports = function compile() {
     .pipe(sourcemaps.init())
     .pipe(tsProj())
     .pipe(sourcemaps.write("./", { sourceRoot: "./", includeContent: false }))
-    .pipe(gulp.dest("out"));
+    .pipe(gulp.dest("dist"));
 };
