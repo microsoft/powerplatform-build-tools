@@ -1,13 +1,12 @@
 const ts = require("gulp-typescript");
 const gulp = require("gulp");
 const sourcemaps = require("gulp-sourcemaps");
+const webpackStream = require("webpack-stream");
 
 module.exports = function compile() {
-  const tsProj = ts.createProject("tsconfig.json");
+  const config = require("../webpack.config");
   return gulp
-    .src("src/**/*.ts")
-    .pipe(sourcemaps.init())
-    .pipe(tsProj())
-    .pipe(sourcemaps.write("./", { sourceRoot: "./", includeContent: false }))
-    .pipe(gulp.dest("dist"));
+    .src("src/tasks/whoami/whoami-v0/index.ts")
+    .pipe(webpackStream(config))
+    .pipe(gulp.dest("dist/"));
 };

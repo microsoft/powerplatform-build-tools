@@ -59,7 +59,7 @@
     }
   ],
   "execution": {
-      "Node14": {
+      "Node10": {
           "target": "index.js"
       }
   }

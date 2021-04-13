@@ -1,20 +1,12 @@
 import { getInput } from "azure-pipelines-task-lib";
+import { AuthenticationType } from "./getAuthenticationType";
 
-export type EndpointName = "PowerPlatformEnvironment" | "PowerPlatformSPN";
-
-export default function getAuthenticationType(): EndpointName {
-  const input = getInput("authenticationType");
-  assertIsEndpointName(input);
-  return input;
-}
-
-function assertIsEndpointName(
-  input: string | undefined
-): asserts input is EndpointName {
-  if (input === undefined) {
-    throw new Error("authenticationType is undefined");
+export function getEndpointName(
+  authenticationType: AuthenticationType
+): string {
+  const endpointName = getInput(authenticationType);
+  if (endpointName === undefined) {
+    throw new Error(`${endpointName} is undefined`);
   }
-  if (input !== "PowerPlatformEnvironment" && input !== "PowerPlatformSPN") {
-    throw new Error(`Unsupported authenticationType: ${input}`);
-  }
+  return endpointName;
 }

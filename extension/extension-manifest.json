@@ -52,8 +52,7 @@
       "addressable": true
     },
     {
-      "path": "package",
-      "addressable": true
+      "path": "tasks"
     }
   ]
 }

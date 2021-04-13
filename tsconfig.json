@@ -1,9 +1,7 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "module": "commonjs",
-    "moduleResolution": "node",
-    "sourceMap": true,
     "outDir": "./dist",
     "resolveJsonModule": true,
     "strict": true,
@@ -14,7 +12,5 @@
       "@sinonjs/fake-timers": ["node_modules/@types/sinonjs__fake-timers"]
     }
   },
-  "exclude": [
-    "node_modules"
-  ]
+  "exclude": ["out", "bin"]
 }

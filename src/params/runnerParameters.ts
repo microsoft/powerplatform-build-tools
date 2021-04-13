@@ -4,7 +4,7 @@ import { cwd } from "process";
 import logger from "./logger";
 
 const runnerParameters: RunnerParameters = {
-  runnersDir: resolve("..", "..", "..", "bin"),
+  runnersDir: resolve(__dirname, "bin"),
   workingDir: cwd(),
   logger: logger,
 };
