@@ -7,3 +7,9 @@
 logs
 *.log
 npm-debug.log*
+
+/.env
+
+.taskkey
+
+.npmrc
