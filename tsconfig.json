@@ -4,7 +4,7 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "./out",
+    "outDir": "./dist",
     "resolveJsonModule": true,
     "strict": true,
     "strictPropertyInitialization": true,

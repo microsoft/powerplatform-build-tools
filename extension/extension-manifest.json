@@ -50,6 +50,10 @@
     {
       "path": "assets/images",
       "addressable": true
+    },
+    {
+      "path": "package",
+      "addressable": true
     }
   ]
 }

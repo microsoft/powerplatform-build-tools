@@ -6,8 +6,12 @@
   },
   "description": "Azure DevOps tasks for Power Platform",
   "main": "index.js",
+  "files": [
+    "dist",
+    "bin"
+  ],
   "scripts": {
-    "clean": "scorch",
+    "clean": "node node_modules/gulp/bin/gulp.js clean",
     "build": "node node_modules/gulp/bin/gulp.js",
     "test": "node node_modules/gulp/bin/gulp.js test",
     "ci": "node node_modules/gulp/bin/gulp.js ci",
@@ -36,6 +40,7 @@
     "eslint": "^7.12.1",
     "eslint-plugin-node": "^11.1.0",
     "fancy-log": "^1.3.3",
+    "find": "^0.3.0",
     "fs-extra": "^9.0.1",
     "glob": "^7.1.6",
     "gulp": "^4.0.2",
@@ -51,6 +56,7 @@
     "sinon": "^10.0.0",
     "sinon-chai": "^3.6.0",
     "sync-request": "^6.1.0",
+    "tar": "^6.1.0",
     "tfx-cli": "^0.8.3",
     "ts-node": "^9.0.0",
     "typescript": "^4.2.3",
