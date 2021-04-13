@@ -5,9 +5,6 @@ const {
   rm,
   copy,
   existsSync,
-  stat,
-  write,
-  writeFile,
 } = require("fs-extra");
 const createTfxRunner = require("./lib/createTfxRunner");
 const { argv } = require("process");
@@ -25,10 +22,10 @@ module.exports = async () => {
   await clean();
 
   await generateNpmPackage();
+  await copyDependencies();
   setVersion(manifest);
   setContributions(manifest);
   await addTaskJsonFiles();
-  await removeInvalidFiles();
   await copy("extension/assets", `${primedExtensionDir}/assets`, {
     recursive: true,
   });
@@ -54,10 +51,22 @@ async function generateNpmPackage() {
   const npm = createCommandRunner(pkgFolder, "npm", console);
   const results = await npm("pack", "../..");
   const fileName = results[0];
-  console.log(`extracting ${pkgFolder}/${fileName}`);
   await extract({
     file: `${pkgFolder}/${fileName}`,
-    cwd: primedExtensionDir,
+    cwd: pkgFolder,
+  });
+  await copy(`${pkgFolder}/package/dist`, primedExtensionDir, {
+    recursive: true,
+  });
+  await removeInvalidFiles();
+}
+
+async function removeInvalidFiles() {
+  await new Promise((resolve) => {
+    find.file(/[#^[\]<>?\s]/, `out/npm-package/package/bin`, async (files) => {
+      await Promise.all(files.map((file) => rm(file)));
+      resolve();
+    });
   });
 }
 
@@ -96,8 +105,7 @@ function setContributions(manifest) {
         type: "ms.vss-distributed-task.task",
         targets: ["ms.vss-distributed-task.tasks"],
         properties: {
-          name: task.name,
-          uri: "package/dist/tasks",
+          name: `tasks/${task.name}`,
         },
       })),
     ...serviceConnections,
@@ -110,10 +118,7 @@ async function addTaskJsonFiles() {
       await Promise.all(
         files.map((file) => {
           const relativePath = file.replace(/src\//, "");
-          return copy(
-            file,
-            `${primedExtensionDir}/package/dist/${relativePath}`
-          );
+          return copy(file, `${primedExtensionDir}/${relativePath}`);
         })
       );
       resolve();
@@ -121,16 +126,27 @@ async function addTaskJsonFiles() {
   });
 }
 
-async function removeInvalidFiles() {
+async function copyDependencies() {
+  const nodeModulesFolder = path.resolve(
+    "out/npm-package/package/node_modules"
+  );
+  const binFolder = path.resolve("out/npm-package/package/bin");
+
   await new Promise((resolve) => {
-    find.file(
-      /[#^[\]<>?\s]/,
-      `${primedExtensionDir}/package/bin`,
-      async (files) => {
-        await Promise.all(files.map((file) => rm(file)));
-        resolve();
-      }
-    );
+    find.file(/tasks\/.*\/index\.js$/, primedExtensionDir, async (tasks) => {
+      const copyPromises = [];
+      tasks.forEach((task) => {
+        const taskDir = path.dirname(task);
+        copyPromises.push(
+          copy(nodeModulesFolder, `${taskDir}/node_modules`, {
+            recursive: true,
+          }),
+          copy(binFolder, `${taskDir}/bin`, { recursive: true })
+        );
+      });
+      await Promise.all(copyPromises);
+      resolve();
+    });
   });
 }
 
@@ -143,19 +159,22 @@ async function generateAllStages(manifest) {
 
   const taskMetadata = require("../extension/task-metadata.json");
 
-  for (const stage of ["LIVE", "BETA", "DEV", "EXPERIMENTAL"]) {
+  for (const stage of ["EXPERIMENTAL"]) {
     const stageManifest = JSON.parse(JSON.stringify(manifest));
     if (stage !== "LIVE") {
+      stageManifest.name = `${stageManifest.name} ([${stage}] ${stageManifest.version})`;
       stageManifest.id = `${stageManifest.id}-${stage}`;
+    } else {
+      stageManifest.name = `${stageManifest.name} (${stageManifest.version})`;
     }
     await new Promise((resolve) =>
       find.file(
         /task.json$/,
-        `${primedExtensionDir}/package/dist`,
+        `${primedExtensionDir}`,
         async (taskFileNames) => {
           await Promise.all(
             taskFileNames.map(async (taskFileName) => {
-              const localTaskId = /^out\/primed-extension\/package\/dist\/tasks\/([^/]*)/.exec(
+              const localTaskId = /^out\/primed-extension\/tasks\/([^/]*)/.exec(
                 taskFileName
               )[1];
               const taskJson = require(path.resolve(taskFileName));
