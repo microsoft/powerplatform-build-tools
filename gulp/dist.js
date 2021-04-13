@@ -53,7 +53,7 @@ function setContributions(manifest) {
       type: "ms.vss-distributed-task.task",
       targets: ["ms.vss-distributed-task.tasks"],
       properties: {
-        name: "tasks/tool-installer",
+        name: task.name,
       },
     })),
     ...serviceConnections,
