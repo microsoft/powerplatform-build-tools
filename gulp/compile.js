@@ -2,7 +2,7 @@ const gulp = require("gulp");
 const webpack = require("webpack");
 
 module.exports = async function compile() {
-  return new Promise((resolve) => {
+  await new Promise((resolve) => {
     const config = require("../webpack.config");
     webpack(config).run(onBuild(resolve));
   });
