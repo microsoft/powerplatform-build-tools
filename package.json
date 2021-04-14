@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "clean": "node node_modules/gulp/bin/gulp.js clean",
-    "build": "webpack",
+    "build": "node node_modules/gulp/bin/gulp.js compile",
     "test": "node node_modules/gulp/bin/gulp.js test",
     "ci": "node node_modules/gulp/bin/gulp.js ci",
     "dist": "node node_modules/gulp/bin/gulp.js dist",
