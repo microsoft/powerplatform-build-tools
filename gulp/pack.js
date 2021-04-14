@@ -1,28 +1,24 @@
-const {
-  mkdir,
-  writeJson,
-  pathExists,
-  rm,
-  copy,
-  existsSync,
-} = require("fs-extra");
+const { mkdir, writeJson, pathExists, copy, existsSync } = require("fs-extra");
 const createTfxRunner = require("./lib/createTfxRunner");
 const { argv } = require("process");
 const { ArgumentParser } = require("argparse");
 const { createCommandRunner } = require("@microsoft/powerplatform-cli-wrapper");
-const { extract } = require("tar");
+const { extract: extractTar } = require("tar");
 const find = require("find");
 const path = require("path");
+const { rm } = require("fs/promises");
 
 const primedExtensionDir = "out/primed-extension";
+const npmPackageDir = "out/npm-package";
 
 module.exports = async () => {
   const manifest = require("../extension/extension-manifest.json");
 
-  await clean();
+  await createDir(primedExtensionDir);
 
   await generateNpmPackage();
   await copyDependencies();
+  await removeInvalidFiles();
   setVersion(manifest);
   setContributions(manifest);
   await addTaskJsonFiles();
@@ -34,38 +30,39 @@ module.exports = async () => {
   await generateAllStages(manifest);
 };
 
-async function clean() {
-  if (await pathExists(primedExtensionDir)) {
-    await new Promise((resolve) =>
-      rm(primedExtensionDir, { recursive: true }, resolve)
-    );
+async function createDir(dirName) {
+  if (await pathExists(dirName)) {
+    await rm(dirName, { recursive: true });
   }
-  await mkdir(primedExtensionDir, { recursive: true });
+  await mkdir(dirName, { recursive: true });
 }
 
 async function generateNpmPackage() {
-  const pkgFolder = "out/npm-package";
-  if (existsSync(pkgFolder)) await rm(pkgFolder, { recursive: true });
-  await mkdir(pkgFolder);
+  await createDir(npmPackageDir);
 
-  const npm = createCommandRunner(pkgFolder, "npm", console);
+  const npm = createCommandRunner(npmPackageDir, "npm", console);
   const results = await npm("pack", "../..");
   const fileName = results[0];
-  await extract({
-    file: `${pkgFolder}/${fileName}`,
-    cwd: pkgFolder,
+
+  await extractTar({
+    file: `${npmPackageDir}/${fileName}`,
+    cwd: npmPackageDir,
   });
-  await copy(`${pkgFolder}/package/dist`, primedExtensionDir, {
+
+  await copy(`${npmPackageDir}/package/dist`, primedExtensionDir, {
     recursive: true,
   });
-  await removeInvalidFiles();
 }
 
 async function removeInvalidFiles() {
-  await new Promise((resolve) => {
-    find.file(/[#^[\]<>?\s]/, `out/npm-package/package/bin`, async (files) => {
-      await Promise.all(files.map((file) => rm(file)));
-      resolve();
+  const files = await findFiles(/[#^[\]<>?\s]/, primedExtensionDir);
+  await Promise.all(files.map((file) => rm(file)));
+}
+
+async function findFiles(search, root) {
+  return new Promise((resolve) => {
+    find.file(search, root, (files) => {
+      resolve(files);
     });
   });
 }
@@ -113,45 +110,32 @@ function setContributions(manifest) {
 }
 
 async function addTaskJsonFiles() {
-  await new Promise((resolve) => {
-    find.file(/tasks\/.*\/task.json$/, "src", async (files) => {
-      await Promise.all(
-        files.map((file) => {
-          const relativePath = file.replace(/src\//, "");
-          return copy(file, `${primedExtensionDir}/${relativePath}`);
-        })
-      );
-      resolve();
-    });
-  });
+  const taskJsonFiles = await findFiles(/tasks\/.*\/task.json$/, "src");
+  await Promise.all(
+    taskJsonFiles.map((file) => {
+      const relativePath = file.replace(/src\//, "");
+      return copy(file, `${primedExtensionDir}/${relativePath}`);
+    })
+  );
 }
 
 async function copyDependencies() {
   const nodeModulesFolder = path.resolve(
-    "out/npm-package/package/node_modules"
+    `${npmPackageDir}/package/node_modules`
   );
-  const binFolder = path.resolve("out/npm-package/package/bin");
+  const binFolder = path.resolve("bin");
+  const whoAmIFolder = `${primedExtensionDir}/tasks/whoami/whoami-v0`;
 
-  await new Promise((resolve) => {
-    find.file(/tasks\/.*\/index\.js$/, primedExtensionDir, async (tasks) => {
-      const copyPromises = [];
-      tasks.forEach((task) => {
-        const taskDir = path.dirname(task);
-        copyPromises.push(
-          copy(nodeModulesFolder, `${taskDir}/node_modules`, {
-            recursive: true,
-          }),
-          copy(binFolder, `${taskDir}/bin`, { recursive: true })
-        );
-      });
-      await Promise.all(copyPromises);
-      resolve();
-    });
-  });
+  await Promise.all([
+    copy(nodeModulesFolder, `${whoAmIFolder}/node_modules`, {
+      recursive: true,
+    }),
+    copy(binFolder, `${whoAmIFolder}/bin`, { recursive: true }),
+  ]);
 }
 
+const compiledExtensionDir = "out/compiled-extension";
 async function generateAllStages(manifest) {
-  const compiledExtensionDir = "out/compiled-extension";
   if (existsSync(compiledExtensionDir))
     await rm(compiledExtensionDir, { recursive: true });
 
@@ -159,7 +143,7 @@ async function generateAllStages(manifest) {
 
   const taskMetadata = require("../extension/task-metadata.json");
 
-  for (const stage of ["EXPERIMENTAL"]) {
+  for (const stage of ["LIVE", "BETA", "DEV", "EXPERIMENTAL"]) {
     const stageManifest = JSON.parse(JSON.stringify(manifest));
     if (stage !== "LIVE") {
       stageManifest.name = `${stageManifest.name} ([${stage}] ${stageManifest.version})`;
@@ -167,28 +151,18 @@ async function generateAllStages(manifest) {
     } else {
       stageManifest.name = `${stageManifest.name} (${stageManifest.version})`;
     }
-    await new Promise((resolve) =>
-      find.file(
-        /task.json$/,
-        `${primedExtensionDir}`,
-        async (taskFileNames) => {
-          await Promise.all(
-            taskFileNames.map(async (taskFileName) => {
-              const localTaskId = /^out\/primed-extension\/tasks\/([^/]*)/.exec(
-                taskFileName
-              )[1];
-              const taskJson = require(path.resolve(taskFileName));
-              taskJson.id = taskMetadata.tasks.find(
-                (t) => t.name === localTaskId
-              ).id[stage];
-              await writeJson(taskFileName, taskJson, {
-                spaces: 2,
-              });
-            })
-          );
-          resolve();
-        }
-      )
+    const taskJsonFiles = await findFiles(/task.json$/, primedExtensionDir);
+    await Promise.all(
+      taskJsonFiles.map(async (file) => {
+        const taskName = /^out\/primed-extension\/tasks\/([^/]*)/.exec(file)[1];
+        const taskJson = require(path.resolve(file));
+        taskJson.id = taskMetadata.tasks.find((t) => t.name === taskName).id[
+          stage
+        ];
+        await writeJson(file, taskJson, {
+          spaces: 2,
+        });
+      })
     );
     await writeJson(`${primedExtensionDir}/vss-extension.json`, stageManifest, {
       spaces: 2,

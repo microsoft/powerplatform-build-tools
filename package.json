@@ -7,8 +7,7 @@
   "description": "Azure DevOps tasks for Power Platform",
   "main": "index.js",
   "files": [
-    "dist",
-    "bin"
+    "dist"
   ],
   "scripts": {
     "clean": "node node_modules/gulp/bin/gulp.js clean",
@@ -64,8 +63,7 @@
     "unzip-stream": "^0.3.1",
     "webpack": "^5.32.0",
     "webpack-cli": "^4.6.0",
-    "webpack-node-externals": "^2.5.2",
-    "webpack-stream": "^6.1.2"
+    "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
     "@microsoft/powerplatform-cli-wrapper": "^0.1.10",

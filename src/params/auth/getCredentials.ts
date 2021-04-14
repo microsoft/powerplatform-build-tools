@@ -2,7 +2,7 @@ import {
   ClientCredentials,
   UsernamePassword,
 } from "@microsoft/powerplatform-cli-wrapper";
-import { getEndpointAuthorization, getInput } from "azure-pipelines-task-lib";
+import { getEndpointAuthorization } from "azure-pipelines-task-lib";
 import getAuthenticationType from "./getAuthenticationType";
 import { getEndpointName } from "./getEndpointName";
 

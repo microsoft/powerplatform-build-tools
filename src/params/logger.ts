@@ -1,4 +1,4 @@
-import { error, warning, debug } from "azure-pipelines-task-lib";
+import { error, warning } from "azure-pipelines-task-lib";
 import { Logger } from "@microsoft/powerplatform-cli-wrapper";
 
 const logger: Logger = {

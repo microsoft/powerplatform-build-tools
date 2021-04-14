@@ -1,12 +1,30 @@
-const ts = require("gulp-typescript");
 const gulp = require("gulp");
-const sourcemaps = require("gulp-sourcemaps");
-const webpackStream = require("webpack-stream");
+const webpack = require("webpack");
 
-module.exports = function compile() {
-  const config = require("../webpack.config");
-  return gulp
-    .src("src/tasks/whoami/whoami-v0/index.ts")
-    .pipe(webpackStream(config))
-    .pipe(gulp.dest("dist/"));
+module.exports = async function compile() {
+  return new Promise((resolve) => {
+    const config = require("../webpack.config");
+    webpack(config).run(onBuild(resolve));
+  });
 };
+
+function onBuild(done) {
+  return function (err, result) {
+    if (err) {
+      console.error("Error", err);
+      if (done) {
+        done();
+      }
+    } else {
+      result.stats.forEach((stats) => {
+        Object.keys(stats.compilation.assets).forEach(function (key) {
+          console.log("Webpack: output ", key);
+        });
+        console.log("Webpack: finished ", stats.compilation.name);
+      });
+      if (done) {
+        done();
+      }
+    }
+  };
+}

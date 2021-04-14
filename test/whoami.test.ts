@@ -22,6 +22,9 @@ describe("WhoAmI Tests", function () {
         mock(() => import("../src/params/auth/getEnvironmentUrl")).with({
           default: fake(),
         });
+        mock(() => import("fs/promises")).with({
+          chmod: fake(),
+        });
         mock(() => import("../src/params/runnerParameters")).notToBeUsed();
       }
     );
