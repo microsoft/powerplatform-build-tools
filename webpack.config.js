@@ -3,7 +3,7 @@ const { resolve } = require("path");
 const nodeExternals = require("webpack-node-externals");
 const find = require("find");
 
-const tasks = find.fileSync(/tasks\/.*\/index.ts$/, "src");
+const tasks = find.fileSync(/tasks[\/\\].*[\/\\]index.ts$/, "src");
 
 module.exports = tasks.map((task) => ({
   entry: `./${task}`,

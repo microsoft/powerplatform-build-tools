@@ -40,9 +40,11 @@ async function createDir(dirName) {
 async function generateNpmPackage() {
   await createDir(npmPackageDir);
 
-  const npm = createCommandRunner(npmPackageDir, "npm", console);
+  const npm = createCommandRunner(path.resolve(npmPackageDir), "npm", console, {
+    shell: true,
+  });
   const results = await npm("pack", "../..");
-  const fileName = results[0];
+  const fileName = results[0].replace(/\n$/, "");
 
   await extractTar({
     file: `${npmPackageDir}/${fileName}`,
@@ -110,10 +112,10 @@ function setContributions(manifest) {
 }
 
 async function addTaskJsonFiles() {
-  const taskJsonFiles = await findFiles(/tasks\/.*\/task.json$/, "src");
+  const taskJsonFiles = await findFiles(/tasks[\/\\].*[\/\\]task.json$/, "src");
   await Promise.all(
     taskJsonFiles.map((file) => {
-      const relativePath = file.replace(/src\//, "");
+      const relativePath = file.replace(/src[\/\\]/, "");
       return copy(file, `${primedExtensionDir}/${relativePath}`);
     })
   );
@@ -154,7 +156,9 @@ async function generateAllStages(manifest) {
     const taskJsonFiles = await findFiles(/task.json$/, primedExtensionDir);
     await Promise.all(
       taskJsonFiles.map(async (file) => {
-        const taskName = /^out\/primed-extension\/tasks\/([^/]*)/.exec(file)[1];
+        const taskName = /^out[\/\\]primed-extension[\/\\]tasks[\/\\]([^/\\]*)/.exec(
+          file
+        )[1];
         const taskJson = require(path.resolve(file));
         taskJson.id = taskMetadata.tasks.find((t) => t.name === taskName).id[
           stage
