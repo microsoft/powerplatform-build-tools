@@ -1,0 +1,94 @@
+{
+    "id": "70e9ed60-670f-11e9-be16-a150d2ff01e4",
+    "name": "PowerPlatformToolInstaller",
+    "friendlyName": "Power Platform Tool Installer",
+    "description": "Power Platform Tool Installer",
+    "author": "Microsoft",
+    "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+    "category": "Tool",
+    "visibility": [
+      "Build",
+      "Release"
+    ],
+    "satisfies": [
+      "PowerPlatformTool"
+    ],
+    "demands": [],
+    "version": {
+      "Major": "0",
+      "Minor": "1",
+      "Patch": "0"
+    },
+    "preview": false,
+    "minimumAgentVersion": "1.95.0",
+    "instanceNameFormat": "Power Platform Tool Installer $(message)",
+    "inputs": [
+      {
+        "name": "DefaultVersion",
+        "label": "Use default versions (ignored)",
+        "type": "boolean",
+        "required": true,
+        "helpMarkDown": "All tasks use the default runtime versions this extension was tested with. Unchecking this allows users to pin to specific newer (or older) versions of those runtime dependencies. But this also means that the user is now responsible to update those versions (or simply check this checkbox again)",
+        "defaultValue":true
+      },
+      {
+        "name": "PowerAppsAdminVersion",
+        "label": "Microsoft PowerApps Administration PowerShell (ignored)",
+        "type": "string",
+        "required": true,
+        "helpMarkDown": "Specify the version of Microsoft PowerApps Administration PowerShell to install",
+        "defaultValue": "2.0.99",
+        "groupname":"advanced"
+      },
+      {
+        "name": "XrmToolingPackageDeploymentVersion",
+        "label": "Xrm Tooling PackageDeployment Version (ignored)",
+        "type": "string",
+        "required": true,
+        "helpMarkDown": "Specify the version of Xrm Tooling PackageDeployment to install",
+        "defaultValue": "3.3.0.901",
+        "groupname":"advanced"
+      },
+      {
+        "name": "MicrosoftPowerAppsCheckerVersion",
+        "label": "Microsoft PowerApps Checker Version (ignored)",
+        "type": "string",
+        "required": true,
+        "helpMarkDown": "Specify the version of Microsoft PowerApps Checker to install",
+        "defaultValue": "1.0.29",
+        "groupname":"advanced"
+      },
+      {
+        "name": "CrmSdkCoreToolsVersion",
+        "label": "CrmSdk Core Tools Version (ignored)",
+        "type": "string",
+        "required": true,
+        "helpMarkDown": "Specify the version of CrmSdk Core Tools to install",
+        "defaultValue": "9.1.0.64",
+        "groupname":"advanced"
+      },
+      {
+        "name": "XrmOnlineManagementApiVersion",
+        "label": "Xrm Online Management Api Version (now OBSOLETE)",
+        "type": "string",
+        "required": false,
+        "helpMarkDown": "OBSOLETE: This version of the BuildTools no longer depends on the OnlineManagement module; specifying a version value will be ignored",
+        "defaultValue": "(obsolete)",
+        "groupname":"advanced"
+      }
+    ],
+    "groups": [
+      {
+          "name": "advanced",
+          "displayName": "Advanced",
+          "isExpanded": false,
+          "visibleRule": "DefaultVersion = false"
+      }
+    ],
+    "execution": {
+      "node10": {
+        "target": "index.js"
+      }
+    }
+  }
+  

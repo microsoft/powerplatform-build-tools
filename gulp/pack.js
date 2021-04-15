@@ -126,13 +126,13 @@ async function copyDependencies() {
     `${npmPackageDir}/package/node_modules`
   );
   const binFolder = path.resolve("bin");
-  const whoAmIFolder = `${primedExtensionDir}/tasks/whoami/whoami-v0`;
+  const toolInstallerFolder = `${primedExtensionDir}/tasks/tool-installer/tool-installer-v0`;
 
   await Promise.all([
-    copy(nodeModulesFolder, `${whoAmIFolder}/node_modules`, {
+    copy(nodeModulesFolder, `${toolInstallerFolder}/node_modules`, {
       recursive: true,
     }),
-    copy(binFolder, `${whoAmIFolder}/bin`, { recursive: true }),
+    copy(binFolder, `${toolInstallerFolder}/bin`, { recursive: true }),
   ]);
 }
 

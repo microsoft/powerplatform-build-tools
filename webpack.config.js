@@ -2,6 +2,7 @@ const { env } = require("process");
 const { resolve } = require("path");
 const nodeExternals = require("webpack-node-externals");
 const find = require("find");
+const EnvRequirePlugin = require("./EnvRequirePlugin");
 
 const tasks = find.fileSync(/tasks[\/\\].*[\/\\]index.ts$/, "src");
 
@@ -18,16 +19,15 @@ module.exports = tasks.map((task) => ({
       },
     ],
   },
+  plugins: [
+    new EnvRequirePlugin(
+      "@microsoft/powerplatform-cli-wrapper",
+      "azure-pipelines-task-lib"
+    ),
+  ],
   mode: "production",
   resolve: {
-    extensions: [".ts"],
-    fallback: {
-      os: false,
-      path: false,
-      child_process: false,
-      fs: false,
-      crypto: false,
-    },
+    extensions: [".ts", ".js"],
   },
   output: {
     filename: task.replace(/\.ts$/, ".js").replace(/src\//, ""),
