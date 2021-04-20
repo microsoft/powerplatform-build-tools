@@ -6,7 +6,7 @@ const { createCommandRunner } = require("@microsoft/powerplatform-cli-wrapper");
 const { extract: extractTar } = require("tar");
 const find = require("find");
 const path = require("path");
-const { rm } = require("fs/promises");
+const { rm, readdir } = require("fs/promises");
 
 const primedExtensionDir = "out/primed-extension";
 const npmPackageDir = "out/npm-package";
@@ -43,8 +43,9 @@ async function generateNpmPackage() {
   const npm = createCommandRunner(path.resolve(npmPackageDir), "npm", console, {
     shell: true,
   });
-  const results = await npm("pack", "../..");
-  const fileName = results.reverse().find((line) => /[^\s]/g.test(line));
+  await npm("pack", "../..");
+  const fileName = (await readdir(npmPackageDir, { withFileTypes: true }))[0]
+    .name;
 
   await extractTar({
     file: `${npmPackageDir}/${fileName}`,
