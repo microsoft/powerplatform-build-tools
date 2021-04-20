@@ -44,7 +44,7 @@ async function generateNpmPackage() {
     shell: true,
   });
   const results = await npm("pack", "../..");
-  const fileName = results[0].replace(/\n$/, "");
+  const fileName = results.reverse().find((line) => /[^\s]/g.test(line));
 
   await extractTar({
     file: `${npmPackageDir}/${fileName}`,
