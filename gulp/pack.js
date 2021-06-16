@@ -47,7 +47,7 @@ async function generateNpmPackage() {
 
   const pkgNames = results
     .map(line => line.replace(/\n$/, ''))
-    .filter(line => line.match(/\.tgz$/));
+    .filter(line => line.match(/^\s*microsoft\S+\.tgz$/));
 
   if (pkgNames.length !== 1) {
     throw new Error(`Cannot find package name, got this result from 'npm pack': (${pkgNames.length}) - ${pkgNames.join('; ')}`);
