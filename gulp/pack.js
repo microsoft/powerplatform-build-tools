@@ -44,14 +44,24 @@ async function generateNpmPackage() {
     shell: true,
   });
   const results = await npm("pack", "../..");
-  const fileName = results[0].replace(/\n$/, "");
 
+  const pkgNames = results
+    .map(line => line.replace(/\n$/, ''))
+    .filter(line => line.match(/\.tgz$/));
+
+  if (pkgNames.length !== 1) {
+    throw new Error(`Cannot find package name, got this result from 'npm pack': (${pkgNames.length}) - ${pkgNames.join('; ')}`);
+  }
+  const fileName = path.resolve(npmPackageDir, pkgNames[0]);
+  console.log(`>> packaged as: ${fileName}`);
+
+  const pkgRoot = path.resolve(npmPackageDir, 'package');
   await extractTar({
-    file: `${npmPackageDir}/${fileName}`,
+    file: fileName,
     cwd: npmPackageDir,
   });
 
-  await copy(`${npmPackageDir}/package/dist`, primedExtensionDir, {
+  await copy(pkgRoot, primedExtensionDir, {
     recursive: true,
   });
 }
