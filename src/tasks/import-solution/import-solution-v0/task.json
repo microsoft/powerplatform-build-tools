@@ -1,0 +1,152 @@
+{
+  "id": "9f15c5c5-3882-4d37-af7d-8a42a406002a",
+  "name": "PowerPlatformImportSolution",
+  "friendlyName": "Power Platform Import Solution",
+  "description": "Power Platform Import Solution",
+  "author": "Microsoft",
+  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "category": "Deploy",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [
+    "PowerPlatformTool"
+  ],
+  "version": {
+    "Major": "0",
+    "Minor": "1",
+    "Patch": "0"
+  },
+  "preview": false,
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Power Platform Import Solution $(message)",
+  "groups": [
+    {
+      "name": "advanced",
+      "displayName": "Advanced",
+      "isExpanded": false
+    }
+  ],
+  "inputs": [
+    {
+      "name": "authenticationType",
+      "type": "radio",
+      "label": "Authentication type",
+      "defaultValue": "PowerPlatformEnvironment",
+      "required": true,
+      "helpMarkDown": "Authentication via username/password is simpler to set up but won't work if your AAD tenant requires MFA; use Service Principal Name (SPN) if MFA is required.",
+      "options": {
+        "PowerPlatformEnvironment": "Username/password (no MFA support)",
+        "PowerPlatformSPN": "Service Principal/client secret (supports MFA)"
+      }
+    },
+    {
+      "name": "PowerPlatformEnvironment",
+      "type": "connectedService:Generic",
+      "label": "Service connection",
+      "required": true,
+      "visibleRule": "authenticationType = PowerPlatformEnvironment",
+      "helpMarkDown": "Authenticate with your Power Platform environment with username/password. Does not support MFA."
+    },
+    {
+      "name": "PowerPlatformSPN",
+      "type": "connectedService:powerplatform-spn",
+      "label": "Service connection",
+      "required": true,
+      "visibleRule": "authenticationType = PowerPlatformSPN",
+      "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
+    },
+    {
+      "name": "SolutionInputFile",
+      "label": "Solution Input File",
+      "type": "filePath",
+      "required": true,
+      "helpMarkDown": "Specify the path and file name of the solution zip file."
+    },
+    {
+      "name": "UseDeploymentSettingsFile",
+      "label": "Use deployment settings file",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "helpMarkDown": "Connection References and Environment variable values can be set using deployment settings file."
+    },
+    {
+      "name": "DeploymentSettingsFile",
+      "label": "Deployment Settings File",
+      "type": "filePath",
+      "visibleRule": "UseDeploymentSettingsFile = true",
+      "required": true,
+      "defaultValue": "",
+      "helpMarkDown": "Specify the path and file name of the deployment settings file."
+    },
+    {
+      "name": "AsyncOperation",
+      "label": "Import solution as asynchronous operation",
+      "type": "boolean",
+      "required": true,
+      "defaultValue": true,
+      "helpMarkDown": "Import solution as asynchronous batch job; selecting asynchronous will poll and wait until MaxAsyncWaitTime has been reached."
+    },
+    {
+      "name": "MaxAsyncWaitTime",
+      "label": "Maximum wait time in minutes for asynchronous operation",
+      "type": "string",
+      "visibleRule": "AsyncOperation = true",
+      "required": true,
+      "defaultValue": "60",
+      "helpMarkDown": "Maximum wait time in minutes for asynchronous Export; default is 60 min (1 hr), same as Azure DevOps default for tasks."
+    },
+    {
+      "name": "HoldingSolution",
+      "label": "Import as a holding solution",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Specify whether to import as a holding solution to stage for an upgrade."
+    },
+    {
+      "name": "OverwriteUnmanagedCustomizations",
+      "label": "Overwrite unmanaged customizations",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Specify whether to overwrite unmanaged customizations."
+    },
+    {
+      "name": "PublishWorkflows",
+      "label": "Activate processes (workflows) after import",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": true,
+      "groupName": "advanced",
+      "helpMarkDown": "Specify whether any processes (workflows) in the solution should be activated after import."
+    },
+    {
+      "name": "SkipProductUpdateDependencies",
+      "label": "Skip product update dependencies",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Specify whether the enforcement of dependencies related to product updates should be skipped."
+    },
+    {
+      "name": "ConvertToManaged",
+      "label": "Import as a Managed solution",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Specify whether to import as a Managed solution."
+    }
+  ],
+  "execution": {
+    "Node10": {
+      "target": "index.js"
+    }
+  }
+}

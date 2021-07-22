@@ -3,10 +3,8 @@ import { resolve } from "path";
 import { cwd } from "process";
 import logger from "./logger";
 
-const runnerParameters: RunnerParameters = {
+export const runnerParameters: RunnerParameters = {
   runnersDir: resolve(__dirname, "bin"),
   workingDir: cwd(),
   logger: logger,
 };
-
-export default runnerParameters;
