@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import {
   ClientCredentials,
   UsernamePassword,
@@ -6,7 +9,7 @@ import { getEndpointAuthorization } from "azure-pipelines-task-lib";
 import getAuthenticationType from "./getAuthenticationType";
 import { getEndpointName } from "./getEndpointName";
 
-export default function getCredentials(): ClientCredentials | UsernamePassword {
+export function getCredentials(): ClientCredentials | UsernamePassword {
   const authenticationType = getAuthenticationType();
   switch (authenticationType) {
     case "PowerPlatformEnvironment":
