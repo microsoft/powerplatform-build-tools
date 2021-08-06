@@ -10,5 +10,3 @@ const logger: Logger = {
   error: (...args: string[]) => error(args.join()),
   debug: (...args: string[]) => debug(args.join())
 };
-
-export default logger;
