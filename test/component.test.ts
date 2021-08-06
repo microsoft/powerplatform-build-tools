@@ -15,8 +15,7 @@ process.env['ENDPOINT_URL_PP_SPN'] = 'https://davidjenD365-1.crm.dynamics.com';
 
 process.env['INPUT_AUTHENTICATIONTYPE'] = "PowerPlatformEnvironment"; //PowerPlatformSPN
 
-if (password == '' && process.env['INPUT_AUTHENTICATIONTYPE'] == "PowerPlatformEnvironment"
-  || spnKey == "expectSpnKeyFromEnvVariable" && process.env['INPUT_AUTHENTICATIONTYPE'] == "PowerPlatformSPN")
+if (password == '' && spnKey == "expectSpnKeyFromEnvVariable")
 {
   throw new Error("Require either a Credential parameter or OrgUser/OrgPassword params to be set!");
 }
