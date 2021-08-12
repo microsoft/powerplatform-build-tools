@@ -77,7 +77,7 @@
       "label": "Deployment Settings File",
       "type": "filePath",
       "visibleRule": "UseDeploymentSettingsFile = true",
-      "required": true,
+      "required": false,
       "defaultValue": "",
       "helpMarkDown": "Specify the path and file name of the deployment settings file."
     },

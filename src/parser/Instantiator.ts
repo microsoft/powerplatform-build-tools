@@ -1,4 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export const mockEnvironmentUrl = "https://contoso.crm.dynamics.com/";
+import { Parser } from "./Parser";
+
+export const parser = new Parser();

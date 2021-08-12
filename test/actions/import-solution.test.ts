@@ -1,15 +1,16 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { should, use } from "chai";
 import { stubInterface } from "ts-sinon";
 import * as sinonChai from "sinon-chai";
 import rewiremock from "../rewiremock";
 import { restore, stub } from "sinon";
-import { mockEnvironmentUrl, mockSettingsFile, mockSolutionPath, mockWorkingDirectory } from "./mockData";
+import { mockEnvironmentUrl } from "./mockData";
 import { RunnerParameters, UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
+import { BuildToolsHost } from "../../src/host/BuildToolsHost";
 should();
 use(sinonChai);
 
@@ -17,15 +18,11 @@ describe("import-solution tests", () => {
   let importSolutionStub: Sinon.SinonStub<any[], any>;
   let runnerParameters: RunnerParameters;
   let credentials: UsernamePassword;
-  let getInputStub: Sinon.SinonStub<any[], any>;
-  let cwdStub: Sinon.SinonStub<any[], any>;
 
   beforeEach(() => {
     importSolutionStub = stub();
     runnerParameters = stubInterface<RunnerParameters>();
     credentials = stubInterface<UsernamePassword>();
-    getInputStub = stub();
-    cwdStub = stub();
   });
   afterEach(() => restore());
 
@@ -36,62 +33,26 @@ describe("import-solution tests", () => {
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
         mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
         mock(() => import("../../src/params/runnerParameters")).with({ runnerParameters: runnerParameters });
-        mock(() => import("azure-pipelines-task-lib")).with({ getInput: getInputStub, cwd: cwdStub });
       });
   }
 
-  const createMinMockImportSolutionParameters = (): void => {
-    getInputStub.withArgs("SolutionInputFile", true).returns(mockSolutionPath);
-    getInputStub.withArgs("AsyncOperation", true).returns("false");
-    cwdStub.returns(mockWorkingDirectory);
-  }
-
-  it("fetches minimum parameters from azure piepline stub, calls importSolutionStub properly", async () => {
-    createMinMockImportSolutionParameters();
+  it("fetches parameters from index.ts, calls importSolutionStub properly", async () => {
 
     await callActionWithMocks();
 
     importSolutionStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl,
-      path: mockSolutionPath,
-      deploymentSettingsFilePath: undefined,
-      async: false,
-      maxAsyncWaitTimeInMin: 60,
-      importAsHolding: false,
-      forceOverwrite: false,
-      publishChanges: true,
-      skipDependencyCheck: false,
-      convertToManaged: false
-    }, runnerParameters);
-  });
-
-  it("fetches maximum parameters from azure piepline stub, calls importSolutionStub properly", async () => {
-    createMinMockImportSolutionParameters();
-    getInputStub.withArgs("AsyncOperation", true).returns("true");
-    getInputStub.withArgs("MaxAsyncWaitTime", true).returns(120);
-    getInputStub.withArgs("UseDeploymentSettingsFile", false).returns("true");
-    getInputStub.withArgs("DeploymentSettingsFile", true).returns(mockSettingsFile);
-    getInputStub.withArgs("HoldingSolution", false).returns("true");
-    getInputStub.withArgs("OverwriteUnmanagedCustomizations", false).returns("true");
-    getInputStub.withArgs("PublishWorkflows", false).returns("true");
-    getInputStub.withArgs("SkipProductUpdateDependencies", false).returns("true");
-    getInputStub.withArgs("ConvertToManaged", false).returns("true");
-
-    await callActionWithMocks();
-
-    importSolutionStub.should.have.been.calledOnceWithExactly({
-      credentials: credentials,
-      environmentUrl: mockEnvironmentUrl,
-      path: mockSolutionPath,
-      deploymentSettingsFilePath: mockSettingsFile,
-      async: true,
-      maxAsyncWaitTimeInMin: 120,
-      importAsHolding: true,
-      forceOverwrite: true,
-      publishChanges: true,
-      skipDependencyCheck: true,
-      convertToManaged: true
-    }, runnerParameters);
+      path: { name: 'SolutionInputFile', required: true, defaultValue: undefined },
+      useDeploymentSettingsFile: { name: 'UseDeploymentSettingsFile', required: false, defaultValue: false },
+      deploymentSettingsFile: { name: 'DeploymentSettingsFile', required: false, defaultValue: '' },
+      async: { name: 'AsyncOperation', required: true, defaultValue: true },
+      maxAsyncWaitTimeInMin: { name: 'MaxAsyncWaitTime', required: true, defaultValue: '60' },
+      importAsHolding: { name: 'HoldingSolution', required: false, defaultValue: false },
+      forceOverwrite: { name: 'OverwriteUnmanagedCustomizations', required: false, defaultValue: false },
+      publishChanges: { name: 'PublishWorkflows', required: false, defaultValue: true },
+      skipDependencyCheck: { name: 'SkipProductUpdateDependencies', required: false, defaultValue: false },
+      convertToManaged: { name: 'ConvertToManaged', required: false, defaultValue: false }
+    }, runnerParameters, new BuildToolsHost());
   });
 });
