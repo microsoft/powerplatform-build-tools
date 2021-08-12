@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IHostAbstractions } from "@microsoft/powerplatform-cli-wrapper/dist/host";
+import { IHostAbstractions, HostParameterEntry, WorkingDirectoryParameters } from "@microsoft/powerplatform-cli-wrapper/dist/host/IHostAbstractions";
 import { getInput, cwd } from 'azure-pipelines-task-lib';
-import path = require('path');
 
 export class BuildToolsHost implements IHostAbstractions {
+
+  name = "Build-Tools";
 
   public getValidInput(name: string, required: true): string | never;
   public getValidInput(name: string, required: boolean): string | undefined;
@@ -13,14 +14,9 @@ export class BuildToolsHost implements IHostAbstractions {
     return getInput(name, required);
   }
 
-  public getInputAsBool(name: string, required: boolean, defaultValue: boolean): boolean {
-    const textValue = this.getValidInput(name, required);
-    return (!textValue) ? defaultValue : textValue === 'true';
-  }
-
-  public getWorkingDirectory(name: string, required: boolean, defaultValue?: string): string {
+  public getWorkingDirectory(params: HostParameterEntry): string | WorkingDirectoryParameters {
     const workingDir = cwd();
-    const textValue = this.getValidInput(name, required);
-    return (!textValue) ? (defaultValue ?? cwd()) : path.resolve(workingDir, textValue);
+    const textValue = this.getValidInput(params.name, params.required);
+    return (!textValue) ? (typeof params.defaultValue === 'string' ? params.defaultValue : cwd()) : { workingDir: workingDir, path: textValue };
   }
 }
