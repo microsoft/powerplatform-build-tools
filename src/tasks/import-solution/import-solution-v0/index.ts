@@ -2,15 +2,16 @@
 // Licensed under the MIT License.
 
 import { importSolution } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
-import { host } from "../../../host/Instantiator";
+import { BuildToolsHost } from "../../../host/BuildToolsHost";
+import { Parser } from "../../../parser/Parser";
 import { getCredentials } from "../../../params/auth/getCredentials";
 import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { runnerParameters } from "../../../params/runnerParameters";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
-import { parser } from "../../../parser/Instantiator";
 import * as taskDefinitionData from "../../import-solution/import-solution-v0/task.json";
 
 (async () => {
+  const parser = new Parser();
   const parameterMap = parser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
 
   importSolution({
@@ -26,5 +27,6 @@ import * as taskDefinitionData from "../../import-solution/import-solution-v0/ta
     publishChanges: parameterMap['PublishWorkflows'],
     skipDependencyCheck: parameterMap['SkipProductUpdateDependencies'],
     convertToManaged: parameterMap['ConvertToManaged'],
-  }, runnerParameters, host);
+    activatePlugins: parameterMap['ActivatePlugins']
+  }, runnerParameters, new BuildToolsHost());
 })();

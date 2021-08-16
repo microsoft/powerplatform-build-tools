@@ -142,6 +142,15 @@
       "defaultValue": false,
       "groupName": "advanced",
       "helpMarkDown": "Specify whether to import as a Managed solution."
+    },
+    {
+      "name": "ActivatePlugins",
+      "label": "Activate Plugins",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Activate plug-ins and workflows on the solution."
     }
   ],
   "execution": {

@@ -52,7 +52,8 @@ describe("import-solution tests", () => {
       forceOverwrite: { name: 'OverwriteUnmanagedCustomizations', required: false, defaultValue: false },
       publishChanges: { name: 'PublishWorkflows', required: false, defaultValue: true },
       skipDependencyCheck: { name: 'SkipProductUpdateDependencies', required: false, defaultValue: false },
-      convertToManaged: { name: 'ConvertToManaged', required: false, defaultValue: false }
+      convertToManaged: { name: 'ConvertToManaged', required: false, defaultValue: false },
+      activatePlugins: { name: 'ActivatePlugins', required: false, defaultValue: false }
     }, runnerParameters, new BuildToolsHost());
   });
 });
