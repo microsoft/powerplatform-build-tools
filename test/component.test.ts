@@ -26,11 +26,10 @@ tasks.push("../src/tasks/whoami/whoami-v0/index");
 tasks.forEach(function (index) {
   const task = index.split('/')[3];
   try {
-    console.log("Running task " + task);
+    console.log(`Running task ${task}...`);
     require(index);
-    console.log(task + " succeeded")
+    console.log(`${task} succeeded`)
   } catch {
-    console.log(task + " failed")
+    console.log(`${task} failed`)
   }
-
 });
