@@ -3,7 +3,7 @@
 
 import { importSolution } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
-import { Parser } from "../../../parser/Parser";
+import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
 import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { runnerParameters } from "../../../params/runnerParameters";
@@ -11,8 +11,8 @@ import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinit
 import * as taskDefinitionData from "../../import-solution/import-solution-v0/task.json";
 
 (async () => {
-  const parser = new Parser();
-  const parameterMap = parser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const taskParser = new TaskParser();
+  const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
 
   importSolution({
     credentials: getCredentials(),
