@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { whoAmI } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
-import { chmod } from "fs/promises";
+import { deleteEnvironment } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
 import { getCredentials } from "../../../params/auth/getCredentials";
 import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { runnerParameters } from "../../../params/runnerParameters";
 
 (async () => {
-  await chmod(`${runnerParameters.runnersDir}/pac_linux/tools/pac`, 0o711);
-  await whoAmI({
+  await deleteEnvironment({
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl()
   }, runnerParameters);
