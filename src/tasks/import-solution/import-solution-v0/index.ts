@@ -14,7 +14,7 @@ import * as taskDefinitionData from "../../import-solution/import-solution-v0/ta
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
 
-  importSolution({
+  await importSolution({
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
     path: parameterMap['SolutionInputFile'],
