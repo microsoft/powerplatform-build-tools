@@ -8,9 +8,15 @@ import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { runnerParameters } from "../../../params/runnerParameters";
 
 (async () => {
-  await chmod(`${runnerParameters.runnersDir}/pac_linux/tools/pac`, 0o711);
-  whoAmI({
-    credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl()
-  }, runnerParameters);
+  if (process.env.PP_BUILDTOOLS) {
+      await main();
+  }
 })();
+
+export async function main(): Promise<void> {
+    await chmod(`${runnerParameters.runnersDir}/pac_linux/tools/pac`, 0o711);
+    await whoAmI({
+      credentials: getCredentials(),
+      environmentUrl: getEnvironmentUrl()
+    }, runnerParameters);
+}
