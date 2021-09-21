@@ -26,7 +26,7 @@ describe("whoami tests", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    await rewiremock.around(
+    const whoAmI = await rewiremock.around(
       () => import("../../src/tasks/whoami/whoami-v0/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ whoAmI: whoAmIStub });
@@ -35,6 +35,7 @@ describe("whoami tests", () => {
         mock(() => import("fs/promises")).with({ chmod: fake() });
         mock(() => import("../../src/params/runnerParameters")).with({ runnerParameters: runnerParameters });
       });
+    await whoAmI.main();
   }
 
   it("calls whoAmI", async () => {
