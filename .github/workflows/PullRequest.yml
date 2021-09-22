@@ -47,3 +47,4 @@ jobs:
         # output VSIX version: 1.0.30
         env:
           AZ_DevOps_Read_PAT: ${{ secrets.AZ_DevOps_Read_PAT }}
+          PA_BT_ORG_PASSWORD: ${{ secrets.PA_BT_ORG_PASSWORD }}

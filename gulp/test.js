@@ -1,14 +1,5 @@
 const gulp = require("gulp");
-const mocha = require("gulp-mocha");
-const eslint = require("gulp-eslint");
+const unitTest = require("./unitTest");
+const componentTest = require("./componentTest");
 
-module.exports = function test() {
-  return gulp
-    .src("test/**/*.test.ts", { read: false })
-    .pipe(
-      mocha({
-        require: ["ts-node/register"],
-      })
-    )
-    .pipe(eslint.format());
-};
+module.exports = gulp.series(unitTest, componentTest);

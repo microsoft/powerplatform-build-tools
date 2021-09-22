@@ -21,6 +21,17 @@ Windows, macOS or Linux:
   - [GitLens (eamodio.gitlens)](https://github.com/eamodio/vscode-gitlens)
   - [markdownlint (davidanson.vscode-markdownlint)](https://github.com/DavidAnson/vscode-markdownlint)
 
+  - TEMPORARY:
+    - Create a PAT for the Azure DevOps org ```msazure``` with scope: package(read) and add it as local environment variable.
+
+    ```Powershell
+    [Environment]::SetEnvironmentVariable('AZ_DevOps_Read_PAT', '<yourPAT>', [EnvironmentVariableTarget]::User)
+    ```
+
+    - Create a PAT in GitHub to read packages, and enable SSO for the microsoft organization. Then add it to your *~/.npmrc* file or use the `npm login` command as documented [here](https://docs.github.com/en/packages/guides/configuring-npm-for-use-with-github-packages#authenticating-with-a-personal-access-token). This will only be needed until the `@microsoft/powerplatform-cli-wrapper` repo is made public.
+
+If developing on Linux or macOS, you will also need to install `git-lfs`.  (It is prepackaged with the Git installer for Windows.)  Follow the [instructions here](https://docs.github.com/en/github/managing-large-files/installing-git-large-file-storage) for your environment.
+
 ## Getting Started
 
 Clone, restore modules, build and run:
