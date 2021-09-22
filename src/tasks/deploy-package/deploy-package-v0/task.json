@@ -1,0 +1,74 @@
+{
+  "id": "c6ea89b6-4434-410c-b17f-c6c253175945",
+  "name": "PowerPlatformDeployPackage",
+  "friendlyName": "Power Platform Deploy Package",
+  "description": "Power Platform Deploy Package",
+  "author": "Microsoft",
+  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "category": "Deploy",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [
+    "PowerPlatformTool"
+  ],
+  "version": {
+    "Major": "0",
+    "Minor": "1",
+    "Patch": "0"
+  },
+  "preview": false,
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Power Platform Deploy Package $(message)",
+  "inputs": [
+    {
+      "name": "authenticationType",
+      "type": "radio",
+      "label": "Authentication type",
+      "defaultValue": "PowerPlatformEnvironment",
+      "required": true,
+      "helpMarkDown": "Authentication via username/password is simpler to set up but won't work if your AAD tenant requires MFA; use Service Principal Name (SPN) if MFA is required.",
+      "options": {
+        "PowerPlatformEnvironment": "Username/password (no MFA support)",
+        "PowerPlatformSPN": "Service Principal/client secret (supports MFA)"
+      }
+    },
+    {
+      "name": "PowerPlatformEnvironment",
+      "type": "connectedService:Generic",
+      "label": "Service connection",
+      "required": true,
+      "visibleRule": "authenticationType = PowerPlatformEnvironment",
+      "helpMarkDown": "Authenticate with your Power Platform environment with username/password. Does not support MFA."
+    },
+    {
+      "name": "PowerPlatformSPN",
+      "type": "connectedService:powerplatform-spn",
+      "label": "Service connection",
+      "required": true,
+      "visibleRule": "authenticationType = PowerPlatformSPN",
+      "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
+    },
+    {
+      "name": "PackageFile",
+      "label": "Package File",
+      "type": "string",
+      "required": true,
+      "helpMarkDown": "Specify the path and file name of the package file assembly (.dll)"
+    },
+    {
+      "name": "MaxAsyncWaitTime",
+      "label": "Maximum wait time in minutes for package deployment",
+      "type": "string",
+      "required": false,
+      "defaultValue": "60",
+      "helpMarkDown": "Maximum wait time in minutes for package deploment; default is 60 min (1 hr), same as Azure DevOps default for tasks"
+    }
+  ],
+  "execution": {
+    "PowerShell3": {
+      "target": "DeployPackage.ps1"
+    }
+  }
+}
