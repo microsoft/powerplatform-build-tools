@@ -28,7 +28,7 @@ describe("check solution test", () => {
 
   async function callActionWithMocks(): Promise<void> {
     await rewiremock.around(
-      () => import("../../src/tasks/check-solution/check-solution-v0/index"),
+      () => import("../../src/tasks/checker/checker-v0/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ checkSolution: checkSolutionStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
