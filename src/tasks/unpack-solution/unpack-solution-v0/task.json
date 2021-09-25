@@ -1,0 +1,74 @@
+{
+  "id": "0b0bfed5-a97d-4a64-ab3e-220eb9da6780",
+  "name": "PowerPlatformUnpackSolution",
+  "friendlyName": "Power Platform Unpack Solution",
+  "description": "Power Platform Unpack Solution",
+  "author": "Microsoft",
+  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "category": "Utility",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [
+    "PowerPlatformTool"
+  ],
+  "version": {
+    "Major": "0",
+    "Minor": "1",
+    "Patch": "0"
+  },
+  "preview": false,
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Power Platform Unpack Solution $(message)",
+  "groups": [
+    {
+      "name": "advanced",
+      "displayName": "Advanced",
+      "isExpanded": false
+    }
+  ],
+  "inputs": [
+    {
+      "name": "SolutionInputFile",
+      "label": "Solution Input File",
+      "type": "filePath",
+      "required": true,
+      "helpMarkDown": "Specify the path and file name of the solution zip file."
+    },
+    {
+      "name": "SolutionTargetFolder",
+      "label": "Target Folder to Unpack Solution",
+      "type": "filePath",
+      "required": true,
+      "helpMarkDown": "Specify the path to unpack the solution."
+    },
+    {
+      "name": "SolutionType",
+      "label": "Type of Solution",
+      "type": "pickList",
+      "required": false,
+      "helpMarkDown": "Specify the type of solution.",
+      "defaultValue": "Unmanaged",
+      "options": {
+        "Both": "Both",
+        "Managed": "Managed",
+        "Unmanaged": "Unmanaged"
+      }
+    },
+    {
+      "name": "OverwriteFiles",
+      "label": "Allow overwrite of existing files",
+      "type": "boolean",
+      "required": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Allow for overwrite and deletion of existing files.",
+      "defaultValue": "true"
+    }
+  ],
+  "execution": {
+    "PowerShell3": {
+      "target": "UnpackSolution.ps1"
+    }
+  }
+}
