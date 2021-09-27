@@ -1,0 +1,162 @@
+{
+  "id": "362f5782-8264-438d-95c8-90adaf35167f",
+  "name": "PowerPlatformChecker",
+  "friendlyName": "Power Platform Checker",
+  "description": "Analyze solutions using Power Apps Checker endpoint",
+  "author": "Microsoft",
+  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "category": "Utility",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [
+    "PowerPlatformTool"
+  ],
+  "version": {
+    "Major": "0",
+    "Minor": "1",
+    "Patch": "0"
+  },
+  "preview": false,
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Power Platform Checker $(message)",
+  "groups": [
+    {
+      "name": "advanced",
+      "displayName": "Advanced",
+      "isExpanded": false
+    }
+  ],
+  "inputs": [
+    {
+      "name": "PowerPlatformSPN",
+      "type": "connectedService:powerplatform-spn",
+      "label": "Service connection",
+      "required": true,
+      "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
+    },
+
+    {
+      "name": "UseDefaultPACheckerEndpoint",
+      "label": "Use default Power Apps Checker endpoint",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": true,
+      "helpMarkDown": "If true, the Service Connection's geo location determines location of Power Apps Checker endpoint."
+    },
+    {
+      "name": "CustomPACheckerEndpoint",
+      "label": "Specify a custom URL as Power Apps Checker endpoint",
+      "type": "string",
+      "visibleRule": "UseDefaultPACheckerEndpoint = false",
+      "defaultValue": "",
+      "required": true,
+      "helpMarkDown": "Use a custom Power Apps Checker endpoint location independent of the Service Connection's location, e.g.: https://japan.api.advisor.powerapps.com/"
+    },
+    {
+      "name": "FileLocation",
+      "type": "radio",
+      "label": "Location of File(s) to Analyze",
+      "defaultValue": "localFiles",
+      "required": false,
+      "helpMarkDown": "Location of file(s) to analyze: local or sas uri",
+      "options": {
+        "localFiles": "Local Files",
+        "sasUriFile": "File from Sas Uri"
+      }
+    },
+    {
+      "name": "FilesToAnalyze",
+      "label": "Local Files to Analyze",
+      "type": "filePath",
+      "defaultValue": "**\\*.zip",
+      "required": false,
+      "visibleRule": "FileLocation = localFiles",
+      "helpMarkDown": "Specify the path and file name of the zip files to analyze. Wildcards can be used. For example, `**\\*.zip` for all zip files in all sub folders."
+    },
+    {
+      "name": "FilesToAnalyzeSasUri",
+      "label": "Sas Uri for Files to Analyze",
+      "type": "string",
+      "required": false,
+      "visibleRule": "FileLocation = sasUriFile",
+      "helpMarkDown": "Specify the SAS uri to the zip file to analyze. Provide more than one SAS uri through a comma (,) or semi-colon (;) separated list."
+    },
+    {
+      "name": "FilesToExclude",
+      "label": "Exclude Files from the Analysis",
+      "type": "string",
+      "required": false,
+      "helpMarkDown": "Specify the names of files to be excluded from the analysis. If more than one, provide through a comma (,) or semi-colon (;) separated list. This list can include a full file name or a name with leading or trailing wildcards, such as *jquery or form.js"
+    },
+    {
+      "name": "RulesToOverride",
+      "label": "Rules To Override",
+      "type": "string",
+      "required": false,
+      "helpMarkDown": "A JSON array containing rules and levels to override. Accepted values for OverrideLevel are: Critical, High, Medium, Low, Informational. Example: [{\"Id\":\"meta-remove-dup-reg\",\"OverrideLevel\":\"Medium\"},{\"Id\":\"il-avoid-specialized-update-ops\",\"OverrideLevel\":\"Medium\"}]"
+    },
+    {
+      "name": "RuleSet",
+      "label": "Rule Set",
+      "type": "pickList",
+      "required": true,
+      "helpMarkDown": "Select a rule set that will be executed as part of this build.",
+      "properties":{
+        "EditableOptions": true
+      },
+      "options": {
+        "083a2ef5-7e0e-4754-9d88-9455142dc08b": "AppSource Certification",
+        "0ad12346-e108-40b8-a956-9a8f95ea18c9": "Solution Checker"
+      }
+    },
+    {
+      "name": "ErrorLevel",
+      "type": "pickList",
+      "label": "Error Level",
+      "defaultValue": "HighIssueCount",
+      "required": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Set the minimum issue level to treat as errors.",
+      "options": {
+        "CriticalIssueCount": "Critical",
+        "HighIssueCount": "High",
+        "MediumIssueCount": "Medium",
+        "LowIssueCount": "Low",
+        "InformationalIssueCount": "Informational"
+      }
+    },
+    {
+      "name": "ErrorThreshold",
+      "type": "string",
+      "label": "Error threshold",
+      "defaultValue": "0",
+      "required": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Set a value for the error threshold to fail if the result count is greater than the value."
+    },
+    {
+      "name": "FailOnPowerAppsCheckerAnalysisError",
+      "label": "Fail on Power Apps Checker analysis error",
+      "type": "boolean",
+      "defaultValue": true,
+      "groupName": "advanced",
+      "helpMarkDown": "Fail if the Power Apps Checker analysis is returned as Failed or FinishedWithErrors"
+    },
+    {
+      "name": "ArtifactDestinationName",
+      "label": "Artifact folder destination name; default: 'CodeAnalysisLogs'",
+      "type": "string",
+      "required": false,
+      "defaultValue": "CodeAnalysisLogs",
+      "groupName": "advanced",
+      "helpMarkDown": "Specify the Azure DevOps artifacts name for the Checker .sarif file."
+    }
+  ],
+  "execution": {
+    "PowerShell3": {
+      "target": "RunChecker.ps1"
+    }
+  }
+}
