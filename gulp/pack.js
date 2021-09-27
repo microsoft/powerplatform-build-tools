@@ -170,9 +170,11 @@ async function generateAllStages(manifest) {
           file
         )[1];
         const taskJson = require(path.resolve(file));
-        taskJson.id = taskMetadata.tasks.find((t) => t.name === taskName).id[
-          stage
-        ];
+        const taskInfo = taskMetadata.tasks.find((t) => t.name === taskName);
+        if (!taskInfo) {
+          throw new Error(`Cannot find task id for taskname ${taskName} in file ${path.resolve('../extension/task-metadata.json')}`);
+        }
+        taskJson.id = taskInfo.id[stage];
         await writeJson(file, taskJson, {
           spaces: 2,
         });
