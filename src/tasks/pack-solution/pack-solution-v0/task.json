@@ -1,0 +1,58 @@
+{
+  "id": "bfde445b-beda-4a1d-8459-a1869f3f63af",
+  "name": "PowerPlatformPackSolution",
+  "friendlyName": "Power Platform Pack Solution",
+  "description": "Power Platform Pack Solution",
+  "author": "Microsoft",
+  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "category": "Package",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [
+    "PowerPlatformTool"
+  ],
+  "version": {
+    "Major": "0",
+    "Minor": "1",
+    "Patch": "0"
+  },
+  "preview": false,
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Power Platform Pack Solution $(message)",
+  "inputs": [
+    {
+      "name": "SolutionSourceFolder",
+      "label": "Source Folder of Solution to Pack",
+      "type": "filePath",
+      "required": true,
+      "helpMarkDown": "Specify the path of the solution to pack."
+    },
+    {
+      "name": "SolutionOutputFile",
+      "label": "Solution Output File",
+      "type": "filePath",
+      "required": true,
+      "helpMarkDown": "Specify the path and file name of the packed solution zip file."
+    },
+    {
+      "name": "SolutionType",
+      "label": "Type of Solution",
+      "type": "pickList",
+      "required": false,
+      "helpMarkDown": "Specify the type of solution.",
+      "defaultValue": "Unmanaged",
+      "options": {
+        "Both": "Both",
+        "Managed": "Managed",
+        "Unmanaged": "Unmanaged"
+      }
+    }
+  ],
+  "execution": {
+    "PowerShell3": {
+      "target": "PackSolution.ps1"
+    }
+  }
+}
