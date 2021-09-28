@@ -67,8 +67,8 @@
     }
   ],
   "execution": {
-    "PowerShell3": {
-      "target": "DeployPackage.ps1"
+    "Node10": {
+      "target": "index.js"
     }
   }
 }
