@@ -76,8 +76,8 @@
     }
   ],
   "execution": {
-    "PowerShell3": {
-      "target": "ApplySolutionUpgrade.ps1"
+    "Node10": {
+      "target": "index.js"
     }
   }
 }
