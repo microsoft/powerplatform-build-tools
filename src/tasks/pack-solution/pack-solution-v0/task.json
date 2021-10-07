@@ -51,8 +51,8 @@
     }
   ],
   "execution": {
-    "PowerShell3": {
-      "target": "PackSolution.ps1"
+    "Node10": {
+      "target": "index.js"
     }
   }
 }

@@ -1,11 +1,11 @@
 {
-  "id": "c6ea89b6-4434-410c-b17f-c6c253175945",
-  "name": "PowerPlatformDeployPackage",
-  "friendlyName": "Power Platform Deploy Package",
-  "description": "Power Platform Deploy Package",
+  "id": "a5e213b7-7bab-47f8-a574-7f62bf0056a1",
+  "name": "PowerPlatformCopyEnvironment",
+  "friendlyName": "Power Platform Copy Environment",
+  "description": "Power Platform Copy Environment",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
-  "category": "Deploy",
+  "category": "Utility",
   "visibility": [
     "Build",
     "Release"
@@ -20,7 +20,14 @@
   },
   "preview": false,
   "minimumAgentVersion": "1.95.0",
-  "instanceNameFormat": "Power Platform Deploy Package $(message)",
+  "instanceNameFormat": "Power Platform Copy Environment $(message)",
+  "groups": [
+    {
+      "name": "advanced",
+      "displayName": "Advanced",
+      "isExpanded": false
+    }
+  ],
   "inputs": [
     {
       "name": "authenticationType",
@@ -50,20 +57,52 @@
       "visibleRule": "authenticationType = PowerPlatformSPN",
       "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
     },
+
     {
-      "name": "PackageFile",
-      "label": "Package File",
+      "name": "TargetEnvironmentUrl",
+      "label": "Target environment url",
       "type": "string",
       "required": true,
-      "helpMarkDown": "Specify the path and file name of the package file assembly (.dll)"
+      "helpMarkDown": "Set the target environment Url to copy to."
     },
     {
-      "name": "MaxAsyncWaitTime",
-      "label": "Maximum wait time in minutes for package deployment",
+      "name": "CopyType",
+      "label": "Copy Type",
+      "type": "pickList",
+      "required": false,
+      "defaultValue": "FullCopy",
+      "helpMarkDown": "Select the type of copy.",
+      "options": {
+        "FullCopy": "Full Copy",
+        "MinimalCopy": "Minimal Copy"
+      }
+    },
+    {
+      "name": "OverrideFriendlyName",
+      "label": "Override Friendly Name",
+      "type": "boolean",
+      "required": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Check to override the friendly name of the target environment.",
+      "defaultValue": "false"
+    },
+    {
+      "name": "FriendlyName",
+      "label": "Friendly Name",
       "type": "string",
       "required": false,
-      "defaultValue": "60",
-      "helpMarkDown": "Maximum wait time in minutes for package deploment; default is 60 min (1 hr), same as Azure DevOps default for tasks"
+      "groupName": "advanced",
+      "helpMarkDown": "Set the friendly name of the target environment.",
+      "visibleRule": "OverrideFriendlyName = true"
+    },
+    {
+      "name": "DisableAdminMode",
+      "label": "Disable Admin Mode",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": true,
+      "groupName": "advanced",
+      "helpMarkDown": "Specify whether to Disable the administration mode."
     }
   ],
   "execution": {

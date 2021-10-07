@@ -155,8 +155,8 @@
     }
   ],
   "execution": {
-    "PowerShell3": {
-      "target": "RunChecker.ps1"
+    "Node10": {
+      "target": "index.js"
     }
   }
 }
