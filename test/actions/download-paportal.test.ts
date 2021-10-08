@@ -13,14 +13,14 @@ import { BuildToolsHost } from "../../src/host/BuildToolsHost";
 should();
 use(sinonChai);
 
-describe("check solution test", () => {
+describe("download paportal test", () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let checkSolutionStub: Sinon.SinonStub<any[], any>;
+  let unloadPaportalStub: Sinon.SinonStub<any[], any>;
   let runnerParameters: RunnerParameters;
   let credentials: UsernamePassword;
 
   beforeEach(() => {
-    checkSolutionStub = stub();
+    unloadPaportalStub = stub();
     runnerParameters = stubInterface<RunnerParameters>();
     credentials = stubInterface<UsernamePassword>();
   });
@@ -28,9 +28,9 @@ describe("check solution test", () => {
 
   async function callActionWithMocks(): Promise<void> {
     await rewiremock.around(
-      () => import("../../src/tasks/checker/checker-v0/index"),
+      () => import("../../src/tasks/download-paportal/download-paportal-v0/index"),
       (mock) => {
-        mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ checkSolution: checkSolutionStub });
+        mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ downloadPaportal: unloadPaportalStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
         mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
         mock(() => import("fs/promises")).with({ chmod: fake() });
@@ -38,16 +38,15 @@ describe("check solution test", () => {
       });
   }
 
-  it("calls check solution", async () => {
+  it("calls download paportal", async () => {
 
     await callActionWithMocks();
 
-    checkSolutionStub.should.have.been.calledOnceWithExactly({
+    unloadPaportalStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl,
-      solutionPath: { name: 'FilesToAnalyze', required: false, defaultValue: '**\\*.zip' },
-      ruleLevelOverride: { name: 'RulesToOverride', required: false, defaultValue: undefined },
-      outputDirectory: { name: 'ArtifactDestinationName', required: false, defaultValue: "CodeAnalysisLogs" },
+      path: { name: 'DownloadPath', required: true, defaultValue: undefined },
+      websiteId: { name: 'WebsiteId', required: true, defaultValue: undefined },
     }, runnerParameters, new BuildToolsHost());
   });
 });

@@ -1,7 +1,4 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-import { checkSolution } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
+import { downloadPaportal } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
@@ -14,11 +11,10 @@ import * as taskDefinitionData from "./task.json";
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
 
-  await checkSolution({
+  await downloadPaportal({
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
-    solutionPath: parameterMap['FilesToAnalyze'],
-    ruleLevelOverride: parameterMap['RulesToOverride'],
-    outputDirectory: parameterMap['ArtifactDestinationName']
+    path: parameterMap['DownloadPath'],
+    websiteId: parameterMap['WebsiteId'],
   }, runnerParameters, new BuildToolsHost());
 })();
