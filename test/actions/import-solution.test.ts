@@ -27,13 +27,14 @@ describe("import-solution tests", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    await rewiremock.around(() => import("../../src/tasks/import-solution/import-solution-v0/index"),
+    const importSolution = await rewiremock.around(() => import("../../src/tasks/import-solution/import-solution-v0/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ importSolution: importSolutionStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
         mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
         mock(() => import("../../src/params/runnerParameters")).with({ runnerParameters: runnerParameters });
       });
+    importSolution.main();
   }
 
   it("fetches parameters from index.ts, calls importSolutionStub properly", async () => {

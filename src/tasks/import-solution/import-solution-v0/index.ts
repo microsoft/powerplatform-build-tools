@@ -11,25 +11,33 @@ import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinit
 import * as taskDefinitionData from "../../import-solution/import-solution-v0/task.json";
 
 (async () => {
-  const taskParser = new TaskParser();
-  const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  if (process.env.PP_BUILDTOOLS) {
+    await main();
+  }
+})();
 
-  await importSolution({
-    credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl(),
-    path: parameterMap['SolutionInputFile'],
-    useDeploymentSettingsFile: parameterMap['UseDeploymentSettingsFile'],
-    deploymentSettingsFile: parameterMap['DeploymentSettingsFile'],
-    async: parameterMap['AsyncOperation'],
-    maxAsyncWaitTimeInMin: parameterMap['MaxAsyncWaitTime'],
-    importAsHolding: parameterMap['HoldingSolution'],
-    forceOverwrite: parameterMap['OverwriteUnmanagedCustomizations'],
-    publishChanges: parameterMap['PublishWorkflows'],
-    skipDependencyCheck: parameterMap['SkipProductUpdateDependencies'],
-    convertToManaged: parameterMap['ConvertToManaged'],
-    activatePlugins: parameterMap['ActivatePlugins']
-  }, runnerParameters, new BuildToolsHost());
-})().catch(error => {
-  const logger = runnerParameters.logger;
-  logger.error(`failed: ${error}`);
-});
+export async function main(): Promise<void> {
+  try {
+    const taskParser = new TaskParser();
+    const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+
+    await importSolution({
+      credentials: getCredentials(),
+      environmentUrl: getEnvironmentUrl(),
+      path: parameterMap['SolutionInputFile'],
+      useDeploymentSettingsFile: parameterMap['UseDeploymentSettingsFile'],
+      deploymentSettingsFile: parameterMap['DeploymentSettingsFile'],
+      async: parameterMap['AsyncOperation'],
+      maxAsyncWaitTimeInMin: parameterMap['MaxAsyncWaitTime'],
+      importAsHolding: parameterMap['HoldingSolution'],
+      forceOverwrite: parameterMap['OverwriteUnmanagedCustomizations'],
+      publishChanges: parameterMap['PublishWorkflows'],
+      skipDependencyCheck: parameterMap['SkipProductUpdateDependencies'],
+      convertToManaged: parameterMap['ConvertToManaged'],
+      activatePlugins: parameterMap['ActivatePlugins']
+    }, runnerParameters, new BuildToolsHost());
+  } catch (error) {
+    const logger = runnerParameters.logger;
+    logger.error(`failed: ${error}`);
+  }
+}

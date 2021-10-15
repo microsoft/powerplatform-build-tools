@@ -8,17 +8,25 @@ import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinit
 import * as taskDefinitionData from "./task.json";
 
 (async () => {
-  const taskParser = new TaskParser();
-  const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  if (process.env.PP_BUILDTOOLS) {
+      await main();
+  }
+})();
 
-  await packSolution({
-    credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl(),
-    solutionZipFile: parameterMap['SolutionOutputFile'],
-    sourceFolder: parameterMap['SolutionSourceFolder'],
-    solutionType: parameterMap['SolutionType'],
-  }, runnerParameters, new BuildToolsHost());
-})().catch(error => {
-  const logger = runnerParameters.logger;
-  logger.error(`failed: ${error}`);
-});
+export async function main(): Promise<void> {
+  try {
+    const taskParser = new TaskParser();
+    const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+
+    await packSolution({
+      credentials: getCredentials(),
+      environmentUrl: getEnvironmentUrl(),
+      solutionZipFile: parameterMap['SolutionOutputFile'],
+      sourceFolder: parameterMap['SolutionSourceFolder'],
+      solutionType: parameterMap['SolutionType'],
+    }, runnerParameters, new BuildToolsHost());
+  } catch (error) {
+    const logger = runnerParameters.logger;
+    logger.error(`failed: ${error}`);
+  }
+}

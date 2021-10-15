@@ -27,7 +27,7 @@ describe("deploy package tests", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    await rewiremock.around(
+    const deployPackage = await rewiremock.around(
       () => import("../../src/tasks/deploy-package/deploy-package-v0/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ deployPackage: deployPackageStub });
@@ -36,6 +36,7 @@ describe("deploy package tests", () => {
         mock(() => import("fs/promises")).with({ chmod: fake() });
         mock(() => import("../../src/params/runnerParameters")).with({ runnerParameters: runnerParameters });
       });
+    deployPackage.main();
   }
 
   it("calls deploy package", async () => {
