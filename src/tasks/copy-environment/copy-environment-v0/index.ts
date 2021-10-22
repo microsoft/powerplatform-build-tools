@@ -22,4 +22,7 @@ import * as taskDefinitionData from "../../copy-environment/copy-environment-v0/
     overrideFriendlyName: parameterMap['OverrideFriendlyName'],
     friendlyTargetEnvironmentName: parameterMap['FriendlyName']
   }, runnerParameters, new BuildToolsHost());
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});

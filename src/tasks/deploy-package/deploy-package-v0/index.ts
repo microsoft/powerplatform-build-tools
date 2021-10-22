@@ -19,4 +19,7 @@ import * as taskDefinitionData from "../../deploy-package/deploy-package-v0/task
     environmentUrl: getEnvironmentUrl(),
     packagePath: parameterMap['PackageFile'],
   }, runnerParameters, new BuildToolsHost());
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});
