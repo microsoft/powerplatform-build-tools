@@ -29,4 +29,7 @@ import * as taskDefinitionData from "../../import-solution/import-solution-v0/ta
     convertToManaged: parameterMap['ConvertToManaged'],
     activatePlugins: parameterMap['ActivatePlugins']
   }, runnerParameters, new BuildToolsHost());
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});

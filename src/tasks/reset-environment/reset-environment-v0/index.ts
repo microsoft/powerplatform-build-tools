@@ -23,4 +23,7 @@ import * as taskDefinitionData from "../../reset-environment/reset-environment-v
     overrideFriendlyName: parameterMap['OverrideFriendlyName'],
     friendlyEnvironmentName: parameterMap['FriendlyName'],
   }, runnerParameters, new BuildToolsHost());
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});

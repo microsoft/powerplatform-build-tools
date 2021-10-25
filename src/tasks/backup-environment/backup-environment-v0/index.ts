@@ -19,4 +19,7 @@ import * as taskDefinitionData from "../../backup-environment/backup-environment
     environmentUrl: getEnvironmentUrl(),
     backupLabel: parameterMap['BackupLabel']
   }, runnerParameters, new BuildToolsHost());
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});

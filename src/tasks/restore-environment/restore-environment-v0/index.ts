@@ -22,4 +22,7 @@ import * as taskDefinitionData from "../../restore-environment/restore-environme
     backupDateTime: parameterMap['RestoreTimeStamp'],
     targetEnvironmentName: parameterMap['FriendlyName'],
   }, runnerParameters, new BuildToolsHost());
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});

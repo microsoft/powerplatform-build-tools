@@ -21,4 +21,7 @@ import * as taskDefinitionData from "./task.json";
     ruleLevelOverride: parameterMap['RulesToOverride'],
     outputDirectory: parameterMap['ArtifactDestinationName']
   }, runnerParameters, new BuildToolsHost());
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});

@@ -11,7 +11,10 @@ import { runnerParameters } from "../../../params/runnerParameters";
   if (process.env.PP_BUILDTOOLS) {
       await main();
   }
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});
 
 export async function main(): Promise<void> {
     await chmod(`${runnerParameters.runnersDir}/pac_linux/tools/pac`, 0o711);
