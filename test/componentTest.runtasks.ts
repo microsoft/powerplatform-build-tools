@@ -4,11 +4,11 @@ import process = require('process');
 process.env['INPUT_POWERPLATFORMENVIRONMENT'] = "CDS_ORG";
 const password = process.env['PA_BT_ORG_PASSWORD'] ?? '';
 process.env['ENDPOINT_AUTH_CDS_ORG'] = '{ "parameters": { "username": "davidjen@ppdevtools.onmicrosoft.com", "password": "' + password + '" } }';
-process.env['ENDPOINT_URL_CDS_ORG'] = "https://ppdevtools.crm.dynamics.com";
+process.env['ENDPOINT_URL_CDS_ORG'] = "https://ppbt-comp-test.crm.dynamics.com";
 process.env['INPUT_PowerPlatformSpn'] = 'PP_SPN';
 const spnKey = process.env['PA_BT_ORG_SPNKEY'] ?? "expectSpnKeyFromEnvVariable";
 process.env['ENDPOINT_AUTH_PP_SPN'] = '{ "Parameters": { "applicationId": "8a7729e0-2b71-4919-a89a-c789d0a9720a", "tenantId": "3041a058-5110-495a-a575-b2a5571d9eac", "clientSecret": "' + spnKey + '" } }';
-process.env['ENDPOINT_URL_PP_SPN'] = 'https://ppdevtools.crm.dynamics.com';
+process.env['ENDPOINT_URL_PP_SPN'] = 'https://ppbt-comp-test.crm.dynamics.com';
 process.env['INPUT_AUTHENTICATIONTYPE'] = "PowerPlatformEnvironment"; //PowerPlatformSPN
 if (password == '') {
   throw new Error("Require PA_BT_ORG_PASSWORD env variable to be set!");
@@ -43,33 +43,35 @@ process.env['INPUT_SolutionName'] = "emptySolution";
 process.env["INPUT_LocationName"] = "unitedstates";
 process.env["INPUT_EnvironmentSku"] = "Sandbox";
 process.env["INPUT_CurrencyName"] = "USD";
-process.env["INPUT_DisplayName"] = "ppdevtools-2";
-process.env["INPUT_DomainName"] = "ppdevtools-2";
+process.env["INPUT_DisplayName"] = "ppbt-comp-test";
+process.env["INPUT_DomainName"] = "ppbt-comp-test";
 //process.env["INPUT_AppsTemplate"] ="D365_Sales"; #bug2471609
 process.env["INPUT_LanguageName"] = "English"
 
 //load tasks
-const tasks: Map<string, () => Promise<void>> = new Map();
-import { main as whoami } from "../src/tasks/whoami/whoami-v0/index";
-tasks.set("whoami", whoami);
-import { main as checker } from "../src/tasks/checker/checker-v0/index";
-tasks.set("check solution", checker);
-import { main as importSolution } from "../src/tasks/import-solution/import-solution-v0/index";
-tasks.set("import solution", importSolution);
-import { main as exportSolution } from "../src/tasks/export-solution/export-solution-v0/index";
-tasks.set("export solution", exportSolution);
-import { main as unpack } from "../src/tasks/unpack-solution/unpack-solution-v0/index";
-tasks.set("unpack solution", unpack);
-import { main as pack } from "../src/tasks/pack-solution/pack-solution-v0/index";
-tasks.set("pack solution", pack);
+const tasks: Array<() => Promise<void>> = [];
 import { main as createEnvironment } from "../src/tasks/create-environment/create-environment-v0/index";
-tasks.set("create environment", createEnvironment);
+tasks.push(createEnvironment);
+import { main as whoami } from "../src/tasks/whoami/whoami-v0/index";
+tasks.push(whoami);
+import { main as checker } from "../src/tasks/checker/checker-v0/index";
+tasks.push(checker);
+import { main as importSolution } from "../src/tasks/import-solution/import-solution-v0/index";
+tasks.push(importSolution);
+import { main as exportSolution } from "../src/tasks/export-solution/export-solution-v0/index";
+tasks.push(exportSolution);
+import { main as unpack } from "../src/tasks/unpack-solution/unpack-solution-v0/index";
+tasks.push(unpack);
+import { main as pack } from "../src/tasks/pack-solution/pack-solution-v0/index";
+tasks.push(pack);
+import { main as deleteEnvironment } from "../src/tasks/delete-environment/delete-environment-v0/index";
+tasks.push(deleteEnvironment);
 
 //run tasks
 (async () => {
-  for (const [name, task] of tasks.entries()) {
-    await task().catch(() => {
-      throw new Error(`Component Test Failed! Task ${name} failed`)
+  for (const main of tasks) {
+    await main().catch(() => {
+      throw new Error("Component Test Failed!")
     });
   }
 })();

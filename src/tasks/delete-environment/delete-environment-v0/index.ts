@@ -7,11 +7,19 @@ import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { runnerParameters } from "../../../params/runnerParameters";
 
 (async () => {
-  await deleteEnvironment({
-    credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl()
-  }, runnerParameters);
-})().catch(error => {
-  const logger = runnerParameters.logger;
-  logger.error(`failed: ${error}`);
-});
+  if (process.env['Agent.JobName']) {
+    await main();
+  }
+})();
+
+export async function main(): Promise<void> {
+  try {
+    await deleteEnvironment({
+      credentials: getCredentials(),
+      environmentUrl: getEnvironmentUrl()
+    }, runnerParameters);
+  } catch (error) {
+    const logger = runnerParameters.logger;
+    logger.error(`failed: ${error}`);
+  }
+}

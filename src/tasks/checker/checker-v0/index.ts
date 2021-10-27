@@ -11,7 +11,7 @@ import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinit
 import * as taskDefinitionData from "./task.json";
 
 (async () => {
-  if (process.env.PP_BUILDTOOLS) {
+  if (process.env['Agent.JobName']) {
     await main();
   }
 })();

@@ -10,7 +10,7 @@ import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinit
 import * as taskDefinitionData from "../../create-environment/create-environment-v0/task.json";
 
 (async () => {
-  if (process.env.PP_BUILDTOOLS) {
+  if (process.env['Agent.JobName']) {
     await main();
   }
 })();
