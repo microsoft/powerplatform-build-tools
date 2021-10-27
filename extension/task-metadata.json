@@ -164,11 +164,21 @@
     },
     {
       "name": "upload-paportal",
-      "id": { }
+      "id": {
+        "LIVE": "ce0b296e-f1e6-4be2-a18b-a431c106cb86",
+        "BETA": "745c1d9e-bbba-4e45-9fb4-8e20ddf60c66",
+        "DEV": "ac5fe844-797f-4f9f-9e30-42740ef8d5e8",
+        "EXPERIMENTAL": "f55035b6-2fe5-4d04-867a-ac16a5d91d0b"
+      }
     },
     {
       "name": "download-paportal",
-      "id": { }
+      "id": {
+        "LIVE": "75caa998-d6b8-481b-9ac9-63f49bd41e23",
+        "BETA": "fe6a0f7e-60ec-4470-8d50-b1b7a045d4f0",
+        "DEV": "0db80a45-80f5-48fe-9970-e562fd687a7a",
+        "EXPERIMENTAL": "ab0aa653-b554-49c7-9c02-56923513b2b2"
+      }
     }
   ]
 }
