@@ -54,16 +54,16 @@ import { main as whoami } from "../src/tasks/whoami/whoami-v0/index";
 tasks.set("whoami", whoami);
 import { main as checker } from "../src/tasks/checker/checker-v0/index";
 tasks.set("check solution", checker);
+import { main as importSolution } from "../src/tasks/import-solution/import-solution-v0/index";
+tasks.set("import solution", importSolution);
+import { main as exportSolution } from "../src/tasks/export-solution/export-solution-v0/index";
+tasks.set("export solution", exportSolution);
 import { main as unpack } from "../src/tasks/unpack-solution/unpack-solution-v0/index";
 tasks.set("unpack solution", unpack);
 import { main as pack } from "../src/tasks/pack-solution/pack-solution-v0/index";
 tasks.set("pack solution", pack);
-import { main as importSolution } from "../src/tasks/import-solution/import-solution-v0/index";
-tasks.set("import solution", importSolution);
-// import { main as exportSolution } from "../src/tasks/export-solution/export-solution-v0/index";
-// tasks.set("export solution", exportSolution); THROWS AN ERROR BC PACK CREATES EXISTING ZIP
-// import { main as createEnvironment } from "../src/tasks/create-environment/create-environment-v0/index";
-// tasks.set("create environment", createEnvironment); NEED TO DELETE?
+import { main as createEnvironment } from "../src/tasks/create-environment/create-environment-v0/index";
+tasks.set("create environment", createEnvironment);
 
 //run tasks
 (async () => {
