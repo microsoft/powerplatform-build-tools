@@ -21,4 +21,7 @@ import * as taskDefinitionData from "./task.json";
     async: parameterMap['AsyncOperation'],
     maxAsyncWaitTimeInMin: parameterMap['MaxAsyncWaitTime'],
   }, runnerParameters, new BuildToolsHost());
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});

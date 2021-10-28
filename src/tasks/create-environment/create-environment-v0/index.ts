@@ -23,4 +23,7 @@ import * as taskDefinitionData from "../../create-environment/create-environment
     templates: parameterMap['AppsTemplate'],
     domainName: parameterMap['DomainName'],
   }, runnerParameters, new BuildToolsHost());
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});

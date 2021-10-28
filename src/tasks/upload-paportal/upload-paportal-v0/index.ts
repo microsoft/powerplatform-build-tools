@@ -17,4 +17,7 @@ import * as taskDefinitionData from "./task.json";
     path: parameterMap['UploadPath'],
     deploymentProfile: parameterMap['DeploymentProfile'],
   }, runnerParameters, new BuildToolsHost());
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});

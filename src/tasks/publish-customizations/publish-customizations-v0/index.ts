@@ -11,4 +11,7 @@ import { runnerParameters } from "../../../params/runnerParameters";
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
   }, runnerParameters);
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});

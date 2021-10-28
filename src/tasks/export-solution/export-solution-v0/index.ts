@@ -35,4 +35,7 @@ import * as taskDefinitionData from "../../export-solution/export-solution-v0/ta
     relationshipRoles: parameterMap['ExportRelationshipRoles'],
     sales: parameterMap['ExportSales'],
   }, runnerParameters, new BuildToolsHost());
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});

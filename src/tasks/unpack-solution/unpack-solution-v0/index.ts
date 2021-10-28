@@ -18,4 +18,7 @@ import * as taskDefinitionData from "./task.json";
     sourceFolder: parameterMap['SolutionTargetFolder'],
     solutionType: parameterMap['SolutionType'],
   }, runnerParameters, new BuildToolsHost());
-})();
+})().catch(error => {
+  const logger = runnerParameters.logger;
+  logger.error(`failed: ${error}`);
+});
