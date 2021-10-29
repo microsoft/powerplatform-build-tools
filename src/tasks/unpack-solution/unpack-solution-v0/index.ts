@@ -8,17 +8,25 @@ import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinit
 import * as taskDefinitionData from "./task.json";
 
 (async () => {
-  const taskParser = new TaskParser();
-  const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  if (process.env['Agent.JobName']) {
+      await main();
+  }
+})();
 
-  await unpackSolution({
-    credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl(),
-    solutionZipFile: parameterMap['SolutionInputFile'],
-    sourceFolder: parameterMap['SolutionTargetFolder'],
-    solutionType: parameterMap['SolutionType'],
-  }, runnerParameters, new BuildToolsHost());
-})().catch(error => {
-  const logger = runnerParameters.logger;
-  logger.error(`failed: ${error}`);
-});
+export async function main(): Promise<void> {
+  try {
+    const taskParser = new TaskParser();
+    const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+
+    await unpackSolution({
+      credentials: getCredentials(),
+      environmentUrl: getEnvironmentUrl(),
+      solutionZipFile: parameterMap['SolutionInputFile'],
+      sourceFolder: parameterMap['SolutionTargetFolder'],
+      solutionType: parameterMap['SolutionType'],
+    }, runnerParameters, new BuildToolsHost());
+  } catch (error) {
+    const logger = runnerParameters.logger;
+    logger.error(`failed: ${error}`);
+  }
+}

@@ -26,7 +26,7 @@ describe("deleteEnvironment tests", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    await rewiremock.around(
+    const deleteEnv = await rewiremock.around(
       () => import("../../src/tasks/delete-environment/delete-environment-v0/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ deleteEnvironment: deleteEnvironmentStub });
@@ -35,6 +35,7 @@ describe("deleteEnvironment tests", () => {
         mock(() => import("fs/promises")).with({ chmod: fake() });
         mock(() => import("../../src/params/runnerParameters")).with({ runnerParameters: runnerParameters });
       });
+    deleteEnv.main();
   }
 
   it("calls deleteEnvironment", async () => {

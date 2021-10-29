@@ -11,15 +11,23 @@ import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinit
 import * as taskDefinitionData from "../../deploy-package/deploy-package-v0/task.json";
 
 (async () => {
-  const taskParser = new TaskParser();
-  const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  if (process.env.PP_BUILDTOOLS) {
+    await main();
+  }
+})();
 
-  await deployPackage({
-    credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl(),
-    packagePath: parameterMap['PackageFile'],
-  }, runnerParameters, new BuildToolsHost());
-})().catch(error => {
-  const logger = runnerParameters.logger;
-  logger.error(`failed: ${error}`);
-});
+export async function main(): Promise<void> {
+  try {
+    const taskParser = new TaskParser();
+    const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+
+    await deployPackage({
+      credentials: getCredentials(),
+      environmentUrl: getEnvironmentUrl(),
+      packagePath: parameterMap['PackageFile'],
+    }, runnerParameters, new BuildToolsHost());
+  } catch (error) {
+    const logger = runnerParameters.logger;
+    logger.error(`failed: ${error}`);
+  }
+}
