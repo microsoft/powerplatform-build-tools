@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import * as tl from 'azure-pipelines-task-lib/task';
-import { cwd } from "process";
-
-const EnvVarPrefix = 'PowerPlatformTools_';
+import path = require('path');
+import { findPacCLI } from '../../../host/CliLocator';
+import { PacPathEnvVarName } from '../../../host/BuildToolsRunnerParams';
 
 (async () => {
   if (process.env.PP_BUILDTOOLS) {
@@ -15,6 +15,9 @@ const EnvVarPrefix = 'PowerPlatformTools_';
 });
 
 export async function main(): Promise<void> {
-  tl.setVariable(`${EnvVarPrefix}_pacPath`, cwd());
-  console.log('TOOL INSTALLER running!!!');
+  const pacPath = await findPacCLI();
+
+  tl.debug(`Found required pac CLI executable under: ${pacPath}`);
+  tl.setVariable(PacPathEnvVarName, path.dirname(pacPath));
 }
+

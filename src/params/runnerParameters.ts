@@ -3,10 +3,10 @@
 
 import { RunnerParameters } from "@microsoft/powerplatform-cli-wrapper";
 import { cwd } from "process";
-import logger from "./logger";
+import buildToolsLogger from "../host/logger";
 
 export const runnerParameters: Readonly<RunnerParameters> = {
   runnersDir: cwd() + "/bin",
   workingDir: cwd(),
-  logger: logger,
+  logger: buildToolsLogger,
 };
