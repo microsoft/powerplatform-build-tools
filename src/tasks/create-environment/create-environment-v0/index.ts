@@ -10,20 +10,28 @@ import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinit
 import * as taskDefinitionData from "../../create-environment/create-environment-v0/task.json";
 
 (async () => {
-  const taskParser = new TaskParser();
-  const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  if (process.env['Agent.JobName']) {
+    await main();
+  }
+})();
 
-  await createEnvironment({
-    credentials: getCredentials(),
-    environmentName: parameterMap['DisplayName'],
-    environmentType: parameterMap['EnvironmentSku'],
-    region: parameterMap['LocationName'],
-    currency: parameterMap['CurrencyName'],
-    language: parameterMap['LanguageName'],
-    templates: parameterMap['AppsTemplate'],
-    domainName: parameterMap['DomainName'],
-  }, runnerParameters, new BuildToolsHost());
-})().catch(error => {
-  const logger = runnerParameters.logger;
-  logger.error(`failed: ${error}`);
-});
+export async function main(): Promise<void> {
+  try {
+    const taskParser = new TaskParser();
+    const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+
+    await createEnvironment({
+      credentials: getCredentials(),
+      environmentName: parameterMap['DisplayName'],
+      environmentType: parameterMap['EnvironmentSku'],
+      region: parameterMap['LocationName'],
+      currency: parameterMap['CurrencyName'],
+      language: parameterMap['LanguageName'],
+      templates: parameterMap['AppsTemplate'],
+      domainName: parameterMap['DomainName'],
+    }, runnerParameters, new BuildToolsHost());
+  } catch (error) {
+    const logger = runnerParameters.logger;
+    logger.error(`failed: ${error}`);
+  }
+}

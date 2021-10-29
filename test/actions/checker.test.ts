@@ -27,7 +27,7 @@ describe("check solution test", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    await rewiremock.around(
+    const checker = await rewiremock.around(
       () => import("../../src/tasks/checker/checker-v0/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ checkSolution: checkSolutionStub });
@@ -36,6 +36,7 @@ describe("check solution test", () => {
         mock(() => import("fs/promises")).with({ chmod: fake() });
         mock(() => import("../../src/params/runnerParameters")).with({ runnerParameters: runnerParameters });
       });
+    await checker.main();
   }
 
   it("calls check solution", async () => {

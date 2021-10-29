@@ -27,7 +27,7 @@ describe("unpack solution test", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    await rewiremock.around(
+    const unpack = await rewiremock.around(
       () => import("../../src/tasks/unpack-solution/unpack-solution-v0/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ unpackSolution: unpackSolutionStub });
@@ -36,6 +36,7 @@ describe("unpack solution test", () => {
         mock(() => import("fs/promises")).with({ chmod: fake() });
         mock(() => import("../../src/params/runnerParameters")).with({ runnerParameters: runnerParameters });
       });
+    unpack.main();
   }
 
   it("calls unpack solution", async () => {

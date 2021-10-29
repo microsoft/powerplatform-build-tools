@@ -8,7 +8,7 @@ import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { runnerParameters } from "../../../params/runnerParameters";
 
 (async () => {
-  if (process.env.PP_BUILDTOOLS) {
+  if (process.env['Agent.JobName']) {
       await main();
   }
 })().catch(error => {

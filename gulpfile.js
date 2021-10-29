@@ -10,6 +10,7 @@ const lint = require("./gulp/lint");
 const test = require("./gulp/test");
 const restore = require("./gulp/restore");
 const pack = require("./gulp/pack");
+const componentTest = require("./gulp/componentTest")
 
 exports.clean = clean;
 exports.compile = compile;
@@ -20,3 +21,4 @@ exports.pack = pack;
 exports.ci = gulp.series(recompile, lint, restore, test, pack);
 exports.default = recompile;
 exports.restore = restore;
+exports.componentTest = componentTest;
