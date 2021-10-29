@@ -8,24 +8,27 @@ const find = require("find");
 const path = require("path");
 const { rm } = require("fs/promises");
 
-const primedExtensionDir = "out/primed-extension";
-const npmPackageDir = "out/npm-package";
+const outDir = 'out';
+const stagingDir = `${outDir}/staging`;
+const npmPackageDir = `${outDir}/npm-package`;
+const packagesDir = `${outDir}/packages`;
 
 module.exports = async () => {
   const manifest = require("../extension/extension-manifest.json");
 
-  await createDir(primedExtensionDir);
+  await createDir(outDir);
+  await createDir(stagingDir);
 
   await generateNpmPackage();
   await copyDependencies();
   await removeInvalidFiles();
   setVersion(manifest);
   setContributions(manifest);
-  await addTaskJsonFiles();
-  await copy("extension/assets", `${primedExtensionDir}/assets`, {
+  await addTaskFiles();
+  await copy("extension/assets", `${stagingDir}/assets`, {
     recursive: true,
   });
-  await copy("README.md", `${primedExtensionDir}/overview.md`);
+  await copy("README.md", `${stagingDir}/overview.md`);
 
   await generateAllStages(manifest);
 };
@@ -61,13 +64,13 @@ async function generateNpmPackage() {
     cwd: npmPackageDir,
   });
 
-  await copy(pkgRoot, primedExtensionDir, {
+  await copy(pkgRoot, stagingDir, {
     recursive: true,
   });
 }
 
 async function removeInvalidFiles() {
-  const files = await findFiles(/[#^[\]<>?\s]/, primedExtensionDir);
+  const files = await findFiles(/[#^[\]<>?\s]/, stagingDir);
   await Promise.all(files.map((file) => rm(file)));
 }
 
@@ -121,12 +124,17 @@ function setContributions(manifest) {
   ];
 }
 
-async function addTaskJsonFiles() {
-  const taskJsonFiles = await findFiles(/tasks[\/\\].*[\/\\]task.json$/, "src");
+async function addTaskFiles() {
+  const filesToCopy = []
+    .concat(await findFiles(/tasks[\/\\].*[\/\\]task.json$/, "src"))
+    .concat(await findFiles(/tasks[\/\\].*[\/\\]index.js$/, "dist/src"));
+
   await Promise.all(
-    taskJsonFiles.map((file) => {
-      const relativePath = file.replace(/src[\/\\]/, "");
-      return copy(file, `${primedExtensionDir}/${relativePath}`);
+    filesToCopy.map((file) => {
+      const relativePath = file
+        .replace(/src[\/\\]/, "")
+        .replace(/dist[\/\\]/, "");
+      return copy(file, `${stagingDir}/${relativePath}`);
     })
   );
 }
@@ -136,20 +144,19 @@ async function copyDependencies() {
     `${npmPackageDir}/package/node_modules`
   );
   const binFolder = path.resolve("bin");
-  const whoAmIFolder = `${primedExtensionDir}/tasks/whoami/whoami-v0`;
+  const toolInstallerFolder = `${stagingDir}/tasks/tool-installer/tool-installer-v0`;
 
   await Promise.all([
-    copy(nodeModulesFolder, `${whoAmIFolder}/node_modules`, {
+    copy(nodeModulesFolder, `${toolInstallerFolder}/node_modules`, {
       recursive: true,
     }),
-    copy(binFolder, `${whoAmIFolder}/bin`, { recursive: true }),
+    copy(binFolder, `${toolInstallerFolder}/bin`, { recursive: true }),
   ]);
 }
 
-const compiledExtensionDir = "out/compiled-extension";
 async function generateAllStages(manifest) {
-  if (existsSync(compiledExtensionDir))
-    await rm(compiledExtensionDir, { recursive: true });
+  if (existsSync(packagesDir))
+    await rm(packagesDir, { recursive: true });
 
   const tfxRunner = createTfxRunner();
 
@@ -163,10 +170,10 @@ async function generateAllStages(manifest) {
     } else {
       stageManifest.name = `${stageManifest.name} (${stageManifest.version})`;
     }
-    const taskJsonFiles = await findFiles(/task.json$/, primedExtensionDir);
+    const taskJsonFiles = await findFiles(/task.json$/, stagingDir);
     await Promise.all(
       taskJsonFiles.map(async (file) => {
-        const taskName = /^out[\/\\]primed-extension[\/\\]tasks[\/\\]([^/\\]*)/.exec(
+        const taskName = /^out[\/\\]staging[\/\\]tasks[\/\\]([^/\\]*)/.exec(
           file
         )[1];
         const taskJson = require(path.resolve(file));
@@ -180,7 +187,7 @@ async function generateAllStages(manifest) {
         });
       })
     );
-    await writeJson(`${primedExtensionDir}/vss-extension.json`, stageManifest, {
+    await writeJson(`${stagingDir}/vss-extension.json`, stageManifest, {
       spaces: 2,
     });
     await generateVsix();
@@ -188,8 +195,8 @@ async function generateAllStages(manifest) {
 
   async function generateVsix() {
     await tfxRunner.createExtension({
-      root: primedExtensionDir,
-      outputPath: compiledExtensionDir,
+      root: stagingDir,
+      outputPath: packagesDir,
     });
   }
 }
