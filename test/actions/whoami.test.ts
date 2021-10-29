@@ -5,22 +5,21 @@ import { should, use } from "chai";
 import { stubInterface } from "ts-sinon";
 import * as sinonChai from "sinon-chai";
 import rewiremock from "../rewiremock";
-import { fake, restore, stub } from "sinon";
+import { restore, stub } from "sinon";
 import { mockEnvironmentUrl } from "./mockData";
-import { RunnerParameters, UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
+import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
+import { BuildToolsRunnerParams } from "../../src/host/BuildToolsRunnerParams";
 should();
 use(sinonChai);
 
 describe("whoami tests", () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let whoAmIStub: Sinon.SinonStub<any[], any>;
-  let runnerParameters: RunnerParameters;
   let credentials: UsernamePassword;
 
   beforeEach(() => {
     whoAmIStub = stub();
-    runnerParameters = stubInterface<RunnerParameters>();
     credentials = stubInterface<UsernamePassword>();
   });
   afterEach(() => restore());
@@ -32,8 +31,6 @@ describe("whoami tests", () => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ whoAmI: whoAmIStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
         mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
-        mock(() => import("fs/promises")).with({ chmod: fake() });
-        mock(() => import("../../src/params/runnerParameters")).with({ runnerParameters: runnerParameters });
       });
     await whoAmI.main();
   }
@@ -45,6 +42,6 @@ describe("whoami tests", () => {
     whoAmIStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl
-    }, runnerParameters);
+    }, new BuildToolsRunnerParams());
   });
 });
