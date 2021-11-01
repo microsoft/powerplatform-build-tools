@@ -31,6 +31,7 @@
     "@types/sinon": "^9.0.11",
     "@types/sinon-chai": "^3.2.5",
     "@types/sinonjs__fake-timers": "^6.0.2",
+    "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^4.6.1",
     "@typescript-eslint/parser": "^4.6.1",
     "argparse": "^2.0.1",
@@ -63,7 +64,7 @@
     "ts-sinon": "^2.0.1",
     "typescript": "^4.3.5",
     "unzip-stream": "^0.3.1",
-    "webpack": "^5.32.0",
+    "webpack": "^5.61.0",
     "webpack-cli": "^4.6.0",
     "webpack-node-externals": "^2.5.2"
   },

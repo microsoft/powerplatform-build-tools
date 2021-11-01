@@ -1,5 +1,7 @@
 import process = require('process');
 
+const testOutDir = 'out/test';
+
 //whoami inputs
 process.env['INPUT_POWERPLATFORMENVIRONMENT'] = "CDS_ORG";
 const password = process.env['PA_BT_ORG_PASSWORD'] ?? '';
@@ -15,16 +17,16 @@ if (password == '') {
 }
 //checker inputs
 process.env['INPUT_FilesToAnalyze'] = "./test/Test-Data/componentsTestSolution_1_0_0_1.zip";
-process.env['INPUT_ArtifactDestinationName'] = "PA-Checker-logs";
+process.env['INPUT_ArtifactDestinationName'] = `${testOutDir}/PA-Checker-logs`;
 
 //unpack solution inputs
 const emptySolutionPath = "./test/Test-Data/emptySolution_0_1_0_0.zip";
-const output = "output";
+const output = `${testOutDir}/output`;
 process.env['INPUT_SolutionInputFile'] = emptySolutionPath;
 process.env['INPUT_SolutionTargetFolder'] = output;
 
 //pack solution inputs
-process.env['INPUT_SolutionOutputFile'] = "packed/solution.zip";
+process.env['INPUT_SolutionOutputFile'] = `${testOutDir}/packed/solution.zip`;
 process.env['INPUT_SolutionSourceFolder'] = output;
 
 //import solution inputs
