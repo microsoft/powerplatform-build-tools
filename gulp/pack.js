@@ -1,4 +1,4 @@
-const { mkdir, writeJson, pathExists, copy, existsSync } = require("fs-extra");
+const { mkdir, pathExists, copy, existsSync, writeJsonSync } = require("fs-extra");
 const createTfxRunner = require("./lib/createTfxRunner");
 const { argv } = require("process");
 const { ArgumentParser } = require("argparse");
@@ -22,7 +22,7 @@ module.exports = async () => {
   await generateNpmPackage();
   await copyDependencies();
   await removeInvalidFiles();
-  setVersion(manifest);
+  const taskVersion = setVersion(manifest);
   setContributions(manifest);
   await addTaskFiles();
   await copy("extension/assets", `${stagingDir}/assets`, {
@@ -30,7 +30,7 @@ module.exports = async () => {
   });
   await copy("README.md", `${stagingDir}/overview.md`);
 
-  await generateAllStages(manifest);
+  await generateAllStages(manifest, taskVersion);
 };
 
 async function createDir(dirName) {
@@ -102,6 +102,11 @@ function setVersion(manifest) {
   const { major, minor, patch } = parser.parse_args(argv.slice(3));
 
   manifest.version = `${major}.${minor}.${patch}`;
+  return {
+    major: 0,   // all tasks are currently v0, see task paths
+    minor: minor,
+    patch: patch
+  }
 }
 
 function setContributions(manifest) {
@@ -127,6 +132,7 @@ function setContributions(manifest) {
 async function addTaskFiles() {
   const filesToCopy = []
     .concat(await findFiles(/tasks[\/\\].*[\/\\]task.json$/, "src"))
+    .concat(await findFiles(/tasks[\/\\].*[\/\\]icon.png$/, "src"))
     .concat(await findFiles(/tasks[\/\\].*[\/\\]index.js$/, "dist/src"));
 
   await Promise.all(
@@ -154,7 +160,7 @@ async function copyDependencies() {
   ]);
 }
 
-async function generateAllStages(manifest) {
+async function generateAllStages(manifest, taskVersion) {
   if (existsSync(packagesDir))
     await rm(packagesDir, { recursive: true });
 
@@ -162,32 +168,45 @@ async function generateAllStages(manifest) {
 
   const taskMetadata = require("../extension/task-metadata.json");
 
+  const taskJsonFiles = (await findFiles(/task.json$/, stagingDir))
+  .map(file => {
+    const taskJson = require(path.resolve(file));
+    return {
+      file: file,
+      json: taskJson
+    }
+  });
+
   for (const stage of ["LIVE", "BETA", "DEV", "EXPERIMENTAL"]) {
-    const stageManifest = JSON.parse(JSON.stringify(manifest));
+    const stageManifest = {...manifest};
     if (stage !== "LIVE") {
       stageManifest.name = `${stageManifest.name} ([${stage}] ${stageManifest.version})`;
       stageManifest.id = `${stageManifest.id}-${stage}`;
     } else {
       stageManifest.name = `${stageManifest.name} (${stageManifest.version})`;
     }
-    const taskJsonFiles = await findFiles(/task.json$/, stagingDir);
-    await Promise.all(
-      taskJsonFiles.map(async (file) => {
-        const taskName = /^out[\/\\]staging[\/\\]tasks[\/\\]([^/\\]*)/.exec(
-          file
-        )[1];
-        const taskJson = require(path.resolve(file));
-        const taskInfo = taskMetadata.tasks.find((t) => t.name === taskName);
-        if (!taskInfo) {
-          throw new Error(`Cannot find task id for taskname ${taskName} in file ${path.resolve('../extension/task-metadata.json')}`);
-        }
-        taskJson.id = taskInfo.id[stage];
-        await writeJson(file, taskJson, {
-          spaces: 2,
-        });
-      })
-    );
-    await writeJson(`${stagingDir}/vss-extension.json`, stageManifest, {
+
+    taskJsonFiles.map((entry) => {
+      const taskName = /^out[\/\\]staging[\/\\]tasks[\/\\]([^/\\]*)/.exec(
+        entry.file
+      )[1];
+      const taskJson = {...entry.json};
+      const taskInfo = taskMetadata.tasks.find((t) => t.name === taskName);
+      if (!taskInfo) {
+        throw new Error(`Cannot find task id for taskname ${taskName} in file ${path.resolve('../extension/task-metadata.json')}`);
+      }
+      taskJson.id = taskInfo.id[stage];
+      taskJson.friendlyName += ` [${stage}]`;
+      taskJson.version.Major = taskVersion.major;
+      taskJson.version.Minor = taskVersion.minor;
+      taskJson.version.Patch = taskVersion.patch;
+
+      writeJsonSync(entry.file, taskJson, {
+        spaces: 2,
+      });
+    })
+
+    writeJsonSync(`${stagingDir}/vss-extension.json`, stageManifest, {
       spaces: 2,
     });
     await generateVsix();
