@@ -54,8 +54,8 @@
       "label": "Microsoft PowerApps Checker Version (PowerShell module no longer used)",
       "type": "string",
       "required": true,
-      "helpMarkDown": "Specify the version of Microsoft PowerApps Checker to install",
-      "defaultValue": "1.0.29",
+      "helpMarkDown": "IGNORED: This version of the BuildTools no longer depends on any PowerShell modules; specifying any version value will be ignored",
+      "defaultValue": "(obsolete)",
       "groupname":"advanced"
     },
     {

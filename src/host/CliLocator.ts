@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { chmod } from "fs/promises";
 import path = require('path');
-import { pathExists } from 'fs-extra';
+import { pathExists, chmod } from 'fs-extra';
 
 export async function findPacCLI(): Promise<string> {
   let pacPath = path.resolve(__dirname, 'bin');
