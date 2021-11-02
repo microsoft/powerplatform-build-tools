@@ -69,7 +69,7 @@
     "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
-    "@microsoft/powerplatform-cli-wrapper": "^0.1.29",
+    "@microsoft/powerplatform-cli-wrapper": "^0.1.30",
     "azure-pipelines-task-lib": "^3.1.0"
   },
   "bundleDependencies": true
