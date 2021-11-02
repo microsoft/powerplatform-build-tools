@@ -1,4 +1,5 @@
 import { packSolution } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
+import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
@@ -8,7 +9,7 @@ import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinit
 import * as taskDefinitionData from "./task.json";
 
 (async () => {
-  if (process.env['Agent.JobName']) {
+  if (isRunningOnAgent()) {
       await main();
   }
 })();

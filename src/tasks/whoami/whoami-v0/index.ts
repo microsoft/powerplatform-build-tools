@@ -3,12 +3,13 @@
 
 import * as tl from 'azure-pipelines-task-lib/task';
 import { whoAmI } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
+import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
 import { getCredentials } from "../../../params/auth/getCredentials";
 import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { BuildToolsRunnerParams } from '../../../host/BuildToolsRunnerParams';
 
 (async () => {
-  if (process.env['AGENT_JOBNAME']) {
+  if (isRunningOnAgent()) {
       await main();
   }
 })().catch(error => {
