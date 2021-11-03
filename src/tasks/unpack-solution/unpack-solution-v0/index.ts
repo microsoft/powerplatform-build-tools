@@ -24,6 +24,7 @@ export async function main(): Promise<void> {
       solutionZipFile: parameterMap['SolutionInputFile'],
       sourceFolder: parameterMap['SolutionTargetFolder'],
       solutionType: parameterMap['SolutionType'],
+      overwriteFiles: parameterMap['OverwriteFiles'],
     }, runnerParameters, new BuildToolsHost());
   } catch (error) {
     const logger = runnerParameters.logger;

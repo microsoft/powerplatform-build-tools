@@ -49,6 +49,7 @@ describe("unpack solution test", () => {
       solutionZipFile: { name: 'SolutionInputFile', required: true, defaultValue: undefined },
       sourceFolder: { name: 'SolutionTargetFolder', required: true, defaultValue: undefined },
       solutionType: { name: 'SolutionType', required: false, defaultValue: "Unmanaged" },
+      overwriteFiles: { name: 'OverwriteFiles', required: false, defaultValue: "true" },
     }, runnerParameters, new BuildToolsHost());
   });
 });
