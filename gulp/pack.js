@@ -12,6 +12,7 @@ const outDir = 'out';
 const stagingDir = `${outDir}/staging`;
 const npmPackageDir = `${outDir}/npm-package`;
 const packagesDir = `${outDir}/packages`;
+const isOfficial = !!process.env.GITHUB_ACTIONS;
 
 module.exports = async () => {
   const manifest = require("../extension/extension-manifest.json");
@@ -99,7 +100,9 @@ function setVersion(manifest) {
     type: "int",
     default: currentPatch,
   });
-  const { major, minor, patch } = parser.parse_args(argv.slice(3));
+
+  const gulpArgs = argv.slice(3);
+  const { major, minor, patch } = parser.parse_args(gulpArgs);
 
   manifest.version = `${major}.${minor}.${patch}`;
   return {
@@ -177,7 +180,11 @@ async function generateAllStages(manifest, taskVersion) {
     }
   });
 
-  for (const stage of ["LIVE", "BETA", "DEV", "EXPERIMENTAL"]) {
+  let stages = ["LIVE", "BETA", "DEV", "EXPERIMENTAL"];
+  if (!isOfficial) {
+    stages = stages.slice(3);
+  }
+  for (const stage of stages) {
     const stageManifest = {...manifest};
     if (stage !== "LIVE") {
       stageManifest.name = `${stageManifest.name} ([${stage}] ${stageManifest.version})`;

@@ -1,4 +1,3 @@
-const { env } = require("process");
 const { resolve } = require("path");
 const nodeExternals = require("webpack-node-externals");
 const find = require("find");
@@ -9,16 +8,18 @@ module.exports = tasks.map((task) => ({
   entry: `./${task}`,
   target: "node",
   externals: [nodeExternals()],
+  externalsPresets: { node: true },
   module: {
     rules: [
       {
         test: /\.ts$/,
         use: "ts-loader",
-        exclude: [/node_modules/, /out/],
+        exclude: [/out/],
       },
     ],
   },
-  mode: "production",
+  mode: "development",
+  // mode: "production",
   resolve: {
     extensions: [".ts"],
     fallback: {
