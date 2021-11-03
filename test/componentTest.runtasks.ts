@@ -1,20 +1,44 @@
+import { pathExistsSync, createReadStream, pathExists, readdirSync, emptyDirSync } from 'fs-extra';
+import path = require('path');
 import process = require('process');
+import * as cp from 'child_process';
+import unzip = require('unzip-stream');
 
 const testOutDir = 'out/test';
 
-//whoami inputs
-process.env['INPUT_POWERPLATFORMENVIRONMENT'] = "CDS_ORG";
-const password = process.env['PA_BT_ORG_PASSWORD'] ?? '';
-process.env['ENDPOINT_AUTH_CDS_ORG'] = '{ "parameters": { "username": "davidjen@ppdevtools.onmicrosoft.com", "password": "' + password + '" } }';
-process.env['ENDPOINT_URL_CDS_ORG'] = "https://ppbt-comp-test.crm.dynamics.com";
-process.env['INPUT_PowerPlatformSpn'] = 'PP_SPN';
-const spnKey = process.env['PA_BT_ORG_SPNKEY'] ?? "expectSpnKeyFromEnvVariable";
-process.env['ENDPOINT_AUTH_PP_SPN'] = '{ "Parameters": { "applicationId": "8a7729e0-2b71-4919-a89a-c789d0a9720a", "tenantId": "3041a058-5110-495a-a575-b2a5571d9eac", "clientSecret": "' + spnKey + '" } }';
-process.env['ENDPOINT_URL_PP_SPN'] = 'https://ppbt-comp-test.crm.dynamics.com';
-process.env['INPUT_AUTHENTICATIONTYPE'] = "PowerPlatformEnvironment"; //PowerPlatformSPN
-if (password == '') {
+process.env['AGENT_JOBNAME'] = "AzDO job";
+
+// general authentication inputs
+const enum AuthTypes {
+  Legacy =  "PowerPlatformEnvironment",
+  SPN = "PowerPlatformSPN",
+}
+const authType = AuthTypes.Legacy;
+process.env['INPUT_AUTHENTICATIONTYPE'] = authType;
+console.log(`Selected authN mode: ${process.env.INPUT_AUTHENTICATIONTYPE} `);
+
+// for inner dev loop facilitation, specify the below env variables to override the given defaults here:
+const username = process.env['PA_BT_ORG_USER'] ?? 'davidjen@ppdevtools.onmicrosoft.com';
+const password = process.env['PA_BT_ORG_PASSWORD'];
+if (!password && (authType as AuthTypes) === AuthTypes.Legacy) {
   throw new Error("Require PA_BT_ORG_PASSWORD env variable to be set!");
 }
+const envUrl = process.env['PA_BT_ORG_URL'] ?? 'https://ppbt-comp-test.crm.dynamics.com';
+const appId = process.env['PA_BT_ORG_SPN_ID'] ?? '8a7729e0-2b71-4919-a89a-c789d0a9720a';
+const tenantId = process.env['PA_BT_ORG_SPN_TENANT_ID'] ?? '3041a058-5110-495a-a575-b2a5571d9eac';
+const clientSecret = process.env['PA_BT_ORG_SPNKEY'];
+if (!clientSecret && (authType as AuthTypes) === AuthTypes.SPN) {
+  throw new Error("Require PA_BT_ORG_SPNKEY env variable to be set!");
+}
+
+process.env['INPUT_POWERPLATFORMENVIRONMENT'] = "CDS_ORG";
+process.env['ENDPOINT_AUTH_CDS_ORG'] = `{ "parameters": { "username": "${username}", "password": "${password}" } }`;
+process.env['ENDPOINT_URL_CDS_ORG'] = envUrl;
+
+process.env['INPUT_PowerPlatformSpn'] = 'PP_SPN';
+process.env['ENDPOINT_AUTH_PP_SPN'] = `{ "Parameters": { "applicationId": "${appId}", "tenantId": "${tenantId}", "clientSecret": "${clientSecret}" } }`;
+process.env['ENDPOINT_URL_PP_SPN'] = envUrl;
+
 //checker inputs
 process.env['INPUT_FilesToAnalyze'] = "./test/Test-Data/componentsTestSolution_1_0_0_1.zip";
 process.env['INPUT_ArtifactDestinationName'] = `${testOutDir}/PA-Checker-logs`;
@@ -50,30 +74,86 @@ process.env["INPUT_DomainName"] = "ppbt-comp-test";
 //process.env["INPUT_AppsTemplate"] ="D365_Sales"; #bug2471609
 process.env["INPUT_LanguageName"] = "English"
 
-//load tasks
-const tasks: Array<() => Promise<void>> = [];
-import { main as createEnvironment } from "../src/tasks/create-environment/create-environment-v0/index";
-tasks.push(createEnvironment);
-import { main as whoami } from "../src/tasks/whoami/whoami-v0/index";
-tasks.push(whoami);
-import { main as checker } from "../src/tasks/checker/checker-v0/index";
-tasks.push(checker);
-import { main as importSolution } from "../src/tasks/import-solution/import-solution-v0/index";
-tasks.push(importSolution);
-import { main as exportSolution } from "../src/tasks/export-solution/export-solution-v0/index";
-tasks.push(exportSolution);
-import { main as unpack } from "../src/tasks/unpack-solution/unpack-solution-v0/index";
-tasks.push(unpack);
-import { main as pack } from "../src/tasks/pack-solution/pack-solution-v0/index";
-tasks.push(pack);
-import { main as deleteEnvironment } from "../src/tasks/delete-environment/delete-environment-v0/index";
-tasks.push(deleteEnvironment);
+// define tasks sequence
+interface taskInfo {
+  name: string;
+  path: string;
+}
 
-//run tasks
-(async () => {
-  for (const main of tasks) {
-    await main().catch(() => {
-      throw new Error("Component Test Failed!")
-    });
+const outDir = path.resolve(__dirname, '..',  'out');
+const packagesRoot = path.resolve(outDir, 'packages');
+const packageToTest = readdirSync(packagesRoot)
+  .filter((file) => file.startsWith('microsoft-IsvExpTools.PowerPlatform-BuildTools-EXPERIMENTAL-') && file.endsWith('.vsix'))
+  .map(file => path.resolve(packagesRoot, file))
+  .slice(0, 1)[0];
+if (!pathExistsSync(packageToTest)) {
+  throw new Error(`Cannot run component tests before the tasks are packaged! Run 'gulp pack' first.`);
+}
+console.log(`Running component tests with .vsix package: ${packageToTest}...`);
+const tasksRoot = path.resolve(outDir, 'extracted');
+
+const tasks: taskInfo[] = [
+  { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` },
+  { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` }
+];
+
+
+describe('Tasks component tests', () => {
+  before('Unzip experimental .vsix', function (done) {
+    // needs to be function () definition; arrow definition will not correctly set the this context
+    this.timeout(20 * 1000);
+    console.log(`Unzipping VSIX ${packageToTest} into folder: ${tasksRoot} ...`);
+    emptyDirSync(tasksRoot);
+    createReadStream(packageToTest)
+      .pipe(unzip.Extract({ path: tasksRoot }))
+      .on("close", () => {
+        console.log('Unzip complete.');
+        done();
+      })
+      .on("error", (error) => {
+        done(error);
+      });
+  });
+
+  for (const task of tasks) {
+    it(`## task ${task.name} `, (done) => {
+      console.log(`>>> start testing ${task.name} (loaded from: ${task.path})...`);
+
+      // const res = cp.spawnSync('node', [`${task.path}/index.js`], { encoding: 'utf-8', });
+      const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
+      if (res.status != 0) {
+        console.error(`Failed to run task: ${task.name}; stderr: ${res.stderr}`);
+        throw new Error(`tasks component test failed at: ${task.name}`);
+      }
+
+      const issues = extractIssues(res.stdout);
+      if (issues[1] === 'error') {
+        console.log(res.stdout);
+        throw new Error(`tasks component test failed at: ${task.name}`);
+      }
+
+      const setVars = extractSetVars(res.stdout);
+      if (setVars[1]) {
+        const varName = setVars[1].split(';')[0];
+        const varValue = setVars[2];
+        console.log(`Setting pipeline var: ${varName} to: ${varValue}`);
+        process.env[varName] = varValue;
+      }
+      done();
+    }).timeout(4 * 60 * 1000);
   }
-})();
+});
+
+function extractIssues(output: string): string[] {
+const regex = /^##vso\[task\.issue\s+type=(\S+);\](.+$)/m;
+
+const matches = output.match(regex);
+return matches || [ '', '' ];
+}
+
+function extractSetVars(output: string): string[] {
+const regex = /^##vso\[task\.setvariable\s+variable=(\S+);\](.+$)/m;
+
+const matches = output.match(regex);
+return matches || [];
+}

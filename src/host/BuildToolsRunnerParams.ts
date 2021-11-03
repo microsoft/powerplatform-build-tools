@@ -28,7 +28,7 @@ export class BuildToolsRunnerParams implements RunnerParameters {
       if (!pacPath) {
         throw new Error(`Cannot find required pac CLI, Tool-Installer task was not called before this task!`);
       }
-      this._runnersDir = pacPath;
+      this._runnersDir = (pacPath as string);
     }
     return this._runnersDir;
   }

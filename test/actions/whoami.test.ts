@@ -39,7 +39,7 @@ describe("whoami tests", () => {
 
     await callActionWithMocks();
 
-    whoAmIStub.should.have.been.calledOnceWithExactly({
+    whoAmIStub.should.have.been.calledWithExactly({
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl
     }, new BuildToolsRunnerParams());

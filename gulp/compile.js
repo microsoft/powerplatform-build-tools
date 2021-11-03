@@ -1,4 +1,5 @@
-const gulp = require("gulp");
+const { statSync } = require("fs-extra");
+const path = require("path");
 const webpack = require("webpack");
 
 module.exports = function compile() {
@@ -11,16 +12,17 @@ module.exports = function compile() {
 function onBuild(done) {
   return function (err, result) {
     if (err) {
-      console.error("Error", err);
+      console.error(`Webpack error:\n${err}`);
       if (done) {
         done();
       }
     } else {
       result.stats.forEach((stats) => {
         Object.keys(stats.compilation.assets).forEach(function (key) {
-          console.log("Webpack: output ", key);
+          console.log(`Webpack: output ${key}`);
         });
-        console.log("Webpack: finished ", stats.compilation.name);
+        const size = statSync(path.join(stats.compilation.outputOptions.path, stats.compilation.outputOptions.filename)).size;
+        console.log(`Webpack: finished, size = ${size}`);
       });
       if (done) {
         done();
