@@ -134,15 +134,15 @@ function setContributions(manifest) {
 
 async function addTaskFiles() {
   const filesToCopy = []
-    .concat(await findFiles(/tasks[\/\\].*[\/\\]task.json$/, "src"))
-    .concat(await findFiles(/tasks[\/\\].*[\/\\]icon.png$/, "src"))
-    .concat(await findFiles(/tasks[\/\\].*[\/\\]index.js$/, "dist/src"));
+    .concat(await findFiles(/tasks[/\\].*[/\\]task.json$/, "src"))
+    .concat(await findFiles(/tasks[/\\].*[/\\]icon.png$/, "src"))
+    .concat(await findFiles(/tasks[/\\].*[/\\]index.js$/, "dist"));
 
   await Promise.all(
     filesToCopy.map((file) => {
       const relativePath = file
-        .replace(/src[\/\\]/, "")
-        .replace(/dist[\/\\]/, "");
+        .replace(/src[/\\]/, "")
+        .replace(/dist[/\\]/, "");
       return copy(file, `${stagingDir}/${relativePath}`);
     })
   );
@@ -194,7 +194,7 @@ async function generateAllStages(manifest, taskVersion) {
     }
 
     taskJsonFiles.map((entry) => {
-      const taskName = /^out[\/\\]staging[\/\\]tasks[\/\\]([^/\\]*)/.exec(
+      const taskName = /^out[/\\]staging[/\\]tasks[/\\]([^/\\]*)/.exec(
         entry.file
       )[1];
       const taskJson = {...entry.json};
