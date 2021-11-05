@@ -1,5 +1,4 @@
 const { resolve } = require("path");
-const nodeExternals = require("webpack-node-externals");
 const find = require("find");
 
 const tasks = find.fileSync(/tasks[/\\].*[/\\]index.ts$/, "src");
@@ -7,7 +6,6 @@ const tasks = find.fileSync(/tasks[/\\].*[/\\]index.ts$/, "src");
 module.exports = tasks.map((task) => ({
   entry: `./${task}`,
   target: "node",
-  externals: [nodeExternals()],
   externalsPresets: { node: true },
   module: {
     rules: [
@@ -21,14 +19,7 @@ module.exports = tasks.map((task) => ({
   mode: "development",
   // mode: "production",
   resolve: {
-    extensions: [".ts"],
-    fallback: {
-      os: false,
-      path: false,
-      child_process: false,
-      fs: false,
-      crypto: false,
-    },
+    extensions: [".ts", ".js"],
   },
   output: {
     filename: task.replace(/\.ts$/, ".js").replace(/src[/\\]/, ""),
