@@ -6,8 +6,8 @@ import { Logger, RunnerParameters } from "@microsoft/powerplatform-cli-wrapper";
 import { cwd } from "process";
 import buildToolsLogger from "./logger";
 
-const EnvVarPrefix = 'PowerPlatformTools_';
-export const PacPathEnvVarName = `${EnvVarPrefix}pacCliPath`;
+const EnvVarPrefix = 'POWERPLATFORMTOOLS_';
+export const PacPathEnvVarName = `${EnvVarPrefix}PACCLIPATH`;
 
 export class BuildToolsRunnerParams implements RunnerParameters {
   private _workingDir: string;
