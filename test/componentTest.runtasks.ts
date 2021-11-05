@@ -1,5 +1,6 @@
-import { pathExistsSync, createReadStream, pathExists, readdirSync, emptyDirSync } from 'fs-extra';
+import { pathExistsSync, createReadStream,  readdirSync, emptyDirSync,  ensureDirSync } from 'fs-extra';
 import path = require('path');
+import os = require('os');
 import process = require('process');
 import * as cp from 'child_process';
 import unzip = require('unzip-stream');
@@ -90,7 +91,7 @@ if (!pathExistsSync(packageToTest)) {
   throw new Error(`Cannot run component tests before the tasks are packaged! Run 'gulp pack' first.`);
 }
 console.log(`Running component tests with .vsix package: ${packageToTest}...`);
-const tasksRoot = path.resolve(outDir, 'extracted');
+const tasksRoot = path.resolve(os.tmpdir(), 'pp-bt-test');
 
 const tasks: taskInfo[] = [
   { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` },
@@ -103,6 +104,7 @@ describe('Tasks component tests', () => {
     // needs to be function () definition; arrow definition will not correctly set the this context
     this.timeout(20 * 1000);
     console.log(`Unzipping VSIX ${packageToTest} into folder: ${tasksRoot} ...`);
+    ensureDirSync(tasksRoot);
     emptyDirSync(tasksRoot);
     createReadStream(packageToTest)
       .pipe(unzip.Extract({ path: tasksRoot }))

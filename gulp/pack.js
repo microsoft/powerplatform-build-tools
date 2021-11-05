@@ -149,16 +149,10 @@ async function addTaskFiles() {
 }
 
 async function copyDependencies() {
-  const nodeModulesFolder = path.resolve(
-    `${npmPackageDir}/package/node_modules`
-  );
   const binFolder = path.resolve("bin");
   const toolInstallerFolder = `${stagingDir}/tasks/tool-installer/tool-installer-v0`;
 
   await Promise.all([
-    copy(nodeModulesFolder, `${toolInstallerFolder}/node_modules`, {
-      recursive: true,
-    }),
     copy(binFolder, `${toolInstallerFolder}/bin`, { recursive: true }),
   ]);
 }
