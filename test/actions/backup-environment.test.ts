@@ -8,32 +8,32 @@ import * as sinonChai from "sinon-chai";
 import rewiremock from "../rewiremock";
 import { restore, stub } from "sinon";
 import { mockEnvironmentUrl } from "./mockData";
-import { RunnerParameters, UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
+import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
 import { BuildToolsHost } from "../../src/host/BuildToolsHost";
+import { BuildToolsRunnerParams } from "../../src/host/BuildToolsRunnerParams";
+
 should();
 use(sinonChai);
 
 describe("backup-environment tests", () => {
   let backupEnvironmentStub: Sinon.SinonStub<any[], any>;
-  let runnerParameters: RunnerParameters;
   let credentials: UsernamePassword;
 
   beforeEach(() => {
     backupEnvironmentStub = stub();
-    runnerParameters = stubInterface<RunnerParameters>();
     credentials = stubInterface<UsernamePassword>();
   });
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    await rewiremock.around(() => import("../../src/tasks/backup-environment/backup-environment-v0/index"),
+    const backup = await rewiremock.around(() => import("../../src/tasks/backup-environment/backup-environment-v0/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ backupEnvironment: backupEnvironmentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
         mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
-        mock(() => import("../../src/params/runnerParameters")).with({ runnerParameters: runnerParameters });
       });
+      backup.main();
   }
 
   it("fetches parameters from index.ts, calls backupEnviromentStub properly", async () => {
@@ -44,6 +44,6 @@ describe("backup-environment tests", () => {
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl,
       backupLabel: { name: 'BackupLabel', required: true, defaultValue: 'Full Backup - $(Build.BuildNumber)' }
-    }, runnerParameters, new BuildToolsHost());
+    }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });
