@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { pathExistsSync, createReadStream,  readdirSync, emptyDirSync,  ensureDirSync } from 'fs-extra';
 import path = require('path');
 import os = require('os');
@@ -99,11 +102,10 @@ const tasksRoot = path.resolve(os.tmpdir(), 'pp-bt-test');
 
 const tasks: taskInfo[] = [
   { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` },
-  // { name: 'create-environment', path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
+  { name: 'create-environment', path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
   { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` },
-  // { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
+  { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
 ];
-
 
 describe('Tasks component tests', () => {
   before('Unzip experimental .vsix', function (done) {

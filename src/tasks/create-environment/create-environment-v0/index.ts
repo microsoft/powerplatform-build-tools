@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as tl from 'azure-pipelines-task-lib/task';
-import { createEnvironment } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
+import { createEnvironment, EnvironmentResult } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
 import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
@@ -10,6 +10,7 @@ import { getCredentials } from "../../../params/auth/getCredentials";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
 import * as taskDefinitionData from "../../create-environment/create-environment-v0/task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
+import { EnvIdVariableName, EnvUrlVariableName } from "../../../host/PipelineVariables";
 
 (async () => {
   if (isRunningOnAgent()) {
@@ -23,7 +24,7 @@ export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
 
-  await createEnvironment({
+  const createResult: EnvironmentResult = await createEnvironment({
     credentials: getCredentials(),
     environmentName: parameterMap['DisplayName'],
     environmentType: parameterMap['EnvironmentSku'],
@@ -33,4 +34,10 @@ export async function main(): Promise<void> {
     templates: parameterMap['AppsTemplate'],
     domainName: parameterMap['DomainName'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
+
+  if (!createResult.environmentUrl || !createResult.environmentId) {
+    return tl.setResult(tl.TaskResult.SucceededWithIssues, 'CreateEnvironment call did NOT return the expected environment URL!');
+  }
+  tl.setVariable(EnvUrlVariableName, createResult.environmentUrl);
+  tl.setVariable(EnvIdVariableName, createResult.environmentId);
 }
