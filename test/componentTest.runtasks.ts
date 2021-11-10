@@ -3,10 +3,13 @@ import path = require('path');
 import os = require('os');
 import process = require('process');
 import * as cp from 'child_process';
+import { expect } from "chai";
 import unzip = require('unzip-stream');
+import { isRunningOnAgent } from '../src/params/auth/isRunningOnAgent';
 
 const testOutDir = 'out/test';
 
+// convince tasks-under-test to run as if they were launched on an AzDevOps agent:
 process.env['AGENT_JOBNAME'] = "AzDO job";
 
 // general authentication inputs
@@ -70,8 +73,9 @@ process.env['INPUT_SolutionName'] = "emptySolution";
 process.env["INPUT_LocationName"] = "unitedstates";
 process.env["INPUT_EnvironmentSku"] = "Sandbox";
 process.env["INPUT_CurrencyName"] = "USD";
-process.env["INPUT_DisplayName"] = "ppbt-comp-test";
-process.env["INPUT_DomainName"] = "ppbt-comp-test";
+const friendlyName = `ppbt-comp-test-${process.platform == "win32" ? 'win' : 'linux' }`;
+process.env["INPUT_DisplayName"] = friendlyName;
+process.env["INPUT_DomainName"] = friendlyName;
 //process.env["INPUT_AppsTemplate"] ="D365_Sales"; #bug2471609
 process.env["INPUT_LanguageName"] = "English"
 
@@ -95,7 +99,9 @@ const tasksRoot = path.resolve(os.tmpdir(), 'pp-bt-test');
 
 const tasks: taskInfo[] = [
   { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` },
-  { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` }
+  // { name: 'create-environment', path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
+  { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` },
+  // { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
 ];
 
 
@@ -117,11 +123,14 @@ describe('Tasks component tests', () => {
       });
   });
 
+  it('## running context for component test tasks', () => {
+    expect(isRunningOnAgent()).to.be.true;
+  });
+
   for (const task of tasks) {
     it(`## task ${task.name} `, (done) => {
       console.log(`>>> start testing ${task.name} (loaded from: ${task.path})...`);
 
-      // const res = cp.spawnSync('node', [`${task.path}/index.js`], { encoding: 'utf-8', });
       const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
       if (res.status != 0) {
         console.error(`Failed to run task: ${task.name}; stderr: ${res.stderr}`);
