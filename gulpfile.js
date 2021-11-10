@@ -1,9 +1,12 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 require("dotenv").config();
 
 "use strict";
 const gulp = require("gulp");
 
-const clean = require("./gulp/clean");
+const clean = require("./gulp/clean").clean;
 const compile = require("./gulp/compile");
 const recompile = require("./gulp/recompile");
 const lint = require("./gulp/lint");
