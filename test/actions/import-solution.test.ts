@@ -8,20 +8,20 @@ import * as sinonChai from "sinon-chai";
 import rewiremock from "../rewiremock";
 import { restore, stub } from "sinon";
 import { mockEnvironmentUrl } from "./mockData";
-import { RunnerParameters, UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
+import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
 import { BuildToolsHost } from "../../src/host/BuildToolsHost";
+import { BuildToolsRunnerParams } from "../../src/host/BuildToolsRunnerParams";
+
 should();
 use(sinonChai);
 
 describe("import-solution tests", () => {
   let importSolutionStub: Sinon.SinonStub<any[], any>;
-  let runnerParameters: RunnerParameters;
   let credentials: UsernamePassword;
 
   beforeEach(() => {
     importSolutionStub = stub();
-    runnerParameters = stubInterface<RunnerParameters>();
     credentials = stubInterface<UsernamePassword>();
   });
   afterEach(() => restore());
@@ -32,7 +32,6 @@ describe("import-solution tests", () => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ importSolution: importSolutionStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
         mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
-        mock(() => import("../../src/params/runnerParameters")).with({ runnerParameters: runnerParameters });
       });
     importSolution.main();
   }
@@ -55,6 +54,6 @@ describe("import-solution tests", () => {
       skipDependencyCheck: { name: 'SkipProductUpdateDependencies', required: false, defaultValue: false },
       convertToManaged: { name: 'ConvertToManaged', required: false, defaultValue: false },
       activatePlugins: { name: 'ActivatePlugins', required: false, defaultValue: false }
-    }, runnerParameters, new BuildToolsHost());
+    }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

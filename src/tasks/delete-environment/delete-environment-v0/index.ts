@@ -1,26 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import * as tl from 'azure-pipelines-task-lib/task';
 import { deleteEnvironment } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
 import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
 import { getCredentials } from "../../../params/auth/getCredentials";
 import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
-import { runnerParameters } from "../../../params/runnerParameters";
+import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 
 (async () => {
   if (isRunningOnAgent()) {
     await main();
   }
-})();
+})().catch(error => {
+  tl.setResult(tl.TaskResult.Failed, error);
+});
 
 export async function main(): Promise<void> {
-  try {
-    await deleteEnvironment({
-      credentials: getCredentials(),
-      environmentUrl: getEnvironmentUrl()
-    }, runnerParameters);
-  } catch (error) {
-    const logger = runnerParameters.logger;
-    logger.error(`failed: ${error}`);
-  }
+  await deleteEnvironment({
+    credentials: getCredentials(),
+    environmentUrl: getEnvironmentUrl()
+  }, new BuildToolsRunnerParams());
 }

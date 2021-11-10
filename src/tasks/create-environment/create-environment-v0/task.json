@@ -21,6 +21,12 @@
   "preview": false,
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Power Platform Create Environment $(message)",
+  "outputVariables": [
+    {
+      "name": "BuildTools.EnvironmentUrl",
+      "description": "Pipeline variable of newly created environment; will by default be consumed by following tasks"
+    }
+  ],
   "inputs": [
     {
       "name": "authenticationType",

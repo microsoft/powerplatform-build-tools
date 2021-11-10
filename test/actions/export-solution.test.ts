@@ -8,20 +8,20 @@ import * as sinonChai from "sinon-chai";
 import rewiremock from "../rewiremock";
 import { restore, stub } from "sinon";
 import { mockEnvironmentUrl } from "./mockData";
-import { RunnerParameters, UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
+import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
 import { BuildToolsHost } from "../../src/host/BuildToolsHost";
+import { BuildToolsRunnerParams } from "../../src/host/BuildToolsRunnerParams";
+
 should();
 use(sinonChai);
 
 describe("export-solution tests", () => {
   let exportSolutionStub: Sinon.SinonStub<any[], any>;
-  let runnerParameters: RunnerParameters;
   let credentials: UsernamePassword;
 
   beforeEach(() => {
     exportSolutionStub = stub();
-    runnerParameters = stubInterface<RunnerParameters>();
     credentials = stubInterface<UsernamePassword>();
   });
   afterEach(() => restore());
@@ -32,7 +32,6 @@ describe("export-solution tests", () => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ exportSolution: exportSolutionStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
         mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
-        mock(() => import("../../src/params/runnerParameters")).with({ runnerParameters: runnerParameters });
       });
     exportSolution.main();
   }
@@ -61,6 +60,6 @@ describe("export-solution tests", () => {
       outlookSynchronizationSettings: { name: 'ExportOutlookSynchronizationSettings', required: false, defaultValue: false },
       relationshipRoles: { name: 'ExportRelationshipRoles', required: false, defaultValue: false },
       sales: { name: 'ExportSales', required: false, defaultValue: false },
-    }, runnerParameters, new BuildToolsHost());
+    }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 const gulp = require("gulp");
 const unitTest = require("./unitTest");
 const componentTest = require("./componentTest");
