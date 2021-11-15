@@ -6,8 +6,6 @@ import { stubInterface } from "ts-sinon";
 import * as sinonChai from "sinon-chai";
 import rewiremock from "../rewiremock";
 import { restore, stub } from "sinon";
-import { mockEnvironmentUrl } from "./mockData";
-import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
 import { BuildToolsHost } from "../../src/host/BuildToolsHost";
 import { BuildToolsRunnerParams } from "../../src/host/BuildToolsRunnerParams";
@@ -17,11 +15,9 @@ use(sinonChai);
 describe("unpack solution test", () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let unpackSolutionStub: Sinon.SinonStub<any[], any>;
-  let credentials: UsernamePassword;
 
   beforeEach(() => {
     unpackSolutionStub = stub();
-    credentials = stubInterface<UsernamePassword>();
   });
   afterEach(() => restore());
 
@@ -30,8 +26,6 @@ describe("unpack solution test", () => {
       () => import("../../src/tasks/unpack-solution/unpack-solution-v0/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ unpackSolution: unpackSolutionStub });
-        mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
-        mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
       });
     unpack.main();
   }
@@ -41,8 +35,6 @@ describe("unpack solution test", () => {
     await callActionWithMocks();
 
     unpackSolutionStub.should.have.been.calledOnceWithExactly({
-      credentials: credentials,
-      environmentUrl: mockEnvironmentUrl,
       solutionZipFile: { name: 'SolutionInputFile', required: true, defaultValue: undefined },
       sourceFolder: { name: 'SolutionTargetFolder', required: true, defaultValue: undefined },
       solutionType: { name: 'SolutionType', required: false, defaultValue: "Unmanaged" },

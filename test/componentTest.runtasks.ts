@@ -47,17 +47,17 @@ process.env['ENDPOINT_AUTH_PP_SPN'] = `{ "Parameters": { "applicationId": "${app
 process.env['ENDPOINT_URL_PP_SPN'] = envUrl;
 
 //checker inputs
-process.env['INPUT_FilesToAnalyze'] = "./test/Test-Data/componentsTestSolution_1_0_0_1.zip";
-process.env['INPUT_ArtifactDestinationName'] = `${testOutDir}/PA-Checker-logs`;
+process.env['INPUT_FilesToAnalyze'] = path.join(__dirname, 'Test-Data', 'componentsTestSolution_1_0_0_1.zip');
+process.env['INPUT_ArtifactDestinationName'] = path.join(testOutDir, 'PA-Checker-logs');
 
 //unpack solution inputs
-const emptySolutionPath = "./test/Test-Data/emptySolution_0_1_0_0.zip";
+const emptySolutionPath = path.join(__dirname, 'Test-Data', 'emptySolution_0_1_0_0.zip');
 const output = `${testOutDir}/output`;
 process.env['INPUT_SolutionInputFile'] = emptySolutionPath;
 process.env['INPUT_SolutionTargetFolder'] = output;
 
 //pack solution inputs
-process.env['INPUT_SolutionOutputFile'] = `${testOutDir}/packed/solution.zip`;
+process.env['INPUT_SolutionOutputFile'] = path.join(testOutDir, 'packed', 'solution.zip');
 process.env['INPUT_SolutionSourceFolder'] = output;
 
 //import solution inputs
@@ -104,6 +104,11 @@ const tasks: taskInfo[] = [
   { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` },
   { name: 'create-environment', path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
   { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` },
+  { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v0` },
+  { name: 'pack-solution', path: `${tasksRoot}/tasks/pack-solution/pack-solution-v0` },
+  { name: 'checker', path: `${tasksRoot}/tasks/checker/checker-v0` },
+  { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
+  // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
   { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
 ];
 
@@ -153,7 +158,7 @@ describe('Tasks component tests', () => {
         process.env[varName] = varValue;
       }
       done();
-    }).timeout(4 * 60 * 1000);
+    }).timeout(6 * 60 * 1000);
   }
 });
 
