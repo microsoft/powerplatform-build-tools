@@ -6,7 +6,6 @@ import { restoreEnvironment } from "@microsoft/powerplatform-cli-wrapper/dist/ac
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
-import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
 import * as taskDefinitionData from "../../restore-environment/restore-environment-v0/task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
@@ -26,7 +25,7 @@ export async function main(): Promise<void> {
 
   await restoreEnvironment({
     credentials: getCredentials(),
-    sourceEnvironmentUrl: getEnvironmentUrl(),
+    sourceEnvironmentUrl: parameterMap['SourceEnvironmentUrl'],
     targetEnvironmentUrl: parameterMap['TargetEnvironmentUrl'],
     restoreLatestBackup: parameterMap['RestoreLatestBackup'],
     backupDateTime: parameterMap['RestoreTimeStamp'],

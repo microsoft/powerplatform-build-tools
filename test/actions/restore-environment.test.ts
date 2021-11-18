@@ -42,7 +42,7 @@ describe("restore-environment tests", () => {
 
     restoreEnvironmentStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
-      sourceEnvironmentUrl: mockEnvironmentUrl,
+      sourceEnvironmentUrl: { name: "SourceEnvironmentUrl", required: true, defaultValue: undefined },
       targetEnvironmentUrl: { name: 'TargetEnvironmentUrl', required: true, defaultValue: undefined },
       restoreLatestBackup: { name: 'RestoreLatestBackup', required: false, defaultValue: true },
       backupDateTime: { name: 'RestoreTimeStamp', required: true, defaultValue: '' },

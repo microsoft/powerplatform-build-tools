@@ -50,7 +50,13 @@
       "visibleRule": "authenticationType = PowerPlatformSPN",
       "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
     },
-
+    {
+      "name": "EnvironmentUrl",
+      "label": "Environment url",
+      "type": "string",
+      "required": true,
+      "helpMarkDown": "Set the environment url to backup from."
+    },
     {
       "name": "BackupLabel",
       "label": "Backup Label",

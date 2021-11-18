@@ -42,7 +42,7 @@ describe("backup-environment tests", () => {
 
     backupEnvironmentStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
-      environmentUrl: mockEnvironmentUrl,
+      environmentUrl: { name: "EnvironmentUrl", required: true, defaultValue: undefined },
       backupLabel: { name: 'BackupLabel', required: true, defaultValue: 'Full Backup - $(Build.BuildNumber)' }
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });

@@ -6,7 +6,6 @@ import { resetEnvironment } from "@microsoft/powerplatform-cli-wrapper/dist/acti
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
-import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
 import * as taskDefinitionData from "../../reset-environment/reset-environment-v0/task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
@@ -26,7 +25,7 @@ export async function main(): Promise<void> {
 
   await resetEnvironment({
     credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl(),
+    environmentUrl: parameterMap['EnvironmentUrl'],
     language: parameterMap['Language'],
     overrideDomainName: parameterMap['OverrideDomainName'],
     domainName: parameterMap['DomainName'],

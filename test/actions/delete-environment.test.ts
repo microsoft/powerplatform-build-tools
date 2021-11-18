@@ -9,6 +9,7 @@ import { restore, stub } from "sinon";
 import { mockEnvironmentUrl } from "./mockData";
 import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
+import { BuildToolsHost } from "../../src/host/BuildToolsHost";
 import { BuildToolsRunnerParams } from "../../src/host/BuildToolsRunnerParams";
 
 should();
@@ -42,7 +43,7 @@ describe("deleteEnvironment tests", () => {
 
     deleteEnvironmentStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
-      environmentUrl: mockEnvironmentUrl
-    }, new BuildToolsRunnerParams());
+      environmentUrl: { name: "EnvironmentUrl", required: true, defaultValue: undefined }
+    }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

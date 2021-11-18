@@ -4,8 +4,11 @@
 import * as tl from 'azure-pipelines-task-lib/task';
 import { deleteEnvironment } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
 import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
+import { BuildToolsHost } from "../../../host/BuildToolsHost";
+import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
-import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
+import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
+import * as taskDefinitionData from "../../delete-environment/delete-environment-v0/task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 
 (async () => {
@@ -17,8 +20,11 @@ import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 });
 
 export async function main(): Promise<void> {
+  const taskParser = new TaskParser();
+  const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+
   await deleteEnvironment({
     credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl()
-  }, new BuildToolsRunnerParams());
+    environmentUrl: parameterMap['EnvironmentUrl']
+  }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

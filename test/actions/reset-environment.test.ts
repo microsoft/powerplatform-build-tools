@@ -42,7 +42,7 @@ describe("reset-environment tests", () => {
 
     resetEnvironmentStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
-      environmentUrl: mockEnvironmentUrl,
+      environmentUrl: { name: "EnvironmentUrl", required: true, defaultValue: undefined },
       language: { name: 'Language', required: true, defaultValue: '1033' },
       overrideDomainName: { name: 'OverrideDomainName', required: false, defaultValue: 'false' },
       domainName: { name: 'DomainName', required: false, defaultValue: undefined },
