@@ -59,11 +59,11 @@
     },
     {
       "name": "Environment",
-      "label": "Environment Url or Id needed for whoamI task.",
+      "label": "Environment Url",
       "type": "string",
       "defaultValue": "$(BuildTools.EnvironmentUrl)",
       "required": false,
-      "helpMarkDown": "The name of the solution to export."
+      "helpMarkDown": "Environment Url needed for whoamI task."
     }
   ],
   "execution": {

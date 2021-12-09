@@ -8,7 +8,7 @@ import { EnvUrlVariableName } from '../../host/PipelineVariables';
 
 
 export function getEnvironmentUrl(): string {
-  // try to fetch environment ( id or url ) from customer
+  // try reading the optional task input parameter "environment"
   let endpointUrl = tl.getInput('Environment', false);
   if (endpointUrl) {
     console.log(`Fetched environment url from customer: ${endpointUrl}`);
