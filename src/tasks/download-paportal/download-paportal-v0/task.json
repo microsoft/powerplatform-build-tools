@@ -42,6 +42,14 @@
       "helpMarkDown": "Authenticate with your Power Platform environment with username/password. Does not support MFA."
     },
     {
+      "name": "Environment",
+      "label": "Environment Url",
+      "type": "string",
+      "defaultValue": "$(BuildTools.EnvironmentUrl)",
+      "required": false,
+      "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
+    },
+    {
       "name": "DownloadPath",
       "type": "filePath",
       "label": "Download path",

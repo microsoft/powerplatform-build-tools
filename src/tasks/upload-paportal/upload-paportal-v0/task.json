@@ -54,6 +54,14 @@
       "label": "Name of deployment profile",
       "required": false,
       "helpMarkDown": "Deployment profile name to be used. Defaults to default"
+    },
+    {
+      "name": "Environment",
+      "label": "Environment Url",
+      "type": "string",
+      "defaultValue": "$(BuildTools.EnvironmentUrl)",
+      "required": false,
+      "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
     }
   ],
   "execution": {
