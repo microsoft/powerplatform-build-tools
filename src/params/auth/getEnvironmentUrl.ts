@@ -8,9 +8,18 @@ import { EnvUrlVariableName } from '../../host/PipelineVariables';
 
 
 export function getEnvironmentUrl(): string {
+  // try reading the optional task input parameter "environment"
+  let endpointUrl = tl.getInput('Environment', false);
+  if (endpointUrl) {
+    console.log(`Fetched environment url from customer: ${endpointUrl}`);
+    tl.debug(`Discovered environment url from customer: ${endpointUrl}`);
+  }
+
   // try finding the environment url that should be used for the calling task in this order:
   // - check for pipeline/task variables (typically set by e.g. createEnv task)
-  let endpointUrl = tl.getVariable(EnvUrlVariableName);
+  if (!endpointUrl) {
+    endpointUrl = tl.getVariable(EnvUrlVariableName);
+  }
   if (!endpointUrl) {
     endpointUrl = tl.getTaskVariable(EnvUrlVariableName);
   }
