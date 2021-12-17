@@ -66,7 +66,7 @@
       "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
     },
     {
-      "name": "TargetEnvironment",
+      "name": "TargetEnvironmentUrl",
       "label": "Target environment url",
       "type": "string",
       "required": true,

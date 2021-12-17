@@ -26,7 +26,7 @@ export async function main(): Promise<void> {
   await copyEnvironment({
     credentials: getCredentials(),
     sourceEnvironment: parameterMap['Environment'],
-    targetEnvironment: parameterMap['TargetEnvironment'],
+    targetEnvironment: parameterMap['TargetEnvironmentUrl'],
     copyType: parameterMap['CopyType'],
     overrideFriendlyName: parameterMap['OverrideFriendlyName'],
     friendlyTargetEnvironmentName: parameterMap['FriendlyName']

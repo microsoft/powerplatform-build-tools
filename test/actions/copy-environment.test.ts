@@ -41,7 +41,7 @@ describe("copy-environment tests", () => {
     copyEnvironmentStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
       sourceEnvironment: { name: "Environment", required: false, defaultValue: '$(BuildTools.EnvironmentUrl)' },
-      targetEnvironment: { name: 'TargetEnvironment', required: true, defaultValue: undefined },
+      targetEnvironment: { name: 'TargetEnvironmentUrl', required: true, defaultValue: undefined },
       copyType: { name: 'CopyType', required: false, defaultValue: 'FullCopy' },
       overrideFriendlyName: { name: 'OverrideFriendlyName', required: false, defaultValue: "false" },
       friendlyTargetEnvironmentName: { name: 'FriendlyName', required: false, defaultValue: undefined }

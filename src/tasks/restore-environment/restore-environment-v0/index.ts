@@ -27,7 +27,7 @@ export async function main(): Promise<void> {
   await restoreEnvironment({
     credentials: getCredentials(),
     sourceEnvironment: parameterMap['Environment'],
-    targetEnvironment: parameterMap['TargetEnvironment'],
+    targetEnvironment: parameterMap['TargetEnvironmentUrl'],
     restoreLatestBackup: parameterMap['RestoreLatestBackup'],
     backupDateTime: parameterMap['RestoreTimeStamp'],
     targetEnvironmentName: parameterMap['FriendlyName'],
