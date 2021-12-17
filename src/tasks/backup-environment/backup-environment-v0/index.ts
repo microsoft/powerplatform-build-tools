@@ -6,7 +6,6 @@ import { backupEnvironment } from "@microsoft/powerplatform-cli-wrapper/dist/act
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
-import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
 import * as taskDefinitionData from "../../backup-environment/backup-environment-v0/task.json";
 import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
@@ -26,7 +25,8 @@ export async function main(): Promise<void> {
 
   await backupEnvironment({
     credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl(),
-    backupLabel: parameterMap['BackupLabel']
+    environment: parameterMap['Environment'],
+    backupLabel: parameterMap['BackupLabel'],
+    notes: parameterMap['Notes'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

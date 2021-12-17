@@ -26,7 +26,10 @@ export async function main(): Promise<void> {
 
   await resetEnvironment({
     credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl(),
+    environment: parameterMap['Environment'],
+    currency: parameterMap['CurrencyName'],
+    purpose: parameterMap['Purpose'],
+    templates: parameterMap['AppsTemplate'],
     language: parameterMap['Language'],
     overrideDomainName: parameterMap['OverrideDomainName'],
     domainName: parameterMap['DomainName'],
