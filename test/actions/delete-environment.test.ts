@@ -6,9 +6,9 @@ import { stubInterface } from "ts-sinon";
 import * as sinonChai from "sinon-chai";
 import rewiremock from "../rewiremock";
 import { restore, stub } from "sinon";
-import { mockEnvironmentUrl } from "./mockData";
 import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
+import { BuildToolsHost } from "../../src/host/BuildToolsHost";
 import { BuildToolsRunnerParams } from "../../src/host/BuildToolsRunnerParams";
 
 should();
@@ -31,7 +31,6 @@ describe("deleteEnvironment tests", () => {
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ deleteEnvironment: deleteEnvironmentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
-        mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
       });
     deleteEnv.main();
   }
@@ -42,7 +41,7 @@ describe("deleteEnvironment tests", () => {
 
     deleteEnvironmentStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
-      environmentUrl: mockEnvironmentUrl
-    }, new BuildToolsRunnerParams());
+      environment: { name: "Environment", required: false, defaultValue: '$(BuildTools.EnvironmentUrl)' }
+    }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

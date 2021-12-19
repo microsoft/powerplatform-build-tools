@@ -7,7 +7,6 @@ import { stubInterface } from "ts-sinon";
 import * as sinonChai from "sinon-chai";
 import rewiremock from "../rewiremock";
 import { restore, stub } from "sinon";
-import { mockEnvironmentUrl } from "./mockData";
 import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
 import { BuildToolsHost } from "../../src/host/BuildToolsHost";
@@ -31,9 +30,8 @@ describe("restore-environment tests", () => {
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ restoreEnvironment: restoreEnvironmentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
-        mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
       });
-      restore.main();
+    restore.main();
   }
 
   it("fetches parameters from index.ts, calls restoreEnvironmentStub properly", async () => {
@@ -42,8 +40,8 @@ describe("restore-environment tests", () => {
 
     restoreEnvironmentStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
-      sourceEnvironmentUrl: mockEnvironmentUrl,
-      targetEnvironmentUrl: { name: 'TargetEnvironmentUrl', required: true, defaultValue: undefined },
+      sourceEnvironment: { name: "Environment", required: false, defaultValue: '$(BuildTools.EnvironmentUrl)' },
+      targetEnvironment: { name: 'TargetEnvironmentUrl', required: true, defaultValue: undefined },
       restoreLatestBackup: { name: 'RestoreLatestBackup', required: false, defaultValue: true },
       backupDateTime: { name: 'RestoreTimeStamp', required: true, defaultValue: '' },
       targetEnvironmentName: { name: 'FriendlyName', required: false, defaultValue: undefined },

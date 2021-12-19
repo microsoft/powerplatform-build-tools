@@ -6,7 +6,6 @@ import { copyEnvironment } from "@microsoft/powerplatform-cli-wrapper/dist/actio
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
-import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
 import * as taskDefinitionData from "../../copy-environment/copy-environment-v0/task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
@@ -26,8 +25,8 @@ export async function main(): Promise<void> {
 
   await copyEnvironment({
     credentials: getCredentials(),
-    sourceEnvironmentUrl: getEnvironmentUrl(),
-    targetEnvironmentUrl: parameterMap['TargetEnvironmentUrl'],
+    sourceEnvironment: parameterMap['Environment'],
+    targetEnvironment: parameterMap['TargetEnvironmentUrl'],
     copyType: parameterMap['CopyType'],
     overrideFriendlyName: parameterMap['OverrideFriendlyName'],
     friendlyTargetEnvironmentName: parameterMap['FriendlyName']

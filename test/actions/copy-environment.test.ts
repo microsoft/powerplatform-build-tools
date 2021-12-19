@@ -7,7 +7,6 @@ import { stubInterface } from "ts-sinon";
 import * as sinonChai from "sinon-chai";
 import rewiremock from "../rewiremock";
 import { restore, stub } from "sinon";
-import { mockEnvironmentUrl } from "./mockData";
 import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
 import { BuildToolsHost } from "../../src/host/BuildToolsHost";
@@ -31,7 +30,6 @@ describe("copy-environment tests", () => {
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ copyEnvironment: copyEnvironmentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
-        mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
       });
       copy.main();
   }
@@ -42,8 +40,8 @@ describe("copy-environment tests", () => {
 
     copyEnvironmentStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
-      sourceEnvironmentUrl: mockEnvironmentUrl,
-      targetEnvironmentUrl: { name: 'TargetEnvironmentUrl', required: true, defaultValue: undefined },
+      sourceEnvironment: { name: "Environment", required: false, defaultValue: '$(BuildTools.EnvironmentUrl)' },
+      targetEnvironment: { name: 'TargetEnvironmentUrl', required: true, defaultValue: undefined },
       copyType: { name: 'CopyType', required: false, defaultValue: 'FullCopy' },
       overrideFriendlyName: { name: 'OverrideFriendlyName', required: false, defaultValue: "false" },
       friendlyTargetEnvironmentName: { name: 'FriendlyName', required: false, defaultValue: undefined }

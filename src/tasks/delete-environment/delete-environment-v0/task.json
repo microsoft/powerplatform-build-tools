@@ -49,6 +49,14 @@
       "required": true,
       "visibleRule": "authenticationType = PowerPlatformSPN",
       "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
+    },
+    {
+      "name": "Environment",
+      "label": "Environment Url",
+      "type": "string",
+      "required": false,
+      "defaultValue": "$(BuildTools.EnvironmentUrl)",
+      "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
     }
   ],
   "execution": {
