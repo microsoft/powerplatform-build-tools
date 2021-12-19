@@ -7,7 +7,6 @@ import { stubInterface } from "ts-sinon";
 import * as sinonChai from "sinon-chai";
 import rewiremock from "../rewiremock";
 import { restore, stub } from "sinon";
-import { mockEnvironmentUrl } from "./mockData";
 import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
 import { BuildToolsHost } from "../../src/host/BuildToolsHost";
@@ -31,9 +30,8 @@ describe("reset-environment tests", () => {
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ resetEnvironment: resetEnvironmentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
-        mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
       });
-      reset.main();
+    reset.main();
   }
 
   it("fetches parameters from index.ts, calls resetEnvironmentStub properly", async () => {
@@ -42,8 +40,11 @@ describe("reset-environment tests", () => {
 
     resetEnvironmentStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
-      environmentUrl: mockEnvironmentUrl,
-      language: { name: 'Language', required: true, defaultValue: 'English' },
+      environment: { name: "Environment", required: false, defaultValue: '$(BuildTools.EnvironmentUrl)' },
+      currency: { name: 'CurrencyName', required: false, defaultValue: 'USD' },
+      purpose: { name: 'Purpose', required: false, defaultValue: undefined },
+      templates: { name: 'AppsTemplate', required: false, defaultValue: undefined },
+      language: { name: 'Language', required: false, defaultValue: 'English' },
       overrideDomainName: { name: 'OverrideDomainName', required: false, defaultValue: 'false' },
       domainName: { name: 'DomainName', required: false, defaultValue: undefined },
       overrideFriendlyName: { name: 'OverrideFriendlyName', required: false, defaultValue: 'false' },
