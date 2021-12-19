@@ -49,7 +49,7 @@ describe("create-environment tests", () => {
       environmentType: { name: 'EnvironmentSku', required: true, defaultValue: 'Sandbox' },
       region: { name: 'LocationName', required: true, defaultValue: 'unitedstates' },
       currency: { name: 'CurrencyName', required: true, defaultValue: 'USD' },
-      language: { name: 'LanguageName', required: true, defaultValue: '1033' },
+      language: { name: 'LanguageName', required: true, defaultValue: 'English' },
       templates: { name: 'AppsTemplate', required: false, defaultValue: undefined },
       domainName: { name: 'DomainName', required: true, defaultValue: undefined },
     }, new BuildToolsRunnerParams(), new BuildToolsHost());

@@ -56,7 +56,6 @@
       "visibleRule": "authenticationType = PowerPlatformSPN",
       "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
     },
-
     {
       "name": "DisplayName",
       "label": "Environment display name",
@@ -71,11 +70,11 @@
       "required": true,
       "defaultValue": "Sandbox",
       "helpMarkDown": "Select the environment Type.",
-      "properties":{
-        "EditableOptions":true
+      "properties": {
+        "EditableOptions": true
       },
       "options": {
-        "Trial" : "Trial",
+        "Trial": "Trial",
         "Sandbox": "Sandbox",
         "Production": "Production",
         "SubscriptionBasedTrial": "Trial (subscription-based)"
@@ -88,16 +87,23 @@
       "required": false,
       "helpMarkDown": "Select Dynamics365 apps that need to deployed.",
       "visibleRule": "EnvironmentSku = Production || EnvironmentSku = Sandbox",
-      "properties":{
-        "EditableOptions":true,
-        "MultiSelectFlatList":true
+      "properties": {
+        "EditableOptions": true,
+        "MultiSelectFlatList": true
       },
       "options": {
-        "D365_Sales": "Sales",
+        "D365_CDSSampleApp": "Sample App",
         "D365_CustomerService": "Customer Service",
+        "D365_CustomerServicePro": "Customer Service Pro",
+        "D365_DeveloperEdition": "Developer Edition",
         "D365_FieldService": "Field Service",
-        "D365_ProjectServiceAutomation": "Project Service Automation",
-        "D365_CDSSampleApp": "Sample App"
+        "D365_Guides": "Guides",
+        "D365_PowerFrameworkTemplate": "Power Framework Template",
+        "D365_ProjectOperations": "Project Operations",
+        "D365_RemoteAssist": "Remote Assist",
+        "D365_Sales": "Sales",
+        "D365_SalesPro": "Sales Pro",
+        "D365_SmbMarketing": "Smb Marketing"
       }
     },
     {
@@ -107,8 +113,8 @@
       "required": true,
       "defaultValue": "unitedstates",
       "helpMarkDown": "Select the environment's region name.",
-      "properties":{
-        "EditableOptions":true
+      "properties": {
+        "EditableOptions": true
       },
       "options": {
         "unitedstates": "United States",
@@ -122,7 +128,8 @@
         "unitedstatesfirstrelease": "Preview (United States)",
         "southamerica": "South America",
         "france": "France",
-        "tip1": "Tip"
+        "switzerland": "Switzerland",
+        "germany": "Germany"
       }
     },
     {
@@ -130,56 +137,56 @@
       "label": "Language",
       "type": "pickList",
       "required": true,
-      "defaultValue": "1033",
+      "defaultValue": "English",
       "helpMarkDown": "Select the language.",
-      "properties":{
-        "EditableOptions":true
+      "properties": {
+        "EditableOptions": true
       },
       "options": {
-        "1033": "English",
-        "1025": "Arabic",
-        "1069": "euskara (euskara)",
-        "1026": "български (България)",
-        "1027": "català (català)",
-        "3076": "Chinese (Hong Kong S.A.R.)",
-        "2052": "Chinese (PRC)",
-        "1028": "Chinese (Taiwan)",
-        "1050": "hrvatski (Hrvatska)",
-        "1029": "Czech",
-        "1030": "Danish",
-        "1043": "Dutch",
-        "1061": "eesti (Eesti)",
-        "1035": "Finnish",
-        "1036": "French",
-        "1110": "galego (galego)",
-        "1031": "German",
-        "1032": "Greek",
-        "1037": "Hebrew",
-        "1081": "हिन्दी (भारत)",
-        "1038": "Hungarian",
-        "1040": "Italian",
-        "1041": "Japanese",
-        "1087": "қазақ тілі (Қазақстан)",
-        "1042": "Korean",
-        "1062": "latviešu (Latvija)",
-        "1063": "lietuvių (Lietuva)",
-        "1044": "Norwegian (Bokmål)",
-        "1045": "Polish",
-        "1046": "Portuguese (Brazil)",
-        "2070": "Portuguese (Portugal)",
-        "1048": "română (România)",
-        "1049": "Russian",
-        "2074": "srpski (Srbija i Crna Gora (Bivša))",
-        "1051": "slovenčina (Slovensko)",
-        "1060": "slovenščina (Slovenija)",
-        "3082": "Spanish",
-        "1053": "Swedish",
-        "1054": "Thai",
-        "1055": "Turkish",
-        "1058": "українська (Україна)",
-        "1066": "Vietnamese",
-        "3098": "Serbian (Cyrillic)",
-        "1086": "Malay"
+        "English": "English",
+        "Arabic": "Arabic",
+        "euskara (euskara)": "euskara (euskara)",
+        "български (България)": "български (България)",
+        "català (català)": "català (català)",
+        "Chinese (Hong Kong S.A.R.)": "Chinese (Hong Kong S.A.R.)",
+        "Chinese (PRC)": "Chinese (PRC)",
+        "Chinese (Taiwan)": "Chinese (Taiwan)",
+        "hrvatski (Hrvatska)": "hrvatski (Hrvatska)",
+        "Czech": "Czech",
+        "Danish": "Danish",
+        "Dutch": "Dutch",
+        "eesti (Eesti)": "eesti (Eesti)",
+        "Finnish": "Finnish",
+        "French": "French",
+        "galego (galego)": "galego (galego)",
+        "German": "German",
+        "Greek": "Greek",
+        "Hebrew": "Hebrew",
+        "हिन्दी (भारत)": "हिन्दी (भारत)",
+        "Hungarian": "Hungarian",
+        "Italian": "Italian",
+        "Japanese": "Japanese",
+        "қазақ тілі (Қазақстан)": "қазақ тілі (Қазақстан)",
+        "Korean": "Korean",
+        "latviešu (Latvija)": "latviešu (Latvija)",
+        "lietuvių (Lietuva)": "lietuvių (Lietuva)",
+        "Norwegian (Bokmål)": "Norwegian (Bokmål)",
+        "Polish": "Polish",
+        "Portuguese (Brazil)": "Portuguese (Brazil)",
+        "Portuguese (Portugal)": "Portuguese (Portugal)",
+        "română (România)": "română (România)",
+        "Russian": "Russian",
+        "srpski (Srbija i Crna Gora (Bivša))": "srpski (Srbija i Crna Gora (Bivša))",
+        "slovenčina (Slovensko)": "slovenčina (Slovensko)",
+        "slovenščina (Slovenija)": "slovenščina (Slovenija)",
+        "Spanish": "Spanish",
+        "Swedish": "Swedish",
+        "Thai": "Thai",
+        "Turkish": "Turkish",
+        "українська (Україна)": "українська (Україна)",
+        "Vietnamese": "Vietnamese",
+        "Serbian (Cyrillic)": "Serbian (Cyrillic)",
+        "Malay": "Malay"
       }
     },
     {
@@ -189,8 +196,8 @@
       "required": true,
       "defaultValue": "USD",
       "helpMarkDown": "Select the currency.",
-      "properties":{
-        "EditableOptions":true
+      "properties": {
+        "EditableOptions": true
       },
       "options": {
         "XDR": "XDR",
