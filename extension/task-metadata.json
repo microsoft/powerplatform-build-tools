@@ -179,15 +179,6 @@
         "DEV": "0db80a45-80f5-48fe-9970-e562fd687a7a",
         "EXPERIMENTAL": "ab0aa653-b554-49c7-9c02-56923513b2b2"
       }
-    },
-    {
-      "name": "online-version-solution",
-      "id": {
-        "LIVE": "4ea2abf6-9850-4763-9a1a-4b3060897fd5",
-        "BETA": "32587f66-01d2-4ed4-8751-b80726f73c7b",
-        "DEV": "f2f6871a-328b-4217-8a5d-ff3ca7d79432",
-        "EXPERIMENTAL": "742545ae-7bd2-43b2-838e-a335c8843116"
-      }
     }
   ]
 }

@@ -71,6 +71,7 @@ process.env['INPUT_HoldingSolution'] = "false";
 
 //export solution inputs
 process.env['INPUT_SolutionName'] = "emptySolution";
+process.env['INPUT_SolutionVersionNumber'] = "0.42.0.0"
 
 //create environment inputs
 process.env["INPUT_LocationName"] = "unitedstates";
@@ -108,6 +109,7 @@ const tasks: taskInfo[] = [
   { name: 'pack-solution', path: `${tasksRoot}/tasks/pack-solution/pack-solution-v0` },
   { name: 'checker', path: `${tasksRoot}/tasks/checker/checker-v0` },
   { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
+  { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-verion/set-solution-version-v0` },
   // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
   { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
 ];

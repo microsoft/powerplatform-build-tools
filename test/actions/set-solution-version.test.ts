@@ -28,7 +28,7 @@ describe("set online version solution test", () => {
 
   async function callActionWithMocks(): Promise<void> {
     const apply = await rewiremock.around(
-      () => import("../../src/tasks/online-version-solution/online-version-solution-v0/index"),
+      () => import("../../src/tasks/set-solution-version/set-solution-version-v0/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ onlineVersionSolution: onlineVersionSolutionStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
