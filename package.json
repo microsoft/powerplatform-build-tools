@@ -28,6 +28,7 @@
     "@types/mocha": "^8.2.2",
     "@types/node": "^14.14.36",
     "@types/q": "^1.5.4",
+    "@types/semver": "^7.3.9",
     "@types/sinon": "^9.0.11",
     "@types/sinon-chai": "^3.2.5",
     "@types/sinonjs__fake-timers": "^6.0.2",
@@ -72,7 +73,8 @@
     "@microsoft/powerplatform-cli-wrapper": "^0.1.38",
     "@types/fs-extra": "^9.0.13",
     "azure-pipelines-task-lib": "^3.1.0",
-    "fs-extra": "^9.0.1"
+    "fs-extra": "^9.0.1",
+    "semver": "^7.3.5"
   },
   "bundleDependencies": true
 }
