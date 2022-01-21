@@ -27,8 +27,15 @@ export async function main(): Promise<void> {
   await checkSolution({
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
+    fileLocation: parameterMap['FileLocation'],
     solutionPath: parameterMap['FilesToAnalyze'],
+    solutionUrl: parameterMap['FilesToAnalyzeSasUri'],
+    filesExcluded: parameterMap['FilesToExclude'],
     ruleLevelOverride: parameterMap['RulesToOverride'],
+    ruleSet: parameterMap['RuleSet'],
+    errorLevel: parameterMap['ErrorLevel'],
+    errorThreshold: parameterMap['ErrorThreshold'],
+    failOnAnalysisError: parameterMap['FailOnPowerAppsCheckerAnalysisError'],
     outputDirectory: parameterMap['ArtifactDestinationName']
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }
