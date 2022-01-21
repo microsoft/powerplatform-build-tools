@@ -3,7 +3,6 @@
     "editorconfig.editorconfig",
     "davidanson.vscode-markdownlint",
     "eamodio.gitlens",
-    "github.vscode-pull-request-github",
     "me-dutour-mathieu.vscode-github-actions",
     "ms-azure-devops.azure-pipelines"
   ]

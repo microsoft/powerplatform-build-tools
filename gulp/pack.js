@@ -1,7 +1,6 @@
 const { mkdir, pathExists, copy, existsSync, writeJsonSync } = require("fs-extra");
 const createTfxRunner = require("./lib/createTfxRunner");
-const { argv } = require("process");
-const { ArgumentParser } = require("argparse");
+const argv = require('yargs').argv;
 const { createCommandRunner } = require("@microsoft/powerplatform-cli-wrapper");
 const { extract: extractTar } = require("tar");
 const find = require("find");
@@ -12,7 +11,7 @@ const outDir = 'out';
 const stagingDir = `${outDir}/staging`;
 const npmPackageDir = `${outDir}/npm-package`;
 const packagesDir = `${outDir}/packages`;
-const isOfficial = !!process.env.GITHUB_ACTIONS;
+const isOfficial = argv.isOfficial || false;
 
 module.exports = async () => {
   const manifest = require("../extension/extension-manifest.json");
@@ -87,22 +86,9 @@ function setVersion(manifest) {
   const currentVersionParts = manifest.version.split(".");
   const [currentMajor, currentMinor, currentPatch] = currentVersionParts;
 
-  const parser = new ArgumentParser();
-  parser.add_argument("--major", {
-    type: "int",
-    default: currentMajor,
-  });
-  parser.add_argument("--minor", {
-    type: "int",
-    default: currentMinor,
-  });
-  parser.add_argument("--patch", {
-    type: "int",
-    default: currentPatch,
-  });
-
-  const gulpArgs = argv.slice(3);
-  const { major, minor, patch } = parser.parse_args(gulpArgs);
+  const major = argv.major || currentMajor;
+  const minor = argv.minor || currentMinor;
+  const patch = argv.patch || currentPatch;
 
   manifest.version = `${major}.${minor}.${patch}`;
   return {
