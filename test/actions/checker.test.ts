@@ -44,8 +44,15 @@ describe("check solution test", () => {
     checkSolutionStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl,
+      fileLocation: { name: 'FileLocation', required: false, defaultValue: 'localFiles' },
       solutionPath: { name: 'FilesToAnalyze', required: false, defaultValue: '**\\*.zip' },
+      solutionUrl: { name: 'FilesToAnalyzeSasUri', required: false, defaultValue: undefined },
+      filesExcluded: { name: 'FilesToExclude', required: false, defaultValue: undefined },
       ruleLevelOverride: { name: 'RulesToOverride', required: false, defaultValue: undefined },
+      ruleSet: { name: 'RuleSet', required: true, defaultValue: undefined },
+      errorLevel: { name: 'ErrorLevel', required: false, defaultValue: 'HighIssueCount' },
+      errorThreshold: { name: 'ErrorThreshold', required: false, defaultValue: '0' },
+      failOnAnalysisError: { name: 'FailOnPowerAppsCheckerAnalysisError', required: false, defaultValue: true },
       outputDirectory: { name: 'ArtifactDestinationName', required: false, defaultValue: "CodeAnalysisLogs" },
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
