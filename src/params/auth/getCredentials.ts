@@ -20,7 +20,7 @@ export function getCredentials(): ClientCredentials | UsernamePassword {
 }
 
 function getClientCredentials(): ClientCredentials {
-  const endpointName = getEndpointName("PowerPlatformEnvironment");
+  const endpointName = getEndpointName("PowerPlatformSPN");
   const params = getEndpointAuthorizationParameters(endpointName);
   return {
     tenantId: params.tenantId,
