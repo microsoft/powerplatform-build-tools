@@ -6,7 +6,7 @@ export function getEndpointName(
 ): string {
   const endpointName = getInput(authenticationType);
   if (endpointName === undefined) {
-    throw new Error(`${endpointName} is undefined`);
+    throw new Error(`End Point Name for ${authenticationType} is undefined`);
   }
   return endpointName;
 }
