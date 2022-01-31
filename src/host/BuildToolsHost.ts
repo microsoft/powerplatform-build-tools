@@ -12,6 +12,7 @@ export class BuildToolsHost implements IHostAbstractions {
     if(entry.name === 'Environment')
       return getEnvironmentUrl();
 
+
     const value = tl.getInput(entry.name, entry.required);
     // normalize value to always be undefined if the user has not declared the input value
     return (value && value.trim() !== '') ? value : undefined;
