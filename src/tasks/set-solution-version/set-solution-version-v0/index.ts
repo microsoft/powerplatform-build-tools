@@ -23,7 +23,7 @@ import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
-
+//test
   await onlineVersionSolution({
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
