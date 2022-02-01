@@ -30,10 +30,31 @@
   ],
   "inputs": [
     {
+      "name": "authenticationType",
+      "type": "radio",
+      "label": "Authentication type",
+      "defaultValue": "PowerPlatformEnvironment",
+      "required": true,
+      "helpMarkDown": "Authentication via username/password is simpler to set up but won't work if your AAD tenant requires MFA; use Service Principal Name (SPN) if MFA is required.",
+      "options": {
+        "PowerPlatformEnvironment": "Username/password (no MFA support)",
+        "PowerPlatformSPN": "Service Principal/client secret (supports MFA)"
+      }
+    },
+    {
+      "name": "PowerPlatformEnvironment",
+      "type": "connectedService:Generic",
+      "label": "Service connection",
+      "required": true,
+      "visibleRule": "authenticationType = PowerPlatformEnvironment",
+      "helpMarkDown": "Authenticate with your Power Platform environment with username/password. Does not support MFA."
+    },
+    {
       "name": "PowerPlatformSPN",
       "type": "connectedService:powerplatform-spn",
       "label": "Service connection",
       "required": true,
+      "visibleRule": "authenticationType = PowerPlatformSPN",
       "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
     },
     {
