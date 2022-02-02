@@ -18,7 +18,7 @@ jobs:
       matrix:
         os:
           - windows-latest
-
+          - ubuntu-latest
 
     steps:
       - uses: actions/checkout@v2
@@ -33,11 +33,8 @@ jobs:
 
       - name: Build and test
         run: |
-          npm cache clean --force
-          npm install -g npm@latest --force
-          npm cache clean --force
           npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
-          npm i -g npm
+          npm i -g npm@'8.1.2'
           npm i
           npm run ci
         # Note: To set version:
