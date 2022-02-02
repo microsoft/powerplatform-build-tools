@@ -37,7 +37,7 @@ export async function main(): Promise<void> {
     errorThreshold: parameterMap['ErrorThreshold'],
     failOnAnalysisError: parameterMap['FailOnPowerAppsCheckerAnalysisError'],
     outputDirectory: parameterMap['ArtifactDestinationName'],
-    useDefaultPAEndpoint: { name: 'UseDefaultPACheckerEndpoint', required: false, defaultValue: true },
-    customPAEndpoint: { name: 'CustomPACheckerEndpoint', required: true, defaultValue: '' },
+    useDefaultPAEndpoint: parameterMap['UseDefaultPACheckerEndpoint'],
+    customPAEndpoint: parameterMap['CustomPACheckerEndpoint'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }
