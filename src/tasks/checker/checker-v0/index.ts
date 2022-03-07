@@ -35,6 +35,8 @@ export async function main(): Promise<void> {
     ruleSet: parameterMap['RuleSet'],
     errorLevel: parameterMap['ErrorLevel'],
     errorThreshold: parameterMap['ErrorThreshold'],
+    maxStatusChecks: parameterMap['MaxStatusChecks'],
+    secondsBetweenChecks: parameterMap['SecondsBetweenChecks'],
     failOnAnalysisError: parameterMap['FailOnPowerAppsCheckerAnalysisError'],
     outputDirectory: parameterMap['ArtifactDestinationName'],
     useDefaultPAEndpoint: parameterMap['UseDefaultPACheckerEndpoint'],

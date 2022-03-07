@@ -52,6 +52,8 @@ describe("check solution test", () => {
       ruleSet: { name: 'RuleSet', required: true, defaultValue: undefined },
       errorLevel: { name: 'ErrorLevel', required: false, defaultValue: 'HighIssueCount' },
       errorThreshold: { name: 'ErrorThreshold', required: false, defaultValue: '0' },
+      maxStatusChecks: { name: 'MaxStatusChecks', required: false, defaultValue: '20' },
+      secondsBetweenChecks: { name: 'SecondsBetweenChecks', required: false, defaultValue: '15' },
       failOnAnalysisError: { name: 'FailOnPowerAppsCheckerAnalysisError', required: false, defaultValue: true },
       outputDirectory: { name: 'ArtifactDestinationName', required: false, defaultValue: "CodeAnalysisLogs" },
       useDefaultPAEndpoint: { name: 'UseDefaultPACheckerEndpoint', required: false, defaultValue: true },

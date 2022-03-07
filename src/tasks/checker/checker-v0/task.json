@@ -165,6 +165,24 @@
       "helpMarkDown": "Set a value for the error threshold to fail if the result count is greater than the value."
     },
     {
+      "name": "MaxStatusChecks",
+      "label": "Maximum number of times in which status calls are made to the service",
+      "type": "string",
+      "required": false,
+      "defaultValue": "20",
+      "groupName": "advanced",
+      "helpMarkDown": "Maximum number of times in which status calls are made to the service. The default number is 20. If the threshold is exceeded, then a timeout exception is thrown."
+    },
+    {
+      "name": "SecondsBetweenChecks",
+      "label": "Number of seconds between status checks.",
+      "type": "string",
+      "required": false,
+      "defaultValue": "15",
+      "groupName": "advanced",
+      "helpMarkDown": "The number of seconds between status checks. The default is 15 seconds."
+    },    
+    {
       "name": "FailOnPowerAppsCheckerAnalysisError",
       "label": "Fail on Power Apps Checker analysis error",
       "type": "boolean",
