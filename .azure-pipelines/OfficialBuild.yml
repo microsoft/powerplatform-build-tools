@@ -46,16 +46,16 @@ steps:
     customEndpoint: github.com_npm_davidjenni
 
 - task: Npm@1
+  displayName: 'set git repo authN'
+  inputs:
+    command: custom
+    customCommand: run set-git-authn -- "$(GITHUB_TOKEN)"
+
+- task: Npm@1
   displayName: 'Restore (npm install)'
   inputs:
     command: custom
     customCommand: ci
-
-- task: Npm@1
-  displayName: 'set git repo authN'
-  inputs:
-    command: custom
-    customCommand: run set-git-authn -- --repoToken $(GITHUB_TOKEN)
 
 # - task: Npm@1
 #   displayName: 'auto-increment version'

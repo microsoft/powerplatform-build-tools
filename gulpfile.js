@@ -14,7 +14,6 @@ const test = require("./gulp/test");
 const restore = require("./gulp/restore");
 const pack = require("./gulp/pack");
 const componentTest = require("./gulp/componentTest")
-const setGitAuthN = require("./gulp/setGitAuthn");
 
 exports.clean = clean;
 exports.compile = compile;
@@ -29,4 +28,3 @@ exports.ci = gulp.series(recompile, lint, restore, test.unitTest, pack, test.com
 exports.default = recompile;
 exports.restore = restore;
 exports.componentTest = componentTest;
-exports.setGitAuthN = setGitAuthN;

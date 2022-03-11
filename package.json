@@ -17,7 +17,7 @@
     "prepare-pack": "node node_modules/gulp/bin/gulp.js preparePack",
     "pack": "node node_modules/gulp/bin/gulp.js pack",
     "tfx": "node node_modules/tfx-cli/_build/tfx-cli.js",
-    "set-git-authn": "node node_modules/gulp/bin/gulp.js setGitAuthN"
+    "set-git-authn": "node ./setGitAuthN.js"
   },
   "author": "PowerApps-ISV-Tools",
   "license": "MIT",
