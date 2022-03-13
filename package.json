@@ -70,7 +70,7 @@
     "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
-    "@microsoft/powerplatform-cli-wrapper": "^0.1.41",
+    "@microsoft/powerplatform-cli-wrapper": "^0.1.43",
     "@types/fs-extra": "^9.0.13",
     "azure-pipelines-task-lib": "^3.1.0",
     "fs-extra": "^9.0.1",
