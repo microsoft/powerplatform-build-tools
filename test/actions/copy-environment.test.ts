@@ -20,7 +20,10 @@ describe("copy-environment tests", () => {
   let credentials: UsernamePassword;
 
   beforeEach(() => {
-    copyEnvironmentStub = stub();
+    copyEnvironmentStub = stub().returns({
+      environmentUrl: 'mocked.url',
+      environmentId: 'mocked-id',
+    });
     credentials = stubInterface<UsernamePassword>();
   });
   afterEach(() => restore());

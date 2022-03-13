@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as tl from 'azure-pipelines-task-lib/task';
-import { copyEnvironment } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
+import { copyEnvironment, EnvironmentResult } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
@@ -10,6 +10,7 @@ import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinit
 import * as taskDefinitionData from "../../copy-environment/copy-environment-v0/task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
+import { EnvUrlVariableName, EnvIdVariableName, SetPipelineOutputVariable } from "../../../host/PipelineVariables";
 
 (async () => {
   if (isRunningOnAgent()) {
@@ -23,7 +24,7 @@ export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
 
-  await copyEnvironment({
+  const copyResult: EnvironmentResult = await copyEnvironment({
     credentials: getCredentials(),
     sourceEnvironment: parameterMap['Environment'],
     targetEnvironment: parameterMap['TargetEnvironmentUrl'],
@@ -31,4 +32,11 @@ export async function main(): Promise<void> {
     overrideFriendlyName: parameterMap['OverrideFriendlyName'],
     friendlyTargetEnvironmentName: parameterMap['FriendlyName']
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
+
+  if (!copyResult.environmentUrl || !copyResult.environmentId) {
+    return tl.setResult(tl.TaskResult.SucceededWithIssues, 'CopyEnvironment call did NOT return the expected environment URL!');
+  }
+  // set output variables:
+  SetPipelineOutputVariable(EnvUrlVariableName, copyResult.environmentUrl);
+  SetPipelineOutputVariable(EnvIdVariableName, copyResult.environmentId);
 }

@@ -20,7 +20,10 @@ describe("reset-environment tests", () => {
   let credentials: UsernamePassword;
 
   beforeEach(() => {
-    resetEnvironmentStub = stub();
+    resetEnvironmentStub = stub().returns({
+      environmentUrl: 'mocked.url',
+      environmentId: 'mocked-id',
+    });
     credentials = stubInterface<UsernamePassword>();
   });
   afterEach(() => restore());
