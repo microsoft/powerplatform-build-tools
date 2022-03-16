@@ -70,3 +70,7 @@ trademarks or logos is subject to and must follow [Microsoft's Trademark & Brand
 Use of Microsoft trademarks or logos in modified versions of this project
 must not cause confusion or imply Microsoft sponsorship.
 Any use of third-party trademarks or logos are subject to those third-party's policies.
+
+### How to make GitHub Actions and Build Tools compatible with latest PAC CLI?
+
+[Please refer steps in Cli-Wrapper](https://github.com/microsoft/powerplatform-cli-wrapper/blob/main/README.md)
