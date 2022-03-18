@@ -3,6 +3,7 @@ const { chmod } = require("fs-extra");
 const fetch = require("node-fetch");
 const path = require("path");
 const unzip = require("unzip-stream");
+const argv = require('yargs').argv;
 
 module.exports = async function nugetInstall(feed, package) {
   const packageName = package.name.toLowerCase();
@@ -18,10 +19,10 @@ module.exports = async function nugetInstall(feed, package) {
     redirect: "manual",
   };
   if (feed.authenticated) {
-    const readPAT = process.env[feed.patEnvironmentVariable];
+    const readPAT = argv.feedPAT || process.env[feed.patEnvironmentVariable];
     if (!readPAT) {
       throw new Error(
-        `nuget feed ${feed.name} requires authN but env var '${feed.patEnvironmentVariable}' was not defined!`
+        `nuget feed ${feed.name} requires authN but env var '${feed.patEnvironmentVariable}' was not defined! Alt: pass in as argument --feedPAT <PAT>`
       );
     }
     reqInit.headers["Authorization"] = `Basic ${Buffer.from(

@@ -14,8 +14,10 @@
     "build": "node node_modules/gulp/bin/gulp.js compile",
     "test": "node node_modules/gulp/bin/gulp.js test",
     "ci": "node node_modules/gulp/bin/gulp.js ci",
-    "dist": "node node_modules/gulp/bin/gulp.js dist",
-    "tfx": "node node_modules/tfx-cli/_build/tfx-cli.js"
+    "prepare-pack": "node node_modules/gulp/bin/gulp.js preparePack",
+    "pack": "node node_modules/gulp/bin/gulp.js pack",
+    "tfx": "node node_modules/tfx-cli/_build/tfx-cli.js",
+    "set-git-authn": "node ./setGitAuthN.js"
   },
   "author": "PowerApps-ISV-Tools",
   "license": "MIT",
@@ -37,7 +39,6 @@
     "@types/webpack": "^5.28.0",
     "@typescript-eslint/eslint-plugin": "^5.2.0",
     "@typescript-eslint/parser": "^5.2.0",
-    "argparse": "^2.0.1",
     "chai": "^4.2.0",
     "dotenv": "^8.2.0",
     "eslint": "^8.11.0",
@@ -68,7 +69,8 @@
     "unzip-stream": "^0.3.1",
     "webpack": "^5.61.0",
     "webpack-cli": "^4.6.0",
-    "webpack-node-externals": "^2.5.2"
+    "webpack-node-externals": "^2.5.2",
+    "yargs": "^17.3.1"
   },
   "dependencies": {
     "@microsoft/powerplatform-cli-wrapper": "^0.1.44",
