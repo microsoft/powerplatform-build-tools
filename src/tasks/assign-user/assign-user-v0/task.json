@@ -1,8 +1,8 @@
 {
-  "id": "8b20c2bb-05ed-47ce-a620-88cc78629d0f",
-  "name": "PowerPlatformPublishCustomizations",
-  "friendlyName": "Power Platform Publish Customizations",
-  "description": "Power Platform Publish Customizations",
+  "id": "3137A4C5-0E44-4D89-AC0C-BEEDEC036428",
+  "name": "PowerPlatformAdminAssignUser",
+  "friendlyName": "Power Platform Admin Assign User",
+  "description": "Power Platform admin assign user to target environment with specified security role",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Deploy",
@@ -20,7 +20,7 @@
   },
   "preview": false,
   "minimumAgentVersion": "1.95.0",
-  "instanceNameFormat": "Power Platform Publish Customizations $(message)",
+  "instanceNameFormat": "Power Platform Admin Assign User $(message)",
   "inputs": [
     {
       "name": "authenticationType",
@@ -59,11 +59,11 @@
       "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
     },
     {
-      "name": "ObjectId",
-      "label": "Object ID",
+      "name": "User",
+      "label": "User",
       "type": "string",
       "required": true,
-      "helpMarkDown": "Azure AD Object ID or user to assing to the environment"
+      "helpMarkDown": "Azure AD Object ID or user to assign to the environment"
     },
     {
       "name": "Role",
