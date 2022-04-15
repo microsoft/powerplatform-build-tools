@@ -63,7 +63,7 @@
       "label": "User",
       "type": "string",
       "required": true,
-      "helpMarkDown": "Azure AD Object ID or user to assign to the environment"
+      "helpMarkDown": "Azure AD Object ID or users principal name to assign to the environment"
     },
     {
       "name": "Role",
