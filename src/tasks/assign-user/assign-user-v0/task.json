@@ -52,18 +52,18 @@
     },
     {
       "name": "Environment",
-      "label": "Environment Url",
+      "label": "Environment",
       "type": "string",
       "defaultValue": "$(BuildTools.EnvironmentUrl)",
       "required": true,
-      "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
+      "helpMarkDown": "Environment URL or ID this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
     },
     {
       "name": "User",
       "label": "User",
       "type": "string",
       "required": true,
-      "helpMarkDown": "Azure AD Object ID or users principal name to assign to the environment"
+      "helpMarkDown": "Azure AD Object ID or user's principal name to assign to the target environment"
     },
     {
       "name": "Role",
