@@ -52,6 +52,7 @@ describe("create-environment tests", () => {
       language: { name: 'LanguageName', required: true, defaultValue: 'English' },
       templates: { name: 'AppsTemplate', required: false, defaultValue: undefined },
       domainName: { name: 'DomainName', required: true, defaultValue: undefined },
+      teamId: { name: 'TeamId', required: false, defaultValue: undefined },
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

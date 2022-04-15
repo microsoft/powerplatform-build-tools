@@ -33,6 +33,7 @@ export async function main(): Promise<void> {
     language: parameterMap['LanguageName'],
     templates: parameterMap['AppsTemplate'],
     domainName: parameterMap['DomainName'],
+    teamId: parameterMap['TeamId'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 
   if (!createResult.environmentUrl || !createResult.environmentId) {

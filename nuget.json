@@ -32,6 +32,17 @@
       "authenticated": true,
       "patEnvironmentVariable": "AZ_DevOps_Read_PAT",
       "packages": [
+        {
+          "name": "Microsoft.PowerApps.CLI",
+          "version": "1.14.3-daily-22041318",
+          "internalName": "pac"
+        },
+        {
+          "name": "Microsoft.PowerApps.CLI.Core.linux-x64",
+          "version": "1.14.3-daily-22041318",
+          "internalName": "pac_linux",
+          "chmod": "tools/pac"
+        }
       ]
     }
   ]

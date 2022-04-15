@@ -320,6 +320,13 @@
       "type": "string",
       "required": true,
       "helpMarkDown": "The domain name is part of the environment URL. If you enter a domain name that's already in use, then the task appends a numeric value to the domain name, starting with 0 and sets the environment URL. For example - If the domain name 'contoso' is already in use, then the environment URL will be updated to https://{contoso}0.crm.dynamics.com."
+    },
+    {
+      "name": "TeamId",
+      "label": "Team ID",
+      "type": "string",
+      "required": false,
+      "helpMarkDown": "The ID of the Microsoft Teams team to create the Power Apps environment in."
     }
   ],
   "execution": {
