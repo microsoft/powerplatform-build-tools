@@ -18,7 +18,7 @@
     "Minor": "1",
     "Patch": "0"
   },
-  "preview": false,
+  "preview": true,
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Power Platform Admin Assign User $(message)",
   "inputs": [
