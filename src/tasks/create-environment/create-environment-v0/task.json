@@ -24,7 +24,7 @@
   "outputVariables": [
     {
       "name": "BuildTools.EnvironmentUrl",
-      "description": "Pipeline variable of newly created environment; will by default be consumed by following tasks"
+      "description": "Output variable of newly created environment; will by default be consumed by following tasks"
     }
   ],
   "inputs": [

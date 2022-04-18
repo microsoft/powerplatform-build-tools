@@ -10,7 +10,7 @@ import { getCredentials } from "../../../params/auth/getCredentials";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
 import * as taskDefinitionData from "../../create-environment/create-environment-v0/task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
-import { EnvIdVariableName, EnvUrlVariableName, SetPipelineOutputVariable } from "../../../host/PipelineVariables";
+import { EnvIdVariableName, EnvUrlVariableName, SetTaskOutputVariable } from "../../../host/PipelineVariables";
 
 (async () => {
   if (isRunningOnAgent()) {
@@ -40,6 +40,6 @@ export async function main(): Promise<void> {
     return tl.setResult(tl.TaskResult.SucceededWithIssues, 'CreateEnvironment call did NOT return the expected environment URL!');
   }
   // set output variables:
-  SetPipelineOutputVariable(EnvUrlVariableName, createResult.environmentUrl);
-  SetPipelineOutputVariable(EnvIdVariableName, createResult.environmentId);
+  SetTaskOutputVariable(EnvUrlVariableName, createResult.environmentUrl);
+  SetTaskOutputVariable(EnvIdVariableName, createResult.environmentId);
 }

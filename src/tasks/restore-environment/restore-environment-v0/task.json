@@ -28,6 +28,12 @@
       "isExpanded": false
     }
   ],
+  "outputVariables": [
+    {
+      "name": "BuildTools.EnvironmentUrl",
+      "description": "Output variable of newly restored environment; will by default be consumed by following tasks"
+    }
+  ],
   "inputs": [
     {
       "name": "authenticationType",

@@ -21,6 +21,12 @@
   "preview": false,
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Power Platform Copy Environment $(message)",
+  "outputVariables": [
+    {
+      "name": "BuildTools.EnvironmentUrl",
+      "description": "Output variable of newly copied environment; will by default be consumed by following tasks"
+    }
+  ],
   "groups": [
     {
       "name": "advanced",
