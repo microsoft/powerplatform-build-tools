@@ -12,7 +12,7 @@ const hasTaskVars = semver.lt(agentVersion, '2.115.0');
 export const EnvUrlVariableName = "BuildTools.EnvironmentUrl";
 export const EnvIdVariableName = "BuildTools.EnvironmentId";
 
-export function SetPipelineOutputVariable(varName: string, value: string): void {
+export function SetTaskOutputVariable(varName: string, value: string): void {
   tl.setVariable(varName, value, false, true);
 }
 
@@ -33,13 +33,10 @@ export function GetPipelineOutputVariable(varName: string): [string | undefined,
   let value = GetPipelineVariable(varName);
   if (!value) {
     // now try different specific task sources of ours, starting with the CreateEnvironment task:
-    const ppbtTaskOutVarOrigins = [ 'PowerPlatformCreateEnvironment' ];
+    const ppbtTaskOutVarOrigins = [ 'PowerPlatformCreateEnvironment', 'PowerPlatformCopyEnvironment',
+     'PowerPlatformResetEnvironment', 'PowerPlatformRestoreEnvironment' ];
 
     for (const taskName of ppbtTaskOutVarOrigins) {
-      value = tl.getVariable(varName);
-      if (value) {
-        return [value, undefined];
-      }
       const canonicalVarName = varName.replace(/\./g, '_').replace(/-/g, '_');
       value = tl.getVariable(`${taskName}_${canonicalVarName}`);
       if (value) {

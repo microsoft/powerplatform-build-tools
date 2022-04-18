@@ -10,7 +10,7 @@ import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinit
 import * as taskDefinitionData from "../../reset-environment/reset-environment-v0/task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 import { isRunningOnAgent } from '../../../params/auth/isRunningOnAgent';
-import { EnvIdVariableName, EnvUrlVariableName, SetPipelineOutputVariable } from "../../../host/PipelineVariables";
+import { EnvIdVariableName, EnvUrlVariableName, SetTaskOutputVariable } from "../../../host/PipelineVariables";
 
 (async () => {
   if (isRunningOnAgent()) {
@@ -41,6 +41,6 @@ export async function main(): Promise<void> {
     return tl.setResult(tl.TaskResult.SucceededWithIssues, 'ResetEnvironment call did NOT return the expected environment URL!');
   }
   // set output variables:
-  SetPipelineOutputVariable(EnvUrlVariableName, resetResult.environmentUrl);
-  SetPipelineOutputVariable(EnvIdVariableName, resetResult.environmentId);
+  SetTaskOutputVariable(EnvUrlVariableName, resetResult.environmentUrl);
+  SetTaskOutputVariable(EnvIdVariableName, resetResult.environmentId);
 }

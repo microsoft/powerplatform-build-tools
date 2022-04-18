@@ -28,6 +28,12 @@
       "isExpanded": false
     }
   ],
+  "outputVariables": [
+    {
+      "name": "BuildTools.EnvironmentUrl",
+      "description": "Output variable of newly reset environment; will by default be consumed by following tasks"
+    }
+  ],
   "inputs": [
     {
       "name": "authenticationType",
@@ -37,7 +43,8 @@
       "required": true,
       "helpMarkDown": "Authentication via username/password is simpler to set up but won't work if your AAD tenant requires MFA; use Service Principal Name (SPN) if MFA is required.",
       "options": {
-        "PowerPlatformEnvironment": "Username/password (no MFA support)"
+        "PowerPlatformEnvironment": "Username/password (no MFA support)",
+        "PowerPlatformSPN": "Service Principal/client secret (supports MFA)"
       }
     },
     {

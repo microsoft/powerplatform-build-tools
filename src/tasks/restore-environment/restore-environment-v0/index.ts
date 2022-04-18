@@ -10,7 +10,7 @@ import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinit
 import * as taskDefinitionData from "../../restore-environment/restore-environment-v0/task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 import { isRunningOnAgent } from '../../../params/auth/isRunningOnAgent';
-import { EnvUrlVariableName, EnvIdVariableName, SetPipelineOutputVariable } from "../../../host/PipelineVariables";
+import { EnvUrlVariableName, EnvIdVariableName, SetTaskOutputVariable } from "../../../host/PipelineVariables";
 
 (async () => {
   if (isRunningOnAgent()) {
@@ -37,6 +37,6 @@ export async function main(): Promise<void> {
     return tl.setResult(tl.TaskResult.SucceededWithIssues, 'CopyEnvironment call did NOT return the expected environment URL!');
   }
   // set output variables:
-  SetPipelineOutputVariable(EnvUrlVariableName, restoreResult.environmentUrl);
-  SetPipelineOutputVariable(EnvIdVariableName, restoreResult.environmentId);
+  SetTaskOutputVariable(EnvUrlVariableName, restoreResult.environmentUrl);
+  SetTaskOutputVariable(EnvIdVariableName, restoreResult.environmentId);
 }
