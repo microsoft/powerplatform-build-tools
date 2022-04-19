@@ -3,6 +3,7 @@
 
 import * as tl from 'azure-pipelines-task-lib/task';
 import semver = require('semver');
+import { log } from '../params/auth/getEnvironmentUrl';
 
 const agentVersion = tl.getVariable('Agent.Version') || '1.95.0'; // assume lowest agent version from task.json files
 const hasTaskVars = semver.lt(agentVersion, '2.115.0');
@@ -11,6 +12,11 @@ const hasTaskVars = semver.lt(agentVersion, '2.115.0');
 // see: https://dev.azure.com/dynamicscrm/OneCRM/_git/PowerApps.AzDevOpsExtensions?path=/src/extension/common/PipelineVariables.ps1
 export const EnvUrlVariableName = "BuildTools.EnvironmentUrl";
 export const EnvIdVariableName = "BuildTools.EnvironmentId";
+
+export interface EnvironmentParams {
+  value : string | undefined;
+  taskName : string | undefined;
+}
 
 export function SetTaskOutputVariable(varName: string, value: string): void {
   tl.setVariable(varName, value, false, true);
@@ -29,22 +35,39 @@ export function GetPipelineVariable(varName: string): string | undefined {
   return value;
 }
 
-export function GetPipelineOutputVariable(varName: string): [string | undefined, string | undefined] {
-  let value = GetPipelineVariable(varName);
-  if (!value) {
-    // now try different specific task sources of ours, starting with the CreateEnvironment task:
-    const ppbtTaskOutVarOrigins = [ 'PowerPlatformCreateEnvironment', 'PowerPlatformCopyEnvironment',
-     'PowerPlatformResetEnvironment', 'PowerPlatformRestoreEnvironment' ];
+export function GetPipelineOutputVariable(varName: string): EnvironmentParams {
+  let envParams : EnvironmentParams = {
+    value: undefined,
+    taskName: undefined
+  };
 
-    for (const taskName of ppbtTaskOutVarOrigins) {
-      const canonicalVarName = varName.replace(/\./g, '_').replace(/-/g, '_');
-      value = tl.getVariable(`${taskName}_${canonicalVarName}`);
-      if (value) {
-        return [value, taskName];
-      }
+  let value = GetPipelineVariable(varName);
+  if(value) {
+    //Prioritise pipeline variable
+    envParams.value = value;
+    return envParams;
+  }
+
+  //If pipeline variable isn't found then pick task output variable in this order -> restore > reset > copy > create
+  const ppbtTaskOutVarOrigins = [ 'PowerPlatformCreateEnvironment', 'PowerPlatformCopyEnvironment',
+    'PowerPlatformResetEnvironment', 'PowerPlatformRestoreEnvironment' ];
+  let outputVariableCounter = 0;
+
+  for (const taskName of ppbtTaskOutVarOrigins) {
+    const canonicalVarName = varName.replace(/\./g, '_').replace(/-/g, '_');
+    value = tl.getVariable(`${taskName}_${canonicalVarName}`);
+    if (value) {
+      envParams.taskName = taskName;
+      envParams.value = value;
+      outputVariableCounter++;
     }
   }
-  return [value, undefined];
+
+  if(outputVariableCounter>1) {
+    log(`Multiple Values found in task output variables, picking (${envParams.taskName}): ${envParams.value}`);
+  }
+
+  return envParams;
 }
 
 export function IsolateVariableReference(refExpression: string): [string, boolean] {

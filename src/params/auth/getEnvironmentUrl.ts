@@ -4,7 +4,7 @@
 import * as tl from 'azure-pipelines-task-lib/task';
 import getAuthenticationType from './getAuthenticationType';
 import { getEndpointName } from './getEndpointName';
-import { EnvUrlVariableName, GetPipelineOutputVariable, IsolateVariableReference } from '../../host/PipelineVariables';
+import { EnvironmentParams, EnvUrlVariableName, GetPipelineOutputVariable, IsolateVariableReference } from '../../host/PipelineVariables';
 
 
 export function getEnvironmentUrl(): string {
@@ -31,8 +31,9 @@ export function getEnvironmentUrl(): string {
   // try finding the environment url that should be used for the calling task in this order:
   // - check for pipeline/task variables (typically set by e.g. createEnv task)
   if (!endpointUrl) {
-    let taskName: string | undefined;
-    [endpointUrl, taskName] = GetPipelineOutputVariable(variableName);
+    const envParams : EnvironmentParams = GetPipelineOutputVariable(variableName);
+    endpointUrl = envParams.value;
+    const taskName: string | undefined = envParams.taskName;
     if (endpointUrl) {
       if (taskName) {
         log(`Discovered environment url as task output variable (${taskName} - ${variableName}): ${endpointUrl}`);
@@ -72,7 +73,7 @@ function readEnvUrlFromServiceConnection(): string {
   return url;
 }
 
-function log(message: string): void {
+export function log(message: string): void {
     console.log(message);
     tl.debug(message);
 }
