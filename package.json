@@ -48,7 +48,7 @@
     "glob": "^7.1.6",
     "gulp": "^4.0.2",
     "gulp-eslint": "^6.0.0",
-    "gulp-mocha": "^6.0.0",
+    "gulp-mocha": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-typescript": "^6.0.0-alpha.1",
     "merge-stream": "^2.0.0",
@@ -78,5 +78,10 @@
     "fs-extra": "^10.0.1",
     "semver": "^7.3.5"
   },
-  "bundleDependencies": true
+  "bundleDependencies": [
+    "@microsoft/powerplatform-cli-wrapper",
+    "azure-pipelines-task-lib",
+    "fs-extra",
+    "semver"
+  ]
 }
