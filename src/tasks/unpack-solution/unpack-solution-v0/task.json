@@ -64,6 +64,81 @@
       "groupName": "advanced",
       "helpMarkDown": "Allow for overwrite and deletion of existing files.",
       "defaultValue": "true"
+    },
+    {
+      "name": "ErrorLevel",
+      "label": "Error Level",
+      "type": "pickList",
+      "required": false,
+      "helpMarkDown": "Minimum logging level for log output.",
+      "defaultValue": "Info",
+      "options": {
+        "Verbose": "Verbose",
+        "Info": "Info",
+        "Warning": "Warning",
+        "Error": "Error",
+        "Off": "Off"
+      }
+    },
+    {
+      "name": "SingleComponent",
+      "label": "Single Component",
+      "type": "pickList",
+      "required": false,
+      "helpMarkDown": "Only perform action on a single component type.",
+      "defaultValue": "None",
+      "options": {
+        "WebResource": "WebResource",
+        "Plugin": "Plugin",
+        "Workflow": "Workflow",
+        "None": "None"
+      }
+    },
+    {
+      "name": "MapFile",
+      "label": "Map File",
+      "type": "filePath",
+      "required": false,
+      "helpMarkDown": "Specify the path and file name of the mapping xml file from which to read component folders to pack."
+    },
+    {
+      "name": "LocaleTemplate",
+      "label": "Locale Template",
+      "type": "string",
+      "required": false,
+      "helpMarkDown": "Specify the path and file name of the mapping xml file from which to read component folders to pack."
+    },
+    {
+      "name": "Localize",
+      "label": "Localize",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "helpMarkDown": "Extract or merge all string resources into .resx files."
+    },
+    {
+      "name": "UseLcid",
+      "label": "Use LCID",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "helpMarkDown": "Use LCID's (1033) rather than ISO codes (en-US) for language files."
+    },
+    {
+      "name": "UseUnmanagedFileForMissingManaged",
+      "label": "Use Ummanaged File For Missing Managed",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "helpMarkDown": "Use the same XML source file when packaging for Managed and only Unmanaged XML file is found; applies to AppModuleSiteMap, AppModuleMap, FormXml files."
+    },
+    {
+      "name": "DisablePluginRemap",
+      "label": "Disable Plugin Remap",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "helpMarkDown": "Use the same XML source file when packaging for Managed and only Unmanaged XML file is found; applies to AppModuleSiteMap, AppModuleMap, FormXml files."
     }
   ],
   "execution": {
