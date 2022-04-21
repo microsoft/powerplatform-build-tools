@@ -26,5 +26,13 @@ export async function main(): Promise<void> {
     solutionZipFile: parameterMap['SolutionOutputFile'],
     sourceFolder: parameterMap['SolutionSourceFolder'],
     solutionType: parameterMap['SolutionType'],
+    errorLevel: parameterMap['ErrorLevel'],
+    singleComponent: parameterMap['SingleComponent'],
+    mapFile: parameterMap['MapFile'],
+    localeTemplate: parameterMap['LocaleTemplate'],
+    localize: parameterMap['Localize'],
+    useLcid: parameterMap['UseLcid'],
+    useUnmanagedFileForManaged: parameterMap['UseUnmanagedFileForMissingManaged'],
+    disablePluginRemap: parameterMap['DisablePluginRemap'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }
