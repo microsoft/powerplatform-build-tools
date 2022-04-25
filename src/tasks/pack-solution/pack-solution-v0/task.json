@@ -50,21 +50,6 @@
       }
     },
     {
-      "name": "ErrorLevel",
-      "label": "Error Level",
-      "type": "pickList",
-      "required": false,
-      "helpMarkDown": "Minimum logging level for log output.",
-      "defaultValue": "Info",
-      "options": {
-        "Verbose": "Verbose",
-        "Info": "Info",
-        "Warning": "Warning",
-        "Error": "Error",
-        "Off": "Off"
-      }
-    },
-    {
       "name": "SingleComponent",
       "label": "Single Component",
       "type": "pickList",
@@ -107,14 +92,6 @@
       "required": false,
       "defaultValue": false,
       "helpMarkDown": "Use LCID's (1033) rather than ISO codes (en-US) for language files."
-    },
-    {
-      "name": "UseUnmanagedFileForMissingManaged",
-      "label": "Use Ummanaged File For Missing Managed",
-      "type": "boolean",
-      "required": false,
-      "defaultValue": false,
-      "helpMarkDown": "Use the same XML source file when packaging for Managed and only Unmanaged XML file is found; applies to AppModuleSiteMap, AppModuleMap, FormXml files."
     },
     {
       "name": "DisablePluginRemap",
