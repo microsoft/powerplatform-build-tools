@@ -39,6 +39,12 @@ describe("unpack solution test", () => {
       sourceFolder: { name: 'SolutionTargetFolder', required: true, defaultValue: undefined },
       solutionType: { name: 'SolutionType', required: false, defaultValue: "Unmanaged" },
       overwriteFiles: { name: 'OverwriteFiles', required: false, defaultValue: "true" },
+      errorLevel: { name: 'ErrorLevel', required: false, defaultValue: 'Info' },
+      singleComponent: { name: 'SingleComponent', required: false, defaultValue: 'None' },
+      mapFile: { name: 'MapFile', required: false, defaultValue: undefined },
+      localeTemplate: { name: 'LocaleTemplate', required: false, defaultValue: undefined },
+      localize: { name: 'Localize', required: false, defaultValue: false },
+      useLcid: { name: 'UseLcid', required: false, defaultValue: false }
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });
