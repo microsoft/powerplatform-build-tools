@@ -7,18 +7,21 @@ import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
 import { getCredentials } from "../../../params/auth/getCredentials";
 import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { BuildToolsRunnerParams } from '../../../host/BuildToolsRunnerParams';
+import { EnvIdVariableName } from "../../../host/PipelineVariables";
 
 (async () => {
   if (isRunningOnAgent()) {
-      await main();
+    await main();
   }
 })().catch(error => {
   tl.setResult(tl.TaskResult.Failed, error);
 });
 
 export async function main(): Promise<void> {
-  await whoAmI({
+  const result = await whoAmI({
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl()
   }, new BuildToolsRunnerParams());
+
+  tl.setVariable(EnvIdVariableName, result.environmentId!);
 }

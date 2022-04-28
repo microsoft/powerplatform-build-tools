@@ -5,22 +5,30 @@ import { should, use } from "chai";
 import { stubInterface } from "ts-sinon";
 import * as sinonChai from "sinon-chai";
 import rewiremock from "../rewiremock";
-import { restore, stub } from "sinon";
+import { restore, spy, stub } from "sinon";
 import { mockEnvironmentUrl } from "./mockData";
 import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
 import { BuildToolsRunnerParams } from "../../src/host/BuildToolsRunnerParams";
+import * as tl from 'azure-pipelines-task-lib/task';
+import { EnvIdVariableName } from "../../src/host/PipelineVariables";
+
 should();
 use(sinonChai);
 
 describe("whoami tests", () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let whoAmIStub: Sinon.SinonStub<any[], any>;
+  let tlSetVariableSpy: Sinon.SinonSpy<[name: string, val: string, secret?: boolean | undefined, isOutput?: boolean | undefined], void>;
   let credentials: UsernamePassword;
+  const mockEnvironmentIdReturn = 'mocked-id'
 
   beforeEach(() => {
-    whoAmIStub = stub();
+    whoAmIStub = stub().returns({
+      environmentId: mockEnvironmentIdReturn
+    });
     credentials = stubInterface<UsernamePassword>();
+    tlSetVariableSpy = spy(tl, "setVariable");
   });
   afterEach(() => restore());
 
@@ -43,5 +51,7 @@ describe("whoami tests", () => {
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl
     }, new BuildToolsRunnerParams());
+
+    tlSetVariableSpy.should.have.been.calledOnceWith(EnvIdVariableName, mockEnvironmentIdReturn);
   });
 });
