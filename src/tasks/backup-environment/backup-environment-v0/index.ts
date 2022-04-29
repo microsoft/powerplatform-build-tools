@@ -27,6 +27,5 @@ export async function main(): Promise<void> {
     credentials: getCredentials(),
     environment: parameterMap['Environment'],
     backupLabel: parameterMap['BackupLabel'],
-    notes: parameterMap['Notes'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

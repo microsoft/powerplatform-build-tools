@@ -42,7 +42,6 @@ describe("backup-environment tests", () => {
       credentials: credentials,
       environment: { name: "Environment", required: false, defaultValue: '$(BuildTools.EnvironmentUrl)' },
       backupLabel: { name: 'BackupLabel', required: true, defaultValue: 'Full Backup - $(Build.BuildNumber)' },
-      notes: { name: 'Notes', required: false, defaultValue: undefined },
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });
