@@ -46,7 +46,6 @@ describe("export-solution tests", () => {
       name: { name: 'SolutionName', required: true, defaultValue: undefined },
       path: { name: 'SolutionOutputFile', required: true, defaultValue: undefined },
       managed: { name: 'Managed', required: false, defaultValue: false },
-      targetVersion: { name: 'TargetVersion', required: false, defaultValue: undefined },
       async: { name: 'AsyncOperation', required: true, defaultValue: true },
       maxAsyncWaitTimeInMin: { name: 'MaxAsyncWaitTime', required: true, defaultValue: '60' },
       autoNumberSettings: { name: 'ExportAutoNumberingSettings', required: false, defaultValue: false },

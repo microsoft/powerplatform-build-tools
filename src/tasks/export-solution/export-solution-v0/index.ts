@@ -30,7 +30,6 @@ export async function main(): Promise<void> {
     name: parameterMap['SolutionName'],
     path: parameterMap['SolutionOutputFile'],
     managed: parameterMap['Managed'],
-    targetVersion: parameterMap['TargetVersion'],
     async: parameterMap['AsyncOperation'],
     maxAsyncWaitTimeInMin: parameterMap['MaxAsyncWaitTime'],
     autoNumberSettings: parameterMap['ExportAutoNumberingSettings'],

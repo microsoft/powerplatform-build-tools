@@ -92,7 +92,7 @@
       "label": "Target Version",
       "type": "string",
       "required": false,
-      "helpMarkDown": "Version of solution to export."
+      "helpMarkDown": "DEPRECATED: **ignored** Version of solution to export."
     },
     {
       "name": "AsyncOperation",
