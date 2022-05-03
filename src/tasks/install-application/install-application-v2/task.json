@@ -1,0 +1,81 @@
+{
+  "id": "cd66049c-f04b-4be1-aac1-df4f5a7e51ad",
+  "name": "PowerPlatformInstallApplication",
+  "friendlyName": "Power Platform Install Applications",
+  "description": "(Preview): Power Platform Install Applications from AppSource",
+  "author": "Microsoft",
+  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "category": "Deploy",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [
+    "PowerPlatformTool"
+  ],
+  "version": {
+    "Major": "0",
+    "Minor": "1",
+    "Patch": "0"
+  },
+  "preview": false,
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Power Platform Install Applications $(message)",
+  "groups": [
+    {
+      "name": "advanced",
+      "displayName": "Advanced",
+      "isExpanded": false
+    }
+  ],
+  "inputs": [
+    {
+      "name": "authenticationType",
+      "type": "radio",
+      "label": "Authentication type",
+      "defaultValue": "PowerPlatformEnvironment",
+      "required": true,
+      "helpMarkDown": "Authentication via username/password is simpler to set up but won't work if your AAD tenant requires MFA; use Service Principal Name (SPN) if MFA is required.",
+      "options": {
+        "PowerPlatformEnvironment": "Username/password (no MFA support)",
+        "PowerPlatformSPN": "Service Principal/client secret (supports MFA)"
+      }
+    },
+    {
+      "name": "PowerPlatformEnvironment",
+      "type": "connectedService:Generic",
+      "label": "Service connection",
+      "required": true,
+      "visibleRule": "authenticationType = PowerPlatformEnvironment",
+      "helpMarkDown": "Authenticate with your Power Platform environment with username/password. Does not support MFA."
+    },
+    {
+      "name": "PowerPlatformSPN",
+      "type": "connectedService:powerplatform-spn",
+      "label": "Service connection",
+      "required": true,
+      "visibleRule": "authenticationType = PowerPlatformSPN",
+      "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
+    },
+    {
+      "name": "Environment",
+      "label": "Environment Url",
+      "type": "string",
+      "defaultValue": "$(BuildTools.EnvironmentUrl)",
+      "required": true,
+      "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
+    },
+    {
+      "name": "ApplicationList",
+      "label": "JSON file with Application List",
+      "type": "filePath",
+      "required": false,
+      "helpMarkDown": "Specify the path and file name of the JSON file with list of the Dataverse applications from AppSource to be installed. Generate that file with `pac application list --output <path to json file>`"
+    }
+  ],
+  "execution": {
+    "Node10": {
+      "target": "index.js"
+    }
+  }
+}
