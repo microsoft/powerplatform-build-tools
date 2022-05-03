@@ -22,6 +22,9 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- new task 'Install Applications' to install D365 apps from AppSource
+
+2.0.8:
 - pac CLI 1.19.x (September refresh)
 - solution-unpack: updated PALT library to address NullRefException (#194)
 - package deploy: by default, the import-solution and solution-delete-and-promote legs are now running asynchronously, avoiding http timeout errors
@@ -38,7 +41,7 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 - pick up hot-fixed pac CLI 1.17.6 to address #179 and #180: accessToken expires after 60 min
 
 2.0.4:
-- pick up hot-fixed pac CLI 1.17.5 to address #171
+- Pick up hot-fixed pac CLI 1.17.5 to address #171
 
 2.0.3:
 - 'Import Solution' task:

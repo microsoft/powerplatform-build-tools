@@ -224,6 +224,15 @@
         "DEV": "6FF2B842-F30B-4AB0-A414-C9C820C44D21",
         "EXPERIMENTAL": "B4E26F15-76C2-4F29-A468-891F1B2ED523"
       }
+    },
+    {
+      "name": "install-application",
+      "id": {
+        "LIVE": "4395c90d-df12-4914-a900-98165bddb8cf",
+        "BETA": "3373bfad-a26e-4424-a60b-cb40d420cfe7",
+        "DEV": "afd0a14e-f607-41ee-83d7-f9d77f2c4b69",
+        "EXPERIMENTAL": "2948f5bd-cff1-4290-9314-08e80a1c56be"
+      }
     }
   ]
 }

@@ -23,7 +23,8 @@ const dataZipFolder = path.resolve('out', 'data-test');
 const dataZip = path.join(dataZipFolder, 'data.zip');
 
 // AB#2919691 pac CLI stumbles if output folder doesn't exist:
-ensureDirSync(dataZipFolder);
+// ensureDirSync(dataZipFolder);
+const appsToInstallJson = path.join(testDataPath, 'appsToInstall.json');
 
 export const tasksToTest: TaskInfo[] =
   [
@@ -46,6 +47,13 @@ export const tasksToTest: TaskInfo[] =
     {
       name: 'who-am-i',
       path: '/tasks/whoami/whoami-v2',
+    },
+    {
+      name: 'install-app',
+      path: '/tasks/install-application/install-application-v2',
+      inputVariables: [
+        { name: 'ApplicationList', value: appsToInstallJson },
+      ]
     },
     {
       name: 'unpack-solution',
