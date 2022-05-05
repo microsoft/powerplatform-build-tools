@@ -71,7 +71,7 @@
       "label": "Notes",
       "type": "string",
       "required": false,
-      "helpMarkDown": "Additional notes for this backup."
+      "helpMarkDown": "DEPRECATED: **ignored** Additional notes for this backup."
     }
   ],
   "execution": {
