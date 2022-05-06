@@ -10,12 +10,14 @@ variables:
   # no codesigning for JavaScript:
   GDN_CODESIGN_EXCLUSIONS: "f|**/*.js"
   runCodesignValidationInjection: true
-  breakCodesignValidationInjection: true
+  # ESRP still fails to sign AzDevOps task extension .vsix
+  breakCodesignValidationInjection: false
   #
   # set the following in the pipeline's web UI editor:
   # GITHUB_TOKEN        # GitHub PAT with scopes: repo; must have SSO enabled for GH org 'microsoft' for corp user
   # AZ_DevOps_Read_PAT  # PAT to read from AzDO feed in msazure
-  # VSIX_PATCH_VERSION   # VSIX package's patch version; must be manually managed for now!
+  # VSIX_PATCH_VERSION  # VSIX package's patch version; must be manually managed for now!
+  # isEsrpEnabled  :    # true/false
 
 trigger: none
 #   - release/*
@@ -79,6 +81,7 @@ steps:
 # https://microsoft.sharepoint.com/teams/prss/esrp/info/ESRP%20Onboarding%20Wiki/Selecting%20CodeSign%20Certificates.aspx
 - task: SFP.build-tasks.custom-build-task-1.EsrpCodeSigning@1
   displayName: 'ESRP sign vsix packages'
+  condition : and(succeeded(), eq(variables['isEsrpEnabled'], true))
   inputs:
     ConnectedServiceName: ESRPCodeSigningConnection
     FolderPath: 'out/packages'
