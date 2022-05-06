@@ -59,6 +59,7 @@ process.env['INPUT_SolutionTargetFolder'] = output;
 //pack solution inputs
 process.env['INPUT_SolutionOutputFile'] = path.join(testOutDir, 'packed', 'solution.zip');
 process.env['INPUT_SolutionSourceFolder'] = output;
+process.env['ProcessCanvasApps'] = 'true';
 
 //import solution inputs
 process.env['INPUT_SolutionInputFile'] = emptySolutionPath;

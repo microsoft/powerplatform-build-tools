@@ -108,7 +108,16 @@
       "required": false,
       "defaultValue": false,
       "helpMarkDown": "Use LCID's (1033) rather than ISO codes (en-US) for language files."
+    },
+    {
+      "name": "ProcessCanvasApps",
+      "label": "Process CanvasApps",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "helpMarkDown": "(Preview) While processing the solution, unpack any Canvas apps .msapp file into its YAML source format"
     }
+
   ],
   "execution": {
     "Node10": {

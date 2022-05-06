@@ -100,6 +100,14 @@
       "required": false,
       "defaultValue": false,
       "helpMarkDown": "Use the same XML source file when packaging for Managed and only Unmanaged XML file is found; applies to AppModuleSiteMap, AppModuleMap, FormXml files."
+    },
+    {
+      "name": "ProcessCanvasApps",
+      "label": "Process CanvasApps",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "helpMarkDown": "(Preview) While processing the solution, pack any Canvas apps YAML source files into an .msapp"
     }
   ],
   "execution": {

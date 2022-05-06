@@ -44,7 +44,8 @@ describe("unpack solution test", () => {
       mapFile: { name: 'MapFile', required: false, defaultValue: undefined },
       localeTemplate: { name: 'LocaleTemplate', required: false, defaultValue: undefined },
       localize: { name: 'Localize', required: false, defaultValue: false },
-      useLcid: { name: 'UseLcid', required: false, defaultValue: false }
+      useLcid: { name: 'UseLcid', required: false, defaultValue: false },
+      processCanvasApps: { name: 'ProcessCanvasApps', required: false, defaultValue: false }
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });
