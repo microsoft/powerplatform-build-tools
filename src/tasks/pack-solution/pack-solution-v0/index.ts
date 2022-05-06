@@ -23,8 +23,8 @@ export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
 
-  var isDiagnosticsMode = tl.getVariable('agent.diagnostic');
-  var errorLevel: HostParameterEntry = {
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
+  const errorLevel: HostParameterEntry = {
     name: "ErrorLevel",
     required: false,
     defaultValue: isDiagnosticsMode ? "Verbose": "Info"
@@ -41,5 +41,6 @@ export async function main(): Promise<void> {
     localize: parameterMap['Localize'],
     useLcid: parameterMap['UseLcid'],
     disablePluginRemap: parameterMap['DisablePluginRemap'],
+    processCanvasApps: parameterMap['ProcessCanvasApps'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }
