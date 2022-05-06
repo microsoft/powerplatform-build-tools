@@ -1,0 +1,33 @@
+# https://github.com/release-it/release-it/blob/master/config/release-it.json
+
+hooks: {}
+
+# https://github.com/release-it/release-it/blob/master/docs/git.md
+git:
+  addUntrackedFiles: false
+  commit: false
+  push: true
+  # need to specify pushRepo, since AzDO insists on disconnected refs, breaking upstream
+  requireUpstream: false
+  pushArgs: [ '--tags' ]
+  pushRepo: https://github.com/microsoft/powerplatform-build-tools
+
+  # requireBranch: main
+  requireCommits: false
+  requireCleanWorkingDir: false
+  tag: true
+  tagArgs: [ '--force' ]
+  tagAnnotation: |
+    build ${version}:
+    ${changelog}
+  tagName: 'v${version}'
+
+#https://github.com/release-it/release-it/blob/master/docs/npm.md
+npm:
+  ignoreVersion: true
+  publish: false
+
+# https://github.com/release-it/release-it/blob/master/docs/github-releases.md
+github:
+  draft: true
+  release: false

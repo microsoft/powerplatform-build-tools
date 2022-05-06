@@ -2,7 +2,7 @@
   "manifestVersion": 1,
   "id": "PowerPlatform-BuildTools",
   "publisher": "microsoft-IsvExpTools",
-  "version": "1.0.29",
+  "version": "1.0.0",
   "name": "Power Platform Build Tools",
   "description": "Automate common build and deployment tasks related to Power Platform",
   "categories": ["Azure Pipelines"],

@@ -14,6 +14,7 @@ const packagesDir = `${outDir}/packages`;
 const isOfficial = argv.isOfficial || false;
 
 module.exports = async () => {
+  const packageJson = require("../package.json");
   const manifest = require("../extension/extension-manifest.json");
 
   await createDir(outDir);
@@ -22,7 +23,7 @@ module.exports = async () => {
   await generateNpmPackage();
   await copyDependencies();
   await removeInvalidFiles();
-  const taskVersion = setVersion(manifest);
+  const taskVersion = setVersion(packageJson, manifest);
   setContributions(manifest);
   await addTaskFiles();
   await copy("extension/assets", `${stagingDir}/assets`, {
@@ -82,15 +83,18 @@ async function findFiles(search, root) {
   });
 }
 
-function setVersion(manifest) {
-  const currentVersionParts = manifest.version.split(".");
+function setVersion(packageJson, manifest) {
+  const currentVersionParts = packageJson.version.split(".");
   const [currentMajor, currentMinor, currentPatch] = currentVersionParts;
 
   const major = argv.major || currentMajor;
   const minor = argv.minor || currentMinor;
   const patch = argv.patch || currentPatch;
 
-  manifest.version = `${major}.${minor}.${patch}`;
+  const version = `${major}.${minor}.${patch}`;
+  packageJson.version = version;
+  manifest.version = version;
+
   return {
     major: 0,   // all tasks are currently v0, see task paths
     minor: minor,
