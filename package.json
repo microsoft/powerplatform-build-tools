@@ -1,6 +1,6 @@
 {
   "name": "@microsoft/powerplatform-build-tools",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "engines": {
     "node": ">=10.0.0"
   },
@@ -17,7 +17,8 @@
     "prepare-pack": "node node_modules/gulp/bin/gulp.js preparePack",
     "pack": "node node_modules/gulp/bin/gulp.js pack",
     "tfx": "node node_modules/tfx-cli/_build/tfx-cli.js",
-    "set-git-authn": "node ./setGitAuthN.js"
+    "set-git-authn": "node ./setGitAuthN.js",
+    "set-version": "node node_modules/release-it/bin/release-it --increment patch --ci -VV"
   },
   "author": "PowerApps-ISV-Tools",
   "license": "MIT",
@@ -56,6 +57,7 @@
     "node-fetch": "^2.6.7",
     "path-parse": "^1.0.7",
     "ps-list": "^7.2.0",
+    "release-it": "^15.0.0",
     "rewiremock": "^3.14.3",
     "sinon": "^10.0.0",
     "sinon-chai": "^3.6.0",

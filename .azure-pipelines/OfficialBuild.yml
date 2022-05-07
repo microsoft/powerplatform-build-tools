@@ -16,7 +16,6 @@ variables:
   # set the following in the pipeline's web UI editor:
   # GITHUB_TOKEN        # GitHub PAT with scopes: repo; must have SSO enabled for GH org 'microsoft' for corp user
   # AZ_DevOps_Read_PAT  # PAT to read from AzDO feed in msazure
-  # VSIX_PATCH_VERSION  # VSIX package's patch version; must be manually managed for now!
   # isEsrpEnabled  :    # true/false
 
 trigger: none
@@ -29,16 +28,16 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
-- script: echo "##vso[build.updatebuildnumber]0.1.$(VSIX_PATCH_VERSION)
-  displayName: Set AzDO Job/Build version
-
-# - script: mkdir package && echo $(VSIX_VERSION),$(Build.SourceVersion) > package/version.csv
-#   displayName: Capture build version in package/version.csv
-
 - task: NodeTool@0
   displayName: 'Use nodejs 16.x'
   inputs:
     versionSpec: '16.x'
+
+- script: |
+    node --version
+    npm --version
+    git --version
+  displayName: Toolchain info
 
 # need to authenticate to npm package feed in microsoft/powerplatform-cli-wrapper (see also README.md)
 - task: npmAuthenticate@0
@@ -48,25 +47,26 @@ steps:
     customEndpoint: github.com_npm_davidjenni
 
 - task: Npm@1
+  displayName: 'Restore (npm install)'
+  inputs:
+    command: custom
+    customCommand: ci
+
+# authN for pushing tags via release-it
+- task: Npm@1
   displayName: 'set git repo authN'
   inputs:
     command: custom
     customCommand: run set-git-authn -- "$(GITHUB_TOKEN)"
 
 - task: Npm@1
-  displayName: 'Restore (npm install)'
+  displayName: 'set-version to calculate patch-version with release-it'
   inputs:
     command: custom
-    customCommand: ci
-
-# - task: Npm@1
-#   displayName: 'auto-increment version'
-#   inputs:
-#     command: custom
-#     customCommand: run increment-version
+    customCommand: run set-version
 
 - task: Npm@1
-  displayName: 'Build'
+  displayName: 'Build and prepare-pack'
   inputs:
     command: custom
     customCommand: run prepare-pack -- --feedPAT $(AZ_DevOps_Read_PAT)
@@ -75,7 +75,7 @@ steps:
   displayName: 'Package VSIX'
   inputs:
     command: custom
-    customCommand: run pack -- --patch $(VSIX_PATCH_VERSION) --isOfficial
+    customCommand: run pack -- --isOfficial
 
 # https://microsoft.sharepoint.com/teams/prss/esrp/info/ESRP%20Onboarding%20Wiki/Generating%20Signing%20JSON.aspx
 # https://microsoft.sharepoint.com/teams/prss/esrp/info/ESRP%20Onboarding%20Wiki/Selecting%20CodeSign%20Certificates.aspx

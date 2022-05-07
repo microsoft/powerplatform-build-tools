@@ -3,6 +3,14 @@ const path = require("path");
 const webpack = require("webpack");
 
 module.exports = function compile() {
+  // detect if running on an AzDevOps build agent
+  const packageJson = require("../package.json");
+  if (process.env.BUILD_BUILDID) {
+    // https://docs.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands?view=azure-devops&tabs=bash
+    console.log(`##vso[build.updatebuildnumber]${packageJson.version}`);
+  } else {
+    console.log(`local build: ${packageJson.version}`);
+  }
   return new Promise((resolve) => {
     const config = require("../webpack.config");
     webpack(config).run(onBuild(resolve));
