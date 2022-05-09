@@ -43,7 +43,7 @@
       "uri": "https://aka.ms/buildtoolsdoc"
     },
     "support": {
-      "uri": "mailto:PPTools@microsoft.com"
+      "uri": "https://github.com/microsoft/powerplatform-build-tools/issues"
     }
   },
   "files": [

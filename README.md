@@ -1,5 +1,8 @@
 # Power Platform Build Tools
 
+[![PullRequest](https://github.com/microsoft/powerplatform-build-tools/actions/workflows/PullRequest.yml/badge.svg)](https://github.com/microsoft/powerplatform-build-tools/actions/workflows/PullRequest.yml)
+[![Official Build](https://dev.azure.com/dynamicscrm/OneCRM/_apis/build/status/DPX-Tools/powerplatform-build-tools%20Official%20Build?branchName=main)](https://dev.azure.com/dynamicscrm/OneCRM/_build/latest?definitionId=15006&branchName=main)
+
 Power Platform Build Tools automate common build and deployment tasks related to Power Platform.
 This includes synchronization of solution metadata (a.k.a. solutions) between development environments and source control,
 generating build artifacts, deploying to downstream environments, provisioning/de-provisioning of environments,
@@ -7,57 +10,22 @@ and the ability to perform static analysis checks against your solution using th
 
 Learn more about the Build Tools [here](https://aka.ms/buildtoolsdoc).
 
-## Setting Up Local Dev Environment
+Each tasks wraps the existing [Power Platform CLI](https://aka.ms/PowerPlatformCLI).
 
-Windows, macOS or Linux:
+## Feedback & Questions
 
-- [Node.js LTS (currently v14)](https://nodejs.org/en/download/)
-- gulp CLI: ```npm install -g gulp-cli```
-- [git](https://git-scm.com/downloads)
-- [VS Code](https://code.visualstudio.com/Download) or your different favorite editor
-- recommended VSCode extensions:
-  - [EditorConfig for VS Code (editorconfig.editorconfig)](https://github.com/editorconfig/editorconfig-vscode)
-  - [ESLint (dbaeumer.vscode-eslint)](https://github.com/Microsoft/vscode-eslint)
-  - [GitLens (eamodio.gitlens)](https://github.com/eamodio/vscode-gitlens)
-  - [markdownlint (davidanson.vscode-markdownlint)](https://github.com/DavidAnson/vscode-markdownlint)
-
-  - TEMPORARY:
-    - Create a PAT for the Azure DevOps org ```msazure``` with scope: package(read) and add it as local environment variable.
-
-    ```Powershell
-    [Environment]::SetEnvironmentVariable('AZ_DevOps_Read_PAT', '<yourPAT>', [EnvironmentVariableTarget]::User)
-    ```
-
-    - Create a PAT in GitHub to read packages, and enable SSO for the microsoft organization. Then add it to your *~/.npmrc* file or use the `npm login` command as documented [here](https://docs.github.com/en/packages/guides/configuring-npm-for-use-with-github-packages#authenticating-with-a-personal-access-token). This will only be needed until the `@microsoft/powerplatform-cli-wrapper` repo is made public.
-
-If developing on Linux or macOS, you will also need to install `git-lfs`.  (It is prepackaged with the Git installer for Windows.)  Follow the [instructions here](https://docs.github.com/en/github/managing-large-files/installing-git-large-file-storage) for your environment.
-
-## Getting Started
-
-Clone, restore modules, build and run:
-
-```bash
-git clone https://github.com/microsoft/powerplatform-build-tools.git pp-build-tools
-cd pp-build-tools
-npm install
-gulp ci
-```
+Please use the issues tracker in the home repo: <https://github.com/microsoft/powerplatform-build-tools/issues>
 
 ## Contributing
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit <https://cla.opensource.microsoft.com>.
+This project will welcome contributions in the near future. At this stage, we're not ready for contributions,
+but do welcome your suggestions via this repository's issue tracker.
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+See details in [CONTRIBUTING](CONTRIBUTING.md)
 
 ### Code of Conduct
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+See details in [CODE_OF_CONDUCT](CODE_OF_CONDUCT.md)
 
 ### Security issues
 
@@ -71,6 +39,3 @@ Use of Microsoft trademarks or logos in modified versions of this project
 must not cause confusion or imply Microsoft sponsorship.
 Any use of third-party trademarks or logos are subject to those third-party's policies.
 
-### How to make GitHub Actions and Build Tools compatible with latest PAC CLI?
-
-[Please refer steps in Cli-Wrapper](https://github.com/microsoft/powerplatform-cli-wrapper/blob/main/README.md)
