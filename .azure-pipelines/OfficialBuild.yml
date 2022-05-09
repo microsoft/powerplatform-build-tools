@@ -28,6 +28,9 @@ pool:
   vmImage: 'windows-latest'
 
 steps:
+- checkout: self
+  lfs: true
+
 - task: NodeTool@0
   displayName: 'Use nodejs 16.x'
   inputs:
