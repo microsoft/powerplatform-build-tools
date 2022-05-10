@@ -1,4 +1,4 @@
-const { mkdir, pathExists, copy, existsSync, writeJsonSync } = require("fs-extra");
+const { mkdir, pathExists, copy, existsSync, writeJsonSync, readFileSync, writeFileSync } = require("fs-extra");
 const createTfxRunner = require("./lib/createTfxRunner");
 const argv = require('yargs').argv;
 const { createCommandRunner } = require("@microsoft/powerplatform-cli-wrapper");
@@ -29,7 +29,6 @@ module.exports = async () => {
   await copy("extension/assets", `${stagingDir}/assets`, {
     recursive: true,
   });
-  await copy("extension/overview.md", `${stagingDir}/overview.md`);
 
   await generateAllStages(manifest, taskVersion);
 };
@@ -147,6 +146,13 @@ async function copyDependencies() {
   ]);
 }
 
+function updateOverview(overviewFile, versionString) {
+  const versionPlaceholder = '{{NextReleaseVersion}}';
+
+  const overview = readFileSync(overviewFile, { encoding: 'utf-8' });
+  writeFileSync(overviewFile, overview.replace(versionPlaceholder, versionString));
+}
+
 async function generateAllStages(manifest, taskVersion) {
   if (existsSync(packagesDir))
     await rm(packagesDir, { recursive: true });
@@ -154,6 +160,8 @@ async function generateAllStages(manifest, taskVersion) {
   const tfxRunner = createTfxRunner();
 
   const taskMetadata = require("../extension/task-metadata.json");
+  const overviewFile = `${stagingDir}/overview.md`;
+  const versionString =  `${taskVersion.major}.${taskVersion.minor}.${taskVersion.patch}`;
 
   const taskJsonFiles = (await findFiles(/task.json$/, stagingDir))
   .map(file => {
@@ -200,6 +208,10 @@ async function generateAllStages(manifest, taskVersion) {
     writeJsonSync(`${stagingDir}/vss-extension.json`, stageManifest, {
       spaces: 2,
     });
+
+    await copy("extension/overview.md", overviewFile);
+    updateOverview(overviewFile, versionString);
+
     await generateVsix();
   }
 
