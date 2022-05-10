@@ -30,7 +30,7 @@ module.exports = async () => {
     recursive: true,
   });
 
-  await generateAllStages(manifest, taskVersion);
+  await generateAllStages(manifest, taskVersion, manifest.version);
 };
 
 async function createDir(dirName) {
@@ -153,7 +153,7 @@ function updateOverview(overviewFile, versionString) {
   writeFileSync(overviewFile, overview.replace(versionPlaceholder, versionString));
 }
 
-async function generateAllStages(manifest, taskVersion) {
+async function generateAllStages(manifest, taskVersion, manifestVersion) {
   if (existsSync(packagesDir))
     await rm(packagesDir, { recursive: true });
 
@@ -161,7 +161,6 @@ async function generateAllStages(manifest, taskVersion) {
 
   const taskMetadata = require("../extension/task-metadata.json");
   const overviewFile = `${stagingDir}/overview.md`;
-  const versionString =  `${taskVersion.major}.${taskVersion.minor}.${taskVersion.patch}`;
 
   const taskJsonFiles = (await findFiles(/task.json$/, stagingDir))
   .map(file => {
@@ -210,7 +209,7 @@ async function generateAllStages(manifest, taskVersion) {
     });
 
     await copy("extension/overview.md", overviewFile);
-    updateOverview(overviewFile, versionString);
+    updateOverview(overviewFile, manifestVersion);
 
     await generateVsix();
   }
