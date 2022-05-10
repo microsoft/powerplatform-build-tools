@@ -14,6 +14,11 @@ service.
 
 Learn more about the Build Tools [here](https://aka.ms/buildtoolsdoc).
 
+## Feedback & Questions
+
+Please use the issues tracker in the home repo: <https://github.com/microsoft/powerplatform-build-tools/issues>
+
+
 # Release Notes
 {{NextReleaseVersion}}:
 - Tasks are now implemented using [PowerPlatform CLI](https://aka.ms/PowerPlatformCLI)

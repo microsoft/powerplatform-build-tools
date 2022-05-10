@@ -29,7 +29,7 @@ module.exports = async () => {
   await copy("extension/assets", `${stagingDir}/assets`, {
     recursive: true,
   });
-  await copy("README.md", `${stagingDir}/overview.md`);
+  await copy("extension/overview.md", `${stagingDir}/overview.md`);
 
   await generateAllStages(manifest, taskVersion);
 };
