@@ -23,10 +23,15 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 {{NextReleaseVersion}}:
 - Tasks are now implemented using [PowerPlatform CLI](https://aka.ms/PowerPlatformCLI)
 - Crossplatform support: Tasks can run on either Windows or Linux build agents
-  (exception: PackageDeploy requires Windows)
-- ToolInstaller task: still required as first task, but it will no longer require runtime
-  access to PowershellGallery nor nuget.org feeds
+  (exception: 'Package Deploy' requires Windows)
+- 'Tool Installer' task: still required as first task, but it will no longer require access to PowershellGallery, nor nuget.org feeds
 - All tasks are backwards compatible to their previous PowerShell implementation (version 1.0.41 and older)
+- New features:
+  - all environment admin tasks (like 'Create Environment') now set an explicit output variable
+  - all instance tasks now have an explicit input parameter 'Environment' with a default value of '$(BuildTools.EnvironmentUrl)'
+  - 'Create Environment' has a new parameter to associate new environment with Microsoft Teams ID
+  - Power Pages support: Upload/Download PAPortal pages
+  - 'Pack/Unpack Solution' tasks have added parameters: MapFile, localization params, DisablePluginRemap, ProcessCanvasApps
 
 1.0.41:
 - add Staging Solution API for ImportSolution with EnvironmentVariables
