@@ -1,7 +1,7 @@
 {
   "name": "PowerPlatformUploadPaportal",
-  "friendlyName": "Power Platform Upload Paportal",
-  "description": "Power Platform Upload Paportal",
+  "friendlyName": "Power Platform Upload PAPortal",
+  "description": "Power Platform Upload PowerPages web site (PAPortal)",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Deploy",
@@ -19,7 +19,7 @@
   },
   "preview": false,
   "minimumAgentVersion": "1.95.0",
-  "instanceNameFormat": "Power Platform Upload Paportal $(message)",
+  "instanceNameFormat": "Power Platform Upload PAPortal $(message)",
   "inputs": [
     {
       "name": "authenticationType",

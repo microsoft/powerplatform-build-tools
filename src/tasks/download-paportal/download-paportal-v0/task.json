@@ -1,7 +1,7 @@
 {
   "name": "PowerPlatformDownloadPaportal",
-  "friendlyName": "Power Platform Download Paportal",
-  "description": "Power Platform Download Paportal",
+  "friendlyName": "Power Platform Download PAPortal",
+  "description": "Power Platform Download PowerPages web site (PAPortal)",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Deploy",
@@ -19,7 +19,7 @@
   },
   "preview": false,
   "minimumAgentVersion": "1.95.0",
-  "instanceNameFormat": "Power Platform Download Paportal $(message)",
+  "instanceNameFormat": "Power Platform Download PAPortal $(message)",
   "inputs": [
     {
       "name": "authenticationType",

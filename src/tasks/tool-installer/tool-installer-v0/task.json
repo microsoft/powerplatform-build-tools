@@ -2,7 +2,7 @@
   "id": "70e9ed60-670f-11e9-be16-a150d2ff01e4",
   "name": "PowerPlatformToolInstaller",
   "friendlyName": "Power Platform Tool Installer",
-  "description": "Power Platform Tool Installer",
+  "description": "Power Platform Tool Installer; this task is required before any other PowerPlatform.BuildTools tasks in the job",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Tool",
