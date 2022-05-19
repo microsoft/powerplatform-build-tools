@@ -33,7 +33,7 @@
       "name": "authenticationType",
       "type": "radio",
       "label": "Authentication type",
-      "defaultValue": "PowerPlatformEnvironment",
+      "defaultValue": "PowerPlatformSPN",
       "required": true,
       "helpMarkDown": "Authentication via username/password is simpler to set up but won't work if your AAD tenant requires MFA; use Service Principal Name (SPN) if MFA is required.",
       "options": {
