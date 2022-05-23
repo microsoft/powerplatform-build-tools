@@ -32,7 +32,7 @@ describe("check solution test", () => {
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ checkSolution: checkSolutionStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
-        mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
+        mock(() => import('../../src/params/auth/getEnvironmentUrl')).with({ readEnvUrlFromServiceConnection: () => mockEnvironmentUrl });
       });
     await checker.main();
   }

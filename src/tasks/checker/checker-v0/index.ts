@@ -11,6 +11,7 @@ import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
 import * as taskDefinitionData from "./task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
+import { readEnvUrlFromServiceConnection } from '../../../params/auth/getEnvironmentUrl';
 
 (async () => {
   if (isRunningOnAgent()) {
@@ -26,7 +27,7 @@ export async function main(): Promise<void> {
 
   await checkSolution({
     credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl(),
+    environmentUrl: readEnvUrlFromServiceConnection(),
     fileLocation: parameterMap['FileLocation'],
     solutionPath: parameterMap['FilesToAnalyze'],
     solutionUrl: parameterMap['FilesToAnalyzeSasUri'],

@@ -59,7 +59,7 @@ export function getEnvironmentUrl(): string {
   return endpointUrl;
 }
 
-function readEnvUrlFromServiceConnection(): string {
+export function readEnvUrlFromServiceConnection(): string {
   const authenticationType = getAuthenticationType();
   const endpointName = getEndpointName(authenticationType);
   if (!endpointName) {
