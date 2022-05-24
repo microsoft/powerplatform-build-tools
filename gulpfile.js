@@ -24,6 +24,7 @@ exports.unitTest = test.unitTest;
 exports.componentTest = test.componentTest;
 exports.preparePack = gulp.series(recompile, restore);
 exports.pack = pack;
+exports.repack = gulp.series(compile, pack);
 exports.ci = gulp.series(recompile, lint, restore, test.unitTest, pack, test.componentTest);
 exports.default = recompile;
 exports.restore = restore;

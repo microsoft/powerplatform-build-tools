@@ -53,7 +53,7 @@ describe("check solution test", () => {
       errorLevel: { name: 'ErrorLevel', required: false, defaultValue: 'HighIssueCount' },
       errorThreshold: { name: 'ErrorThreshold', required: false, defaultValue: '0' },
       failOnAnalysisError: { name: 'FailOnPowerAppsCheckerAnalysisError', required: false, defaultValue: true },
-      outputDirectory: { name: 'ArtifactDestinationName', required: false, defaultValue: "CodeAnalysisLogs" },
+      artifactStoreName: { name: 'ArtifactDestinationName', required: false, defaultValue: "CodeAnalysisLogs" },
       useDefaultPAEndpoint: { name: 'UseDefaultPACheckerEndpoint', required: false, defaultValue: true },
       customPAEndpoint: { name: 'CustomPACheckerEndpoint', required: true, defaultValue: '' }
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
