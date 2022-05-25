@@ -3,11 +3,11 @@
 
 import * as tl from 'azure-pipelines-task-lib/task';
 import { checkSolution } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
+
 import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
-import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
 import * as taskDefinitionData from "./task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
@@ -37,7 +37,7 @@ export async function main(): Promise<void> {
     errorLevel: parameterMap['ErrorLevel'],
     errorThreshold: parameterMap['ErrorThreshold'],
     failOnAnalysisError: parameterMap['FailOnPowerAppsCheckerAnalysisError'],
-    outputDirectory: parameterMap['ArtifactDestinationName'],
+    artifactStoreName: parameterMap['ArtifactDestinationName'],
     useDefaultPAEndpoint: parameterMap['UseDefaultPACheckerEndpoint'],
     customPAEndpoint: parameterMap['CustomPACheckerEndpoint'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());

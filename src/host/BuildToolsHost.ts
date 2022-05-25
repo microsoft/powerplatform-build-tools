@@ -1,9 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HostParameterEntry, IHostAbstractions } from "@microsoft/powerplatform-cli-wrapper/dist/host/IHostAbstractions";
+import fs = require("fs-extra");
+import path = require("path");
+import os = require("os");
+import unzip = require('unzip-stream');
 import * as tl from 'azure-pipelines-task-lib/task';
+
+import { IArtifactStore } from "@microsoft/powerplatform-cli-wrapper/dist/host/IArtifactStore";
+import { HostParameterEntry, IHostAbstractions } from "@microsoft/powerplatform-cli-wrapper/dist/host/IHostAbstractions";
 import { getEnvironmentUrl } from "../params/auth/getEnvironmentUrl";
+import buildToolsLogger from "../host/logger";
 
 export class BuildToolsHost implements IHostAbstractions {
   name = "Build-Tools";
@@ -16,4 +23,81 @@ export class BuildToolsHost implements IHostAbstractions {
     // normalize value to always be undefined if the user has not declared the input value
     return (value && value.trim() !== '') ? value : undefined;
   }
+
+  public getArtifactStore(): IArtifactStore {
+    return new AzDevOpsArtifactStore('PowerAppsChecker');
+  }
+}
+
+class AzDevOpsArtifactStore implements IArtifactStore {
+  private readonly _storeName;
+  private _hasArtifactFolder = false;
+  private _resultsDirectory: string;
+
+  public constructor(storeName: string) {
+    this._storeName = storeName;
+    this._resultsDirectory = os.tmpdir();
+  }
+
+  public getTempFolder(): string {
+    const outputDirectory = this.getOutputDirectory();
+    this._resultsDirectory = path.join(outputDirectory, 'results');
+    buildToolsLogger.debug(`Artifact directory for ${this._storeName}: ${outputDirectory}`);
+    return outputDirectory;
+  }
+
+  public async upload(artifactName: string, files: string[]): Promise<void> {
+    buildToolsLogger.debug(`files: ${files.join(';')}`);
+    await fs.emptyDir(this._resultsDirectory);
+    for (const file of files) {
+      buildToolsLogger.debug(`unzipping ${file} into ${this._resultsDirectory} ...`);
+      await extractToFolder(file, this._resultsDirectory);
+    }
+
+    if (this._hasArtifactFolder) {
+      tl.uploadArtifact(this._storeName, artifactName, this._resultsDirectory);
+    } else {
+      const resultFiles = await fs.opendir(this._resultsDirectory);
+      for await (const resultFile of resultFiles) {
+        const fqn = path.join(this._resultsDirectory, resultFile.name);
+        tl.uploadFile(fqn);
+      }
+    }
+  }
+
+  // Establish output directory for the different pipeline runtime contexts:
+  // different variables are predefined depending on type of pipeline (build vs. release) and classic vs. yaml
+  // https://docs.microsoft.com/en-us/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#agent-variables
+  private getOutputDirectory(): string {
+      this._hasArtifactFolder = false;
+      let baseOutDir: string;
+      if (process.env.BUILD_ARTIFACTSTAGINGDIRECTORY) {
+          baseOutDir = process.env.BUILD_ARTIFACTSTAGINGDIRECTORY;
+          this._hasArtifactFolder = true;
+      }
+      else if (process.env.PIPELINE_WORKSPACE) {
+          baseOutDir = process.env.PIPELINE_WORKSPACE;
+      }
+      else if (process.env.AGENT_BUILDDIRECTORY) {
+          baseOutDir = process.env.AGENT_BUILDDIRECTORY;
+      } else {
+          baseOutDir = process.cwd();
+      }
+      const outputDirectory = path.join(baseOutDir, this._storeName);
+      fs.emptyDirSync(outputDirectory);
+      return outputDirectory;
+  }
+}
+
+async function extractToFolder(zipFile: string, outDirectory: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    fs.createReadStream(zipFile)
+      .pipe(unzip.Extract({ path: outDirectory }))
+      .on("close", () => {
+        resolve(outDirectory);
+      })
+      .on("error", (error) => {
+        reject(error);
+      });
+  });
 }

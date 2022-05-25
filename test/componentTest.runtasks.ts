@@ -48,7 +48,8 @@ process.env['ENDPOINT_URL_PP_SPN'] = envUrl;
 
 //checker inputs
 process.env['INPUT_FilesToAnalyze'] = path.join(__dirname, 'Test-Data', 'componentsTestSolution_1_0_0_1.zip');
-process.env['INPUT_ArtifactDestinationName'] = path.join(testOutDir, 'PA-Checker-logs');
+process.env['INPUT_ArtifactDestinationName'] = 'PA-Checker-logs';
+process.env['INPUT_RuleSet'] = '0ad12346-e108-40b8-a956-9a8f95ea18c9';  // SolutionChecker, see task.json
 
 //unpack solution inputs
 const emptySolutionPath = path.join(__dirname, 'Test-Data', 'emptySolution_0_1_0_0.zip');
@@ -148,8 +149,8 @@ describe('Tasks component tests', () => {
       }
 
       const issues = extractIssues(res.stdout);
+      console.log(res.stdout);
       if (issues[1] === 'error') {
-        console.log(res.stdout);
         throw new Error(`tasks component test failed at: ${task.name}`);
       }
 
