@@ -30,19 +30,19 @@ export class BuildToolsHost implements IHostAbstractions {
 }
 
 class AzDevOpsArtifactStore implements IArtifactStore {
-  private readonly _storeName;
+  private readonly _subFolder;
   private _hasArtifactFolder = false;
   private _resultsDirectory: string;
 
-  public constructor(storeName: string) {
-    this._storeName = storeName;
+  public constructor(subFolder: string) {
+    this._subFolder = subFolder;
     this._resultsDirectory = os.tmpdir();
   }
 
   public getTempFolder(): string {
     const outputDirectory = this.getOutputDirectory();
     this._resultsDirectory = path.join(outputDirectory, 'results');
-    buildToolsLogger.debug(`Artifact directory for ${this._storeName}: ${outputDirectory}`);
+    buildToolsLogger.debug(`Artifact directory: ${outputDirectory}`);
     return outputDirectory;
   }
 
@@ -55,8 +55,10 @@ class AzDevOpsArtifactStore implements IArtifactStore {
     }
 
     if (this._hasArtifactFolder) {
-      tl.uploadArtifact(this._storeName, artifactName, this._resultsDirectory);
+      // https://docs.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands?view=azure-devops&tabs=bash#upload-upload-an-artifact
+      tl.uploadArtifact(this._subFolder, this._resultsDirectory, artifactName);
     } else {
+      // pipeline has no artifact store (e.g. release pipelines):
       const resultFiles = await fs.opendir(this._resultsDirectory);
       for await (const resultFile of resultFiles) {
         const fqn = path.join(this._resultsDirectory, resultFile.name);
@@ -83,7 +85,7 @@ class AzDevOpsArtifactStore implements IArtifactStore {
       } else {
           baseOutDir = process.cwd();
       }
-      const outputDirectory = path.join(baseOutDir, this._storeName);
+      const outputDirectory = path.join(baseOutDir, this._subFolder);
       fs.emptyDirSync(outputDirectory);
       return outputDirectory;
   }
