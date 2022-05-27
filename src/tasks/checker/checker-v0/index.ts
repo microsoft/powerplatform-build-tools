@@ -40,5 +40,6 @@ export async function main(): Promise<void> {
     artifactStoreName: parameterMap['ArtifactDestinationName'],
     useDefaultPAEndpoint: parameterMap['UseDefaultPACheckerEndpoint'],
     customPAEndpoint: parameterMap['CustomPACheckerEndpoint'],
+    geoInstance: { name: "GeoInstance", required: false, defaultValue: undefined }
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }
