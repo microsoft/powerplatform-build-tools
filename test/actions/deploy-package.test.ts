@@ -45,6 +45,6 @@ describe("deploy package tests", () => {
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl,
       packagePath: { name: 'PackageFile', required: true, defaultValue: undefined },
-    }, new BuildToolsRunnerParams(), new BuildToolsHost());
+    }, new BuildToolsRunnerParams(), new BuildToolsHost('DeployPackage'));
   });
 });
