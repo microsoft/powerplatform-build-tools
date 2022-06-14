@@ -12,9 +12,14 @@ export const PacPathEnvVarName = `${EnvVarPrefix}PACCLIPATH`;
 export class BuildToolsRunnerParams implements RunnerParameters {
   private _workingDir: string;
   private _runnersDir: string | undefined;
+  private _agent: string;
 
   public constructor() {
     this._workingDir = cwd();
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const jsonPackage = require("../../package.json");
+    const productName = jsonPackage.name.split("/")[1];
+    this._agent = `${productName}/${jsonPackage.version}`;
   }
 
   public get logger(): Logger {
@@ -35,5 +40,9 @@ export class BuildToolsRunnerParams implements RunnerParameters {
 
   public get workingDir(): string {
     return this._workingDir;
+  }
+
+  public get agent(): string {
+    return this._agent;
   }
 }
