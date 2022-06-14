@@ -15,7 +15,7 @@
     "type": "git",
     "uri": "https://github.com/microsoft/powerplatform-build-tools"
   },
-  "public": false,
+  "public": true,
   "galleryFlags": [],
   "tags": ["Power Platform", "Dynamics 365", "Dynamics CRM", "Dynamics", "CRM"],
   "branding": {
