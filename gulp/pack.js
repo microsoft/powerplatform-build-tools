@@ -178,9 +178,11 @@ async function generateAllStages(manifest, taskVersion, manifestVersion) {
   for (const stage of stages) {
     const stageManifest = {...manifest};
     if (stage !== "LIVE") {
+      stageManifest.public = false;
       stageManifest.name = `${stageManifest.name} ([${stage}] ${stageManifest.version})`;
       stageManifest.id = `${stageManifest.id}-${stage}`;
     } else {
+      stageManifest.public = true;
       stageManifest.name = `${stageManifest.name} (${stageManifest.version})`;
     }
 
@@ -194,7 +196,9 @@ async function generateAllStages(manifest, taskVersion, manifestVersion) {
         throw new Error(`Cannot find task id for taskname ${taskName} in file ${path.resolve('../extension/task-metadata.json')}`);
       }
       taskJson.id = taskInfo.id[stage];
-      taskJson.friendlyName += ` [${stage}]`;
+      if (stage !== "LIVE") {
+        taskJson.friendlyName += ` [${stage}]`;
+      }
       taskJson.version.Major = taskVersion.major;
       taskJson.version.Minor = taskVersion.minor;
       taskJson.version.Patch = taskVersion.patch;
