@@ -41,7 +41,7 @@ describe("set assign user to target environment", () => {
     assignUserStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
       environment: { name: 'Environment', required: true, defaultValue: '$(BuildTools.EnvironmentUrl)' },
-      objectId: { name: 'User', required: true, defaultValue: undefined },
+      user: { name: 'User', required: true, defaultValue: undefined },
       role: { name: 'Role', required: true, defaultValue: undefined },
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });

@@ -27,7 +27,7 @@ export async function main(): Promise<void> {
   await assignUser({
     credentials: getCredentials(),
     environment: parameterMap['Environment'],
-    objectId: parameterMap['User'],
+    user: parameterMap['User'],
     role: parameterMap['Role']
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }
