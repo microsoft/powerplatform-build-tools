@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { expect, should, use } from "chai";
+import { expect, should } from "chai";
 import * as sinon from "sinon";
 import * as tl from 'azure-pipelines-task-lib/task';
 import { getEnvironmentUrl } from "../src/params/auth/getEnvironmentUrl";
+import { getCredentials } from "../src/params/auth/getCredentials";
 import { EnvUrlVariableName } from "../src/host/PipelineVariables";
 
 should();
 
-const testEnvUrl = 'https://ppdevtools.crm.dynamics.com/';
+const tlStub = sinon.stub(tl);
+
 
 describe("getEnvironmentUrl tests", () => {
-  const tlStub = sinon.stub(tl);
+  const testEnvUrl = 'https://ppdevtools.crm.dynamics.com/';
 
   beforeEach(() => {
     sinon.reset();
@@ -84,13 +86,50 @@ describe("getEnvironmentUrl tests", () => {
     const result = getEnvironmentUrl();
     validateEnvUrl(result);
   });
+
+  function validateEnvUrl(result: string) {
+    result.should.be.a('string');
+    result.should.not.be.empty;
+
+    let url: URL = new URL('http://invalid');
+    expect(() => url = new URL(result)).to.not.throw(TypeError);
+    url.toString().should.equal(testEnvUrl);
+  }
 });
 
-function validateEnvUrl(result: string) {
-  result.should.be.a('string');
-  result.should.not.be.empty;
+describe("getCredentials tests", () => {
+  const PPEnvAuthType = "PowerPlatformEnvironment";
+  const testEndpointName = "testEndpoint";
 
-  let url: URL = new URL('http://invalid');
-  expect(() => url = new URL(result)).to.not.throw(TypeError);
-  url.toString().should.equal(testEnvUrl);
+  beforeEach(() => {
+    sinon.reset();
+    tlStub.getInput
+      .withArgs('authenticationType')
+      .returns(PPEnvAuthType);
+    tlStub.getInput
+      .withArgs(PPEnvAuthType)
+      .returns(testEndpointName);
+    tlStub.getEndpointAuthorization
+      .withArgs(testEndpointName, false)
+      .returns({ parameters: { 'username': 'me', 'password': 'secret' }, scheme: 'test' });
+  });
+
+  const endpointsTests = [
+    { endpoint: 'https://ppdevtools.crm.dynamics.com', cloudInstance: 'Public' },
+    { endpoint: 'https://aurora.crm10.dynamics.com', cloudInstance: 'Tip1' },
+    { endpoint: 'https://kc.crm9.dynamics.com', cloudInstance: 'UsGov' },
+    { endpoint: 'https://niehau.crm.dynamics.cn', cloudInstance: 'Mooncake' },
+    { endpoint: undefined, cloudInstance: 'Public' },
+    { endpoint: 'http://bing.com', cloudInstance: 'Public' },
+  ];
+  for (const variant of endpointsTests) {
+    it(`can resolve '${variant.cloudInstance}' cloud instances from default endpoint ${variant.endpoint}`, () => {
+      tlStub.getEndpointUrl
+        .withArgs(testEndpointName, true)
+        .returns(variant.endpoint);
+
+      const result = getCredentials();
+      result.cloudInstance.should.equal(variant.cloudInstance);
+    });
 }
+});
