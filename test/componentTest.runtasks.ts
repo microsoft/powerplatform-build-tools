@@ -97,6 +97,12 @@ process.env["INPUT_LanguageName"] = "English"
 process.env['INPUT_user'] = "85fd1857-ddef-46f6-acf4-22a0d1df2cda";
 process.env['INPUT_role'] = "System Customizer";
 
+//create add-solution-component inputs
+process.env['INPUT_SolutionName'] = "emptySolution";
+process.env['INPUT_Component'] = "account";
+process.env['INPUT_ComponentType'] = "1";
+process.env['INPUT_addRequiredComponents'] = "true";
+
 // define tasks sequence
 interface taskInfo {
   name: string;
@@ -129,6 +135,7 @@ const tasks: taskInfo[] = [
   { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
   // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
   // { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0` },
+  { name: 'add-solution-component', path: `${tasksRoot}/tasks/add-solution-component/add-solution-component-v0` },
   { name: deleteEnv, path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
 ].filter(task => {
   if (os.platform() === 'win32') {
