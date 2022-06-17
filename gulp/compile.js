@@ -20,13 +20,13 @@ module.exports = function compile() {
     tasks.map((task, idx) =>{
       var baseName = path.basename(path.dirname(task));
       var taskName = path.basename(path.join(task, "../.."))
-      const taskDistDir = path.resolve(distdir, taskName, baseName);
+      const taskDistDir = path.resolve(distdir, "tasks", taskName, baseName);
       console.info(`packaging ${idx} "${task}" into ./dist folder ...`);
       esbuild.buildSync({
         entryPoints: [`./${task}`],
         outfile: path.join(taskDistDir, "index.js"),
         platform: "node",
-    })
+    }).errors.forEach(error => console.error(error));
     })
   });
 };
