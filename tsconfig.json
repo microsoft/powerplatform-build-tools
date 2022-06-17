@@ -1,9 +1,10 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es6",
     "module": "commonjs",
     "outDir": "./dist",
     "resolveJsonModule": true,
+    "moduleResolution": "node",
     "strict": true,
     "strictPropertyInitialization": true,
     "noImplicitAny": true,
