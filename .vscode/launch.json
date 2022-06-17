@@ -62,12 +62,25 @@
     {
       "type": "pwa-node",
       "request": "launch",
-      "name": "Gulp task",
+      "name": "Gulp pack",
       "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
       "cwd": "${workspaceFolder}",
       "args": [
         "pack",
         "--patch", "42"
+      ],
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Gulp compile",
+      "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "compile"
       ],
       "skipFiles": [
         "<node_internals>/**"
