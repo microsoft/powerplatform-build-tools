@@ -10,7 +10,7 @@ module.exports = function createTfxRunner() {
     "_build",
     "tfx-cli.js"
   );
-  const runCommand = createCommandRunner(rootDirectory, "node", console);
+  const runCommand = createCommandRunner(rootDirectory, "node", console, 'gulp');
 
   return {
     createExtension: async function (createExtensionOptions) {
