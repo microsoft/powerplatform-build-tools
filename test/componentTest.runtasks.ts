@@ -85,6 +85,10 @@ process.env["INPUT_DomainName"] = friendlyName;
 //process.env["INPUT_AppsTemplate"] ="D365_Sales"; #bug2471609
 process.env["INPUT_LanguageName"] = "English"
 
+//create assign-user inputs
+process.env['INPUT_user'] = "85fd1857-ddef-46f6-acf4-22a0d1df2cda";
+process.env['INPUT_role'] = "System Customizer";
+
 // define tasks sequence
 interface taskInfo {
   name: string;
@@ -113,6 +117,7 @@ const tasks: taskInfo[] = [
   { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
   { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
   // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
+  { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0` },
   { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
 ];
 
