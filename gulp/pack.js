@@ -43,7 +43,7 @@ async function createDir(dirName) {
 async function generateNpmPackage() {
   await createDir(npmPackageDir);
 
-  const npm = createCommandRunner(path.resolve(npmPackageDir), "npm", console, {
+  const npm = createCommandRunner(path.resolve(npmPackageDir), "npm", console, 'gulp', {
     shell: true,
   });
   const results = await npm("pack", "../..");
