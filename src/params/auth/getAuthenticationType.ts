@@ -4,8 +4,11 @@ export type AuthenticationType =
   | "PowerPlatformEnvironment"
   | "PowerPlatformSPN";
 
-export default function getAuthenticationType(): AuthenticationType {
+export function getAuthenticationType(defaultAuthType?: AuthenticationType): AuthenticationType {
   const authenticationType = getInput("authenticationType");
+  if (!authenticationType && defaultAuthType) {
+    return defaultAuthType;
+  }
   assertIsEndpointName(authenticationType);
   return authenticationType;
 }
