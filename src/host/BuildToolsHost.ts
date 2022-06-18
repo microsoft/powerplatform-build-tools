@@ -69,9 +69,10 @@ class AzDevOpsArtifactStore implements IArtifactStore {
       tl.uploadArtifact(this._subFolder, this._resultsDirectory, artifactName);
     } else {
       // pipeline has no artifact store (e.g. release pipelines):
-      const resultFiles = await fs.opendir(this._resultsDirectory);
-      for await (const resultFile of resultFiles) {
-        const fqn = path.join(this._resultsDirectory, resultFile.name);
+      const resultFiles =  fs.readdirSync(this._resultsDirectory );
+
+      for (const resultFile of resultFiles) {
+        const fqn = path.join(this._resultsDirectory, resultFile);
         tl.uploadFile(fqn);
       }
     }
