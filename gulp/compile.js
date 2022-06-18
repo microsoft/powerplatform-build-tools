@@ -26,6 +26,7 @@ module.exports = function compile() {
         entryPoints: [`./${task}`],
         outfile: path.join(taskDistDir, "index.js"),
         platform: "node",
+        bundle: true,
       }).catch((error) => { console.error(error); reject(error); })
     });
 
