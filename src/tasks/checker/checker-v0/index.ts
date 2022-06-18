@@ -8,10 +8,12 @@ import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
+import { AuthenticationType } from '../../../params/auth/getAuthenticationType';
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
-import * as taskDefinitionData from "./task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 import { readEnvUrlFromServiceConnection } from '../../../params/auth/getEnvironmentUrl';
+
+import * as taskDefinitionData from "./task.json";
 
 (async () => {
   if (isRunningOnAgent()) {
@@ -24,10 +26,12 @@ import { readEnvUrlFromServiceConnection } from '../../../params/auth/getEnviron
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const defaultAuthType: AuthenticationType = 'PowerPlatformSPN';
 
   await checkSolution({
-    credentials: getCredentials(),
-    environmentUrl: readEnvUrlFromServiceConnection(),
+    // PS impl only supported single auth mode, SPN; some pipelines have no explicit value for authenticationType
+    credentials: getCredentials(defaultAuthType),
+    environmentUrl: readEnvUrlFromServiceConnection(defaultAuthType),
     fileLocation: parameterMap['FileLocation'],
     solutionPath: parameterMap['FilesToAnalyze'],
     solutionUrl: parameterMap['FilesToAnalyzeSasUri'],
