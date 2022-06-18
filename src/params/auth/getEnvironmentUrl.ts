@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as tl from 'azure-pipelines-task-lib/task';
-import getAuthenticationType from './getAuthenticationType';
+import { AuthenticationType, getAuthenticationType } from './getAuthenticationType';
 import { getEndpointName } from './getEndpointName';
 import { EnvironmentParams, EnvUrlVariableName, GetPipelineOutputVariable, IsolateVariableReference } from '../../host/PipelineVariables';
 
@@ -59,8 +59,8 @@ export function getEnvironmentUrl(): string {
   return endpointUrl;
 }
 
-export function readEnvUrlFromServiceConnection(): string {
-  const authenticationType = getAuthenticationType();
+export function readEnvUrlFromServiceConnection(defaultAuthType?: AuthenticationType): string {
+  const authenticationType = getAuthenticationType(defaultAuthType);
   const endpointName = getEndpointName(authenticationType);
   if (!endpointName) {
     throw new Error(`Could not find endpoint: ${endpointName} for authentication type: ${authenticationType}`);

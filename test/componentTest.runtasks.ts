@@ -43,7 +43,7 @@ process.env['ENDPOINT_AUTH_CDS_ORG'] = `{ "parameters": { "username": "${usernam
 process.env['ENDPOINT_URL_CDS_ORG'] = envUrl;
 
 process.env['INPUT_PowerPlatformSpn'] = 'PP_SPN';
-process.env['ENDPOINT_AUTH_PP_SPN'] = `{ "Parameters": { "applicationId": "${appId}", "tenantId": "${tenantId}", "clientSecret": "${clientSecret}" } }`;
+process.env['ENDPOINT_AUTH_PP_SPN'] = `{ "parameters": { "applicationId": "${appId}", "tenantId": "${tenantId}", "clientSecret": "${clientSecret}" } }`;
 process.env['ENDPOINT_URL_PP_SPN'] = envUrl;
 
 //checker inputs

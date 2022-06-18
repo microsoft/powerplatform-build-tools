@@ -4,11 +4,12 @@
 import { URL } from 'url';
 import { ClientCredentials, UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import { getEndpointAuthorization, getEndpointUrl } from "azure-pipelines-task-lib";
-import getAuthenticationType from "./getAuthenticationType";
+import { getAuthenticationType, AuthenticationType } from "./getAuthenticationType";
 import { getEndpointName } from "./getEndpointName";
 
-export function getCredentials(): ClientCredentials | UsernamePassword {
-  const authenticationType = getAuthenticationType();
+
+export function getCredentials(defaultAuthType?: AuthenticationType): ClientCredentials | UsernamePassword {
+  const authenticationType = getAuthenticationType(defaultAuthType);
   switch (authenticationType) {
     case "PowerPlatformEnvironment":
       return getUsernamePassword();
