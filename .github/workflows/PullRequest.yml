@@ -21,32 +21,44 @@ jobs:
           - ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           lfs: true
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           registry-url: https://npm.pkg.github.com
+          cache: 'npm'
 
-      - name: Build and test
+      - name: npm config
         run: |
           npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
-          npm i -g npm@'8.1.2'
-          npm i
-          npm run ci
-        # Note: To set version:
-        # npm run ci -- --major 1 --minor 0 --patch 30
-        # all version parts are optional
-        # each will default to whatever version is set to in src at extension/extension-manifest.json
-        # Example:
-        # npm run ci --patch 30
-        # "version": "1.0.29" (in extension-manifest.json)
-        # output VSIX version: 1.0.30
+
+      - name: Install NPM dependencies
+        run: npm i
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Clean & Build
+        run: npm run rebuild
+
+      - name: Restore from NuGet
+        run: npm run restore
         env:
           AZ_DevOps_Read_PAT: ${{ secrets.AZ_DevOps_Read_PAT }}
+
+      - name: Unit Test
+        run: npm run unitTest
+
+      - name: Package build tools
+        run: npm run pack
+
+      - name: Component Test
+        run: npm run componentTest
+        env:
           PA_BT_ORG_PASSWORD: ${{ secrets.PA_BT_ORG_PASSWORD }}
-          # temp. use of pre-existing env, until create-environment task is also converted
+          # temp. use of pre-existing env, until create-environment task is also converted.
           PA_BT_ORG_URL: https://pp-bt-prloop.crm.dynamics.com/
