@@ -156,14 +156,14 @@ describe('Tasks component tests', () => {
         const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
 
         if (res.status != 0) {
-          console.error(`Failed to run task: ${task.name}; stderr: ${res.stderr}`);
-          fail(`tasks component test failed at: ${task.name}`);
+          console.error(`>>> Failed to run task: ${task.name}; stderr: ${res.stderr}`)
+          process.exit(1);
         }
 
         const issues = extractIssues(res.stdout);
         console.log(res.stdout);
         if (issues[1] === 'error') {
-          console.error(`tasks component test failed at: ${task.name}`);
+          console.error(`>>> Tasks component test failed at: ${task.name}`)
           process.exit(1);
         }
 
@@ -176,8 +176,7 @@ describe('Tasks component tests', () => {
         }
         done();
       } catch (error) {
-        console.error(`Failed to run task: ${task.name}; error: ${error}`);
-        process.exit(1);
+        throw new Error(`Failed to run task: ${task.name}; error: ${error}`);
       }
     }).timeout(6 * 60 * 1000);
   }

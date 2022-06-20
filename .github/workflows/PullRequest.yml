@@ -36,22 +36,29 @@ jobs:
         run: |
           npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
 
-      - name: Install dependencies
+      - name: Install NPM dependencies
         run: npm i
 
-      - name: Run gulp ci
-        run: |
-          npm run ci
-        # Note: To set version:
-        # npm run ci -- --major 1 --minor 0 --patch 30
-        # all version parts are optional
-        # each will default to whatever version is set to in src at extension/extension-manifest.json
-        # Example:
-        # npm run ci --patch 30
-        # "version": "1.0.29" (in extension-manifest.json)
-        # output VSIX version: 1.0.30
+      - name: Lint
+        run: npm run lint
+
+      - name: Clean & Build
+        run: npm run rebuild
+
+      - name: Restore from NuGet
+        run: npm run restore
         env:
           AZ_DevOps_Read_PAT: ${{ secrets.AZ_DevOps_Read_PAT }}
+
+      - name: Unit Test
+        run: npm run unitTest
+
+      - name: Package build tools
+        run: npm run pack
+
+      - name: Component Test
+        run: npm run componentTest
+        env:
           PA_BT_ORG_PASSWORD: ${{ secrets.PA_BT_ORG_PASSWORD }}
           # temp. use of pre-existing env, until create-environment task is also converted
           PA_BT_ORG_URL: https://pp-bt-prloop.crm.dynamics.com/

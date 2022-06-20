@@ -10,9 +10,14 @@
     "dist"
   ],
   "scripts": {
+    "lint": "node node_modules/gulp/bin/gulp.js lint",
     "clean": "node node_modules/gulp/bin/gulp.js clean",
     "build": "node node_modules/gulp/bin/gulp.js compile",
+    "rebuild": "node node_modules/gulp/bin/gulp.js clean && node node_modules/gulp/bin/gulp.js compile --max_old_space_size=4096",
+    "restore": "node node_modules/gulp/bin/gulp.js restore",
     "test": "node node_modules/gulp/bin/gulp.js test",
+    "unitTest": "node node_modules/gulp/bin/gulp.js unitTest",
+    "componentTest": "node node_modules/gulp/bin/gulp.js componentTest",
     "ci": "node node_modules/gulp/bin/gulp.js ci --max_old_space_size=4096",
     "prepare-pack": "node node_modules/gulp/bin/gulp.js preparePack",
     "pack": "node node_modules/gulp/bin/gulp.js pack",
