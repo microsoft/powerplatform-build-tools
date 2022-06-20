@@ -21,21 +21,26 @@ jobs:
           - ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           lfs: true
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: 14
+          node-version: 16
           registry-url: https://npm.pkg.github.com
+          cache: 'npm'
 
-      - name: Build and test
+      - name: npm config
         run: |
           npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
-          npm i -g npm@'8.1.2'
-          npm i
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Run gulp ci
+        run: |
           npm run ci
         # Note: To set version:
         # npm run ci -- --major 1 --minor 0 --patch 30
