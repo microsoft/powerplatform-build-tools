@@ -114,16 +114,16 @@ const tasksRoot = path.resolve(os.tmpdir(), 'pp-bt-test');
 
 const tasks: taskInfo[] = [
   { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` },
-  { name: 'create-environment', path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
-  { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` },
-  { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v0` },
-  { name: 'pack-solution', path: `${tasksRoot}/tasks/pack-solution/pack-solution-v0` },
-  { name: 'checker', path: `${tasksRoot}/tasks/checker/checker-v0` },
-  { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
-  { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
+  // { name: 'create-environment', path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
+  // { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` },
+  // { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v0` },
+  // { name: 'pack-solution', path: `${tasksRoot}/tasks/pack-solution/pack-solution-v0` },
+  // { name: 'checker', path: `${tasksRoot}/tasks/checker/checker-v0` },
+  // { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
+  // { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
   // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
   { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0` },
-  { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
+  // { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
 ];
 
 describe('Tasks component tests', () => {
@@ -159,10 +159,12 @@ describe('Tasks component tests', () => {
           console.error(`Failed to run task: ${task.name}; stderr: ${res.stderr}`);
           fail(`tasks component test failed at: ${task.name}`);
         }
+
         const issues = extractIssues(res.stdout);
         console.log(res.stdout);
         if (issues[1] === 'error') {
-          fail(`tasks component test failed at: ${task.name}`);
+          console.error(`tasks component test failed at: ${task.name}`);
+          process.exit(1);
         }
 
         const setVars = extractSetVars(res.stdout);
@@ -174,7 +176,8 @@ describe('Tasks component tests', () => {
         }
         done();
       } catch (error) {
-        fail(`Failed to run task: ${task.name}; error: ${error}`);
+        console.error(`Failed to run task: ${task.name}; error: ${error}`);
+        process.exit(1);
       }
     }).timeout(6 * 60 * 1000);
   }
