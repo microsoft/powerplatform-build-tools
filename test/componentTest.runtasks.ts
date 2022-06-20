@@ -154,22 +154,22 @@ describe('Tasks component tests', () => {
 
       try {
         const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
-        expect(res.status).to.equal(0);
+
         if (res.status != 0) {
           console.error(`Failed to run task: ${task.name}; stderr: ${res.stderr}`);
-          throw new Error(`tasks component test failed at: ${task.name}`);
+          fail(`tasks component test failed at: ${task.name}`);
         }
         const issues = extractIssues(res.stdout);
         console.log(res.stdout);
         if (issues[1] === 'error') {
-          throw new Error(`tasks component test failed at: ${task.name}`);
+          fail(`tasks component test failed at: ${task.name}`);
         }
 
         const setVars = extractSetVars(res.stdout);
         if (setVars[1]) {
           const varName = setVars[1].split(';')[0];
           const varValue = setVars[2];
-          console.log(`Setting pipeline var: ${varName} to: ${varValue}`);
+          console.debug(`Setting pipeline var: ${varName} to: ${varValue}`);
           process.env[varName] = varValue;
         }
         done();
