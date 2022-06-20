@@ -72,6 +72,33 @@
       "skipFiles": [
         "<node_internals>/**"
       ]
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Gulp componentTest w/ compile",
+      "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
+      "cwd": "${workspaceFolder}",
+      "preLaunchTask": "gulp: pack",
+      "args": [
+        "componentTest"
+      ],
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Gulp componentTest w/o compile",
+      "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "componentTest"
+      ],
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
     }
   ]
 }
