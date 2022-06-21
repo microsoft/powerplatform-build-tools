@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { pathExistsSync, createReadStream, readdirSync, emptyDirSync, ensureDirSync } from 'fs-extra';
+import { pathExistsSync, createReadStream, readdirSync, emptyDirSync, ensureDirSync, readFileSync, writeFileSync } from 'fs-extra';
 import path = require('path');
 import os = require('os');
 import process = require('process');
@@ -9,7 +9,6 @@ import * as cp from 'child_process';
 import { expect } from "chai";
 import unzip = require('unzip-stream');
 import { isRunningOnAgent } from '../src/params/auth/isRunningOnAgent';
-import { fail } from 'assert';
 
 if (process.env.NODE_ENV === 'development') {
   // create a .env file in root directory for testing locally with NODE_ENV = "development"
@@ -92,12 +91,14 @@ process.env["INPUT_LanguageName"] = "English"
 
 //create assign-user inputs
 process.env['INPUT_user'] = "85fd1857-ddef-46f6-acf4-22a0d1df2cda";
-process.env['INPUT_role'] = "System Customizer";
+process.env['INPUT_role'] = "'System Customizer'";
 
 // define tasks sequence
 interface taskInfo {
   name: string;
   path: string;
+  featureFlag?: string;
+  featureState?: "on" | "off";
 }
 
 const outDir = path.resolve(__dirname, '..', 'out');
@@ -114,16 +115,16 @@ const tasksRoot = path.resolve(os.tmpdir(), 'pp-bt-test');
 
 const tasks: taskInfo[] = [
   { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` },
-  { name: 'create-environment', path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
-  { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` },
-  { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v0` },
-  { name: 'pack-solution', path: `${tasksRoot}/tasks/pack-solution/pack-solution-v0` },
-  { name: 'checker', path: `${tasksRoot}/tasks/checker/checker-v0` },
-  { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
-  { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
+  // { name: 'create-environment', path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
+  // { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` },
+  // { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v0` },
+  // { name: 'pack-solution', path: `${tasksRoot}/tasks/pack-solution/pack-solution-v0` },
+  // { name: 'checker', path: `${tasksRoot}/tasks/checker/checker-v0` },
+  // { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
+  // { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
   // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
-  { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0` },
-  { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
+  { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0`, featureState: 'on', featureFlag: 'verbAdminAssignUser' },
+  // { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
 ];
 
 describe('Tasks component tests', () => {
@@ -153,6 +154,12 @@ describe('Tasks component tests', () => {
       console.log(`>>> start testing ${task.name} (loaded from: ${task.path})...`);
 
       try {
+
+        switch(task.featureState){
+          case 'on': enableFeature(task.featureFlag, task.featureState); break;
+          case 'off': console.log(`>>> feature ${task.featureFlag} is disabled`); done; break;
+        }
+
         const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
 
         if (res.status != 0) {
@@ -195,3 +202,26 @@ function extractSetVars(output: string): string[] {
   const matches = output.match(regex);
   return matches || [];
 }
+
+interface FeatureInfo {
+  [featureName: string]: "on" | "off";
+}
+
+function enableFeature(featureFlag: string | undefined, enable: "on" | "off"): void {
+  console.log();
+  var data = readFileSync(`${process.env['POWERPLATFORMTOOLS_PACCLIPATH']}\\pac\\tools\\featureflags.json`, 'utf8');
+  var featureFlags: FeatureInfo = JSON.parse(data);
+
+  if(!featureFlag){return;}
+
+  if (featureFlags[featureFlag]) {
+    console.debug(`>>> enabling feature ${featureFlag}...`);
+    featureFlags[featureFlag] =  enable;
+
+  } else {
+    console.debug(`Feature flag ${featureFlag} not found in featureflags.json`);
+  }
+  writeFileSync(`${process.env['POWERPLATFORMTOOLS_PACCLIPATH']}\\pac\\tools\\featureflags.json`, JSON.stringify(featureFlags, null, 2));
+  console.debug(`>>> enabling feature ${featureFlag}... done`);
+}
+
