@@ -112,7 +112,9 @@ const tasks: taskInfo[] = [
   { name: 'checker', path: `${tasksRoot}/tasks/checker/checker-v0` },
   { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
   { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
-  // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
+  { name: 'publish-customizations', path: `${tasksRoot}/tasks/publish-customizations/publish-customizations-v0` },
+  { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
+  { name: 'delete-solution', path: `${tasksRoot}/tasks/delete-solution/delete-solution-v0` },
   { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
 ];
 
