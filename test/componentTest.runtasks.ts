@@ -71,6 +71,9 @@ process.env['INPUT_SkipProductUpdateDependencies'] = "false";
 process.env['INPUT_OverwriteUnmanagedCustomizations'] = "false";
 process.env['INPUT_HoldingSolution'] = "false";
 
+// deploy package
+process.env['INPUT_PackageFile'] = `${path.join(__dirname, 'Test-Data', 'testPkg', 'bin', 'Debug', 'testPkg.1.0.0.pdpkg.zip')}`;
+
 //export solution inputs
 process.env['INPUT_SolutionName'] = "emptySolution";
 process.env['INPUT_SolutionVersionNumber'] = "0.42.0.0"
@@ -110,6 +113,7 @@ const tasks: taskInfo[] = [
   { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v0` },
   { name: 'pack-solution', path: `${tasksRoot}/tasks/pack-solution/pack-solution-v0` },
   { name: 'checker', path: `${tasksRoot}/tasks/checker/checker-v0` },
+  { name: 'deploy-package', path: `${tasksRoot}/tasks/deploy-package/deploy-package-v0` },
   { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
   { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
   { name: 'publish-customizations', path: `${tasksRoot}/tasks/publish-customizations/publish-customizations-v0` },
