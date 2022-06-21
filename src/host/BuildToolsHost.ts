@@ -14,6 +14,11 @@ import buildToolsLogger from "../host/logger";
 
 export class BuildToolsHost implements IHostAbstractions {
   name = "Build-Tools";
+  private _artifactStoreName: string;
+
+  public constructor(artifactStoreName?: string) {
+    this._artifactStoreName = artifactStoreName || 'artifacts';
+  }
 
   public getInput(entry: HostParameterEntry): string | undefined {
     if(entry.name === 'Environment')
@@ -25,7 +30,7 @@ export class BuildToolsHost implements IHostAbstractions {
   }
 
   public getArtifactStore(): IArtifactStore {
-    return new AzDevOpsArtifactStore('PowerAppsChecker');
+    return new AzDevOpsArtifactStore(this._artifactStoreName);
   }
 }
 
@@ -50,8 +55,13 @@ class AzDevOpsArtifactStore implements IArtifactStore {
     buildToolsLogger.debug(`files: ${files.join(';')}`);
     await fs.emptyDir(this._resultsDirectory);
     for (const file of files) {
-      buildToolsLogger.debug(`unzipping ${file} into ${this._resultsDirectory} ...`);
-      await extractToFolder(file, this._resultsDirectory);
+      if (path.extname(file).toLowerCase() === '.zip') {
+        buildToolsLogger.debug(`unzipping ${file} into ${this._resultsDirectory} ...`);
+        await extractToFolder(file, this._resultsDirectory);
+      } else {
+        buildToolsLogger.debug(`copying ${file} into ${this._resultsDirectory} ...`);
+        await fs.copyFile(file, path.join(this._resultsDirectory, path.basename(file)));
+      }
     }
 
     if (this._hasArtifactFolder) {
@@ -83,7 +93,7 @@ class AzDevOpsArtifactStore implements IArtifactStore {
       else if (process.env.AGENT_BUILDDIRECTORY) {
           baseOutDir = process.env.AGENT_BUILDDIRECTORY;
       } else {
-          baseOutDir = process.cwd();
+          baseOutDir = path.join(process.cwd(), 'out');
       }
       const outputDirectory = path.join(baseOutDir, this._subFolder);
       fs.emptyDirSync(outputDirectory);
