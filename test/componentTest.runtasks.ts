@@ -113,9 +113,11 @@ if (!pathExistsSync(packageToTest)) {
 console.log(`Running component tests with .vsix package: ${packageToTest}...`);
 const tasksRoot = path.resolve(os.tmpdir(), 'pp-bt-test');
 
+const createEnv = 'create-environment';
+const deleteEnv = 'delete-environment';
 const tasks: taskInfo[] = [
   { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` },
-  { name: 'create-environment', path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
+  { name: createEnv, path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
   { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` },
   { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v0` },
   { name: 'pack-solution', path: `${tasksRoot}/tasks/pack-solution/pack-solution-v0` },
@@ -123,8 +125,8 @@ const tasks: taskInfo[] = [
   { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
   { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
   // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
-  { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0`, featureState: 'on', featureFlag: 'verbAdminAssignUser' },
-  { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
+  { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0`, featureState: 'off', featureFlag: 'verbAdminAssignUser' },
+  { name: deleteEnv, path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
 ];
 
 describe('Tasks component tests', () => {
@@ -151,15 +153,15 @@ describe('Tasks component tests', () => {
 
   var completedTasks: taskInfo[] = [];
   for (const task of tasks) {
+    switch (task.featureState) {
+      case 'on': enableFeature(task.featureFlag, task.featureState); break;
+      case 'off': console.log(`>>> Feature ${task.featureFlag} is disabled. Skipping...`); continue;
+    }
+
     it(`## task ${task.name} `, (done) => {
       console.log(`>>> start testing ${task.name} (loaded from: ${task.path})...`);
 
       try {
-
-        switch (task.featureState) {
-          case 'on': enableFeature(task.featureFlag, task.featureState); break;
-          case 'off': console.log(`>>> feature ${task.featureFlag} is disabled`); done; break;
-        }
 
         const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
 
@@ -184,6 +186,7 @@ describe('Tasks component tests', () => {
         done();
       } catch (error) {
         console.error(error);
+        cleanupEnvironment(completedTasks);
         process.exit(1);
       }
     }).timeout(6 * 60 * 1000);
@@ -228,3 +231,13 @@ function enableFeature(featureFlag: string | undefined, enable: "on" | "off"): v
   console.debug(`>>> enabling feature ${featureFlag}... done`);
 }
 
+function cleanupEnvironment(completedTasks: taskInfo[]): void {
+  const createTaskFoundCompleted = completedTasks.find(t => t.name === createEnv);
+  const deleteTaskCompleted = completedTasks.find(t => t.name === deleteEnv);
+  const deleteTaskFound = tasks.find(t => t.name === deleteEnv);
+  if (createTaskFoundCompleted && !deleteTaskCompleted && deleteTaskFound) {
+    console.log(`>>> Attempting to cleaning up environment...`);
+    cp.spawnSync('node', [deleteTaskFound.path], { encoding: 'utf-8', cwd: tasksRoot });
+  }
+  console.log(">>> Attempting to clean up environment... done");
+}
