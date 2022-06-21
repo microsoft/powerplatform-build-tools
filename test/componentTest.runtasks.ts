@@ -155,7 +155,7 @@ describe('Tasks component tests', () => {
 
       try {
 
-        switch(task.featureState){
+        switch (task.featureState) {
           case 'on': enableFeature(task.featureFlag, task.featureState); break;
           case 'off': console.log(`>>> feature ${task.featureFlag} is disabled`); done; break;
         }
@@ -163,15 +163,13 @@ describe('Tasks component tests', () => {
         const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
 
         if (res.status != 0) {
-          console.error(`>>> Failed to run task: ${task.name}; stderr: ${res.stderr}`)
-          process.exit(1);
+          throw new Error(`>>> Failed to run task: ${task.name}; stderr: ${res.stderr}`)
         }
 
         const issues = extractIssues(res.stdout);
         console.log(res.stdout);
         if (issues[1] === 'error') {
-          console.error(`>>> Tasks component test failed at: ${task.name}`)
-          process.exit(1);
+          throw new Error(`>>> Tasks component test failed at: ${task.name}`)
         }
 
         const setVars = extractSetVars(res.stdout);
@@ -183,7 +181,8 @@ describe('Tasks component tests', () => {
         }
         done();
       } catch (error) {
-        throw new Error(`Failed to run task: ${task.name}; error: ${error}`);
+        console.error(error);
+        process.exit(1);
       }
     }).timeout(6 * 60 * 1000);
   }
@@ -208,20 +207,22 @@ interface FeatureInfo {
 }
 
 function enableFeature(featureFlag: string | undefined, enable: "on" | "off"): void {
-  console.log();
-  var data = readFileSync(`${process.env['POWERPLATFORMTOOLS_PACCLIPATH']}\\pac\\tools\\featureflags.json`, 'utf8');
-  var featureFlags: FeatureInfo = JSON.parse(data);
+  if (!featureFlag) { throw new Error('Feature flag is not set'); }
+  if (!process.env['POWERPLATFORMTOOLS_PACCLIPATH']) { throw new Error('POWERPLATFORMTOOLS_PACCLIPATH is not set'); }
+  const paccliPath = process.env['POWERPLATFORMTOOLS_PACCLIPATH'];
 
-  if(!featureFlag){return;}
+  const featureFlagFilePath = path.resolve(paccliPath, `pac${process.platform == "win32" ? '' : '_linux'}`, "tools", "featureflags.json");
+  var data = readFileSync(featureFlagFilePath, 'utf8');
+  var featureFlags: FeatureInfo = JSON.parse(data);
 
   if (featureFlags[featureFlag]) {
     console.debug(`>>> enabling feature ${featureFlag}...`);
-    featureFlags[featureFlag] =  enable;
-
+    featureFlags[featureFlag] = enable;
   } else {
     console.debug(`Feature flag ${featureFlag} not found in featureflags.json`);
   }
-  writeFileSync(`${process.env['POWERPLATFORMTOOLS_PACCLIPATH']}\\pac\\tools\\featureflags.json`, JSON.stringify(featureFlags, null, 2));
+  console.debug(featureFlags);
+  writeFileSync(featureFlagFilePath, JSON.stringify(featureFlags, null, 2));
   console.debug(`>>> enabling feature ${featureFlag}... done`);
 }
 
