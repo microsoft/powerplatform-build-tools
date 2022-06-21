@@ -154,8 +154,14 @@ describe('Tasks component tests', () => {
   var completedTasks: taskInfo[] = [];
   for (const task of tasks) {
     switch (task.featureState) {
-      case 'on': enableFeature(task.featureFlag, task.featureState); break;
-      case 'off': console.log(`>>> Feature ${task.featureFlag} is disabled. Skipping...`); continue;
+      case 'on': {
+        if(enableFeature(task.featureFlag, task.featureState)) {
+          break;
+        } else{
+          throw new Error(`Failed to enable feature ${task.featureFlag}`);
+        }
+       }
+      case 'off': console.log(`>>> Feature ${task.featureFlag} is disabled. Skipping test of ${task.name}...`); continue;
     }
 
     it(`## task ${task.name} `, (done) => {
@@ -211,7 +217,7 @@ interface FeatureInfo {
   [featureName: string]: "on" | "off";
 }
 
-function enableFeature(featureFlag: string | undefined, enable: "on" | "off"): void {
+function enableFeature(featureFlag: string | undefined, enable: "on" | "off"): boolean {
   if (!featureFlag) { throw new Error('Feature flag is not set'); }
   if (!process.env['POWERPLATFORMTOOLS_PACCLIPATH']) { throw new Error('POWERPLATFORMTOOLS_PACCLIPATH is not set'); }
   const paccliPath = process.env['POWERPLATFORMTOOLS_PACCLIPATH'];
@@ -223,12 +229,14 @@ function enableFeature(featureFlag: string | undefined, enable: "on" | "off"): v
   if (featureFlags[featureFlag]) {
     console.debug(`>>> enabling feature ${featureFlag}...`);
     featureFlags[featureFlag] = enable;
+    writeFileSync(featureFlagFilePath, JSON.stringify(featureFlags, null, 2));
+    console.debug(`>>> enabling feature ${featureFlag}... done`);
+    return true;
   } else {
-    console.debug(`Feature flag ${featureFlag} not found in featureflags.json`);
+    console.error(`Feature flag ${featureFlag} not found in featureflags.json`);
+    return false;
   }
-  console.debug(featureFlags);
-  writeFileSync(featureFlagFilePath, JSON.stringify(featureFlags, null, 2));
-  console.debug(`>>> enabling feature ${featureFlag}... done`);
+
 }
 
 function cleanupEnvironment(completedTasks: taskInfo[]): void {
