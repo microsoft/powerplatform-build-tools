@@ -10,6 +10,7 @@ import { mockEnvironmentUrl } from "./mockData";
 import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
 import { BuildToolsRunnerParams } from "../../src/host/BuildToolsRunnerParams";
+import { BuildToolsHost } from "../../src/host/BuildToolsHost";
 
 should();
 use(sinonChai);
@@ -42,7 +43,11 @@ describe("publish customizations tests", () => {
 
     publishSolutionStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
-      environmentUrl: mockEnvironmentUrl
-    }, new BuildToolsRunnerParams());
+      environmentUrl: mockEnvironmentUrl,
+      // AB#2761762
+      // TODO: need to rethink our unit test pattern: right now, the tests only parrot what is mostly enforced by the TS type engine for the action's parameter
+      // what would be better is to hook/spy into the cli-wrapper and inspect how it would call the pac CLI...
+      async: { name: "async", required: false, defaultValue: undefined }
+    }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

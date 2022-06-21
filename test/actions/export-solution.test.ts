@@ -45,6 +45,9 @@ describe("export-solution tests", () => {
       environmentUrl: mockEnvironmentUrl,
       name: { name: 'SolutionName', required: true, defaultValue: undefined },
       path: { name: 'SolutionOutputFile', required: true, defaultValue: undefined },
+      // for CI/CD, always overwrite a local sol.zup
+      // AB#2761762 NOTE: this flag requires either 1.15.8 (QFE) or a June refresh (1.17.x); May refresh 1.16.x does NOT have this new flag yet!
+      overwrite: { name: "Overwrite", required: false, defaultValue: true },
       managed: { name: 'Managed', required: false, defaultValue: false },
       async: { name: 'AsyncOperation', required: true, defaultValue: true },
       maxAsyncWaitTimeInMin: { name: 'MaxAsyncWaitTime', required: true, defaultValue: '60' },
