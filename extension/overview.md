@@ -33,6 +33,7 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
   - Power Pages support: Upload/Download PAPortal pages
   - 'Pack/Unpack Solution' tasks have added parameters: MapFile, localization params, DisablePluginRemap, ProcessCanvasApps
   - 'Check Solution' task supports wildcards/glob for solution.zip path to select >= 1 solutions
+  - 'Deploy Package' task captures the deployment log into the job's artifact store
 
 1.0.41:
 - add Staging Solution API for ImportSolution with EnvironmentVariables
