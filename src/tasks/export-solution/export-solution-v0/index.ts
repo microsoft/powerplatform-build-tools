@@ -29,6 +29,9 @@ export async function main(): Promise<void> {
     environmentUrl: getEnvironmentUrl(),
     name: parameterMap['SolutionName'],
     path: parameterMap['SolutionOutputFile'],
+    // for CI/CD, always overwrite a local sol.zup
+    // AB#2761762 NOTE: this flag requires either 1.15.8 (QFE) or a June refresh (1.17.x); May refresh 1.16.x does NOT have this new flag yet!
+    overwrite: { name: "Overwrite", required: false, defaultValue: true },
     managed: parameterMap['Managed'],
     async: parameterMap['AsyncOperation'],
     maxAsyncWaitTimeInMin: parameterMap['MaxAsyncWaitTime'],
