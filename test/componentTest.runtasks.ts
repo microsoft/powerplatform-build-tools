@@ -130,10 +130,16 @@ const tasks: taskInfo[] = [
   // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
   // { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0` },
   { name: deleteEnv, path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
-];
+].filter(task => {
+  if (os.platform() === 'win32') {
+    return true;
+  }
+  // can't run on non-windows OS:
+  return task.name !== 'deploy-package';
+});
 
 describe('Tasks component tests', () => {
-  var completedTasks: taskInfo[] = [];
+  const completedTasks: taskInfo[] = [];
   before('Unzip experimental .vsix', function (done) {
     // needs to be function () definition; arrow definition will not correctly set the this context
     this.timeout(20 * 1000);
@@ -185,11 +191,11 @@ describe('Tasks component tests', () => {
       } catch (error) {
         fail(`Failed to run task: ${task.name}; error: ${error}`)
       }
-    }).timeout(6 * 60 * 1000);
+    }).timeout(10 * 60 * 1000);
   }
 
   after('Cleanup', function () {
-    this.timeout(6 * 6 * 1000);
+    this.timeout(6 * 60 * 1000);
     cleanupEnvironmentIfDeleteIsNotRun(completedTasks);
   })
 });
