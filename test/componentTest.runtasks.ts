@@ -9,6 +9,7 @@ import * as cp from 'child_process';
 import { expect } from "chai";
 import unzip = require('unzip-stream');
 import { isRunningOnAgent } from '../src/params/auth/isRunningOnAgent';
+import { doesNotMatch } from 'assert';
 
 if (process.env.NODE_ENV === 'development') {
   // create a .env file in root directory for testing locally with NODE_ENV = "development"
@@ -99,7 +100,6 @@ interface taskInfo {
   name: string;
   path: string;
   featureFlag?: string;
-  featureState?: "on" | "off";
 }
 
 const outDir = path.resolve(__dirname, '..', 'out');
@@ -114,10 +114,12 @@ if (!pathExistsSync(packageToTest)) {
 console.log(`Running component tests with .vsix package: ${packageToTest}...`);
 const tasksRoot = path.resolve(os.tmpdir(), 'pp-bt-test');
 
+// Allow tool-installer to run independently of other tasks to ensure feature flag file created before it is read.
+const toolInstallerTask: taskInfo = { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` };
+
 const createEnv = 'create-environment';
 const deleteEnv = 'delete-environment';
 const tasks: taskInfo[] = [
-  { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` },
   { name: createEnv, path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
   { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` },
   { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v0` },
@@ -126,8 +128,8 @@ const tasks: taskInfo[] = [
   { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
   { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
   // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
-  { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0`, featureFlag: 'verbAdminAssignUser', featureState: 'off', },
-  { name: deleteEnv, path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
+  { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0`, featureFlag: 'verbAdminAssignUser' },
+  { name: deleteEnv, path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0`, },
 ];
 
 describe('Tasks component tests', () => {
@@ -152,53 +154,79 @@ describe('Tasks component tests', () => {
     expect(isRunningOnAgent()).to.be.true;
   });
 
-  var completedTasks: taskInfo[] = [];
-  for (const task of tasks) {
-    switch (task.featureState) {
-      case 'on': {
-        if(enableFeature(task.featureFlag, task.featureState)) {
-          break;
-        } else{
-          throw new Error(`Failed to enable feature ${task.featureFlag}`);
-        }
-       }
-      case 'off': console.log(`>>> Feature ${task.featureFlag} is disabled. Skipping test of ${task.name}...`); continue;
-    }
+  describe('# Running tasks', () => {
+    var completedTasks: taskInfo[] = [];
+    var featureFlags: FeatureFlag;
 
-    it(`## task ${task.name} `, (done) => {
-      console.log(`>>> start testing ${task.name} (loaded from: ${task.path})...`);
+    before(`# Run ${toolInstallerTask.name} and read feature flags`, function (done) {
+      this.timeout(20 * 1000);
 
       try {
-
-        const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
-
-        if (res.status != 0) {
-          throw new Error(`>>> Failed to run task: ${task.name}; stderr: ${res.stderr}`)
-        }
-
-        const issues = extractIssues(res.stdout);
-        console.log(res.stdout);
-        if (issues[1] === 'error') {
-          throw new Error(`>>> Tasks component test failed at: ${task.name}`)
-        }
-
-        const setVars = extractSetVars(res.stdout);
-        if (setVars[1]) {
-          const varName = setVars[1].split(';')[0];
-          const varValue = setVars[2];
-          console.debug(`Setting pipeline var: ${varName} to: ${varValue}`);
-          process.env[varName] = varValue;
-        }
-        completedTasks.push(task);
-        done();
-      } catch (error) {
+        runTask(toolInstallerTask);
+      }
+      catch (error) {
         console.error(error);
-        cleanupEnvironment(completedTasks);
         process.exit(1);
       }
-    }).timeout(6 * 60 * 1000);
-  }
+
+      completedTasks.push(toolInstallerTask);
+      featureFlags = readFeatureFlagsFile();
+      expect(featureFlags).to.not.be.undefined;
+      done();
+    })
+
+    for (const task of tasks) {
+
+      it(`## Task ${task.name}`, function (done) {
+
+        if (task.featureFlag && featureFlags[task.featureFlag] == "off") {
+          console.debug(`>>> Feature ${task.featureFlag} is ${featureFlags[task.featureFlag]}. Skipping test of ${task.name}...`);
+          // skipped tasks show pending status in the test results
+          this.skip();
+        }
+
+        try {
+          runTask(task);
+        }
+        catch (error) {
+          console.error(error);
+          cleanupEnvironment(completedTasks);
+          process.exit(1);
+        } finally {
+          completedTasks.push(task);
+          done();
+        }
+      }).timeout(6 * 60 * 1000);
+    }
+  });
+
 });
+
+function runTask(task: taskInfo) {
+  const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
+
+  if (res.status != 0) {
+    throw new Error(`>>> Failed to run task: ${task.name}; stderr: ${res.stderr}`)
+  }
+
+  const issues = extractIssues(res.stdout);
+  console.log(res.stdout);
+  if (issues[1] === 'error') {
+    throw new Error(`>>> Tasks component test failed at: ${task.name}`)
+  }
+
+  setTaskEnvironmentVariables(task, res);
+}
+
+function setTaskEnvironmentVariables(task: taskInfo, res: cp.SpawnSyncReturns<string>) {
+  const setVars = extractSetVars(res.stdout);
+  if (setVars[1]) {
+    const varName = setVars[1].split(';')[0];
+    const varValue = setVars[2];
+    console.debug(`Setting pipeline var: ${varName} to: ${varValue}`);
+    process.env[varName] = varValue;
+  }
+}
 
 function extractIssues(output: string): string[] {
   const regex = /^##vso\[task\.issue\s+type=(\S+);\](.+$)/m;
@@ -214,30 +242,21 @@ function extractSetVars(output: string): string[] {
   return matches || [];
 }
 
-interface FeatureInfo {
+interface FeatureFlag {
   [featureName: string]: "on" | "off";
 }
 
-function enableFeature(featureFlag: string | undefined, enable: "on" | "off"): boolean {
-  if (!featureFlag) { throw new Error('Feature flag is not set'); }
+function resolveFeatureFlagFilePath(): string {
   if (!process.env['POWERPLATFORMTOOLS_PACCLIPATH']) { throw new Error('POWERPLATFORMTOOLS_PACCLIPATH is not set'); }
   const paccliPath = process.env['POWERPLATFORMTOOLS_PACCLIPATH'];
-
   const featureFlagFilePath = path.resolve(paccliPath, `pac${process.platform == "win32" ? '' : '_linux'}`, "tools", "featureflags.json");
-  var data = readFileSync(featureFlagFilePath, 'utf8');
-  var featureFlags: FeatureInfo = JSON.parse(data);
+  return featureFlagFilePath;
+}
 
-  if (featureFlags[featureFlag]) {
-    console.debug(`>>> enabling feature ${featureFlag}...`);
-    featureFlags[featureFlag] = enable;
-    writeFileSync(featureFlagFilePath, JSON.stringify(featureFlags, null, 2));
-    console.debug(`>>> enabling feature ${featureFlag}... done`);
-    return true;
-  } else {
-    console.error(`Feature flag ${featureFlag} not found in featureflags.json`);
-    return false;
-  }
-
+function readFeatureFlagsFile(): FeatureFlag {
+  var data = readFileSync(resolveFeatureFlagFilePath(), 'utf8');
+  var featureFlags: FeatureFlag = JSON.parse(data);
+  return featureFlags;
 }
 
 function cleanupEnvironment(completedTasks: taskInfo[]): void {
