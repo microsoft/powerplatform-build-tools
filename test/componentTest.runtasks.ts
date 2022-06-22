@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { pathExistsSync, createReadStream,  readdirSync, emptyDirSync,  ensureDirSync } from 'fs-extra';
+import { pathExistsSync, createReadStream, readdirSync, emptyDirSync, ensureDirSync } from 'fs-extra';
 import path = require('path');
 import os = require('os');
 import process = require('process');
@@ -9,7 +9,12 @@ import * as cp from 'child_process';
 import { expect } from "chai";
 import unzip = require('unzip-stream');
 import { isRunningOnAgent } from '../src/params/auth/isRunningOnAgent';
+import { fail } from 'assert';
 
+if (process.env.NODE_ENV === 'development') {
+  // create a .env file in root directory for testing locally with NODE_ENV = "development"
+  require('dotenv').config();
+}
 const testOutDir = 'out/test';
 
 // convince tasks-under-test to run as if they were launched on an AzDevOps agent:
@@ -17,7 +22,7 @@ process.env['AGENT_JOBNAME'] = "AzDO job";
 
 // general authentication inputs
 const enum AuthTypes {
-  Legacy =  "PowerPlatformEnvironment",
+  Legacy = "PowerPlatformEnvironment",
   SPN = "PowerPlatformSPN",
 }
 const authType = AuthTypes.Legacy;
@@ -79,7 +84,7 @@ process.env['INPUT_SolutionVersionNumber'] = "0.42.0.0"
 process.env["INPUT_LocationName"] = "unitedstates";
 process.env["INPUT_EnvironmentSku"] = "Sandbox";
 process.env["INPUT_CurrencyName"] = "USD";
-const friendlyName = `ppbt-comp-test-${process.platform == "win32" ? 'win' : 'linux' }`;
+const friendlyName = `ppbt-comp-test-${process.platform == "win32" ? 'win' : 'linux'}`;
 process.env["INPUT_DisplayName"] = friendlyName;
 process.env["INPUT_DomainName"] = friendlyName;
 //process.env["INPUT_AppsTemplate"] ="D365_Sales"; #bug2471609
@@ -95,7 +100,7 @@ interface taskInfo {
   path: string;
 }
 
-const outDir = path.resolve(__dirname, '..',  'out');
+const outDir = path.resolve(__dirname, '..', 'out');
 const packagesRoot = path.resolve(outDir, 'packages');
 const packageToTest = readdirSync(packagesRoot)
   .filter((file) => file.startsWith('microsoft-IsvExpTools.PowerPlatform-BuildTools-EXPERIMENTAL-') && file.endsWith('.vsix'))
@@ -147,40 +152,47 @@ describe('Tasks component tests', () => {
     it(`## task ${task.name} `, (done) => {
       console.log(`>>> start testing ${task.name} (loaded from: ${task.path})...`);
 
-      const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
-      if (res.status != 0) {
-        console.error(`Failed to run task: ${task.name}; stderr: ${res.stderr}`);
-        throw new Error(`tasks component test failed at: ${task.name}`);
-      }
+      try {
+        const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
 
-      const issues = extractIssues(res.stdout);
-      console.log(res.stdout);
-      if (issues[1] === 'error') {
-        throw new Error(`tasks component test failed at: ${task.name}`);
-      }
+        if (res.status != 0) {
+          console.error(`Failed to run task: ${task.name}; stderr: ${res.stderr}`);
+          fail(`tasks component test failed at: ${task.name}`);
+        }
 
-      const setVars = extractSetVars(res.stdout);
-      if (setVars[1]) {
-        const varName = setVars[1].split(';')[0];
-        const varValue = setVars[2];
-        console.log(`Setting pipeline var: ${varName} to: ${varValue}`);
-        process.env[varName] = varValue;
+        const issues = extractIssues(res.stdout);
+        console.log(res.stdout);
+        if (issues[1] === 'error') {
+          console.error(`tasks component test failed at: ${task.name}`);
+          process.exit(1);
+        }
+
+        const setVars = extractSetVars(res.stdout);
+        if (setVars[1]) {
+          const varName = setVars[1].split(';')[0];
+          const varValue = setVars[2];
+          console.debug(`Setting pipeline var: ${varName} to: ${varValue}`);
+          process.env[varName] = varValue;
+        }
+        done();
+      } catch (error) {
+        console.error(`Failed to run task: ${task.name}; error: ${error}`);
+        process.exit(1);
       }
-      done();
     }).timeout(6 * 60 * 1000);
   }
 });
 
 function extractIssues(output: string): string[] {
-const regex = /^##vso\[task\.issue\s+type=(\S+);\](.+$)/m;
+  const regex = /^##vso\[task\.issue\s+type=(\S+);\](.+$)/m;
 
-const matches = output.match(regex);
-return matches || [ '', '' ];
+  const matches = output.match(regex);
+  return matches || ['', ''];
 }
 
 function extractSetVars(output: string): string[] {
-const regex = /^##vso\[task\.setvariable\s+variable=(\S+);\](.+$)/m;
+  const regex = /^##vso\[task\.setvariable\s+variable=(\S+);\](.+$)/m;
 
-const matches = output.match(regex);
-return matches || [];
+  const matches = output.match(regex);
+  return matches || [];
 }
