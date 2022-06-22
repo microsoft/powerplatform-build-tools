@@ -7,15 +7,6 @@
       "group": "build",
       "problemMatcher": [],
       "label": "gulp: compile"
-    },{
-      "type": "gulp",
-      "task": "pack",
-      "dependsOn": [
-        "gulp: compile"
-      ],
-      "group": "build",
-      "problemMatcher": [],
-      "label": "gulp: pack"
     }
   ]
 }
