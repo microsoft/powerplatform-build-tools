@@ -9,7 +9,7 @@ import * as cp from 'child_process';
 import { expect } from "chai";
 import unzip = require('unzip-stream');
 import { isRunningOnAgent } from '../src/params/auth/isRunningOnAgent';
-import { doesNotMatch } from 'assert';
+import { fail } from 'assert';
 
 if (process.env.NODE_ENV === 'development') {
   // create a .env file in root directory for testing locally with NODE_ENV = "development"
@@ -93,7 +93,8 @@ process.env["INPUT_LanguageName"] = "English"
 //create assign-user inputs
 process.env['INPUT_user'] = "85fd1857-ddef-46f6-acf4-22a0d1df2cda";
 // INPUT_role string requires single quotes due to white space in string.
-process.env['INPUT_role'] = "'System Customizer'";
+// TODO is this a bug or an artifact of test implementation? If bug, submit to ADO.
+process.env['INPUT_role'] = "System Customizer";
 
 // define tasks sequence
 interface taskInfo {
@@ -166,7 +167,7 @@ describe('Tasks component tests', () => {
       }
       catch (error) {
         console.error(error);
-        process.exit(1);
+        fail();
       }
 
       completedTasks.push(toolInstallerTask);
@@ -189,13 +190,13 @@ describe('Tasks component tests', () => {
           runTask(task);
         }
         catch (error) {
-          console.error(error);
           cleanupEnvironment(completedTasks);
-          process.exit(1);
-        } finally {
-          completedTasks.push(task);
-          done();
+          console.error(error);
+          fail();
         }
+
+        completedTasks.push(task);
+        done();
       }).timeout(6 * 60 * 1000);
     }
   });
