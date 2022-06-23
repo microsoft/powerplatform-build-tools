@@ -14,7 +14,6 @@ module.exports = async function componentTest() {
       mocha({
         require: ["ts-node/register"],
         ui: 'bdd'
-      })
-    )
-    .pipe(eslint.format());
+      }).on('error', process.exit.bind(process, 1))
+    ).pipe(eslint.format());
 };
