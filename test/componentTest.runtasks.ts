@@ -163,8 +163,7 @@ describe('Tasks component tests', () => {
         const issues = extractIssues(res.stdout);
         console.log(res.stdout);
         if (issues[1] === 'error') {
-          console.error(`tasks component test failed at: ${task.name}`);
-          process.exit(1);
+          fail(`tasks component test failed at: ${task.name}`);
         }
 
         const setVars = extractSetVars(res.stdout);
@@ -176,8 +175,7 @@ describe('Tasks component tests', () => {
         }
         done();
       } catch (error) {
-        console.error(`Failed to run task: ${task.name}; error: ${error}`);
-        process.exit(1);
+        fail(`Failed to run task: ${task.name}; error: ${error}`)
       }
     }).timeout(6 * 60 * 1000);
   }
