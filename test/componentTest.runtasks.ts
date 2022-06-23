@@ -112,9 +112,11 @@ if (!pathExistsSync(packageToTest)) {
 console.log(`Running component tests with .vsix package: ${packageToTest}...`);
 const tasksRoot = path.resolve(os.tmpdir(), 'pp-bt-test');
 
+const createEnv = 'create-environment';
+const deleteEnv = 'delete-environment';
 const tasks: taskInfo[] = [
   { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` },
-  { name: 'create-environment', path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
+  { name: createEnv, path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
   { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` },
   { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v0` },
   { name: 'pack-solution', path: `${tasksRoot}/tasks/pack-solution/pack-solution-v0` },
@@ -123,10 +125,11 @@ const tasks: taskInfo[] = [
   { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
   // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
   { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0` },
-  { name: 'delete-environment', path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
+  { name: deleteEnv, path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
 ];
 
 describe('Tasks component tests', () => {
+  var completedTasks: taskInfo[] = [];
   before('Unzip experimental .vsix', function (done) {
     // needs to be function () definition; arrow definition will not correctly set the this context
     this.timeout(20 * 1000);
@@ -173,12 +176,18 @@ describe('Tasks component tests', () => {
           console.debug(`Setting pipeline var: ${varName} to: ${varValue}`);
           process.env[varName] = varValue;
         }
+        completedTasks.push(task);
         done();
       } catch (error) {
         fail(`Failed to run task: ${task.name}; error: ${error}`)
       }
     }).timeout(6 * 60 * 1000);
   }
+
+  after('Cleanup', function () {
+    this.timeout(6 * 6 * 1000);
+    cleanupEnvironmentIfDeleteIsNotRun(completedTasks);
+  })
 });
 
 function extractIssues(output: string): string[] {
@@ -193,4 +202,15 @@ function extractSetVars(output: string): string[] {
 
   const matches = output.match(regex);
   return matches || [];
+}
+
+function cleanupEnvironmentIfDeleteIsNotRun(completedTasks: taskInfo[]): void {
+  const createTaskFoundCompleted = completedTasks.find(t => t.name === createEnv);
+  const deleteTaskCompleted = completedTasks.find(t => t.name === deleteEnv);
+  const deleteTaskFound = tasks.find(t => t.name === deleteEnv);
+  if (createTaskFoundCompleted && !deleteTaskCompleted && deleteTaskFound) {
+    console.log(`>>> Attempting to cleaning up environment(${envUrl})...`);
+    cp.spawnSync('node', [deleteTaskFound.path], { encoding: 'utf-8', cwd: tasksRoot });
+    console.log(`>>> Attempting to clean up environment(${envUrl})... done`);
+  }
 }
