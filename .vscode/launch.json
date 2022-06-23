@@ -1,6 +1,7 @@
 {
   "version": "0.2.0",
   "configurations": [
+
     {
       "type": "pwa-node",
       "request": "launch",
@@ -68,6 +69,19 @@
       "args": [
         "pack",
         "--patch", "42"
+      ],
+      "skipFiles": [
+        "<node_internals>/**"
+      ]
+    },
+    {
+      "type": "pwa-node",
+      "request": "launch",
+      "name": "Gulp ComponentTest only",
+      "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
+      "cwd": "${workspaceFolder}",
+      "args": [
+        "componentTest"
       ],
       "skipFiles": [
         "<node_internals>/**"
