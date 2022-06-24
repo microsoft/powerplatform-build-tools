@@ -76,6 +76,9 @@ process.env['INPUT_SkipProductUpdateDependencies'] = "false";
 process.env['INPUT_OverwriteUnmanagedCustomizations'] = "false";
 process.env['INPUT_HoldingSolution'] = "false";
 
+// deploy package
+process.env['INPUT_PackageFile'] = `${path.join(__dirname, 'Test-Data', 'testPkg', 'bin', 'Debug', 'testPkg.1.0.0.pdpkg.zip')}`;
+
 //export solution inputs
 process.env['INPUT_SolutionName'] = "emptySolution";
 process.env['INPUT_SolutionVersionNumber'] = "0.42.0.0"
@@ -121,15 +124,22 @@ const tasks: taskInfo[] = [
   { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v0` },
   { name: 'pack-solution', path: `${tasksRoot}/tasks/pack-solution/pack-solution-v0` },
   { name: 'checker', path: `${tasksRoot}/tasks/checker/checker-v0` },
+  { name: 'deploy-package', path: `${tasksRoot}/tasks/deploy-package/deploy-package-v0` },
   { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
   { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
   // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
   // { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0` },
   { name: deleteEnv, path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
-];
+].filter(task => {
+  if (os.platform() === 'win32') {
+    return true;
+  }
+  // can't run on non-windows OS:
+  return task.name !== 'deploy-package';
+});
 
 describe('Tasks component tests', () => {
-  var completedTasks: taskInfo[] = [];
+  const completedTasks: taskInfo[] = [];
   before('Unzip experimental .vsix', function (done) {
     // needs to be function () definition; arrow definition will not correctly set the this context
     this.timeout(20 * 1000);
@@ -181,11 +191,11 @@ describe('Tasks component tests', () => {
       } catch (error) {
         fail(`Failed to run task: ${task.name}; error: ${error}`)
       }
-    }).timeout(6 * 60 * 1000);
+    }).timeout(10 * 60 * 1000);
   }
 
   after('Cleanup', function () {
-    this.timeout(6 * 6 * 1000);
+    this.timeout(6 * 60 * 1000);
     cleanupEnvironmentIfDeleteIsNotRun(completedTasks);
   })
 });
