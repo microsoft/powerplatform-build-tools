@@ -166,15 +166,14 @@ describe('Tasks component tests', () => {
         const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
 
         if (res.status != 0) {
-          console.error(`Failed to run task: ${task.name}; stderr: ${res.stderr}`);
-          fail(`tasks component test failed at: ${task.name}`);
+          throw new Error(`Failed to run task: ${task.name}; stderr: ${res.stderr}`);
         }
 
         const issues = extractIssues(res.stdout);
 
         if (issues[1] === 'error') {
           console.log(res.stdout);
-          fail(`tasks component test failed at: ${task.name} (loaded from: ${task.path})...`);
+          throw new Error(`tasks component test failed at: ${task.name} (loaded from: ${task.path})...\nstdout: ${res.stdout}`);
         }
 
         const setVars = extractSetVars(res.stdout);
