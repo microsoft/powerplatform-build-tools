@@ -101,7 +101,6 @@ process.env['INPUT_role'] = "System Customizer";
 process.env['INPUT_SolutionName'] = "emptySolution";
 process.env['INPUT_Component'] = "account";
 process.env['INPUT_ComponentType'] = "1";
-process.env['INPUT_addRequiredComponents'] = "true";
 
 // define tasks sequence
 interface taskInfo {
