@@ -143,13 +143,11 @@ describe('Tasks component tests', () => {
   before('Unzip experimental .vsix', function (done) {
     // needs to be function () definition; arrow definition will not correctly set the this context
     this.timeout(20 * 1000);
-    console.log(`Unzipping VSIX ${packageToTest} into folder: ${tasksRoot} ...`);
     ensureDirSync(tasksRoot);
     emptyDirSync(tasksRoot);
     createReadStream(packageToTest)
       .pipe(unzip.Extract({ path: tasksRoot }))
       .on("close", () => {
-        console.log('Unzip complete.');
         done();
       })
       .on("error", (error) => {
@@ -163,7 +161,6 @@ describe('Tasks component tests', () => {
 
   for (const task of tasks) {
     it(`## task ${task.name} `, (done) => {
-      console.log(`>>> start testing ${task.name} (loaded from: ${task.path})...`);
 
       try {
         const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
@@ -174,16 +171,17 @@ describe('Tasks component tests', () => {
         }
 
         const issues = extractIssues(res.stdout);
-        console.log(res.stdout);
+
         if (issues[1] === 'error') {
-          fail(`tasks component test failed at: ${task.name}`);
+          console.log(res.stdout);
+          fail(`tasks component test failed at: ${task.name} (loaded from: ${task.path})...`);
         }
 
         const setVars = extractSetVars(res.stdout);
         if (setVars[1]) {
           const varName = setVars[1].split(';')[0];
           const varValue = setVars[2];
-          console.debug(`Setting pipeline var: ${varName} to: ${varValue}`);
+          //console.debug(`Setting pipeline var: ${varName} to: ${varValue}`);
           process.env[varName] = varValue;
         }
         completedTasks.push(task);
