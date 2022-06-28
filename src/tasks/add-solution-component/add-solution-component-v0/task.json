@@ -1,8 +1,8 @@
 {
   "id": "783C008C-8AF1-4E47-B682-7A66FB64824C",
-  "name": "PowerPlatformAssignUser",
-  "friendlyName": "Power Platform Assign User",
-  "description": "Power Platform assign user to target environment with specified security role",
+  "name": "PowerPlatformAddSolutionComponent",
+  "friendlyName": "Power Platform Add Solution Component",
+  "description": "Adds a solution component to the target unmanaged solution in the connected Dataverse environment",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Deploy",
@@ -20,7 +20,7 @@
   },
   "preview": false,
   "minimumAgentVersion": "1.95.0",
-  "instanceNameFormat": "Power Platform Assign User $(message)",
+  "instanceNameFormat": "Power Platform Add Solution Component $(message)",
   "inputs": [
     {
       "name": "authenticationType",
