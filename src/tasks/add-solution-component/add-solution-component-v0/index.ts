@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as tl from 'azure-pipelines-task-lib/task';
-import { addSolutionComponent, assignUser } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
+import { addSolutionComponent } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 import { getCredentials } from "../../../params/auth/getCredentials";
 import { isRunningOnAgent } from '../../../params/auth/isRunningOnAgent';
@@ -10,6 +10,7 @@ import * as taskDefinitionData from "./task.json";
 import { TaskParser } from "../../../parser/TaskParser";
 import { AzurePipelineTaskDefiniton } from 'src/parser/AzurePipelineDefinitions';
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
+import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 
 (async () => {
   if (isRunningOnAgent()) {
@@ -23,6 +24,8 @@ import { BuildToolsHost } from "../../../host/BuildToolsHost";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+
+  parameterMap['Environment'].defaultValue ?  getEnvironmentUrl() : undefined;
 
   await addSolutionComponent({
     credentials: getCredentials(),
