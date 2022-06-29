@@ -56,7 +56,7 @@
       "type": "string",
       "defaultValue": "$(BuildTools.EnvironmentUrl)",
       "required": false,
-      "helpMarkDown": "Environment URL or ID this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
+      "helpMarkDown": "Environment URL this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
     },
     {
       "name": "SolutionName",
