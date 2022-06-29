@@ -42,7 +42,7 @@ describe("Add solution component to target solution", () => {
 
     addSolutionComponentStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
-      environment: { name: 'Environment', required: false, defaultValue: '$(BuildTools.EnvironmentUrl)' },
+      environmentUrl: mockEnvironmentUrl,
       solutionName: { name: 'SolutionName', required: true, defaultValue: undefined },
       component: { name: 'Component', required: true, defaultValue: undefined },
       componentType: { name: 'ComponentType', required: true, defaultValue: undefined },

@@ -25,11 +25,9 @@ export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
 
-  parameterMap['Environment'].defaultValue ?  getEnvironmentUrl() : undefined;
-
   await addSolutionComponent({
     credentials: getCredentials(),
-    environment: parameterMap['Environment'],
+    environmentUrl: getEnvironmentUrl(),
     solutionName: parameterMap['SolutionName'],
     component: parameterMap['Component'],
     componentType: parameterMap['ComponentType'],
