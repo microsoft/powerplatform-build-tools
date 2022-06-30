@@ -10,6 +10,7 @@ import { mockEnvironmentUrl } from "./mockData";
 import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
 import { BuildToolsRunnerParams } from "../../src/host/BuildToolsRunnerParams";
+import { BuildToolsHost } from "../../src/host/BuildToolsHost";
 
 should();
 use(sinonChai);
@@ -43,6 +44,6 @@ describe("publish customizations tests", () => {
     publishSolutionStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl
-    }, new BuildToolsRunnerParams());
+    }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });
