@@ -188,6 +188,15 @@
         "DEV": "D553844D-E337-4642-A379-34C3C0CBEAB4",
         "EXPERIMENTAL": "026441AF-0517-4458-A9A3-9D91D91F98C3"
       }
+    },
+    {
+      "name": "add-solution-component",
+      "id": {
+        "LIVE": "20DF94E7-F5D1-4726-B064-0E110CF1D628",
+        "BETA": "A958ABD4-FC9D-4CC2-A99D-4FC3A93F1696",
+        "DEV": "4FB6DC1F-D286-499A-A289-3581B66A10D0",
+        "EXPERIMENTAL": "DE0B61AA-53CC-4810-B3CC-7AF4FBD56040"
+      }
     }
   ]
 }
