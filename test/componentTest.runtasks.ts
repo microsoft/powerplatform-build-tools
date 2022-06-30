@@ -143,14 +143,14 @@ describe('Tasks component tests', () => {
   before('Unzip experimental .vsix', function (done) {
     // needs to be function () definition; arrow definition will not correctly set the this context
     this.timeout(20 * 1000);
-    console.log(`Unzipping VSIX ${packageToTest} into folder: ${tasksRoot} ...`);
     ensureDirSync(tasksRoot);
+    console.log(`Unzipping VSIX ${packageToTest} into folder: ${tasksRoot} ...`);
     emptyDirSync(tasksRoot);
     createReadStream(packageToTest)
       .pipe(unzip.Extract({ path: tasksRoot }))
       .on("close", () => {
-        console.log('Unzip complete.');
         done();
+        console.log('Unzip complete.');
       })
       .on("error", (error) => {
         done(error);
@@ -164,19 +164,17 @@ describe('Tasks component tests', () => {
   for (const task of tasks) {
     it(`## task ${task.name} `, (done) => {
       console.log(`>>> start testing ${task.name} (loaded from: ${task.path})...`);
-
       try {
         const res = cp.spawnSync('node', [task.path], { encoding: 'utf-8', cwd: tasksRoot });
 
         if (res.status != 0) {
-          console.error(`Failed to run task: ${task.name}; stderr: ${res.stderr}`);
-          fail(`tasks component test failed at: ${task.name}`);
+          throw new Error(`Failed to run task: ${task.name}; stderr: ${res.stderr}`);
         }
 
         const issues = extractIssues(res.stdout);
-        console.log(res.stdout);
+
         if (issues[1] === 'error') {
-          fail(`tasks component test failed at: ${task.name}`);
+          throw new Error(`tasks component test failed at: ${task.name} (loaded from: ${task.path})...\nstdout: ${res.stdout}`);
         }
 
         const setVars = extractSetVars(res.stdout);
