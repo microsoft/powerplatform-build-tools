@@ -104,7 +104,7 @@
       "visibleRule": "AsyncOperation = true",
       "required": true,
       "defaultValue": "60",
-      "helpMarkDown": "Maximum wait time in minutes for asynchronous Import; default is 60 min (1 hr), same as Azure DevOps default for tasks."
+      "helpMarkDown": "Maximum wait time in minutes for asynchronous Import; default is 60 min (1 hr), same as Azure DevOps default for tasks."
     },
     {
       "name": "HoldingSolution",
@@ -125,13 +125,13 @@
       "helpMarkDown": "Specify whether to overwrite unmanaged customizations."
     },
     {
-      "name": "PublishWorkflows",
-      "label": "Activate processes (workflows) after import",
+      "name": "ActivatePlugins",
+      "label": "Activate Plugins",
       "type": "boolean",
       "required": false,
       "defaultValue": true,
       "groupName": "advanced",
-      "helpMarkDown": "Specify whether any processes (workflows) in the solution should be activated after import."
+      "helpMarkDown": "Activate plug-ins and workflows on the solution."
     },
     {
       "name": "SkipProductUpdateDependencies",
@@ -152,13 +152,13 @@
       "helpMarkDown": "Specify whether to import as a Managed solution."
     },
     {
-      "name": "ActivatePlugins",
-      "label": "Activate Plugins",
+      "name": "PublishWorkflows",
+      "label": "(DEPRECATED, use 'Activate Plugins' instead) Activate processes (workflows) after import",
       "type": "boolean",
       "required": false,
       "defaultValue": false,
       "groupName": "advanced",
-      "helpMarkDown": "Activate plug-ins and workflows on the solution."
+      "helpMarkDown": "Specify whether any processes (workflows) in the solution should be activated after import."
     }
   ],
   "execution": {
