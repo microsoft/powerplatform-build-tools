@@ -38,7 +38,7 @@ export async function main(): Promise<void> {
     maxAsyncWaitTimeInMin: parameterMap['MaxAsyncWaitTime'],
     importAsHolding: parameterMap['HoldingSolution'],
     forceOverwrite: parameterMap['OverwriteUnmanagedCustomizations'],
-    publishChanges: parameterMap['PublishWorkflows'],
+    publishChanges: parameterMap['PublishCustomizationChanges'],
     skipDependencyCheck: parameterMap['SkipProductUpdateDependencies'],
     convertToManaged: parameterMap['ConvertToManaged'],
     // the fallback for default value 'true' corresponds with task.json's default value

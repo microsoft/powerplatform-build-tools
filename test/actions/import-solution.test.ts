@@ -50,7 +50,7 @@ describe("import-solution tests", () => {
       maxAsyncWaitTimeInMin: { name: 'MaxAsyncWaitTime', required: true, defaultValue: '60' },
       importAsHolding: { name: 'HoldingSolution', required: false, defaultValue: false },
       forceOverwrite: { name: 'OverwriteUnmanagedCustomizations', required: false, defaultValue: false },
-      publishChanges: { name: 'PublishWorkflows', required: false, defaultValue: false },
+      publishChanges: { name: 'PublishCustomizationChanges', required: false, defaultValue: false },
       skipDependencyCheck: { name: 'SkipProductUpdateDependencies', required: false, defaultValue: false },
       convertToManaged: { name: 'ConvertToManaged', required: false, defaultValue: false },
       activatePlugins: { name: 'ActivatePlugins', required: false, defaultValue: true }

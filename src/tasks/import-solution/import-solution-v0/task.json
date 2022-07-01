@@ -152,6 +152,15 @@
       "helpMarkDown": "Specify whether to import as a Managed solution."
     },
     {
+      "name": "PublishCustomizationChanges",
+      "label": "Publish customization changes",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Publish all customization changes after import succeeds; if set, this replaces the need for a separate 'Publish Customizations' task to follow the import task."
+    },
+    {
       "name": "PublishWorkflows",
       "label": "(DEPRECATED, use 'Activate Plugins' instead) Activate processes (workflows) after import",
       "type": "boolean",
