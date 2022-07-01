@@ -21,6 +21,9 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 
 # Release Notes
 {{NextReleaseVersion}}:
+- fix upload error for DeployPackage/Checker when running in release pipeline (#125)
+
+1.0.81:
 - Tasks are now implemented using [PowerPlatform CLI](https://aka.ms/PowerPlatformCLI)
 - Crossplatform support: Tasks can run on either Windows or Linux build agents
   (exception: 'Package Deploy' requires Windows)
