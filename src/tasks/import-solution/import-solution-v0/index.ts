@@ -24,6 +24,10 @@ export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
 
+  // backwards compatibility: check if user still has assigned the now deprecated PublishWorkflows:
+  // getInput will return 'undefined' if input is not assigned in yaml, but usually false if classic GUI task editor is used
+  const publishWorkflows = tl.getInput("PublishWorkflows", false);
+
   await importSolution({
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
@@ -37,6 +41,8 @@ export async function main(): Promise<void> {
     publishChanges: parameterMap['PublishWorkflows'],
     skipDependencyCheck: parameterMap['SkipProductUpdateDependencies'],
     convertToManaged: parameterMap['ConvertToManaged'],
-    activatePlugins: parameterMap['ActivatePlugins']
+    // the fallback for default value 'true' corresponds with task.json's default value
+    // the intended outcome: ensure if either ActivatePlugins OR PublishWorkflows is true, send true to DV:
+    activatePlugins: { name: "ActivatePlugins", required: false, defaultValue: publishWorkflows || true }
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }
