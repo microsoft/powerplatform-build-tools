@@ -21,6 +21,9 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 
 # Release Notes
 {{NextReleaseVersion}}:
+  - support auth connections for NOR, KOR, SGP regions (#128)
+
+1.0.84:
 - 'Import Solution' task:
   - 'ActivatePlugins' task parameter is on by default; deprecate param 'PublishWorkflows' but consider both for plugin activation (#131)
   - fix forced 'PublishChanges' and its potential http timeout on PublishAllCustomizations (#129)
