@@ -40,7 +40,7 @@ export async function main(): Promise<void> {
     maxAsyncWaitTimeInMin: parameterMap['MaxAsyncWaitTime'],
     importAsHolding: parameterMap['HoldingSolution'],
     forceOverwrite: parameterMap['OverwriteUnmanagedCustomizations'],
-    publishChanges: parameterMap['PublishWorkflows'],
+    publishChanges: parameterMap['PublishCustomizationChanges'],
     skipDependencyCheck: parameterMap['SkipProductUpdateDependencies'],
     convertToManaged: parameterMap['ConvertToManaged'],
     // WORKAROUND: current IHostAbstractions and its input processing in cli-wrapper will only look at the default value

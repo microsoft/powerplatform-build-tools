@@ -21,7 +21,10 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 
 # Release Notes
 {{NextReleaseVersion}}:
-- 'ActivatePlugins' task parameter is on by default; deprecate param 'PublishWorkflows' but consider both for plugin activation (#131)
+- 'Import Solution' task:
+  - 'ActivatePlugins' task parameter is on by default; deprecate param 'PublishWorkflows' but consider both for plugin activation (#131)
+  - fix forced 'PublishChanges' and its potential http timeout on PublishAllCustomizations (#129)
+  - introduces a new "PublishCustomizationChanges" task parameter to also publish customizations after successful import
 
 1.0.82:
 - fix upload error for DeployPackage/Checker when running in release pipeline (#125)
