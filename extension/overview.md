@@ -21,6 +21,9 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 
 # Release Notes
 {{NextReleaseVersion}}:
+- 'ActivatePlugins' task parameter is on by default; deprecate param 'PublishWorkflows' but consider both for plugin activation (#131)
+
+1.0.82:
 - fix upload error for DeployPackage/Checker when running in release pipeline (#125)
 
 1.0.81:

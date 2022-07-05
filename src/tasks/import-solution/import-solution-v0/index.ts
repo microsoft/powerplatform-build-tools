@@ -24,6 +24,12 @@ export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
 
+  // backwards compatibility: check if user still has assigned the now deprecated PublishWorkflows:
+  // goal is to ensure activatePlugins is set if either tp deprecated or tne new input property are set
+  const publishWorkflows = tl.getInput("PublishWorkflows", false);
+  const activatePlugins = tl.getInput("ActivatePlugins", false);
+  const activatePluginsMerged = publishWorkflows === 'true' || activatePlugins === 'true';
+
   await importSolution({
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
@@ -37,6 +43,10 @@ export async function main(): Promise<void> {
     publishChanges: parameterMap['PublishWorkflows'],
     skipDependencyCheck: parameterMap['SkipProductUpdateDependencies'],
     convertToManaged: parameterMap['ConvertToManaged'],
-    activatePlugins: parameterMap['ActivatePlugins']
+    // WORKAROUND: current IHostAbstractions and its input processing in cli-wrapper will only look at the default value
+    // IFF the actual property name does NOT exist in task.json -> MergedActivePlugin is NOT defined in task, thus forcing
+    // cli-wrapper to accept the calculated activatePluginMerged as default value.
+    // TODO: reconsider cli-wrapper's host abstraction design, but beyond this hot fix
+    activatePlugins: { name: "MergedActivatePlugin", required: false, defaultValue: activatePluginsMerged }
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }
