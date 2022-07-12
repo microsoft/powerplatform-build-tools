@@ -77,7 +77,7 @@
       "label": "Component Type",
       "type": "string",
       "required": true,
-      "helpMarkDown": "The schema name or ID of the component to add to the target solution"
+      "helpMarkDown": "The value that represents the solution component that you are adding"
     },
     {
       "name": "AddRequiredComponents",
