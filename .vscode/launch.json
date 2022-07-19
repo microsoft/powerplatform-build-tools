@@ -23,7 +23,10 @@
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",
         "!**/node_modules/**"
-      ]
+      ],
+      "env": {
+        "NODE_ENV": "development"
+      },
     },
     {
       "type": "node",
@@ -46,7 +49,10 @@
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",
         "!**/node_modules/**"
-      ]
+      ],
+      "env": {
+        "NODE_ENV": "development"
+      },
     },
     {
       "type": "node",
