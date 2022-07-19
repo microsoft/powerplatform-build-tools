@@ -8,7 +8,7 @@ const packageNamePrefix = 'microsoft-IsvExpTools.PowerPlatform-BuildTools-EXPERI
 const packageExtenstion = '.vsix';
 const testTempDir = 'pp-bt-test';
 
-export default class taskTestBuilder {
+export default class TaskTestBuilder {
 
   initializeTestFiles(successCallBack: Function): string {
     const { tasksRootPath, packageToTest } = this.setPaths();
