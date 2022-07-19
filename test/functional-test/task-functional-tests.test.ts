@@ -4,6 +4,7 @@ import process = require('process');
 import { isRunningOnAgent } from "../../src/params/auth/isRunningOnAgent";
 import { TaskTestBuilder, AuthTypes, TaskRunner, TaskInfo } from './functional-test-lib';
 import * as path from 'path';
+
 should();
 
 const testTaskRootPathName = 'testTasksRootPath';
@@ -12,11 +13,9 @@ const packagesRoot = path.resolve(outDir, 'packages');
 const testBuilder: TaskTestBuilder = new TaskTestBuilder(AuthTypes.Legacy, packagesRoot);
 
 describe('Build tools functional tests', function () {
-
   this.beforeAll(function (done: Mocha.Done) {
     try {
       process.env[testTaskRootPathName] = testBuilder.initializeTestFiles(() => { done(); });
-
     } catch (error) {
       fail(`${error}`);
     }
@@ -33,9 +32,8 @@ describe('Build tools functional tests', function () {
 
   tasks.forEach((taskInfo: TaskInfo) => {
     it(`Should run ${taskInfo.name} task using relative path ${taskInfo.path}`, function (done: Mocha.Done) {
-      let testTasksRootPath = process.env[testTaskRootPathName];
+      let testTasksRootPath = process.env[testTaskRootPathName] ?? fail(`Environment variable ${testTaskRootPathName} is not defined`);
       try {
-        if (!testTasksRootPath) { fail(`Environment variable ${testTaskRootPathName} is not defined`); }
         const taskRunner: TaskRunner = new TaskRunner(taskInfo, testTasksRootPath);
         const result = taskRunner.runTask();
 
@@ -49,8 +47,10 @@ describe('Build tools functional tests', function () {
   });
 
   this.afterAll(function (done: Mocha.Done) {
-    testBuilder.cleanupTestFiles(() => { done(); });
-  }
+    testBuilder.cleanUpTestFiles();
+    done();
+  });
+
 });
 
 

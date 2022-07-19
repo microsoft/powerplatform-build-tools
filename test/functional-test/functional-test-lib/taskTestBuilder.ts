@@ -44,7 +44,7 @@ export class TaskTestBuilder {
     const appId = process.env['PA_BT_ORG_SPN_ID'] ?? '8a7729e0-2b71-4919-a89a-c789d0a9720a';
     const tenantId = process.env['PA_BT_ORG_SPN_TENANT_ID'] ?? '3041a058-5110-495a-a575-b2a5571d9eac';
     const clientSecret = process.env['PA_BT_ORG_SPNKEY'];
-    if (!clientSecret && (authType as AuthTypes) === AuthTypes.SPN) {
+    if (!clientSecret && authType === AuthTypes.SPN) {
       throw new Error("Require PA_BT_ORG_SPNKEY env variable to be set!");
     }
 
@@ -56,7 +56,7 @@ export class TaskTestBuilder {
   private setPasswordBasedAuthEnvironmentVariables(authType: AuthTypes, envUrl: string) {
     const username = process.env['PA_BT_ORG_USER'] ?? 'davidjen@ppdevtools.onmicrosoft.com';
     const password = process.env['PA_BT_ORG_PASSWORD'];
-    if (!password && (authType as AuthTypes) === AuthTypes.Legacy) {
+    if (!password && authType === AuthTypes.Legacy) {
       throw new Error("Require PA_BT_ORG_PASSWORD environment variable to be set!");
     }
 
@@ -67,22 +67,24 @@ export class TaskTestBuilder {
 
   initializeTestFiles(successCallBack: Function): string {
     const packageToTestPath = this.resolvePackageToTestPath();
-    this.unzipVsix(this.taskRootPath, packageToTestPath, successCallBack);
+    this.unzipVsix(packageToTestPath, successCallBack);
     return this.taskRootPath;
   }
 
-  cleanUpTestFiles(tasksRootPath: string) {
-    emptyDirSync(tasksRootPath);
+  cleanUpTestFiles(){
+    console.log(`Cleaning up test files from ${this.taskRootPath}...`);
+    emptyDirSync(this.taskRootPath);
+    console.log(`Cleaning up test files from ${this.taskRootPath}... Done!`);
   }
 
-  private unzipVsix(tasksRoot: string, packageToTest: string, callBack: Function) {
-    ensureDirSync(tasksRoot);
-    emptyDirSync(tasksRoot);
+  private unzipVsix(packageToTest: string, callBack: Function) {
+    ensureDirSync(this.taskRootPath);
+    this.cleanUpTestFiles();
     createReadStream(packageToTest)
-      .pipe(unzip.Extract({ path: tasksRoot }))
+      .pipe(unzip.Extract({ path: this.taskRootPath }))
       .on("close", callBack.bind(this))
       .on("error", (error: any) => {
-        throw new Error(`Failed to extract ${packageToTest} to ${tasksRoot}: error: ${error}`);
+        throw new Error(`Failed to extract ${packageToTest} to ${this.taskRootPath}: error: ${error}`);
       });
   }
 
