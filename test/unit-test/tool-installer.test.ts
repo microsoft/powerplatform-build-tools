@@ -11,7 +11,7 @@ describe("tool-installer tests", () => {
   async function callActionWithMocks(): Promise<void> {
     const toolInstaller = await rewiremock.around(
       () => import("../../src/tasks/tool-installer/tool-installer-v0/index"),
-      (mock) => {
+      (mock : any) => {
         mock(() => import("../../src/host/CliLocator")).with({ findPacCLI: () => Promise.resolve("path/from/mocked/cli/locator") });
       });
     await toolInstaller.main();
