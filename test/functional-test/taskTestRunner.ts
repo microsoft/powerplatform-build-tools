@@ -1,9 +1,11 @@
 import * as cp from 'child_process';
+import path = require('path');
 import process = require('process');
 
 export interface TaskInfo {
   name: string;
   path: string;
+  inputVariables?: EnvironmentVariableDefinition[];
 }
 
 export interface TaskResult {
@@ -27,11 +29,16 @@ export class TaskRunner {
   }
 
   runTask(): TaskResult{
-    this.taskResult = cp.spawnSync('node', [this.taskInfo.path], { encoding: 'utf-8', cwd: this.taskDirectory });
+    const normalizedTaskPath = this.normalizeAbsoluteTaskPath()
+    this.taskResult = cp.spawnSync('node', [normalizedTaskPath], { encoding: 'utf-8', cwd: this.taskDirectory });
     console.log(this.taskResult.stdout);
     this.validateTaskRun();
     var envVar = this.setOutputEnvironmentVariables();
     return {processResult: this.taskResult, outputEnvironmentVariable: envVar };
+  }
+
+  private normalizeAbsoluteTaskPath() {
+    return (path.join(this.taskDirectory, this.taskInfo.path)).replace(/\\/g, '/');
   }
 
   private setOutputEnvironmentVariables(): EnvironmentVariableDefinition | undefined {
