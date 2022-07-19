@@ -1,21 +1,22 @@
 import { should, expect } from "chai";
-import TaskTestBuilder, { AuthTypes } from "./taskTestBuilder";
 import { fail } from "assert";
 import process = require('process');
 import { isRunningOnAgent } from "../../src/params/auth/isRunningOnAgent";
-import { TaskRunner, TaskInfo } from "./taskTestRunner";
-import os = require('os');
-
+import { TaskTestBuilder, AuthTypes, TaskRunner, TaskInfo } from './functional-test-lib';
+import * as path from 'path';
 should();
 
-const testBuilder: TaskTestBuilder = new TaskTestBuilder(AuthTypes.Legacy);
-const testTaskRootPathName = 'testTasksRootPath'
+const testTaskRootPathName = 'testTasksRootPath';
+const outDir = path.resolve(__dirname, '..', '..', 'out');
+const packagesRoot = path.resolve(outDir, 'packages');
+const testBuilder: TaskTestBuilder = new TaskTestBuilder(AuthTypes.Legacy, packagesRoot);
 
 describe('Build tools functional tests', function () {
 
   this.beforeAll(function (done: Mocha.Done) {
     try {
       process.env[testTaskRootPathName] = testBuilder.initializeTestFiles(() => { done(); });
+
     } catch (error) {
       fail(`${error}`);
     }
@@ -46,6 +47,10 @@ describe('Build tools functional tests', function () {
       }
     });
   });
+
+  this.afterAll(function (done: Mocha.Done) {
+    testBuilder.cleanupTestFiles(() => { done(); });
+  }
 });
 
 

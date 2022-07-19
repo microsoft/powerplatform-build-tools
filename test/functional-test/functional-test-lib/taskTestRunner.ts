@@ -31,7 +31,7 @@ export class TaskRunner {
   runTask(): TaskResult{
     const normalizedTaskPath = this.normalizeAbsoluteTaskPath()
     this.taskResult = cp.spawnSync('node', [normalizedTaskPath], { encoding: 'utf-8', cwd: this.taskDirectory });
-    console.log(this.taskResult.stdout);
+    console.debug(this.taskResult.stdout);
     this.validateTaskRun();
     var envVar = this.setOutputEnvironmentVariables();
     return {processResult: this.taskResult, outputEnvironmentVariable: envVar };

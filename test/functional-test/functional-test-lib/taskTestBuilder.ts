@@ -12,9 +12,12 @@ export const enum AuthTypes {
   Legacy = "PowerPlatformEnvironment",
   SPN = "PowerPlatformSPN",
 }
-export default class TaskTestBuilder {
+export class TaskTestBuilder {
+  [x: string]: any;
+  packageDirectory: string;
+  taskRootPath: string;
 
-  constructor(authType: AuthTypes) {
+  constructor(authType: AuthTypes, packageDirectory: string) {
     if (process.env.NODE_ENV === 'development') {
       // create a .env file in root directory for testing locally with NODE_ENV = "development"
       require('dotenv').config();
@@ -27,12 +30,14 @@ export default class TaskTestBuilder {
 
     const envUrl = process.env['PA_BT_ORG_URL'] ?? 'https://ppbt-comp-test.crm.dynamics.com';
 
-    // for inner dev loop facilitation, specify the below env variables to override the given defaults here:
     if (authType == AuthTypes.Legacy)
       this.setPasswordBasedAuthEnvironmentVariables(authType, envUrl);
 
     if (authType == AuthTypes.SPN)
       this.setSpnBasedAuthEnvironmentvariables(authType, envUrl);
+
+    this.packageDirectory = packageDirectory;
+    this.taskRootPath = path.resolve(os.tmpdir(), testTempDir);
   }
 
   private setSpnBasedAuthEnvironmentvariables(authType: AuthTypes, envUrl: string) {
@@ -61,10 +66,9 @@ export default class TaskTestBuilder {
   }
 
   initializeTestFiles(successCallBack: Function): string {
-    const tasksRootPath = path.resolve(os.tmpdir(), testTempDir);
     const packageToTestPath = this.resolvePackageToTestPath();
-    this.unzipVsix(tasksRootPath, packageToTestPath, successCallBack);
-    return tasksRootPath;
+    this.unzipVsix(this.taskRootPath, packageToTestPath, successCallBack);
+    return this.taskRootPath;
   }
 
   cleanUpTestFiles(tasksRootPath: string) {
@@ -84,15 +88,12 @@ export default class TaskTestBuilder {
 
   private resolvePackageToTestPath() {
 
-    const outDir = path.resolve(__dirname, '..', '..', 'out');
-    const packagesRoot = path.resolve(outDir, 'packages');
+    if (!existsSync(this.packageDirectory))
+      throw new Error(`Packages directory does not exist: ${this.packageDirectory}`);
 
-    if (!existsSync(packagesRoot))
-      throw new Error(`Packages directory does not exist: ${packagesRoot}`);
-
-    const packageToTest = readdirSync(packagesRoot)
+    const packageToTest = readdirSync(this.packageDirectory)
       .filter((file) => file.startsWith(packageNamePrefix) && file.endsWith(packageExtenstion))
-      .map(file => path.resolve(packagesRoot, file))
+      .map(file => path.resolve(this.packageDirectory, file))
       .slice(0, 1)[0];
 
     if (!pathExistsSync(packageToTest)) {
