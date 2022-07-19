@@ -1,45 +1,50 @@
 import { should, expect } from "chai";
-import TaskTestBuilder from "./taskTestBuilder";
+import TaskTestBuilder, { AuthTypes } from "./taskTestBuilder";
 import { fail } from "assert";
 import process = require('process');
 import { isRunningOnAgent } from "../../src/params/auth/isRunningOnAgent";
 import { TaskRunner, TaskInfo } from "./taskTestRunner";
+import os = require('os');
 
 should();
 
-// convince tasks-under-test to run as if they were launched on an AzDevOps agent:
-process.env['AGENT_JOBNAME'] = "AzDO job";
-const testRunner: TaskTestBuilder = new TaskTestBuilder();
+const testBuilder: TaskTestBuilder = new TaskTestBuilder(AuthTypes.Legacy);
 const testTaskRootPathName = 'testTasksRootPath'
-describe('Build tools functaional tests', function () {
+
+describe('Build tools functional tests', function () {
 
   this.beforeAll(function (done: Mocha.Done) {
-    try{
-    process.env[testTaskRootPathName] = testRunner.initializeTestFiles(() => { done(); });
-    } catch (e) {
-      fail(`${e}`);
+    try {
+      process.env[testTaskRootPathName] = testBuilder.initializeTestFiles(() => { done(); });
+    } catch (error) {
+      fail(`${error}`);
     }
-
   });
 
   it('## Should run using agent context for functional tests', () => {
     isRunningOnAgent().should.be.true;
   });
 
-  it('Should install tools', function (done: Mocha.Done) {
-    let testTasksRootPath = process.env[testTaskRootPathName];
-    const toolInstaller: TaskInfo = { name: 'tool-installer', path: `${testTasksRootPath}/tasks/tool-installer/tool-installer-v0` }
-    try {
-      if(!testTasksRootPath) {fail(`Environment variable ${testTaskRootPathName} is not defined`);}
-      const taskRunner: TaskRunner =  new TaskRunner(toolInstaller, testTasksRootPath);
-      const result = taskRunner.runTask();
+  const tasks: TaskInfo[] = [
+    { name: 'tool-installer', path: '/tasks/tool-installer/tool-installer-v0' },
+    { name: 'who-am-i', path: '/tasks/whoami/whoami-v0' },
+  ]
 
-      expect(result.processResult.status).to.satisfy((status: number | null) => status == null || (Number.isInteger(status) && status === 0));
+  tasks.forEach((taskInfo: TaskInfo) => {
+    it(`Should run ${taskInfo.name} task using relative path ${taskInfo.path}`, function (done: Mocha.Done) {
+      let testTasksRootPath = process.env[testTaskRootPathName];
+      try {
+        if (!testTasksRootPath) { fail(`Environment variable ${testTaskRootPathName} is not defined`); }
+        const taskRunner: TaskRunner = new TaskRunner(taskInfo, testTasksRootPath);
+        const result = taskRunner.runTask();
 
-      done();
-    } catch (error) {
-      fail(`Failed to run task: ${toolInstaller.name}; error: ${error}`)
-    }
+        expect(result.processResult.status).to.satisfy((status: number | null) => status == null || (Number.isInteger(status) && status === 0));
+
+        done();
+      } catch (error) {
+        fail(`Failed to run task: ${taskInfo.name}; error: ${error}`)
+      }
+    });
   });
 });
 
