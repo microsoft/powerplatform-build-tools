@@ -71,15 +71,16 @@ export class TaskTestBuilder {
     return this.taskRootPath;
   }
 
-  cleanUpTestFiles(){
+  cleanUpTestFiles() {
     console.log(`Cleaning up test files from ${this.taskRootPath}...`);
     emptyDirSync(this.taskRootPath);
-    console.log(`Cleaning up test files from ${this.taskRootPath}... Done!`);
   }
 
   private unzipVsix(packageToTest: string, callBack: Function) {
     ensureDirSync(this.taskRootPath);
     this.cleanUpTestFiles();
+
+    console.log(`Unzipping ${packageToTest} to ${this.taskRootPath}...`);
     createReadStream(packageToTest)
       .pipe(unzip.Extract({ path: this.taskRootPath }))
       .on("close", callBack.bind(this))

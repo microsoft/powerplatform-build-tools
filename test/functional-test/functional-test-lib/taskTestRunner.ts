@@ -9,7 +9,7 @@ export interface TaskInfo {
 }
 
 export interface TaskResult {
-  processResult:cp.SpawnSyncReturns<string>;
+  processResult: cp.SpawnSyncReturns<string>;
   outputEnvironmentVariable?: EnvironmentVariableDefinition;
 }
 
@@ -19,7 +19,7 @@ export interface EnvironmentVariableDefinition {
 }
 
 export class TaskRunner {
-  private taskResult:cp.SpawnSyncReturns<string> | undefined = undefined;
+  private taskResult: cp.SpawnSyncReturns<string> | undefined = undefined;
   taskInfo: TaskInfo;
   taskDirectory: string;
 
@@ -28,13 +28,13 @@ export class TaskRunner {
     this.taskDirectory = taskDirectory;
   }
 
-  runTask(): TaskResult{
+  runTask(): TaskResult {
     const normalizedTaskPath = this.normalizeAbsoluteTaskPath()
     this.taskResult = cp.spawnSync('node', [normalizedTaskPath], { encoding: 'utf-8', cwd: this.taskDirectory });
-    console.debug(this.taskResult.stdout);
+    //console.debug(this.taskResult.stdout);
     this.validateTaskRun();
     var envVar = this.setOutputEnvironmentVariables();
-    return {processResult: this.taskResult, outputEnvironmentVariable: envVar };
+    return { processResult: this.taskResult, outputEnvironmentVariable: envVar };
   }
 
   private normalizeAbsoluteTaskPath() {
@@ -42,17 +42,17 @@ export class TaskRunner {
   }
 
   private setOutputEnvironmentVariables(): EnvironmentVariableDefinition | undefined {
-    if(!this.taskResult) return;
+    if (!this.taskResult) return;
     const setVars = this.extractSetVars(this.taskResult.stdout);
     if (setVars[1]) {
-      const envVar : EnvironmentVariableDefinition = { name: setVars[1].split(';')[0], value: setVars[2] };
-      console.debug(`Setting environment variable: ${envVar.name} to: ${envVar.value}`);
+      const envVar: EnvironmentVariableDefinition = { name: setVars[1].split(';')[0], value: setVars[2] };
+      //console.debug(`Setting environment variable: ${envVar.name} to: ${envVar.value}`);
       process.env[envVar.name] = envVar.value;
     }
   }
 
   private validateTaskRun() {
-    if(!this.taskResult) return;
+    if (!this.taskResult) return;
 
     if (this.taskResult.status != 0) {
       throw new Error(`Failed to run task: ${this.taskInfo.name}; stderr: ${this.taskResult.stderr}`);
