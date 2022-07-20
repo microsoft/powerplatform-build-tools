@@ -4,7 +4,9 @@
 const gulp = require("gulp");
 const unitTest = require("./unitTest");
 const componentTest = require("./componentTest");
+const functionalTest = require("./functionalTest");
 
 exports.all = gulp.series(unitTest, componentTest);
 exports.unitTest = unitTest;
 exports.componentTest = componentTest;
+exports.functionalTest = functionalTest;
