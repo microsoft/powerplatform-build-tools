@@ -38,11 +38,11 @@ export class TaskRunner {
   runTask(): TaskResult {
     debug('%h', `Running task: ${this.taskInfo.name}...`);
     const normalizedTaskPath = this.normalizeAbsoluteTaskPath()
-    debug(`Executing task from path: ${normalizedTaskPath}`);
 
     if (this.taskInfo.inputVariables)
       this.setInputVariables(this.taskInfo.inputVariables);
 
+    debug(`Executing task from path: ${normalizedTaskPath}`);
     this.taskResult = cp.spawnSync('node', [normalizedTaskPath], { encoding: 'utf-8', cwd: this.taskDirectory });
     //console.debug(this.taskResult.stdout);
     this.validateTaskRun();
@@ -62,7 +62,7 @@ export class TaskRunner {
     if (!inputVariables) return;
     debug('Setting input variables: %O', inputVariables);
     inputVariables.forEach(inputVariable => {
-      process.env[inputVariable.name] = inputVariable.value;
+      process.env[`INPUT_${inputVariable.name}`] = inputVariable.value;
     });
   }
 
@@ -83,19 +83,29 @@ export class TaskRunner {
       throw new Error(`Failed to run task: ${this.taskInfo.name}; stderr: ${this.taskResult.stderr}`);
     }
 
-    const issues = this.extractIssues(this.taskResult);
-    if (issues[1] === 'error') {
+    const extractedErrors = this.extractErrorTypeIssues(this.taskResult);
+    if (extractedErrors.length > 0) {
       throw new Error(`tasks component test failed at: ${this.taskInfo.name} (loaded from: ${this.taskInfo.path})...\nstdout: ${this.taskResult.stdout}`);
     }
   }
 
-  private extractIssues(output: cp.SpawnSyncReturns<string>): string[] {
-    const regex = /^##vso\[task\.issue\s+type=(\S+);\](.+$)/m;
+  // useful regex tester https://regexkit.com/javascript-regex
+  private extractErrorTypeIssues(output: cp.SpawnSyncReturns<string>): string[] {
+    const regex = /^##vso\[task\.issue\s+type=error;\](.+$)/mi;
 
     const stdoutMatches = output.stdout.match(regex);
     const stderrMatches = output.stderr.match(regex);
+
+    if (stdoutMatches && stderrMatches) {
+      return [...stdoutMatches, ...stderrMatches];
+    }
+
     const matches = stdoutMatches || stderrMatches;
-    return matches || ['', ''];
+
+    if (matches)
+      debug('Error found: %O', matches[1]);
+
+    return matches || [];
   }
 
   private extractSetVars(stdout: string): string[] {
