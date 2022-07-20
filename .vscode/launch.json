@@ -1,7 +1,6 @@
 {
   "version": "0.2.0",
   "configurations": [
-
     {
       "type": "node",
       "request": "launch",
@@ -31,6 +30,7 @@
     {
       "type": "node",
       "request": "launch",
+      "outputCapture": "std",
       "name": "Mocha - Functional Tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "args": [
@@ -51,7 +51,9 @@
         "!**/node_modules/**"
       ],
       "env": {
-        "NODE_ENV": "development"
+        "NODE_ENV": "development",
+        "DEBUG": "taskTest:*",
+        "DEBUG_COLORS": "true"
       },
     },
     {
@@ -97,7 +99,8 @@
       "cwd": "${workspaceFolder}",
       "args": [
         "pack",
-        "--patch", "42"
+        "--patch",
+        "42"
       ],
       "skipFiles": [
         "<node_internals>/**"
