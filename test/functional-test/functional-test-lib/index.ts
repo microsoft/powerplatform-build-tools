@@ -1,3 +1,3 @@
 import { TaskTestBuilder, AuthTypes } from './taskTestBuilder';
-import { TaskRunner, TaskInfo, TaskResult, EnvironmentVariableDefinition } from './taskTestRunner'
-export { TaskTestBuilder, AuthTypes, TaskRunner, TaskInfo, TaskResult, EnvironmentVariableDefinition };
+import { TaskRunner, TaskInfo, TaskResult, inputVariableDefinition } from './taskTestRunner'
+export { TaskTestBuilder, AuthTypes, TaskRunner, TaskInfo, TaskResult, inputVariableDefinition as EnvironmentVariableDefinition };

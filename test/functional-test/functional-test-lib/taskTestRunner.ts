@@ -12,15 +12,15 @@ Debug.formatters.h = (message) => {
 export interface TaskInfo {
   name: string;
   path: string;
-  inputVariables?: EnvironmentVariableDefinition[];
+  inputVariables?: inputVariableDefinition[];
 }
 
 export interface TaskResult {
   processResult: cp.SpawnSyncReturns<string>;
-  outputEnvironmentVariable?: EnvironmentVariableDefinition;
+  outputEnvironmentVariable?: inputVariableDefinition;
 }
 
-export interface EnvironmentVariableDefinition {
+export interface inputVariableDefinition {
   name: string;
   value: string;
 }
@@ -54,11 +54,11 @@ export class TaskRunner {
     return (path.join(this.taskDirectory, this.taskInfo.path)).replace(/\\/g, '/');
   }
 
-  private setOutputEnvironmentVariables(): EnvironmentVariableDefinition | undefined {
+  private setOutputEnvironmentVariables(): inputVariableDefinition | undefined {
     if (!this.taskResult) return;
     const setVars = this.extractSetVars(this.taskResult.stdout);
     if (setVars[1]) {
-      const envVar: EnvironmentVariableDefinition = { name: setVars[1].split(';')[0], value: setVars[2] };
+      const envVar: inputVariableDefinition = { name: setVars[1].split(';')[0], value: setVars[2] };
       debug('Setting output environment variable: %O', envVar);
       process.env[envVar.name] = envVar.value;
     }
@@ -71,23 +71,25 @@ export class TaskRunner {
       throw new Error(`Failed to run task: ${this.taskInfo.name}; stderr: ${this.taskResult.stderr}`);
     }
 
-    const issues = this.extractIssues(this.taskResult.stdout);
+    const issues = this.extractIssues(this.taskResult);
     if (issues[1] === 'error') {
       throw new Error(`tasks component test failed at: ${this.taskInfo.name} (loaded from: ${this.taskInfo.path})...\nstdout: ${this.taskResult.stdout}`);
     }
   }
 
-  private extractIssues(output: string): string[] {
+  private extractIssues(output: cp.SpawnSyncReturns<string>): string[] {
     const regex = /^##vso\[task\.issue\s+type=(\S+);\](.+$)/m;
 
-    const matches = output.match(regex);
+    const stdoutMatches = output.stdout.match(regex);
+    const stderrMatches = output.stderr.match(regex);
+    const matches = stdoutMatches || stderrMatches;
     return matches || ['', ''];
   }
 
-  private extractSetVars(output: string): string[] {
+  private extractSetVars(stdout: string): string[] {
     const regex = /^##vso\[task\.setvariable\s+variable=(\S+);\](.+$)/m;
 
-    const matches = output.match(regex);
+    const matches = stdout.match(regex);
     return matches || [];
   }
 }
