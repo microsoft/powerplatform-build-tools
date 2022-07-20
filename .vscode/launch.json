@@ -34,6 +34,7 @@
       "name": "Mocha - Functional Tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "args": [
+        "--bail",
         "--timeout",
         "999999",
         "--colors",
