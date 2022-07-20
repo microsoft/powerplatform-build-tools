@@ -27,11 +27,11 @@ describe('Build tools functional tests', function () {
 
   const tasks: TaskInfo[] = [
     { name: 'tool-installer', path: '/tasks/tool-installer/tool-installer-v0' },
-    { name: 'who-am-i', path: '/tasks/whoami/whoami-v0' },
+    { name: 'who-am-i', path: '/tasks/whoami/whoami-v0',  },
   ]
 
   tasks.forEach((taskInfo: TaskInfo) => {
-    it(`Should run ${taskInfo.name} task using relative path ${taskInfo.path}`, function (done: Mocha.Done) {
+    it(`Should run ${taskInfo.name} task succesfully.`, function (done: Mocha.Done) {
       let testTasksRootPath = process.env[testTaskRootPathName] ?? fail(`Environment variable ${testTaskRootPathName} is not defined`);
       try {
         const taskRunner: TaskRunner = new TaskRunner(taskInfo, testTasksRootPath);

@@ -4,6 +4,8 @@ import os = require('os');
 import unzip = require('unzip-stream');
 import process = require('process');
 
+import * as Debug from 'debug';
+const debug = Debug('taskTest:builder');
 const packageNamePrefix = 'microsoft-IsvExpTools.PowerPlatform-BuildTools-EXPERIMENTAL-';
 const packageExtenstion = '.vsix';
 const testTempDir = 'pp-bt-test';
@@ -26,7 +28,7 @@ export class TaskTestBuilder {
     process.env['AGENT_JOBNAME'] = "AzDO job";
 
     process.env['INPUT_AUTHENTICATIONTYPE'] = authType;
-    console.log(`Selected authentication mode: ${process.env.INPUT_AUTHENTICATIONTYPE} `);
+    debug(`Selected authentication mode: ${process.env.INPUT_AUTHENTICATIONTYPE} `);
 
     const envUrl = process.env['PA_BT_ORG_URL'] ?? 'https://ppbt-comp-test.crm.dynamics.com';
 
@@ -72,7 +74,7 @@ export class TaskTestBuilder {
   }
 
   cleanUpTestFiles() {
-    console.log(`Cleaning up test files from ${this.taskRootPath}...`);
+    debug(`Cleaning up test files from ${this.taskRootPath}...`);
     emptyDirSync(this.taskRootPath);
   }
 
@@ -80,7 +82,7 @@ export class TaskTestBuilder {
     ensureDirSync(this.taskRootPath);
     this.cleanUpTestFiles();
 
-    console.log(`Unzipping ${packageToTest} to ${this.taskRootPath}...`);
+    debug(`Unzipping ${packageToTest} to ${this.taskRootPath}...`);
     createReadStream(packageToTest)
       .pipe(unzip.Extract({ path: this.taskRootPath }))
       .on("close", callBack.bind(this))

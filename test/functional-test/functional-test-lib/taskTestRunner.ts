@@ -1,6 +1,13 @@
 import * as cp from 'child_process';
 import path = require('path');
 import process = require('process');
+import * as Debug from 'debug';
+const debug = Debug('taskTest:runner');
+const logStdout = Debug('taskTest:runner:stdout');
+
+Debug.formatters.h = (message) => {
+  return `<+><+><+> ${message} <+><+><+>`;
+}
 
 export interface TaskInfo {
   name: string;
@@ -29,11 +36,17 @@ export class TaskRunner {
   }
 
   runTask(): TaskResult {
+    debug('%h', `Running task: ${this.taskInfo.name}...`);
     const normalizedTaskPath = this.normalizeAbsoluteTaskPath()
+    debug(`Executing task from path: ${normalizedTaskPath}`);
     this.taskResult = cp.spawnSync('node', [normalizedTaskPath], { encoding: 'utf-8', cwd: this.taskDirectory });
     //console.debug(this.taskResult.stdout);
     this.validateTaskRun();
     var envVar = this.setOutputEnvironmentVariables();
+
+    logStdout(this.taskResult.stdout);
+    debug(`Task: ${this.taskInfo.name} completed successfully.`);
+
     return { processResult: this.taskResult, outputEnvironmentVariable: envVar };
   }
 
@@ -46,7 +59,7 @@ export class TaskRunner {
     const setVars = this.extractSetVars(this.taskResult.stdout);
     if (setVars[1]) {
       const envVar: EnvironmentVariableDefinition = { name: setVars[1].split(';')[0], value: setVars[2] };
-      //console.debug(`Setting environment variable: ${envVar.name} to: ${envVar.value}`);
+      debug('Setting output environment variable: %O', envVar);
       process.env[envVar.name] = envVar.value;
     }
   }
