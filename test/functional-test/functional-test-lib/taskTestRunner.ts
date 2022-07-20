@@ -39,6 +39,10 @@ export class TaskRunner {
     debug('%h', `Running task: ${this.taskInfo.name}...`);
     const normalizedTaskPath = this.normalizeAbsoluteTaskPath()
     debug(`Executing task from path: ${normalizedTaskPath}`);
+
+    if (this.taskInfo.inputVariables)
+      this.setInputVariables(this.taskInfo.inputVariables);
+
     this.taskResult = cp.spawnSync('node', [normalizedTaskPath], { encoding: 'utf-8', cwd: this.taskDirectory });
     //console.debug(this.taskResult.stdout);
     this.validateTaskRun();
@@ -52,6 +56,14 @@ export class TaskRunner {
 
   private normalizeAbsoluteTaskPath() {
     return (path.join(this.taskDirectory, this.taskInfo.path)).replace(/\\/g, '/');
+  }
+
+  private setInputVariables(inputVariables: inputVariableDefinition[]): void {
+    if (!inputVariables) return;
+    debug('Setting input variables: %O', inputVariables);
+    inputVariables.forEach(inputVariable => {
+      process.env[inputVariable.name] = inputVariable.value;
+    });
   }
 
   private setOutputEnvironmentVariables(): inputVariableDefinition | undefined {
