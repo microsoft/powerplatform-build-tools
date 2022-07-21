@@ -15,7 +15,6 @@ export const enum AuthTypes {
   SPN = "PowerPlatformSPN",
 }
 export class TaskTestBuilder {
-  [x: string]: any;
   packageDirectory: string;
   taskRootPath: string;
 
