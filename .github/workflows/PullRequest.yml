@@ -12,7 +12,7 @@ on:
     branches: [main, release/stable]
 
 env:
-  DEBUG : taskTest:*
+  DEBUG : taskTest:*,-taskTest:runner:stdout
   DEBUG_COLORS : 1
 
 jobs:
