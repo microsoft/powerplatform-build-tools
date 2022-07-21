@@ -65,4 +65,10 @@ jobs:
           PA_BT_ORG_PASSWORD: ${{ secrets.PA_BT_ORG_PASSWORD }}
           # temp. use of pre-existing env, until create-environment task is also converted
           PA_BT_ORG_URL: https://pp-bt-prloop.crm.dynamics.com/
-          PR_NUMBER: ${{ github.event.number }}
+
+      - name: Upload PAC CLI logs
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: pac-cli-log ${{ matrix.os }}
+          path: ${{ runner.temp }}/**/pac*/tools/logs/pac-log.txt
