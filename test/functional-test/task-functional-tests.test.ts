@@ -48,16 +48,8 @@ describe('Build tools functional tests', function () {
       name: 'delete-environment',
       path: '/tasks/delete-environment/delete-environment-v0'
     }
-    try {
       const taskRunner: TaskRunner = new TaskRunner(deleteEnvironment, testTasksRootPath);
-      const result = taskRunner.runTask();
-
-      expect(result.processResult.status).to.satisfy((status: number | null) => status == null || (Number.isInteger(status) && status === 0));
-
-      done();
-    } catch (error) {
-      fail(`Failed to run task: ${deleteEnvironment.name}; error: ${error}`)
-    }
+      taskRunner.runTask();
   });
 
 });
