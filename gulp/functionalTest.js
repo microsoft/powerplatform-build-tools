@@ -5,7 +5,7 @@ const gulp = require("gulp");
 const mocha = require("gulp-mocha");
 const eslint = require("gulp-eslint");
 
-module.exports = function unitTest() {
+module.exports = function functionalTest() {
   return gulp
     .src("test/functional-test/*.test.ts", { read: false })
     .pipe(
