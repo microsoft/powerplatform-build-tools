@@ -13,7 +13,6 @@ const lint = require("./gulp/lint");
 const test = require("./gulp/test");
 const restore = require("./gulp/restore");
 const pack = require("./gulp/pack");
-const componentTest = require("./gulp/componentTest")
 
 exports.clean = clean;
 exports.compile = compile;
