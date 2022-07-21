@@ -1,11 +1,10 @@
 {
   "version": "0.2.0",
   "configurations": [
-
     {
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
-      "name": "Mocha - All Tests",
+      "name": "Mocha - Unit Tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
       "args": [
         "--timeout",
@@ -13,7 +12,7 @@
         "--colors",
         "-r",
         "ts-node/register",
-        "${workspaceFolder}/test/**/*.test.ts"
+        "${workspaceFolder}/test/unit-test/*.test.ts"
       ],
       "internalConsoleOptions": "openOnSessionStart",
       "skipFiles": [
@@ -23,10 +22,43 @@
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",
         "!**/node_modules/**"
-      ]
+      ],
+      "env": {
+        "NODE_ENV": "development"
+      },
     },
     {
-      "type": "pwa-node",
+      "type": "node",
+      "request": "launch",
+      "outputCapture": "std",
+      "name": "Mocha - Functional Tests",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": [
+        "--bail",
+        "--timeout",
+        "999999",
+        "--colors",
+        "-r",
+        "ts-node/register",
+        "${workspaceFolder}/test/functional-test/*.test.ts"
+      ],
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "sourceMaps": true,
+      "resolveSourceMapLocations": [
+        "${workspaceFolder}/**",
+        "!**/node_modules/**"
+      ],
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "taskTest:*",
+        "DEBUG_COLORS": "true"
+      },
+    },
+    {
+      "type": "node",
       "request": "launch",
       "name": "Mocha - Current File",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
@@ -49,7 +81,7 @@
       ]
     },
     {
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
       "name": "Launch current TypeScript src",
       "program": "${file}",
@@ -61,21 +93,22 @@
       "sourceMaps": true
     },
     {
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
       "name": "Gulp pack",
       "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
       "cwd": "${workspaceFolder}",
       "args": [
         "pack",
-        "--patch", "42"
+        "--patch",
+        "42"
       ],
       "skipFiles": [
         "<node_internals>/**"
       ]
     },
     {
-      "type": "pwa-node",
+      "type": "node",
       "request": "launch",
       "name": "Gulp ComponentTest only",
       "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
