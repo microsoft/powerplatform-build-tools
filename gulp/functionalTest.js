@@ -14,6 +14,7 @@ module.exports = function unitTest() {
         ui: 'bdd',
         color: true,
         timeout: 999999,
+        bail: true,
       }).on('error', process.exit.bind(process, 1))
     )
     .pipe(eslint.format());
