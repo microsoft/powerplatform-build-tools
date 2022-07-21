@@ -1,9 +1,10 @@
-import { should, expect } from "chai";
-import { fail } from "assert";
+import { should, expect } from 'chai';
+import { fail } from 'assert';
 import process = require('process');
-import { isRunningOnAgent } from "../../src/params/auth/isRunningOnAgent";
+import { isRunningOnAgent } from '../../src/params/auth/isRunningOnAgent';
 import { TaskTestBuilder, AuthTypes, TaskRunner, TaskInfo } from './functional-test-lib';
 import * as path from 'path';
+import { tasksToTest } from './taskTestInput';
 
 should();
 
@@ -25,12 +26,7 @@ describe('Build tools functional tests', function () {
     isRunningOnAgent().should.be.true;
   });
 
-  const tasks: TaskInfo[] = [
-    { name: 'tool-installer', path: '/tasks/tool-installer/tool-installer-v0' },
-    { name: 'who-am-i', path: '/tasks/whoami/whoami-v0',  },
-  ]
-
-  tasks.forEach((taskInfo: TaskInfo) => {
+  tasksToTest.forEach((taskInfo: TaskInfo) => {
     it(`Should run ${taskInfo.name} task succesfully.`, function (done: Mocha.Done) {
       let testTasksRootPath = process.env[testTaskRootPathName] ?? fail(`Environment variable ${testTaskRootPathName} is not defined`);
       try {
@@ -47,8 +43,21 @@ describe('Build tools functional tests', function () {
   });
 
   this.afterAll(function (done: Mocha.Done) {
-    testBuilder.cleanUpTestFiles();
-    done();
+    let testTasksRootPath = process.env[testTaskRootPathName] ?? fail(`Environment variable ${testTaskRootPathName} is not defined`);
+    const deleteEnvironment: TaskInfo = {
+      name: 'delete-environment',
+      path: '/tasks/delete-environment/delete-environment-v0'
+    }
+    try {
+      const taskRunner: TaskRunner = new TaskRunner(deleteEnvironment, testTasksRootPath);
+      const result = taskRunner.runTask();
+
+      expect(result.processResult.status).to.satisfy((status: number | null) => status == null || (Number.isInteger(status) && status === 0));
+
+      done();
+    } catch (error) {
+      fail(`Failed to run task: ${deleteEnvironment.name}; error: ${error}`)
+    }
   });
 
 });
