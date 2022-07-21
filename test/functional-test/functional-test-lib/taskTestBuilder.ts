@@ -41,6 +41,18 @@ export class TaskTestBuilder {
     this.taskRootPath = path.resolve(os.tmpdir(), testTempDir);
   }
 
+  private setPasswordBasedAuthEnvironmentVariables(authType: AuthTypes, envUrl: string) {
+    const username = process.env['PA_BT_ORG_USER'] ?? 'davidjen@ppdevtools.onmicrosoft.com';
+    const password = process.env['PA_BT_ORG_PASSWORD'];
+    if (!password && authType === AuthTypes.Legacy) {
+      throw new Error("Require PA_BT_ORG_PASSWORD environment variable to be set!");
+    }
+
+    process.env['INPUT_POWERPLATFORMENVIRONMENT'] = "CDS_ORG";
+    process.env['ENDPOINT_AUTH_CDS_ORG'] = `{ "parameters": { "username": "${username}", "password": "${password}" } }`;
+    process.env['ENDPOINT_URL_CDS_ORG'] = envUrl;
+  }
+
   private setSpnBasedAuthEnvironmentvariables(authType: AuthTypes, envUrl: string) {
     const appId = process.env['PA_BT_ORG_SPN_ID'] ?? '8a7729e0-2b71-4919-a89a-c789d0a9720a';
     const tenantId = process.env['PA_BT_ORG_SPN_TENANT_ID'] ?? '3041a058-5110-495a-a575-b2a5571d9eac';
@@ -54,40 +66,10 @@ export class TaskTestBuilder {
     process.env['ENDPOINT_URL_PP_SPN'] = envUrl;
   }
 
-  private setPasswordBasedAuthEnvironmentVariables(authType: AuthTypes, envUrl: string) {
-    const username = process.env['PA_BT_ORG_USER'] ?? 'davidjen@ppdevtools.onmicrosoft.com';
-    const password = process.env['PA_BT_ORG_PASSWORD'];
-    if (!password && authType === AuthTypes.Legacy) {
-      throw new Error("Require PA_BT_ORG_PASSWORD environment variable to be set!");
-    }
-
-    process.env['INPUT_POWERPLATFORMENVIRONMENT'] = "CDS_ORG";
-    process.env['ENDPOINT_AUTH_CDS_ORG'] = `{ "parameters": { "username": "${username}", "password": "${password}" } }`;
-    process.env['ENDPOINT_URL_CDS_ORG'] = envUrl;
-  }
-
   initializeTestFiles(successCallBack: Function): string {
     const packageToTestPath = this.resolvePackageToTestPath();
     this.unzipVsix(packageToTestPath, successCallBack);
     return this.taskRootPath;
-  }
-
-  cleanUpTestFiles() {
-    debug(`Cleaning up test files from ${this.taskRootPath}...`);
-    emptyDirSync(this.taskRootPath);
-  }
-
-  private unzipVsix(packageToTest: string, callBack: Function) {
-    ensureDirSync(this.taskRootPath);
-    this.cleanUpTestFiles();
-
-    debug(`Unzipping ${packageToTest} to ${this.taskRootPath}...`);
-    createReadStream(packageToTest)
-      .pipe(unzip.Extract({ path: this.taskRootPath }))
-      .on("close", callBack.bind(this))
-      .on("error", (error: any) => {
-        throw new Error(`Failed to extract ${packageToTest} to ${this.taskRootPath}: error: ${error}`);
-      });
   }
 
   private resolvePackageToTestPath() {
@@ -104,6 +86,24 @@ export class TaskTestBuilder {
       throw new Error(`Cannot run component tests before the tasks are packaged! Run 'gulp pack | repack' first.`);
     }
     return packageToTest;
+  }
+
+  private unzipVsix(packageToTest: string, callBack: Function) {
+    ensureDirSync(this.taskRootPath);
+    this.cleanUpTestFiles();
+
+    debug(`Unzipping ${packageToTest} to ${this.taskRootPath}...`);
+    createReadStream(packageToTest)
+      .pipe(unzip.Extract({ path: this.taskRootPath }))
+      .on("close", callBack.bind(this))
+      .on("error", (error: any) => {
+        throw new Error(`Failed to extract ${packageToTest} to ${this.taskRootPath}: error: ${error}`);
+      });
+  }
+
+  cleanUpTestFiles() {
+    debug(`Cleaning up test files from ${this.taskRootPath}...`);
+    emptyDirSync(this.taskRootPath);
   }
 
 }

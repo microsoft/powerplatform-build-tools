@@ -62,11 +62,8 @@ describe('Build tools functional tests', function () {
       const taskRunner: TaskRunner = new TaskRunner(deleteEnvironment, testTasksRootPath);
       taskRunner.runTask();
     }
-
     done();
-
   });
-
 });
 
 

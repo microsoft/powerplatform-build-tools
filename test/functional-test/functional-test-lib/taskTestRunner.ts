@@ -66,16 +66,6 @@ export class TaskRunner {
     });
   }
 
-  private setOutputEnvironmentVariables(): inputVariableDefinition | undefined {
-    if (!this.taskResult) return;
-    const setVars = this.extractSetVars(this.taskResult.stdout);
-    if (setVars[1]) {
-      const envVar: inputVariableDefinition = { name: setVars[1].split(';')[0], value: setVars[2] };
-      debug('Setting output environment variable: %O', envVar);
-      process.env[envVar.name] = envVar.value;
-    }
-  }
-
   private validateTaskRun() {
     if (!this.taskResult) return;
 
@@ -106,6 +96,16 @@ export class TaskRunner {
       debug('Error found: %O', matches[1]);
 
     return matches || [];
+  }
+
+  private setOutputEnvironmentVariables(): inputVariableDefinition | undefined {
+    if (!this.taskResult) return;
+    const setVars = this.extractSetVars(this.taskResult.stdout);
+    if (setVars[1]) {
+      const envVar: inputVariableDefinition = { name: setVars[1].split(';')[0], value: setVars[2] };
+      debug('Setting output environment variable: %O', envVar);
+      process.env[envVar.name] = envVar.value;
+    }
   }
 
   private extractSetVars(stdout: string): string[] {
