@@ -2,7 +2,8 @@ import path = require("path");
 import os = require('os');
 import { TaskInfo } from "./functional-test-lib";
 
-const deleteEnv = 'delete-environment';
+export const deleteEnvironmentTaskName = 'delete-environment';
+export const createEnvironmentTaskName = 'create-environment';
 const envFriendlyName = `ppbt-comp-test-${process.platform == 'win32' ? 'win' : 'linux'}`;
 const testDataPath = path.resolve(__dirname, '..', 'Test-Data');
 const testableEmptySolutionPath = path.join(testDataPath, 'emptySolution_0_1_0_0.zip');
@@ -113,7 +114,7 @@ export const tasksToTest: TaskInfo[] =
     //   ]
     // },
     {
-      name: deleteEnv,
+      name: deleteEnvironmentTaskName,
       path: '/tasks/delete-environment/delete-environment-v0'
     },
   ].filter(task => {

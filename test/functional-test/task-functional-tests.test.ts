@@ -4,7 +4,7 @@ import process = require('process');
 import { isRunningOnAgent } from '../../src/params/auth/isRunningOnAgent';
 import { TaskTestBuilder, AuthTypes, TaskRunner, TaskInfo } from './functional-test-lib';
 import * as path from 'path';
-import { tasksToTest } from './taskTestInput';
+import { deleteEnvironmentTaskName, tasksToTest } from './taskTestInput';
 
 should();
 
@@ -12,6 +12,9 @@ const testTaskRootPathName = 'testTasksRootPath';
 const outDir = path.resolve(__dirname, '..', '..', 'out');
 const packagesRoot = path.resolve(outDir, 'packages');
 const testBuilder: TaskTestBuilder = new TaskTestBuilder(AuthTypes.Legacy, packagesRoot);
+
+let isEnvironmentCreated = false;
+let isEnvironmentDeleted = false;
 
 describe('Build tools functional tests', function () {
   this.beforeAll(function (done: Mocha.Done) {
@@ -35,6 +38,12 @@ describe('Build tools functional tests', function () {
 
         expect(result.processResult.status).to.satisfy((status: number | null) => status == null || (Number.isInteger(status) && status === 0));
 
+        if (taskInfo.name === deleteEnvironmentTaskName)
+          isEnvironmentCreated = true;
+
+        if (taskInfo.name === deleteEnvironmentTaskName)
+          isEnvironmentDeleted = true;
+
         done();
       } catch (error) {
         fail(`Failed to run task: ${taskInfo.name}; error: ${error}`)
@@ -48,8 +57,14 @@ describe('Build tools functional tests', function () {
       name: 'delete-environment',
       path: '/tasks/delete-environment/delete-environment-v0'
     }
+
+    if (isEnvironmentCreated && !isEnvironmentDeleted) {
       const taskRunner: TaskRunner = new TaskRunner(deleteEnvironment, testTasksRootPath);
       taskRunner.runTask();
+    }
+
+    done();
+
   });
 
 });
