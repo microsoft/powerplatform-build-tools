@@ -51,6 +51,15 @@
       "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
     },
     {
+      "name": "Cloud",
+      "label": "Cloud",
+      "type": "string",
+      "defaultValue": "Public",
+      "required": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Cloud instance to authenticate with. Default: Public. See 'pac auth create help' for valid cloud instance names"
+    },
+    {
       "name": "Environment",
       "label": "Environment Url",
       "type": "string",
