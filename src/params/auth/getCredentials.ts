@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { URL } from 'url';
 import { ClientCredentials, UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import { getEndpointAuthorization, getEndpointUrl } from "azure-pipelines-task-lib";
 import { getAuthenticationType, AuthenticationType } from "./getAuthenticationType";
 import { getEndpointName } from "./getEndpointName";
-
+import * as tl from 'azure-pipelines-task-lib/task';
 
 export function getCredentials(defaultAuthType?: AuthenticationType): ClientCredentials | UsernamePassword {
   const authenticationType = getAuthenticationType(defaultAuthType);
@@ -25,8 +24,8 @@ function getClientCredentials(): ClientCredentials {
     tenantId: params.tenantId,
     appId: params.applicationId,
     clientSecret: params.clientSecret,
-    cloudInstance: resolveCloudInstance(endpointName)
-  };
+    cloudInstance: tl.getInput("Cloud", false) ?? resolveCloudInstance(endpointName)
+  }
 }
 
 function getUsernamePassword(): UsernamePassword {
@@ -35,7 +34,7 @@ function getUsernamePassword(): UsernamePassword {
   return {
     username: params.username,
     password: params.password,
-    cloudInstance: resolveCloudInstance(endpointName)
+    cloudInstance: tl.getInput("Cloud", false) ?? resolveCloudInstance(endpointName)
   };
 }
 
@@ -63,29 +62,10 @@ function resolveCloudInstance(endpointName: string): string {
     .reverse();
   hostname.splice(-1);
   const regionalized = hostname.reverse().join('.');
-
   // see also:
   // https://docs.microsoft.com/en-us/power-platform/admin/new-datacenter-regions
   // https://dev.azure.com/dynamicscrm/OneCRM/_git/CRM.DevToolsCore?path=%2Fsrc%2FGeneralTools%2FDataverseClient%2FClient%2FModel%2FDiscoveryServers.cs&_a=contents&version=GBmaster
   switch (regionalized) {
-    case 'crm.dynamics.com':
-    case 'crm2.dynamics.com':
-    case 'crm3.dynamics.com':
-    case 'crm4.dynamics.com':
-    case 'crm5.dynamics.com':
-    case 'crm6.dynamics.com':
-    case 'crm7.dynamics.com':
-    case 'crm8.dynamics.com':
-    case 'crm11.dynamics.com':
-    case 'crm12.dynamics.com':
-    case 'crm14.dynamics.com':
-    case 'crm15.dynamics.com':
-    case 'crm16.dynamics.com':
-    case 'crm17.dynamics.com':
-    case 'crm19.dynamics.com':
-    case 'crm20.dynamics.com':
-    case 'crm21.dynamics.com':
-      return "Public";
     case 'crm9.dynamics.com':
       return "UsGov";
     case 'crm.microsoftdynamics.us':
