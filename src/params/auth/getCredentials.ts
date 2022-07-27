@@ -48,20 +48,18 @@ function getEndpointAuthorizationParameters(
   return authorization.parameters;
 }
 
-// needed for backwards compatibility to the PS implementation:
-// infer the cloudInstance from the default endpoint url on the service connection
-// see Get-Origin in https://dev.azure.com/dynamicscrm/OneCRM/_git/PowerApps.AzDevOpsExtensions?path=/src/extension/common/SharedFunctions.psm1&version=GBmaster&line=23&lineEnd=24&lineStartColumn=1&lineEndColumn=1&lineStyle=plain&_a=contents
+/**
+ * @note Required for backwards compatibility to the PS implementation:
+ *       Infer the cloudInstance from the default endpoint url on the service connection
+ *       see Get-Origin in https://dev.azure.com/dynamicscrm/OneCRM/_git/PowerApps.AzDevOpsExtensions?path=/src/extension/common/SharedFunctions.psm1&version=GBmaster&line=23&lineEnd=24&lineStartColumn=1&lineEndColumn=1&lineStyle=plain&_a=contents
+ */
 function resolveCloudInstance(endpointName: string): string {
+  tl.debug(`Cloud not specified, falling back to inferring cloud instance using endpoint: ${endpointName}`);
   const defaultEndpointUrl = getEndpointUrl(endpointName, true);
   if (!defaultEndpointUrl) {
     return "Public";
   }
-  const hostname = new URL(defaultEndpointUrl)
-    .hostname
-    .split('.')
-    .reverse();
-  hostname.splice(-1);
-  const regionalized = hostname.reverse().join('.');
+  const regionalized = extractDomain(defaultEndpointUrl);
   // see also:
   // https://docs.microsoft.com/en-us/power-platform/admin/new-datacenter-regions
   // https://dev.azure.com/dynamicscrm/OneCRM/_git/CRM.DevToolsCore?path=%2Fsrc%2FGeneralTools%2FDataverseClient%2FClient%2FModel%2FDiscoveryServers.cs&_a=contents&version=GBmaster
@@ -82,3 +80,14 @@ function resolveCloudInstance(endpointName: string): string {
       return "Public";
   }
 }
+
+function extractDomain(endpointUrl: string) {
+  const hostname = new URL(endpointUrl)
+    .hostname
+    .split('.')
+    .reverse();
+  hostname.splice(-1);
+  const regionalized = hostname.reverse().join('.');
+  return regionalized;
+}
+
