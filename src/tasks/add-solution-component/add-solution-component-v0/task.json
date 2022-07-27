@@ -51,6 +51,23 @@
       "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
     },
     {
+      "name": "Cloud",
+      "label": "Cloud",
+      "type": "pickList",
+      "required": false,
+      "helpMarkDown": "Cloud instance to authenticate with. Please not, if not specified, the cloud instance will be inferred from the default environment URL within your tenant.",
+      "properties": {
+        "EditableOptions": "True"
+      },
+      "options": {
+        "Public": "Public",
+        "UsGov": "UsGov",
+        "UsGovHigh": "UsGovHigh",
+        "UsGovDod": "UsGovDod",
+        "Mooncake": "Mooncake"
+      }
+    },
+    {
       "name": "Environment",
       "label": "Environment",
       "type": "string",
