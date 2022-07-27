@@ -61,7 +61,6 @@
       "name": "Cloud",
       "label": "Cloud",
       "type": "string",
-      "defaultValue": "Public",
       "required": false,
       "helpMarkDown": "Cloud instance to authenticate with. Default: Public. See 'pac auth create help' for valid cloud instance names"
     },
