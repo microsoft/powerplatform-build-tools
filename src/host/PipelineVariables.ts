@@ -10,8 +10,15 @@ const hasTaskVars = semver.lt(agentVersion, '2.115.0');
 
 // for backwards compat, keep env var names the same as what shipped in PS implementation:
 // see: https://dev.azure.com/dynamicscrm/OneCRM/_git/PowerApps.AzDevOpsExtensions?path=/src/extension/common/PipelineVariables.ps1
-export const EnvUrlVariableName = "BuildTools.EnvironmentUrl";
-export const EnvIdVariableName = "BuildTools.EnvironmentId";
+const VariableNamePrefix = "BuildTools.";
+export const EnvUrlVariableName = `${VariableNamePrefix}EnvironmentUrl`;
+export const EnvIdVariableName = `${VariableNamePrefix}EnvironmentId`;
+export const ApplicationIdlVariableName = `${VariableNamePrefix}ApplicationId`;
+export const ClientSecretVariableName = `${VariableNamePrefix}ClientSecret`;
+export const TenantIdVariableName = `${VariableNamePrefix}TenantId`;
+export const DataverseConnectionStringVariableName = `${VariableNamePrefix}DataverseConnectionString`;
+export const UserNameVariableName = `${VariableNamePrefix}UserName`;
+export const PasswordVariableName = `${VariableNamePrefix}Password`;
 
 export interface EnvironmentParams {
   value : string | undefined;
