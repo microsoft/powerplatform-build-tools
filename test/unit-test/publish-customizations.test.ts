@@ -28,7 +28,7 @@ describe("publish customizations tests", () => {
 
   async function callActionWithMocks(): Promise<void> {
     const publish = await rewiremock.around(
-      () => import("../../src/tasks/publish-customizations/publish-customizations-v0/index"),
+      () => import("../../src/tasks/publish-customizations/publish-customizations-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ publishSolution: publishSolutionStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });

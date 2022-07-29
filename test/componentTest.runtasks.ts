@@ -123,19 +123,19 @@ const tasksRoot = path.resolve(os.tmpdir(), 'pp-bt-test');
 const createEnv = 'create-environment';
 const deleteEnv = 'delete-environment';
 const tasks: taskInfo[] = [
-  { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` },
-  { name: createEnv, path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
-  { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` },
-  { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v0` },
-  { name: 'pack-solution', path: `${tasksRoot}/tasks/pack-solution/pack-solution-v0` },
-  { name: 'checker', path: `${tasksRoot}/tasks/checker/checker-v0` },
-  { name: 'deploy-package', path: `${tasksRoot}/tasks/deploy-package/deploy-package-v0` },
-  { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v0` },
-  { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v0` },
-  // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v0` },
-  // { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v0` },
-  // { name: 'add-solution-component', path: `${tasksRoot}/tasks/add-solution-component/add-solution-component-v0` },
-  { name: deleteEnv, path: `${tasksRoot}/tasks/delete-environment/delete-environment-v0` },
+  { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v2` },
+  { name: createEnv, path: `${tasksRoot}/tasks/create-environment/create-environment-v2` },
+  { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v2` },
+  { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v2` },
+  { name: 'pack-solution', path: `${tasksRoot}/tasks/pack-solution/pack-solution-v2` },
+  { name: 'checker', path: `${tasksRoot}/tasks/checker/checker-v2` },
+  { name: 'deploy-package', path: `${tasksRoot}/tasks/deploy-package/deploy-package-v2` },
+  { name: 'import-solution', path: `${tasksRoot}/tasks/import-solution/import-solution-v2` },
+  { name: 'set-solution-version', path: `${tasksRoot}/tasks/set-solution-version/set-solution-version-v2` },
+  // { name: 'export-solution', path: `${tasksRoot}/tasks/export-solution/export-solution-v2` },
+  // { name: 'assign-user', path: `${tasksRoot}/tasks/assign-user/assign-user-v2` },
+  // { name: 'add-solution-component', path: `${tasksRoot}/tasks/add-solution-component/add-solution-component-v2` },
+  { name: deleteEnv, path: `${tasksRoot}/tasks/delete-environment/delete-environment-v2` },
 ].filter(task => {
   if (os.platform() === 'win32') {
     return true;

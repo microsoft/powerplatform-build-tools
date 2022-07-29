@@ -26,7 +26,7 @@ describe("set assign user to target environment", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    const mockedModule = await rewiremock.around(() => import("../../src/tasks/assign-user/assign-user-v0/index"),
+    const mockedModule = await rewiremock.around(() => import("../../src/tasks/assign-user/assign-user-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ assignUser: assignUserStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });

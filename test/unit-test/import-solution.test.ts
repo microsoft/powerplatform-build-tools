@@ -27,7 +27,7 @@ describe("import-solution tests", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    const importSolution = await rewiremock.around(() => import("../../src/tasks/import-solution/import-solution-v0/index"),
+    const importSolution = await rewiremock.around(() => import("../../src/tasks/import-solution/import-solution-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ importSolution: importSolutionStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });

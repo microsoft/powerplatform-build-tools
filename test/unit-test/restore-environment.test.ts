@@ -29,7 +29,7 @@ describe("restore-environment tests", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    const restore = await rewiremock.around(() => import("../../src/tasks/restore-environment/restore-environment-v0/index"),
+    const restore = await rewiremock.around(() => import("../../src/tasks/restore-environment/restore-environment-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ restoreEnvironment: restoreEnvironmentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });

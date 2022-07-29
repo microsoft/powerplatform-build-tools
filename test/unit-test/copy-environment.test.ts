@@ -29,7 +29,7 @@ describe("copy-environment tests", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    const copy = await rewiremock.around(() => import("../../src/tasks/copy-environment/copy-environment-v0/index"),
+    const copy = await rewiremock.around(() => import("../../src/tasks/copy-environment/copy-environment-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ copyEnvironment: copyEnvironmentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });

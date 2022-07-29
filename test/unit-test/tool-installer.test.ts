@@ -10,7 +10,7 @@ use(sinonChai);
 describe("tool-installer tests", () => {
   async function callActionWithMocks(): Promise<void> {
     const toolInstaller = await rewiremock.around(
-      () => import("../../src/tasks/tool-installer/tool-installer-v0/index"),
+      () => import("../../src/tasks/tool-installer/tool-installer-v2/index"),
       (mock : any) => {
         mock(() => import("../../src/host/CliLocator")).with({ findPacCLI: () => Promise.resolve("path/from/mocked/cli/locator") });
       });

@@ -27,7 +27,7 @@ describe("Add solution component to target solution", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    const mockedModule = await rewiremock.around(() => import("../../src/tasks/add-solution-component/add-solution-component-v0/index"),
+    const mockedModule = await rewiremock.around(() => import("../../src/tasks/add-solution-component/add-solution-component-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ addSolutionComponent: addSolutionComponentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });

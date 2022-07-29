@@ -27,7 +27,7 @@ describe("deleteEnvironment tests", () => {
 
   async function callActionWithMocks(): Promise<void> {
     const deleteEnv = await rewiremock.around(
-      () => import("../../src/tasks/delete-environment/delete-environment-v0/index"),
+      () => import("../../src/tasks/delete-environment/delete-environment-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ deleteEnvironment: deleteEnvironmentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
