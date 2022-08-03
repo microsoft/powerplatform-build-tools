@@ -98,7 +98,7 @@ export const tasksToTest: TaskInfo[] =
     },
     {
       name: 'set-connection-variables',
-      path: `/tasks/set-connection-variables/set-connection-variables-v0`
+      path: '/tasks/set-connection-variables/set-connection-variables-v0'
     },
     // {
     //   name: 'assign-user',
