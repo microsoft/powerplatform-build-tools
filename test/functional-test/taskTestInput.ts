@@ -93,8 +93,12 @@ export const tasksToTest: TaskInfo[] =
       inputVariables: [
         { name: 'solutionName', value: 'emptySolution' },
         { name: 'SolutionVersionNumber', value: '0.42.0.2' },
-        { name: 'SolutionOutputFile', value: path.join(solutionTestOutputRootDirectory, 'exported-solution', `solution_${new Date().toJSON().slice(0,10)}.zip`) },
+        { name: 'SolutionOutputFile', value: path.join(solutionTestOutputRootDirectory, 'exported-solution', `solution_${new Date().toJSON().slice(0, 10)}.zip`) },
       ]
+    },
+    {
+      name: 'set-connection-variables',
+      path: `/tasks/set-connection-variables/set-connection-variables-v0`
     },
     // {
     //   name: 'assign-user',
