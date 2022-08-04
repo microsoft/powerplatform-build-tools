@@ -124,8 +124,6 @@ const createEnv = 'create-environment';
 const deleteEnv = 'delete-environment';
 const tasks: taskInfo[] = [
   { name: 'tool-installer', path: `${tasksRoot}/tasks/tool-installer/tool-installer-v0` },
-
-  { name: 'set-connection-variables', path: `${tasksRoot}/tasks/set-connection-variables/set-connection-variables-v0` },
   { name: createEnv, path: `${tasksRoot}/tasks/create-environment/create-environment-v0` },
   { name: 'who-am-i', path: `${tasksRoot}/tasks/whoami/whoami-v0` },
   { name: 'unpack-solution', path: `${tasksRoot}/tasks/unpack-solution/unpack-solution-v0` },

@@ -96,10 +96,6 @@ export const tasksToTest: TaskInfo[] =
         { name: 'SolutionOutputFile', value: path.join(solutionTestOutputRootDirectory, 'exported-solution', `solution_${new Date().toJSON().slice(0, 10)}.zip`) },
       ]
     },
-    {
-      name: 'set-connection-variables',
-      path: '/tasks/set-connection-variables/set-connection-variables-v0'
-    },
     // {
     //   name: 'assign-user',
     //   path: '/tasks/assign-user/assign-user-v0',
