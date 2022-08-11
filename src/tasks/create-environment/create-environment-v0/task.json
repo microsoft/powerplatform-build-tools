@@ -154,13 +154,13 @@
       "label": "Language",
       "type": "pickList",
       "required": true,
-      "defaultValue": "English",
+      "defaultValue": "English (United States)",
       "helpMarkDown": "Select the language.",
       "properties": {
         "EditableOptions": true
       },
       "options": {
-        "English": "English",
+        "English": "English (United States)",
         "Arabic": "Arabic",
         "euskara (euskara)": "euskara (euskara)",
         "български (България)": "български (България)",
