@@ -15,11 +15,11 @@ export const tasksToTest: TaskInfo[] =
   [
     {
       name: 'tool-installer',
-      path: '/tasks/tool-installer/tool-installer-v0'
+      path: '/tasks/tool-installer/tool-installer-v2'
     },
     {
       name: 'create-environment',
-      path: '/tasks/create-environment/create-environment-v0',
+      path: '/tasks/create-environment/create-environment-v2',
       inputVariables: [
         { name: 'LocationName', value: 'unitedstates' },
         { name: 'EnvironmentSku', value: 'Sandbox' },
@@ -31,11 +31,11 @@ export const tasksToTest: TaskInfo[] =
     },
     {
       name: 'who-am-i',
-      path: '/tasks/whoami/whoami-v0',
+      path: '/tasks/whoami/whoami-v2',
     },
     {
       name: 'unpack-solution',
-      path: '/tasks/unpack-solution/unpack-solution-v0',
+      path: '/tasks/unpack-solution/unpack-solution-v2',
       inputVariables: [
         { name: 'SolutionInputFile', value: testableEmptySolutionPath },
         { name: 'SolutionTargetFolder', value: unpackedSolutionDirectory },
@@ -43,7 +43,7 @@ export const tasksToTest: TaskInfo[] =
     },
     {
       name: 'pack-solution',
-      path: '/tasks/pack-solution/pack-solution-v0',
+      path: '/tasks/pack-solution/pack-solution-v2',
       inputVariables: [
         { name: 'SolutionOutputFile', value: path.join(packedSolutionDirectory, 'solution.zip') },
         { name: 'SolutionSourceFolder', value: unpackedSolutionDirectory },
@@ -52,7 +52,7 @@ export const tasksToTest: TaskInfo[] =
     },
     {
       name: 'checker',
-      path: '/tasks/checker/checker-v0',
+      path: '/tasks/checker/checker-v2',
       inputVariables: [
         { name: 'FilesToAnalyze', value: path.join(testDataPath, 'componentsTestSolution_1_0_0_1.zip') },
         { name: 'ArtifactDestinationName', value: 'PA-Checker-logs' },
@@ -61,14 +61,14 @@ export const tasksToTest: TaskInfo[] =
     },
     {
       name: 'deploy-package',
-      path: '/tasks/deploy-package/deploy-package-v0',
+      path: '/tasks/deploy-package/deploy-package-v2',
       inputVariables: [
         { name: 'PackageFile', value: path.join(testDataPath, 'testPkg', 'bin', 'Debug', 'testPkg.1.0.0.pdpkg.zip') }
       ]
     },
     {
       name: 'import-solution',
-      path: '/tasks/import-solution/import-solution-v0',
+      path: '/tasks/import-solution/import-solution-v2',
       inputVariables: [
         { name: 'SolutionInputFile', value: testableEmptySolutionPath },
         { name: 'AsyncOperation', value: 'true' },
@@ -81,7 +81,7 @@ export const tasksToTest: TaskInfo[] =
     },
     {
       name: 'set-solution-version',
-      path: '/tasks/set-solution-version/set-solution-version-v0',
+      path: '/tasks/set-solution-version/set-solution-version-v2',
       inputVariables: [
         { name: 'SolutionName', value: 'emptySolution' },
         { name: 'SolutionVersionNumber', value: '0.42.0.1' }
@@ -89,7 +89,7 @@ export const tasksToTest: TaskInfo[] =
     },
     {
       name: 'export-solution',
-      path: '/tasks/export-solution/export-solution-v0',
+      path: '/tasks/export-solution/export-solution-v2',
       inputVariables: [
         { name: 'solutionName', value: 'emptySolution' },
         { name: 'SolutionVersionNumber', value: '0.42.0.2' },
@@ -98,7 +98,7 @@ export const tasksToTest: TaskInfo[] =
     },
     // {
     //   name: 'assign-user',
-    //   path: '/tasks/assign-user/assign-user-v0',
+    //   path: '/tasks/assign-user/assign-user-v2',
     //   inputVariables: [
     //     { name: 'user', value: '85fd1857-ddef-46f6-acf4-22a0d1df2cda' },
     //     { name: 'role', value: 'System Customizer' }
@@ -106,7 +106,7 @@ export const tasksToTest: TaskInfo[] =
     // },
     // {
     //   name: 'add-solution-component',
-    //   path: '/tasks/add-solution-component/add-solution-component-v0',
+    //   path: '/tasks/add-solution-component/add-solution-component-v2',
     //   inputVariables: [
     //     { name: 'solutionName', value: 'emptySolution' },
     //     { name: 'Component', value: 'account' },
@@ -115,7 +115,7 @@ export const tasksToTest: TaskInfo[] =
     // },
     {
       name: deleteEnvironmentTaskName,
-      path: '/tasks/delete-environment/delete-environment-v0'
+      path: '/tasks/delete-environment/delete-environment-v2'
     },
   ].filter(task => {
     if (os.platform() === 'win32') {

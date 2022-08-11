@@ -28,7 +28,7 @@ describe("deploy package tests", () => {
 
   async function callActionWithMocks(): Promise<void> {
     const deployPackage = await rewiremock.around(
-      () => import("../../src/tasks/deploy-package/deploy-package-v0/index"),
+      () => import("../../src/tasks/deploy-package/deploy-package-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ deployPackage: deployPackageStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });

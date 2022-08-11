@@ -23,7 +23,7 @@ describe("unpack solution test", () => {
 
   async function callActionWithMocks(): Promise<void> {
     const unpack = await rewiremock.around(
-      () => import("../../src/tasks/unpack-solution/unpack-solution-v0/index"),
+      () => import("../../src/tasks/unpack-solution/unpack-solution-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ unpackSolution: unpackSolutionStub });
       });

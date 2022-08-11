@@ -28,7 +28,7 @@ describe("download paportal test", () => {
 
   async function callActionWithMocks(): Promise<void> {
     const download = await rewiremock.around(
-      () => import("../../src/tasks/download-paportal/download-paportal-v0/index"),
+      () => import("../../src/tasks/download-paportal/download-paportal-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ downloadPaportal: unloadPaportalStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });

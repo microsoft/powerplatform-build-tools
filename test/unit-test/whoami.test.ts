@@ -34,7 +34,7 @@ describe("whoami tests", () => {
 
   async function callActionWithMocks(): Promise<void> {
     const whoAmI = await rewiremock.around(
-      () => import("../../src/tasks/whoami/whoami-v0/index"),
+      () => import("../../src/tasks/whoami/whoami-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ whoAmI: whoAmIStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });

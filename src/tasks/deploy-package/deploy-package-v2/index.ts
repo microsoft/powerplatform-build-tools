@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 import * as tl from 'azure-pipelines-task-lib/task';
-import { backupEnvironment } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
+import { deployPackage } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
+import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
-import * as taskDefinitionData from "../../backup-environment/backup-environment-v0/task.json";
-import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
+import { isRunningOnAgent } from '../../../params/auth/isRunningOnAgent';
+
+import * as taskDefinitionData from "./task.json";
 
 (async () => {
   if (isRunningOnAgent()) {
@@ -23,9 +25,9 @@ export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
 
-  await backupEnvironment({
+  await deployPackage({
     credentials: getCredentials(),
-    environment: parameterMap['Environment'],
-    backupLabel: parameterMap['BackupLabel'],
-  }, new BuildToolsRunnerParams(), new BuildToolsHost());
+    environmentUrl: getEnvironmentUrl(),
+    packagePath: parameterMap['PackageFile'],
+  }, new BuildToolsRunnerParams(), new BuildToolsHost('DeployPackage'));
 }

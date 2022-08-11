@@ -29,7 +29,7 @@ describe("reset-environment tests", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    const reset = await rewiremock.around(() => import("../../src/tasks/reset-environment/reset-environment-v0/index"),
+    const reset = await rewiremock.around(() => import("../../src/tasks/reset-environment/reset-environment-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ resetEnvironment: resetEnvironmentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });

@@ -100,7 +100,7 @@
       "label": "Copy Type",
       "type": "pickList",
       "required": false,
-      "defaultValue": "FullCopy",
+      "defaultValue": "MinimalCopy",
       "helpMarkDown": "Select the type of copy.",
       "options": {
         "FullCopy": "Full Copy",

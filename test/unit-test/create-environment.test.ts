@@ -30,7 +30,7 @@ describe("create-environment tests", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    const createEnvironment = await rewiremock.around(() => import("../../src/tasks/create-environment/create-environment-v0/index"),
+    const createEnvironment = await rewiremock.around(() => import("../../src/tasks/create-environment/create-environment-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ createEnvironment: createEnvironmentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
