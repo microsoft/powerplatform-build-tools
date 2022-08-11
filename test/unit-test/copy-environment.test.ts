@@ -45,7 +45,7 @@ describe("copy-environment tests", () => {
       credentials: credentials,
       sourceEnvironment: { name: "Environment", required: false, defaultValue: '$(BuildTools.EnvironmentUrl)' },
       targetEnvironment: { name: 'TargetEnvironmentUrl', required: true, defaultValue: undefined },
-      copyType: { name: 'CopyType', required: false, defaultValue: 'FullCopy' },
+      copyType: { name: 'CopyType', required: false, defaultValue: 'MinimalCopy' },
       overrideFriendlyName: { name: 'OverrideFriendlyName', required: false, defaultValue: "false" },
       friendlyTargetEnvironmentName: { name: 'FriendlyName', required: false, defaultValue: undefined }
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
