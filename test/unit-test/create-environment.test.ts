@@ -49,7 +49,7 @@ describe("create-environment tests", () => {
       environmentType: { name: 'EnvironmentSku', required: true, defaultValue: 'Sandbox' },
       region: { name: 'LocationName', required: true, defaultValue: 'unitedstates' },
       currency: { name: 'CurrencyName', required: true, defaultValue: 'USD' },
-      language: { name: 'LanguageName', required: true, defaultValue: 'English' },
+      language: { name: 'LanguageName', required: true, defaultValue: 'English (United States)' },
       templates: { name: 'AppsTemplate', required: false, defaultValue: undefined },
       domainName: { name: 'DomainName', required: true, defaultValue: undefined },
       teamId: { name: 'TeamId', required: false, defaultValue: undefined },

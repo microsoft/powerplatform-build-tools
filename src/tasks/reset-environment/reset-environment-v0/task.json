@@ -254,13 +254,13 @@
       "label": "Language",
       "type": "pickList",
       "required": false,
-      "defaultValue": "1033",
+      "defaultValue": "English (United States)",
       "helpMarkDown": "Select the language.",
       "properties": {
-        "EditableOptions": true
+        "EditableOptions": "True"
       },
       "options": {
-        "1033": "English",
+        "1033": "English (United States)",
         "1025": "Arabic",
         "1069": "euskara (euskara)",
         "1026": "български (България)",

@@ -21,8 +21,8 @@ jobs:
     strategy:
       matrix:
         os:
-          - windows-latest
           - ubuntu-latest
+          - windows-latest
 
     steps:
       - uses: actions/checkout@v2
