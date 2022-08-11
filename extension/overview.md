@@ -20,19 +20,22 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 
 
 # Release Notes
+
 {{NextReleaseVersion}}:
 - 'Import Solution' task:
   - 'ActivatePlugins' task parameter is on by default; deprecate param 'PublishWorkflows' but consider both for plugin activation (#131)
   - fix forced 'PublishChanges' and its potential http timeout on PublishAllCustomizations (#129)
   - introduces a new "PublishCustomizationChanges" task parameter to also publish customizations after successful import
-
-1.0.82:
 - fix upload error for DeployPackage/Checker when running in release pipeline (#125)
+- 'Check Solution' task: extended timeouts beyond the original 5 min default timeout, now 1 hour (#149)
 
-1.0.81:
+2.0.1:
 - Tasks are now implemented using [PowerPlatform CLI](https://aka.ms/PowerPlatformCLI)
-- Crossplatform support: Tasks can run on either Windows or Linux build agents
-  (exception: 'Package Deploy' requires Windows)
+
+- To take advantage of new features and fixes, your pipelines MUST MIGRATE TO version 2 of all tasks (no mixed v0 and v2 possible)
+
+- Cross-platform support: Tasks can run on either Windows or Linux build agents
+  (exception: 'Package Deploy' which requires Windows)
 - 'Tool Installer' task: still required as first task, but it will no longer require access to PowershellGallery, nor nuget.org feeds
 - All tasks are backwards compatible to their previous PowerShell implementation (version 1.0.41 and older)
 - New features:
@@ -43,6 +46,17 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
   - 'Pack/Unpack Solution' tasks have added parameters: MapFile, localization params, DisablePluginRemap, ProcessCanvasApps
   - 'Check Solution' task supports wildcards/glob for solution.zip path to select >= 1 solutions
   - 'Deploy Package' task captures the deployment log into the job's artifact store
+
+===========================
+## Legacy v0/PowerShell implementation:
+
+1.0.89:
+- final release of the v0, PowerShell implementation, of PP-BT. This version is now DEPRECATED and will NO LONGER receive any updates!
+- Mixing v0 and v2 PP-BT tasks is NOT supported; please consult https://aka.ms/pp-bt-migrate-to-v2 on how to migrate your pipelines to PP-BT v2.
+
+- update to latest SolutionPackager version in ToolInstaller
+- extend Checker task's default timeout from 5 min to 50 min
+- update to newer PackageManagement 1.4.8.1
 
 1.0.41:
 - add Staging Solution API for ImportSolution with EnvironmentVariables

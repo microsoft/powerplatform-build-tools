@@ -28,7 +28,7 @@ describe("upgrade solution test", () => {
 
   async function callActionWithMocks(): Promise<void> {
     const apply = await rewiremock.around(
-      () => import("../../src/tasks/apply-solution-upgrade/apply-solution-upgrade-v0/index"),
+      () => import("../../src/tasks/apply-solution-upgrade/apply-solution-upgrade-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ upgradeSolution: upgradeSolutionStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });

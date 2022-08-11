@@ -26,7 +26,7 @@ describe("backup-environment tests", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    const backup = await rewiremock.around(() => import("../../src/tasks/backup-environment/backup-environment-v0/index"),
+    const backup = await rewiremock.around(() => import("../../src/tasks/backup-environment/backup-environment-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ backupEnvironment: backupEnvironmentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });

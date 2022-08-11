@@ -30,7 +30,7 @@ describe("create-environment tests", () => {
   afterEach(() => restore());
 
   async function callActionWithMocks(): Promise<void> {
-    const createEnvironment = await rewiremock.around(() => import("../../src/tasks/create-environment/create-environment-v0/index"),
+    const createEnvironment = await rewiremock.around(() => import("../../src/tasks/create-environment/create-environment-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ createEnvironment: createEnvironmentStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
@@ -49,7 +49,7 @@ describe("create-environment tests", () => {
       environmentType: { name: 'EnvironmentSku', required: true, defaultValue: 'Sandbox' },
       region: { name: 'LocationName', required: true, defaultValue: 'unitedstates' },
       currency: { name: 'CurrencyName', required: true, defaultValue: 'USD' },
-      language: { name: 'LanguageName', required: true, defaultValue: 'English' },
+      language: { name: 'LanguageName', required: true, defaultValue: 'English (United States)' },
       templates: { name: 'AppsTemplate', required: false, defaultValue: undefined },
       domainName: { name: 'DomainName', required: true, defaultValue: undefined },
       teamId: { name: 'TeamId', required: false, defaultValue: undefined },

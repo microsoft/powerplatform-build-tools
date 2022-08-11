@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import * as tl from 'azure-pipelines-task-lib/task';
-import { deployPackage } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
+import { deleteEnvironment } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
 import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
+import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
 import { getCredentials } from "../../../params/auth/getCredentials";
-import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
-import * as taskDefinitionData from "../../deploy-package/deploy-package-v0/task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
-import { isRunningOnAgent } from '../../../params/auth/isRunningOnAgent';
+
+import * as taskDefinitionData from "./task.json";
 
 (async () => {
   if (isRunningOnAgent()) {
@@ -24,9 +24,8 @@ export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
 
-  await deployPackage({
+  await deleteEnvironment({
     credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl(),
-    packagePath: parameterMap['PackageFile'],
-  }, new BuildToolsRunnerParams(), new BuildToolsHost('DeployPackage'));
+    environment: parameterMap['Environment']
+  }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

@@ -1,6 +1,6 @@
 {
   "name": "@microsoft/powerplatform-build-tools",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "engines": {
     "node": ">=10.0.0"
   },
@@ -75,7 +75,7 @@
     "yargs": "^17.3.1"
   },
   "dependencies": {
-    "@microsoft/powerplatform-cli-wrapper": "0.1.63",
+    "@microsoft/powerplatform-cli-wrapper": "0.1.67",
     "azure-pipelines-task-lib": "^3.3.1",
     "debug": "^4.3.4",
     "fs-extra": "^10.0.1",

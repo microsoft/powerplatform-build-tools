@@ -8,9 +8,10 @@ import { BuildToolsHost } from "../../../host/BuildToolsHost";
 import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
-import * as taskDefinitionData from "../../create-environment/create-environment-v0/task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 import { EnvIdVariableName, EnvUrlVariableName, SetTaskOutputVariable } from "../../../host/PipelineVariables";
+
+import * as taskDefinitionData from "./task.json";
 
 (async () => {
   if (isRunningOnAgent()) {

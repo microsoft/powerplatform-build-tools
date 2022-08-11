@@ -95,7 +95,7 @@ function setVersion(packageJson, manifest) {
   manifest.version = version;
 
   return {
-    major: 0,   // all tasks are currently v0, see task paths
+    major: major,
     minor: minor,
     patch: patch
   }
@@ -139,7 +139,7 @@ async function addTaskFiles() {
 
 async function copyDependencies() {
   const binFolder = path.resolve("bin");
-  const toolInstallerFolder = `${stagingDir}/tasks/tool-installer/tool-installer-v0`;
+  const toolInstallerFolder = `${stagingDir}/tasks/tool-installer/tool-installer-v2`;
 
   await Promise.all([
     copy(binFolder, `${toolInstallerFolder}/bin`, { recursive: true }),
@@ -173,7 +173,7 @@ async function generateAllStages(manifest, taskVersion, manifestVersion) {
 
   let stages = ["LIVE", "BETA", "DEV", "EXPERIMENTAL"];
   if (!isOfficial) {
-    stages = stages.slice(3);
+    stages = stages.slice(2); // local builds create EXP and DEV packages
   }
   for (const stage of stages) {
     const stageManifest = {...manifest};

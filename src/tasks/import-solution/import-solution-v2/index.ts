@@ -9,8 +9,9 @@ import { TaskParser } from "../../../parser/TaskParser";
 import { getCredentials } from "../../../params/auth/getCredentials";
 import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { AzurePipelineTaskDefiniton } from "../../../parser/AzurePipelineDefinitions";
-import * as taskDefinitionData from "../../import-solution/import-solution-v0/task.json";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
+
+import * as taskDefinitionData from "./task.json";
 
 (async () => {
   if (isRunningOnAgent()) {

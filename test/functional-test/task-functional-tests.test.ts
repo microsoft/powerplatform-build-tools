@@ -55,7 +55,7 @@ describe('Build tools functional tests', function () {
     let testTasksRootPath = process.env[testTaskRootPathName] ?? fail(`Environment variable ${testTaskRootPathName} is not defined`);
     const deleteEnvironment: TaskInfo = {
       name: 'delete-environment',
-      path: '/tasks/delete-environment/delete-environment-v0'
+      path: '/tasks/delete-environment/delete-environment-v2'
     }
 
     if (isEnvironmentCreated && !isEnvironmentDeleted) {

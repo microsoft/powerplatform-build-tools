@@ -28,7 +28,7 @@ describe("delete solution test", () => {
 
   async function callActionWithMocks(): Promise<void> {
     const deleteSolution = await rewiremock.around(
-      () => import("../../src/tasks/delete-solution/delete-solution-v0/index"),
+      () => import("../../src/tasks/delete-solution/delete-solution-v2/index"),
       (mock) => {
         mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ deleteSolution: deleteSolutionStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
