@@ -62,7 +62,7 @@
       "name": "ApplicationId",
       "type": "string",
       "label": "Application Id",
-      "required": false,
+      "required": true,
       "visibleRule": "authenticationType = PowerPlatformEnvironment",
       "helpMarkDown": "Appplication Id to use to login."
     },
@@ -70,7 +70,7 @@
       "name": "RedirectUri",
       "type": "string",
       "label": "Redirect Uri",
-      "required": false,
+      "required": true,
       "visibleRule": "authenticationType = PowerPlatformEnvironment",
       "helpMarkDown": "Redirect URI of the specificed App. Needed when specifying an App Id."
     }
