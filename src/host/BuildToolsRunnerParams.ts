@@ -31,7 +31,11 @@ export class BuildToolsRunnerParams implements RunnerParameters {
     if (!this._runnersDir) {
       const pacPath = tl.getVariable(PacPathEnvVarName);
       if (!pacPath) {
-        throw new Error(`Cannot find required pac CLI, Tool-Installer task was not called before this task!`);
+        if (isPPBT_v0()){
+          throw new Error('It appears this pipeline was initialized with a v0 ToolInstaller task. Mixing v0 and v2 PP-BT tasks is NOT supported; please consult https://aka.ms/pp-bt-migrate-to-v2 on how to migrate to PP-BT v2.');
+        } else {
+          throw new Error(`Cannot find required pac CLI, Tool-Installer task was not called before this task!`);
+        }
       }
       this._runnersDir = (pacPath as string);
     }
@@ -45,4 +49,10 @@ export class BuildToolsRunnerParams implements RunnerParameters {
   public get agent(): string {
     return this._agent;
   }
+
+}
+
+function isPPBT_v0(): boolean {
+  // check if one of the PS modules env variables that ToolInstaller@0 set?
+  return !!process.env['PowerPlatformTools_Microsoft_Xrm_WebApi_PowerShell'];
 }

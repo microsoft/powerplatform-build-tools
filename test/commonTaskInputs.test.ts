@@ -131,21 +131,5 @@ describe("getCredentials tests", () => {
       const result = getCredentials();
       result.cloudInstance.should.equal(variant.cloudInstance);
     });
-  }
-
-  it("Returns incorrect cloud when cloud instance is explicitly passed as user input.", () => {
-    const tipTest = { endpoint: 'https://aurora.crm10.dynamics.com', cloudInstance: 'Tip1' }
-    tlStub.getEndpointUrl
-    .withArgs(testEndpointName, true)
-    .returns(tipTest.endpoint);
-
-    const cloudInput = 'Mooncake';
-    tlStub.getInput
-    .withArgs("Cloud")
-    .returns(cloudInput);
-
-    const result = getCredentials();
-    result.cloudInstance.should.not.eq(tipTest.cloudInstance);
-    result.cloudInstance.should.equal(cloudInput);
-  });
+}
 });
