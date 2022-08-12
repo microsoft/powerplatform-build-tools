@@ -37,7 +37,7 @@ export async function main(): Promise<void> {
       tl.setVariable(TenantIdVariableName, tenantId, true);
 
       const dataverseConnectionString = `AuthType=ClientSecret;url=${endpointUrl};ClientId=${applicationId};ClientSecret=${clientSecret}`;
-      tl.setVariable(DataverseConnectionStringVariableName, dataverseConnectionString);
+      tl.setVariable(DataverseConnectionStringVariableName, dataverseConnectionString, true);
 
       break;
     }
@@ -48,12 +48,16 @@ export async function main(): Promise<void> {
       tl.setVariable(UserNameVariableName, userName, true);
       const password = tl.getEndpointAuthorizationParameterRequired(powerPlatformEnvironment, 'Password');
       tl.setVariable(PasswordVariableName, password, true);
-      const applicationId = tl.getInputRequired('ApplicationId');
-      const redirectUri = tl.getInputRequired('RedirectUri');
+      const applicationId = tl.getInput('ApplicationId');
+      const redirectUri = tl.getInput('RedirectUri');
 
-      const dataverseConnectionString = `AuthType=OAuth;url=${endpointUrl};UserName=${userName};Password=${password};AppId=${applicationId};RedirectUri=${redirectUri}`;
-      tl.setVariable(DataverseConnectionStringVariableName, dataverseConnectionString);
-
+      if (applicationId == '' || redirectUri == '') {
+        console.log(`${DataverseConnectionStringVariableName} variable was not set. ApplicationId and RedirectUri are required to generate a valid Dataverse connection string.`);
+      }
+      else {
+        const dataverseConnectionString = `AuthType=OAuth;url=${endpointUrl};UserName=${userName};Password=${password};AppId=${applicationId};RedirectUri=${redirectUri}`;
+        tl.setVariable(DataverseConnectionStringVariableName, dataverseConnectionString, true);
+      }
       break;
     }
 

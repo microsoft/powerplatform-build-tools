@@ -21,13 +21,6 @@
   "preview": false,
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Power Platform Set Connection Variables $(message)",
-  "groups": [
-    {
-      "name": "advanced",
-      "displayName": "Advanced",
-      "isExpanded": false
-    }
-  ],
   "inputs": [
     {
       "name": "authenticationType",
@@ -69,21 +62,17 @@
       "name": "ApplicationId",
       "type": "string",
       "label": "Application Id",
-      "defaultValue": "51f81489-12ee-4a9e-aaae-a2591f45987d",
       "required": false,
       "visibleRule": "authenticationType = PowerPlatformEnvironment",
-      "helpMarkDown": "Appplication Id to use to login.",
-      "groupname": "advanced"
+      "helpMarkDown": "Appplication Id to use to login."
     },
     {
       "name": "RedirectUri",
       "type": "string",
       "label": "Redirect Uri",
-      "defaultValue": "app://58145B91-0C36-4500-8554-080854F2AC97",
       "required": false,
       "visibleRule": "authenticationType = PowerPlatformEnvironment",
-      "helpMarkDown": "Redirect URI of the specificed App. Needed when specifying an App Id.",
-      "groupname": "advanced"
+      "helpMarkDown": "Redirect URI of the specificed App. Needed when specifying an App Id."
     }
   ],
   "execution": {
