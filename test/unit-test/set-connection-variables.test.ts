@@ -31,7 +31,7 @@ describe('set-connection-variables tests', () => {
 
   async function callActionWithMocks(): Promise<void> {
     const setConnectionVariables = await rewiremock.around(
-      () => import("../../src/tasks/set-connection-variables/set-connection-variables-v0/index"),
+      () => import("../../src/tasks/set-connection-variables/set-connection-variables-v2/index"),
       (mock) => {
         mock(() => import("azure-pipelines-task-lib")).with({
           getInputRequired: (name: string) => inputs[name],
@@ -58,7 +58,7 @@ describe('set-connection-variables tests', () => {
 
     authParams['applicationId'] = mockedAppId;
     authParams['clientSecret'] = mockedSecret;
-    authParams['tenantId'] = mockedTenantId;    
+    authParams['tenantId'] = mockedTenantId;
 
     const expectedDataverseConnectionString = `AuthType=ClientSecret;url=${variables[EnvUrlVariableName]};ClientId=${mockedAppId};ClientSecret=${mockedSecret}`;
 
@@ -81,7 +81,7 @@ describe('set-connection-variables tests', () => {
     const mockedPassword = 'somePassord';
 
     authParams['UserName'] = mockedUserNme;
-    authParams['Password'] = mockedPassword;    
+    authParams['Password'] = mockedPassword;
 
     const expectedDataverseConnectionString = `AuthType=OAuth;url=${variables[EnvUrlVariableName]};UserName=${mockedUserNme};Password=${mockedPassword};AppId=${inputs['ApplicationId']};RedirectUri=${inputs['RedirectUri']}`;
 
