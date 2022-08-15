@@ -65,3 +65,4 @@ jobs:
           PA_BT_ORG_PASSWORD: ${{ secrets.PA_BT_ORG_PASSWORD }}
           # temp. use of pre-existing env, until create-environment task is also converted
           PA_BT_ORG_URL: https://pp-bt-prloop.crm.dynamics.com/
+          PR_NUMBER: ${{ github.event.number }}

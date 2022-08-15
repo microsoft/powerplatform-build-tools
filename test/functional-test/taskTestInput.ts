@@ -4,7 +4,8 @@ import { TaskInfo } from "./functional-test-lib";
 
 export const deleteEnvironmentTaskName = 'delete-environment';
 export const createEnvironmentTaskName = 'create-environment';
-const envFriendlyName = `ppbt-comp-test-${process.platform == 'win32' ? 'win' : 'linux'}`;
+
+const envFriendlyName = `ppbt-func-test-${process.platform == 'win32' ? 'win' : 'linux'}-PR${process.env['PR_NUMBER']}`;
 const testDataPath = path.resolve(__dirname, '..', 'Test-Data');
 const testableEmptySolutionPath = path.join(testDataPath, 'emptySolution_0_1_0_0.zip');
 const solutionTestOutputRootDirectory = 'out/solution-test';
@@ -93,7 +94,7 @@ export const tasksToTest: TaskInfo[] =
       inputVariables: [
         { name: 'solutionName', value: 'emptySolution' },
         { name: 'SolutionVersionNumber', value: '0.42.0.2' },
-        { name: 'SolutionOutputFile', value: path.join(solutionTestOutputRootDirectory, 'exported-solution', `solution_${new Date().toJSON().slice(0,10)}.zip`) },
+        { name: 'SolutionOutputFile', value: path.join(solutionTestOutputRootDirectory, 'exported-solution', `solution_${new Date().toJSON().slice(0, 10)}.zip`) },
       ]
     },
     // {
