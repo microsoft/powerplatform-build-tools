@@ -22,6 +22,9 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- pick up hot-fixed pac CLI 1.17.5 to address #171
+
+2.0.3:
 - 'Import Solution' task:
   - 'ActivatePlugins' task parameter is on by default; deprecate param 'PublishWorkflows' but consider both for plugin activation (#131)
   - fix forced 'PublishChanges' and its potential http timeout on PublishAllCustomizations (#129)
