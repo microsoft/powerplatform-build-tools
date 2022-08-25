@@ -21,6 +21,32 @@
   "preview": false,
   "minimumAgentVersion": "1.95.0",
   "instanceNameFormat": "Power Platform Set Connection Variables $(message)",
+  "outputVariables": [
+    {
+      "name": "BuildTools.ApplicationId",
+      "description": "Output variable of Application Id used by Service Connection"
+    },
+    {
+      "name": "BuildTools.ClientSecret",
+      "description": "Output variable of Client Secret used by Service Connection"
+    },
+    {
+      "name": "BuildTools.TenantId",
+      "description": "Output variable of Tenant Id used by Service Connection"
+    },
+    {
+      "name": "BuildTools.DataverseConnectionString",
+      "description": "Output variable of a Dataverse connection string based on values used by Service Connection"
+    },
+    {
+      "name": "BuildTools.UserName",
+      "description": "Output variable of Username used by Service Connection"
+    },
+    {
+      "name": "BuildTools.Password",
+      "description": "Output variable of Password used by Service Connection"
+    }
+  ],
   "inputs": [
     {
       "name": "authenticationType",
