@@ -197,6 +197,15 @@
         "DEV": "4FB6DC1F-D286-499A-A289-3581B66A10D0",
         "EXPERIMENTAL": "DE0B61AA-53CC-4810-B3CC-7AF4FBD56040"
       }
+    },
+    {
+      "name": "set-connection-variables",
+      "id": {
+        "LIVE": "f39f114b-39ae-487c-b3af-2e243c29cbb1",
+        "BETA": "557b2c4e-811c-4c76-923f-c8c88fdd553e",
+        "DEV": "4ff360f5-7056-4fb6-937b-a395c49e5aa8",
+        "EXPERIMENTAL": "7be26757-6752-4999-b0e1-a9f7fbdfe512"
+      }
     }
   ]
 }

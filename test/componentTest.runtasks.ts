@@ -148,7 +148,7 @@ describe('Tasks component tests', () => {
   const completedTasks: taskInfo[] = [];
   before('Unzip experimental .vsix', function (done) {
     // needs to be function () definition; arrow definition will not correctly set the this context
-    this.timeout(20 * 1000);
+    this.timeout(50 * 1000);
     ensureDirSync(tasksRoot);
     console.log(`Unzipping VSIX ${packageToTest} into folder: ${tasksRoot} ...`);
     emptyDirSync(tasksRoot);
