@@ -22,6 +22,9 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- pick up hot-fixed pac CLI 1.17.6 to address #179 and #180: accessToken expires after 60 min
+
+2.0.4:
 - pick up hot-fixed pac CLI 1.17.5 to address #171
 
 2.0.3:
