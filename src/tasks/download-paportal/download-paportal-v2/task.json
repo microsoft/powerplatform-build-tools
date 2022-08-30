@@ -65,6 +65,20 @@
       "helpMarkDown": "Path from where the website content will be Downloaded"
     },
     {
+      "name": "Overwrite",
+      "type": "boolean",
+      "label": "Overwrite data",
+      "required": false,
+      "helpMarkDown": "Overwrite if portal context exists at the given path"
+    },
+    {
+      "name": "ExcludeEntities",
+      "type": "string",
+      "label": "Entities to exclude",
+      "required": false,
+      "helpMarkDown": "Comma separated list of entity logical names to exclude while downloading"
+    },
+    {
       "name": "WebsiteId",
       "type": "string",
       "label": "Id of website",
