@@ -32,8 +32,8 @@ export async function main(): Promise<void> {
       environmentUrl: getEnvironmentUrl(),
       path: parameterMap["DownloadPath"],
       websiteId: parameterMap["WebsiteId"],
-      overwrite: parameterMap["overwrite"],
-      excludeEntities: parameterMap["exclude-entities"],
+      overwrite: parameterMap["Overwrite"],
+      excludeEntities: parameterMap["ExcludeEntities"],
     },
     new BuildToolsRunnerParams(),
     new BuildToolsHost()

@@ -62,7 +62,14 @@
       "type": "filePath",
       "label": "Download path",
       "required": true,
-      "helpMarkDown": "Path from where the website content will be Downloaded"
+      "helpMarkDown": "Local path to where the website content will be downloaded"
+    },
+    {
+      "name": "WebsiteId",
+      "type": "string",
+      "label": "Id of website",
+      "required": true,
+      "helpMarkDown": "Website id of the website to be downloaded"
     },
     {
       "name": "Overwrite",
@@ -77,13 +84,6 @@
       "label": "Entities to exclude",
       "required": false,
       "helpMarkDown": "Comma separated list of entity logical names to exclude while downloading"
-    },
-    {
-      "name": "WebsiteId",
-      "type": "string",
-      "label": "Id of website",
-      "required": true,
-      "helpMarkDown": "Website id of the website to be downloaded"
     }
   ],
   "execution": {
