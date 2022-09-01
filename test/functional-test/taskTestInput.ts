@@ -5,7 +5,10 @@ import { TaskInfo } from "./functional-test-lib";
 export const deleteEnvironmentTaskName = 'delete-environment';
 export const createEnvironmentTaskName = 'create-environment';
 
-const envFriendlyName = `ppbt-func-test-${process.platform == 'win32' ? 'win' : 'linux'}-PR${process.env['PR_NUMBER']}`;
+const prNumber = process.env['PR_NUMBER'];
+// when running locally, create a postfix w/ hostname; some hosts have FQ domain name, split to just basename
+const postfix = prNumber ? `PR${prNumber}` : os.hostname().split('.')[0].toLowerCase();
+const envFriendlyName = `ppbt-func-test-${process.platform == 'win32' ? 'win' : 'linux'}-${postfix}`;
 const testDataPath = path.resolve(__dirname, '..', 'Test-Data');
 const testableEmptySolutionPath = path.join(testDataPath, 'emptySolution_0_1_0_0.zip');
 const solutionTestOutputRootDirectory = 'out/solution-test';
