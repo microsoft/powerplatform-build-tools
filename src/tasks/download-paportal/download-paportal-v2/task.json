@@ -62,7 +62,7 @@
       "type": "filePath",
       "label": "Download path",
       "required": true,
-      "helpMarkDown": "Path from where the website content will be Downloaded"
+      "helpMarkDown": "Local path to where the website content will be downloaded"
     },
     {
       "name": "WebsiteId",
@@ -70,6 +70,20 @@
       "label": "Id of website",
       "required": true,
       "helpMarkDown": "Website id of the website to be downloaded"
+    },
+    {
+      "name": "Overwrite",
+      "type": "boolean",
+      "label": "Overwrite data",
+      "required": false,
+      "helpMarkDown": "Overwrite if portal context exists at the given path"
+    },
+    {
+      "name": "ExcludeEntities",
+      "type": "string",
+      "label": "Entities to exclude",
+      "required": false,
+      "helpMarkDown": "Comma separated list of entity logical names to exclude while downloading"
     }
   ],
   "execution": {
