@@ -58,18 +58,11 @@
       "helpMarkDown": "Directory name with data for import."
     },
     {
-      "name": "Overwrite",
-      "label": "Overwrite",
-      "type": "boolean",
-      "required": false,
-      "helpMarkDown": "Allow overwrite output data file if it already exists."
-    },
-    {
       "name": "Environment",
       "label": "Environment",
       "type": "string",
       "required": false,
-      "helpMarkDown": "Environment (id, org id, url, unique name or partial name)."
+      "helpMarkDown": "Environment URL or ID."
     }
   ],
   "execution": {

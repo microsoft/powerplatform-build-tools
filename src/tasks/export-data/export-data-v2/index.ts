@@ -29,7 +29,11 @@ export async function main(): Promise<void> {
     schemaFile: parameterMap['SchemaFile'],
     dataFile: parameterMap['DataFile'],
     overwrite: parameterMap['Overwrite'],
-    verbose: parameterMap['Verbose'],
+    verbose: {
+      name: "Verbose",
+      required: false,
+      defaultValue: false
+    },
     environment: parameterMap['Environment'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

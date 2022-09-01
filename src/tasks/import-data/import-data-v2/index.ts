@@ -27,7 +27,11 @@ export async function main(): Promise<void> {
   await dataImport({
     credentials: getCredentials(),
     dataDirectory: parameterMap['DataDirectory'],
-    verbose: parameterMap['Verbose'],
+    verbose: {
+      name: "Verbose",
+      required: false,
+      defaultValue: false
+    },
     environment: parameterMap['Environment'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

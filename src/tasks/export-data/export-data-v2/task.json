@@ -73,18 +73,11 @@
       "helpMarkDown": "Allow overwrite output data file if it already exists."
     },
     {
-      "name": "Verbose",
-      "label": "Verbose",
-      "type": "boolean",
-      "required": false,
-      "helpMarkDown": "Output more diagnostic information during data import/export."
-    },
-    {
       "name": "Environment",
       "label": "Environment",
       "type": "string",
       "required": false,
-      "helpMarkDown": "Environment (id, org id, url, unique name or partial name)."
+      "helpMarkDown": "Environment URL or ID."
     }
   ],
   "execution": {
