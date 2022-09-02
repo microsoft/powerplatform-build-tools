@@ -51,18 +51,19 @@
       "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
     },
     {
+      "name": "Environment",
+      "label": "Environment",
+      "type": "string",
+      "defaultValue": "$(BuildTools.EnvironmentUrl)",
+      "required": true,
+      "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
+    },
+    {
       "name": "DataDirectory",
       "label": "Data Directory",
       "type": "string",
       "required": true,
       "helpMarkDown": "Directory name with data for import."
-    },
-    {
-      "name": "Environment",
-      "label": "Environment",
-      "type": "string",
-      "required": false,
-      "helpMarkDown": "Environment URL or ID."
     }
   ],
   "execution": {
