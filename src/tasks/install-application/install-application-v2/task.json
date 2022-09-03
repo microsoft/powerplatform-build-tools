@@ -2,7 +2,7 @@
   "id": "cd66049c-f04b-4be1-aac1-df4f5a7e51ad",
   "name": "PowerPlatformInstallApplication",
   "friendlyName": "Power Platform Install Applications",
-  "description": "(Preview): Power Platform Install Applications from AppSource",
+  "description": "Install Power Platform Applications from AppSource",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Deploy",
