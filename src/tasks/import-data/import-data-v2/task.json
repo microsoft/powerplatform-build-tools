@@ -1,7 +1,8 @@
 {
-  "name": "PowerPlatformDownloadPaportal",
-  "friendlyName": "Power Platform Download PAPortal",
-  "description": "Power Platform Download PowerPages web site (PAPortal)",
+  "id": "3137A4C5-0E44-4D89-AC0C-BEEDEC036428",
+  "name": "PowerPlatformImportData",
+  "friendlyName": "Power Platform Import Data",
+  "description": "Power Platform import data to environment",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Deploy",
@@ -13,13 +14,13 @@
     "PowerPlatformTool"
   ],
   "version": {
-    "Major": "0",
-    "Minor": "1",
-    "Patch": "0"
+    "Major": 0,
+    "Minor": 1,
+    "Patch": 0
   },
   "preview": false,
   "minimumAgentVersion": "1.95.0",
-  "instanceNameFormat": "Power Platform Download PAPortal $(message)",
+  "instanceNameFormat": "Power Platform Import Data $(message)",
   "inputs": [
     {
       "name": "authenticationType",
@@ -51,39 +52,18 @@
     },
     {
       "name": "Environment",
-      "label": "Environment Url",
+      "label": "Environment",
       "type": "string",
       "defaultValue": "$(BuildTools.EnvironmentUrl)",
-      "required": false,
+      "required": true,
       "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
     },
     {
-      "name": "DownloadPath",
-      "type": "filePath",
-      "label": "Download path",
-      "required": true,
-      "helpMarkDown": "Local path to where the website content will be downloaded"
-    },
-    {
-      "name": "WebsiteId",
+      "name": "DataDirectory",
+      "label": "Data Directory",
       "type": "string",
-      "label": "Id of website",
       "required": true,
-      "helpMarkDown": "Website id of the website to be downloaded"
-    },
-    {
-      "name": "Overwrite",
-      "type": "boolean",
-      "label": "Overwrite data",
-      "required": false,
-      "helpMarkDown": "Overwrite if portal context exists at the given path"
-    },
-    {
-      "name": "ExcludeEntities",
-      "type": "string",
-      "label": "Entities to exclude",
-      "required": false,
-      "helpMarkDown": "Comma separated list of entity logical names to exclude while downloading"
+      "helpMarkDown": "Directory name with data for import."
     }
   ],
   "execution": {
