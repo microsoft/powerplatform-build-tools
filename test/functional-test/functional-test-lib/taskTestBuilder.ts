@@ -17,12 +17,14 @@ export const enum AuthTypes {
 export class TaskTestBuilder {
   packageDirectory: string;
   taskRootPath: string;
+  outDir: string;
 
   constructor(authType: AuthTypes, packageDirectory: string) {
     if (process.env.NODE_ENV === 'development') {
       // create a .env file in root directory for testing locally with NODE_ENV = "development"
       require('dotenv').config();
     }
+    this.outDir = path.resolve(__dirname, '..', '..', '..', 'out');
     // convince tasks-under-test to run as if they were launched on an AzDevOps agent:
     process.env['AGENT_JOBNAME'] = "AzDO job";
 
@@ -38,7 +40,7 @@ export class TaskTestBuilder {
       this.setSpnBasedAuthEnvironmentvariables(authType, envUrl);
 
     this.packageDirectory = packageDirectory;
-    this.taskRootPath = path.resolve(os.tmpdir(), testTempDir);
+    this.taskRootPath = path.resolve(this.outDir, testTempDir);
   }
 
   private setPasswordBasedAuthEnvironmentVariables(authType: AuthTypes, envUrl: string) {

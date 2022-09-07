@@ -110,11 +110,11 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Gulp ComponentTest only",
+      "name": "Gulp functionalTest",
       "program": "${workspaceFolder}/node_modules/gulp/bin/gulp.js",
       "cwd": "${workspaceFolder}",
       "args": [
-        "componentTest"
+        "functionalTest"
       ],
       "skipFiles": [
         "<node_internals>/**"
