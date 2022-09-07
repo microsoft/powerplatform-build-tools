@@ -44,5 +44,6 @@ export async function main(): Promise<void> {
     outlookSynchronizationSettings: parameterMap['ExportOutlookSynchronizationSettings'],
     relationshipRoles: parameterMap['ExportRelationshipRoles'],
     sales: parameterMap['ExportSales'],
+    overwrite: parameterMap['OverwriteLocalSolution'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

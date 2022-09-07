@@ -109,7 +109,16 @@
       "visibleRule": "AsyncOperation = true",
       "required": true,
       "defaultValue": "60",
-      "helpMarkDown": "Maximum wait time in minutes for asynchronous Export; default is 60 min (1 hr), same as Azure DevOps default for tasks"
+      "helpMarkDown": "Maximum wait time in minutes for asynchronous Export; default is 60 min (1 hr), same as Azure DevOps default for tasks"
+    },
+    {
+      "name": "OverwriteLocalSolution",
+      "label": "Overwrite the local solution.zip copy",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": true,
+      "groupName": "advanced",
+      "helpMarkDown": "If true, task will overwrite a solution.zip of the same name on the agent's local file system."
     },
     {
       "name": "ExportAutoNumberingSettings",

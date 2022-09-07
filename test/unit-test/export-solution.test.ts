@@ -59,6 +59,7 @@ describe("export-solution tests", () => {
       outlookSynchronizationSettings: { name: 'ExportOutlookSynchronizationSettings', required: false, defaultValue: false },
       relationshipRoles: { name: 'ExportRelationshipRoles', required: false, defaultValue: false },
       sales: { name: 'ExportSales', required: false, defaultValue: false },
+      overwrite: { name: 'OverwriteLocalSolution', required: false, defaultValue: true },
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });
