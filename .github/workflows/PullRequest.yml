@@ -71,4 +71,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: pac-cli-log ${{ matrix.os }}
-          path: ${{ runner.temp }}/**/pac*/tools/logs/pac-log.txt
+          path: out/pp-bt-test/tasks/tool-installer/**/pac*/tools/logs/pac-log.txt
