@@ -2,7 +2,7 @@
   "id": "3137A4C5-0E44-4D89-AC0C-BEEDEC036428",
   "name": "PowerPlatformImportData",
   "friendlyName": "Power Platform Import Data",
-  "description": "Power Platform import data to environment",
+  "description": "Power Platform import data to environment. Requires Windows build agent",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Deploy",
