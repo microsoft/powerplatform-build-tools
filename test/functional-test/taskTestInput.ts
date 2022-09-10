@@ -11,9 +11,11 @@ const postfix = prNumber ? `PR${prNumber}` : os.hostname().split('.')[0].toLower
 const envFriendlyName = `ppbt-func-test-${process.platform == 'win32' ? 'win' : 'linux'}-${postfix}`;
 const testDataPath = path.resolve(__dirname, '..', 'Test-Data');
 const testableEmptySolutionPath = path.join(testDataPath, 'emptySolution_0_1_0_0.zip');
-const solutionTestOutputRootDirectory = 'out/solution-test';
-const unpackedSolutionDirectory = `${solutionTestOutputRootDirectory}/unpacked-solution`;
-const packedSolutionDirectory = `${solutionTestOutputRootDirectory}/packed-solution`;
+const solutionTestOutputRootDirectory = path.join('out', 'solution-test');
+const unpackedSolutionDirectory = path.join(solutionTestOutputRootDirectory, 'unpacked-solution');
+const packedSolutionDirectory = path.join(solutionTestOutputRootDirectory, 'packed-solution');
+const schemaFile = path.join(testDataPath, 'dataSchema','EnvVarDefs.schema.xml');
+const dataZipFolder = path.join('out', 'data-test');
 
 export const tasksToTest: TaskInfo[] =
   [
@@ -68,7 +70,8 @@ export const tasksToTest: TaskInfo[] =
       path: '/tasks/deploy-package/deploy-package-v2',
       inputVariables: [
         { name: 'PackageFile', value: path.join(testDataPath, 'testPkg', 'bin', 'Debug', 'testPkg.1.0.0.pdpkg.zip') }
-      ]
+      ],
+      winOnly: true
     },
     {
       name: 'import-solution',
@@ -82,6 +85,23 @@ export const tasksToTest: TaskInfo[] =
         { name: 'OverwriteUnmanagedCustomizations', value: 'false' },
         { name: 'HoldingSolution', value: 'false' },
       ]
+    },
+    {
+      name: 'export-data',
+      path: '/tasks/export-data/export-data-v2',
+      inputVariables: [
+        { name: 'SchemaFile', value: schemaFile},
+        { name: 'DataFile', value: 'data.zip'},
+      ],
+      winOnly: true
+    },
+    {
+      name: 'import-data',
+      path: '/tasks/import-data/import-data-v2',
+      inputVariables: [
+        { name: 'DataDirectory', value: dataZipFolder }
+      ],
+      winOnly: true
     },
     {
       name: 'set-solution-version',
@@ -126,5 +146,5 @@ export const tasksToTest: TaskInfo[] =
       return true;
     }
     // can't run on non-windows OS:
-    return task.name !== 'deploy-package';
+    return !task.winOnly
   });
