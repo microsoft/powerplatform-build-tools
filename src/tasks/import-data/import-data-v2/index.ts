@@ -28,7 +28,7 @@ export async function main(): Promise<void> {
   await dataImport({
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
-    dataDirectory: parameterMap['DataDirectory'],
+    dataFile: parameterMap['DataFile'],
     verbose: {
       name: "Verbose",
       required: false,

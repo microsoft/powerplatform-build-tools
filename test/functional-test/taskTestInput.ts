@@ -1,6 +1,7 @@
 import path = require("path");
 import os = require('os');
 import { TaskInfo } from "./functional-test-lib";
+import { ensureDirSync } from "fs-extra";
 
 export const deleteEnvironmentTaskName = 'delete-environment';
 export const createEnvironmentTaskName = 'create-environment';
@@ -17,6 +18,9 @@ const packedSolutionDirectory = path.join(solutionTestOutputRootDirectory, 'pack
 const schemaFile = path.join(testDataPath, 'dataSchema','EnvVarDefs.schema.xml');
 const dataZipFolder = path.join('out', 'data-test');
 const dataZip = path.join(dataZipFolder, 'data.zip');
+
+// AB#2919691 pac CLI stumbles if output folder doesn't exist:
+ensureDirSync(dataZipFolder);
 
 export const tasksToTest: TaskInfo[] =
   [
@@ -100,7 +104,7 @@ export const tasksToTest: TaskInfo[] =
       name: 'import-data',
       path: '/tasks/import-data/import-data-v2',
       inputVariables: [
-        { name: 'DataDirectory', value: dataZipFolder }
+        { name: 'DataFile', value: dataZip }
       ],
       winOnly: true
     },
