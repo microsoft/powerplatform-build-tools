@@ -16,6 +16,7 @@ const unpackedSolutionDirectory = path.join(solutionTestOutputRootDirectory, 'un
 const packedSolutionDirectory = path.join(solutionTestOutputRootDirectory, 'packed-solution');
 const schemaFile = path.join(testDataPath, 'dataSchema','EnvVarDefs.schema.xml');
 const dataZipFolder = path.join('out', 'data-test');
+const dataZip = path.join(dataZipFolder, 'data.zip');
 
 export const tasksToTest: TaskInfo[] =
   [
@@ -56,23 +57,23 @@ export const tasksToTest: TaskInfo[] =
         { name: 'ProcessCanvasApps', value: 'true' },
       ]
     },
-    {
-      name: 'checker',
-      path: '/tasks/checker/checker-v2',
-      inputVariables: [
-        { name: 'FilesToAnalyze', value: path.join(testDataPath, 'componentsTestSolution_1_0_0_1.zip') },
-        { name: 'ArtifactDestinationName', value: 'PA-Checker-logs' },
-        { name: 'RuleSet', value: '0ad12346-e108-40b8-a956-9a8f95ea18c9' }
-      ]
-    },
-    {
-      name: 'deploy-package',
-      path: '/tasks/deploy-package/deploy-package-v2',
-      inputVariables: [
-        { name: 'PackageFile', value: path.join(testDataPath, 'testPkg', 'bin', 'Debug', 'testPkg.1.0.0.pdpkg.zip') }
-      ],
-      winOnly: true
-    },
+    // {
+    //   name: 'checker',
+    //   path: '/tasks/checker/checker-v2',
+    //   inputVariables: [
+    //     { name: 'FilesToAnalyze', value: path.join(testDataPath, 'componentsTestSolution_1_0_0_1.zip') },
+    //     { name: 'ArtifactDestinationName', value: 'PA-Checker-logs' },
+    //     { name: 'RuleSet', value: '0ad12346-e108-40b8-a956-9a8f95ea18c9' }
+    //   ]
+    // },
+    // {
+    //   name: 'deploy-package',
+    //   path: '/tasks/deploy-package/deploy-package-v2',
+    //   inputVariables: [
+    //     { name: 'PackageFile', value: path.join(testDataPath, 'testPkg', 'bin', 'Debug', 'testPkg.1.0.0.pdpkg.zip') }
+    //   ],
+    //   winOnly: true
+    // },
     {
       name: 'import-solution',
       path: '/tasks/import-solution/import-solution-v2',
@@ -90,8 +91,8 @@ export const tasksToTest: TaskInfo[] =
       name: 'export-data',
       path: '/tasks/export-data/export-data-v2',
       inputVariables: [
-        { name: 'SchemaFile', value: schemaFile},
-        { name: 'DataFile', value: 'data.zip'},
+        { name: 'SchemaFile', value: schemaFile },
+        { name: 'DataFile', value: dataZip },
       ],
       winOnly: true
     },
