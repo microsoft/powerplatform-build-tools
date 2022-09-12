@@ -22,6 +22,12 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- new task: 'Set Connection Variables' #151 & #182
+- new tasks: 'Import Data' & 'Export Data' #188
+- fixes for issues: #168, #170
+- update to latest pac CLI 1.18.x
+
+2.0.5:
 - pick up hot-fixed pac CLI 1.17.6 to address #179 and #180: accessToken expires after 60 min
 
 2.0.4:
