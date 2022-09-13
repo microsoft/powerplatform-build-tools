@@ -10,9 +10,9 @@ const prNumber = process.env['PR_NUMBER'];
 const runId = process.env['RUN_ID'];
 // when running locally, create a postfix w/ hostname; some hosts have FQ domain name, split to just basename
 // on CI builds e.g. after merging to main, there's no PR number; use the run id instead
-const postfix = prNumber ? `PR${prNumber}` : runId ? `run${runId}` : os.hostname().split('.')[0].toLowerCase();
+const postfix = prNumber ? `PR${prNumber}` : runId ? `r${runId.slice(-5)}` : os.hostname().split('.')[0].toLowerCase();
 
-const envFriendlyName = `ppbt-func-test-${process.platform == 'win32' ? 'win' : 'linux'}-${postfix}`;
+const envFriendlyName = `ppbt-ft-${process.platform == 'win32' ? 'win' : 'linux'}-${postfix}`;
 const testDataPath = path.resolve(__dirname, '..', 'Test-Data');
 const testableEmptySolutionPath = path.join(testDataPath, 'emptySolution_0_1_0_0.zip');
 const solutionTestOutputRootDirectory = path.join('out', 'solution-test');
