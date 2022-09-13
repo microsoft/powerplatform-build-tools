@@ -1,7 +1,7 @@
+import { ensureDirSync } from "fs-extra";
 import path = require("path");
 import os = require('os');
 import { TaskInfo } from "./functional-test-lib";
-import { ensureDirSync } from "fs-extra";
 
 export const deleteEnvironmentTaskName = 'delete-environment';
 export const createEnvironmentTaskName = 'create-environment';
@@ -16,7 +16,7 @@ const solutionTestOutputRootDirectory = path.join('out', 'solution-test');
 const unpackedSolutionDirectory = path.join(solutionTestOutputRootDirectory, 'unpacked-solution');
 const packedSolutionDirectory = path.join(solutionTestOutputRootDirectory, 'packed-solution');
 const schemaFile = path.join(testDataPath, 'dataSchema','EnvVarDefs.schema.xml');
-const dataZipFolder = path.join('out', 'data-test');
+const dataZipFolder = path.resolve('out', 'data-test');
 const dataZip = path.join(dataZipFolder, 'data.zip');
 
 // AB#2919691 pac CLI stumbles if output folder doesn't exist:
@@ -61,23 +61,23 @@ export const tasksToTest: TaskInfo[] =
         { name: 'ProcessCanvasApps', value: 'true' },
       ]
     },
-    // {
-    //   name: 'checker',
-    //   path: '/tasks/checker/checker-v2',
-    //   inputVariables: [
-    //     { name: 'FilesToAnalyze', value: path.join(testDataPath, 'componentsTestSolution_1_0_0_1.zip') },
-    //     { name: 'ArtifactDestinationName', value: 'PA-Checker-logs' },
-    //     { name: 'RuleSet', value: '0ad12346-e108-40b8-a956-9a8f95ea18c9' }
-    //   ]
-    // },
-    // {
-    //   name: 'deploy-package',
-    //   path: '/tasks/deploy-package/deploy-package-v2',
-    //   inputVariables: [
-    //     { name: 'PackageFile', value: path.join(testDataPath, 'testPkg', 'bin', 'Debug', 'testPkg.1.0.0.pdpkg.zip') }
-    //   ],
-    //   winOnly: true
-    // },
+    {
+      name: 'checker',
+      path: '/tasks/checker/checker-v2',
+      inputVariables: [
+        { name: 'FilesToAnalyze', value: path.join(testDataPath, 'componentsTestSolution_1_0_0_1.zip') },
+        { name: 'ArtifactDestinationName', value: 'PA-Checker-logs' },
+        { name: 'RuleSet', value: '0ad12346-e108-40b8-a956-9a8f95ea18c9' }
+      ]
+    },
+    {
+      name: 'deploy-package',
+      path: '/tasks/deploy-package/deploy-package-v2',
+      inputVariables: [
+        { name: 'PackageFile', value: path.join(testDataPath, 'testPkg', 'bin', 'Debug', 'testPkg.1.0.0.pdpkg.zip') }
+      ],
+      winOnly: true
+    },
     {
       name: 'import-solution',
       path: '/tasks/import-solution/import-solution-v2',
@@ -97,6 +97,7 @@ export const tasksToTest: TaskInfo[] =
       inputVariables: [
         { name: 'SchemaFile', value: schemaFile },
         { name: 'DataFile', value: dataZip },
+        { name: 'Overwrite', value: 'true' },
       ],
       winOnly: true
     },
