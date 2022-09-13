@@ -2,7 +2,7 @@
   "id": "c6ea89b6-4434-410c-b17f-c6c253175945",
   "name": "PowerPlatformDeployPackage",
   "friendlyName": "Power Platform Deploy Package",
-  "description": "Power Platform Deploy Package",
+  "description": "Power Platform Deploy Package. Requires Windows build agent",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Deploy",

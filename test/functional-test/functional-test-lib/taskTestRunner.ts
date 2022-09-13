@@ -13,6 +13,7 @@ export interface TaskInfo {
   name: string;
   path: string;
   inputVariables?: inputVariableDefinition[];
+  winOnly?: boolean;
 }
 
 export interface TaskResult {
@@ -46,7 +47,7 @@ export class TaskRunner {
     this.taskResult = cp.spawnSync('node', [normalizedTaskPath], { encoding: 'utf-8', cwd: this.taskDirectory });
     //console.debug(this.taskResult.stdout);
     this.validateTaskRun();
-    var envVar = this.setOutputEnvironmentVariables();
+    const envVar = this.setOutputEnvironmentVariables();
 
     logStdout(this.taskResult.stdout);
     debug(`Task: ${this.taskInfo.name} completed successfully.`);

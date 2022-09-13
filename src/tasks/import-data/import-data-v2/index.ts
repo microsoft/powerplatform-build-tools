@@ -5,6 +5,7 @@ import * as tl from 'azure-pipelines-task-lib/task';
 import { dataImport } from "@microsoft/powerplatform-cli-wrapper/dist/actions";
 import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 import { getCredentials } from "../../../params/auth/getCredentials";
+import { getEnvironmentUrl } from '../../../params/auth/getEnvironmentUrl';
 import { isRunningOnAgent } from '../../../params/auth/isRunningOnAgent';
 import * as taskDefinitionData from "./task.json";
 import { TaskParser } from "../../../parser/TaskParser";
@@ -26,12 +27,12 @@ export async function main(): Promise<void> {
 
   await dataImport({
     credentials: getCredentials(),
-    dataDirectory: parameterMap['DataDirectory'],
+    environmentUrl: getEnvironmentUrl(),
+    dataFile: parameterMap['DataFile'],
     verbose: {
       name: "Verbose",
       required: false,
       defaultValue: false
     },
-    environment: parameterMap['Environment'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

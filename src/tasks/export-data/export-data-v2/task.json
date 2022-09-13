@@ -2,7 +2,7 @@
   "id": "3137A4C5-0E44-4D89-AC0C-BEEDEC036428",
   "name": "PowerPlatformExportData",
   "friendlyName": "Power Platform Export Data",
-  "description": "Power Platform export data from environment with provided schema",
+  "description": "Power Platform export data from environment with provided schema. Requires Windows build agent",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Deploy",

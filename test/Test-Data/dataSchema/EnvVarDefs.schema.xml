@@ -1,0 +1,15 @@
+<entities >
+  <entity name="environmentvariabledefinition" displayname="Environment Variable Definition" etc="380" primaryidfield="environmentvariabledefinitionid" primarynamefield="schemaname" disableplugins="false">
+    <fields>
+      <field displayname="Component State" name="componentstate" type="optionsetvalue" />
+      <field displayname="Environment Variable Definition" name="environmentvariabledefinitionid" type="guid" primaryKey="true" />
+      <field displayname="environmentvariabledefinitionidunique" name="environmentvariabledefinitionidunique" type="guid" />
+      <field displayname="Introduced Version" name="introducedversion" type="string" />
+      <field displayname="Is Managed" name="ismanaged" type="bool" />
+      <field displayname="Record Overwrite Time" name="overwritetime" type="datetime" />
+      <field displayname="Solution" name="solutionid" type="guid" />
+      <field displayname="Version Number" name="versionnumber" type="bigint" />
+    </fields>
+    <relationships />
+  </entity>
+</entities>
