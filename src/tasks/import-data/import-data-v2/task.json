@@ -60,10 +60,10 @@
     },
     {
       "name": "DataFile",
-      "label": "Data File",
+      "label": "Data file or folder",
       "type": "string",
       "required": true,
-      "helpMarkDown": "File name for data zip file to be imported."
+      "helpMarkDown": "File name for data zip file, or folder with data-schema.xml & data.xml, to be imported."
     }
   ],
   "execution": {

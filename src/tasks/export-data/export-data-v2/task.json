@@ -71,7 +71,7 @@
       "type": "string",
       "defaultValue": "data.zip",
       "required": true,
-      "helpMarkDown": "File name for data zip file. Default data.zip."
+      "helpMarkDown": "File name and path for data zip file. Default: data.zip."
     },
     {
       "name": "Overwrite",
