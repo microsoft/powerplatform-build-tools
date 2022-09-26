@@ -43,7 +43,9 @@ describe("publish customizations tests", () => {
 
     publishSolutionStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
-      environmentUrl: mockEnvironmentUrl
+      environmentUrl: mockEnvironmentUrl,
+      async: { name: 'AsyncOperation', required: true, defaultValue: true },
+      maxAsyncWaitTimeInMin: { name: 'MaxAsyncWaitTime', required: true, defaultValue: '60' },
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });
