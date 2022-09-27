@@ -57,6 +57,23 @@
       "defaultValue": "$(BuildTools.EnvironmentUrl)",
       "required": false,
       "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
+    },
+    {
+      "name": "AsyncOperation",
+      "label": "Publish Customizations as asynchronous operation",
+      "type": "boolean",
+      "required": true,
+      "defaultValue": true,
+      "helpMarkDown": "Publish Customizations as asynchronous batch job; selecting asynchronous will poll and wait until MaxAsyncWaitTime has been reached."
+    },
+    {
+      "name": "MaxAsyncWaitTime",
+      "label": "Maximum wait time in minutes for asynchronous operation",
+      "type": "string",
+      "visibleRule": "AsyncOperation = true",
+      "required": true,
+      "defaultValue": "60",
+      "helpMarkDown": "Maximum wait time in minutes for asynchronous Import; default is 60 min (1 hr), same as Azure DevOps default for tasks."
     }
   ],
   "execution": {
