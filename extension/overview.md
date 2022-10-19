@@ -22,6 +22,13 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- pac CLI 1.19.x (September refresh)
+- solution-unpack: updated PALT library to address NullRefException (#194)
+- package deploy: by default, the import-solution and solution-delete-and-promote legs are now running asynchronously, avoiding http timeout errors
+- solution export: only append "_managed" if the "Solution Output File" task input property does not specify a full path to a .zip file (#204 & #216)
+- solution import: task rejects with error if deployment settings file has Dataverse Environment Variables without value (#154)
+
+2.0.7:
 - new task: 'Set Connection Variables' #151 & #182
 - new tasks: 'Import Data' & 'Export Data' #188
 - fixes for issues: #168, #170
