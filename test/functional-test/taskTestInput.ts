@@ -77,7 +77,8 @@ export const tasksToTest: TaskInfo[] =
       name: 'deploy-package',
       path: '/tasks/deploy-package/deploy-package-v2',
       inputVariables: [
-        { name: 'PackageFile', value: path.join(testDataPath, 'testPkg', 'bin', 'Debug', 'testPkg.1.0.0.pdpkg.zip') }
+        { name: 'PackageFile', value: path.join(testDataPath, 'testPkg', 'bin', 'Debug', 'testPkg.1.0.0.pdpkg.zip')},
+        { name: 'Settings', value: 'MyKey=MyValue|MyOtherKey=MyOtherValue|SkipChecks=true' },
       ],
       winOnly: true
     },
