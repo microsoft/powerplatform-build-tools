@@ -43,6 +43,8 @@ describe("set assign user to target environment", () => {
       environment: { name: 'Environment', required: true, defaultValue: '$(BuildTools.EnvironmentUrl)' },
       user: { name: 'User', required: true, defaultValue: undefined },
       role: { name: 'Role', required: true, defaultValue: undefined },
+      applicationUser: { name: 'ApplicationUser', required: false, defaultValue: undefined },
+      businessUnit: { name: 'BusinessUnit', required: false, defaultValue: undefined },
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

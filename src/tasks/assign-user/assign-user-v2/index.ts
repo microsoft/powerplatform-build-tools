@@ -28,6 +28,8 @@ export async function main(): Promise<void> {
     credentials: getCredentials(),
     environment: parameterMap['Environment'],
     user: parameterMap['User'],
-    role: parameterMap['Role']
+    role: parameterMap['Role'],
+    applicationUser: parameterMap['ApplicationUser'],
+    businessUnit: parameterMap['BusinessUnit'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }
