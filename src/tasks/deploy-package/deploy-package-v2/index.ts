@@ -29,5 +29,6 @@ export async function main(): Promise<void> {
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
     packagePath: parameterMap['PackageFile'],
+    settings: parameterMap['Settings'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost('DeployPackage'));
 }
