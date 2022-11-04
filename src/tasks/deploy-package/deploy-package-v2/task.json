@@ -72,6 +72,13 @@
       "required": false,
       "defaultValue": "60",
       "helpMarkDown": "Maximum wait time in minutes for package deploment; default is 60 min (1 hr), same as Azure DevOps default for tasks"
+    },
+    {
+      "name": "Settings",
+      "label": "Runtime Package Settings that are passed to the package that is being deployed.",
+      "type": "string",
+      "required": false,
+      "helpMarkDown": "Runtime Package Settings that are passed to the package that is being deployed. The format of the string must be `key=value|key=value`."
     }
   ],
   "execution": {
