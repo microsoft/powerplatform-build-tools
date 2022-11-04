@@ -54,7 +54,7 @@
       "type": "filePath",
       "label": "Upload path",
       "required": true,
-      "helpMarkDown": "Path from where the website content will be uploaded"
+      "helpMarkDown": "Path from where the Power Pages website content will be uploaded"
     },
     {
       "name": "DeploymentProfile",
