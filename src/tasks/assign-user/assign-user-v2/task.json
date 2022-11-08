@@ -77,7 +77,7 @@
       "label": "Application User",
       "type": "boolean",
       "required": false,
-      "helpMarkDown": "Specifies whether the input user is an application user. If business unit is not specified the application user will be added to the authenticated users business unit."
+      "helpMarkDown": "Specifies whether the input user is an application user. If business unit is not specified, the application user will be added to the authenticated user's business unit."
     },
     {
       "name": "BusinessUnit",
