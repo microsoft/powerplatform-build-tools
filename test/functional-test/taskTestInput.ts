@@ -138,14 +138,23 @@ export const tasksToTest: TaskInfo[] =
         { name: 'SolutionOutputFile', value: path.join(solutionTestOutputRootDirectory, 'exported-solution', `solution_${new Date().toJSON().slice(0, 10)}.zip`) },
       ]
     },
-    // {
-    //   name: 'assign-user',
-    //   path: '/tasks/assign-user/assign-user-v2',
-    //   inputVariables: [
-    //     { name: 'user', value: '85fd1857-ddef-46f6-acf4-22a0d1df2cda' },
-    //     { name: 'role', value: 'System Customizer' }
-    //   ]
-    // },
+    {
+      name: 'assign-user',
+      path: '/tasks/assign-user/assign-user-v2',
+      inputVariables: [
+        { name: 'user', value: '85fd1857-ddef-46f6-acf4-22a0d1df2cda' },
+        { name: 'role', value: 'System Customizer' }
+      ]
+    },
+    {
+      name: 'assign-user',
+      path: '/tasks/assign-user/assign-user-v2',
+      inputVariables: [
+        { name: 'user', value: '82e66a08-8bf9-42bf-883a-7e2d17c7cede' },
+        { name: 'applicationUser', value: 'true' },
+        { name: 'role', value: 'System Customizer' }
+      ]
+    },
     // {
     //   name: 'add-solution-component',
     //   path: '/tasks/add-solution-component/add-solution-component-v2',
