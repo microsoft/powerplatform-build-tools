@@ -233,6 +233,15 @@
         "DEV": "afd0a14e-f607-41ee-83d7-f9d77f2c4b69",
         "EXPERIMENTAL": "2948f5bd-cff1-4290-9314-08e80a1c56be"
       }
+    },
+    {
+      "name": "assign-group",
+      "id": {
+        "LIVE": "47203AE0E-E66B-4CC7-BDBD-77EA87AAF473",
+        "BETA": "56FD0D5C-087A-44AC-B286-52D1280207F6",
+        "DEV": "3F6966ED-9158-41F0-8052-CC3F4C8FD404",
+        "EXPERIMENTAL": "7FD8BDA7-1A62-4574-9596-DC78E3DCDD0F"
+      }
     }
   ]
 }
