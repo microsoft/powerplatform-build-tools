@@ -2,7 +2,7 @@
   "id": "3137A4C5-0E44-4D89-AC0C-BEEDEC036428",
   "name": "PowerPlatformAssignUser",
   "friendlyName": "Power Platform Assign User",
-  "description": "Power Platform assign user to target environment with specified security role",
+  "description": "Assign a user to a target environment with specified security role.",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Deploy",
@@ -86,7 +86,6 @@
       "required": false,
       "helpMarkDown": "ID of business unit to associate application user with."
     }
-
   ],
   "execution": {
     "Node10": {
