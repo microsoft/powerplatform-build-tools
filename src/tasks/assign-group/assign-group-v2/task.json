@@ -77,7 +77,7 @@
       "label": "Role",
       "type": "string",
       "required": true,
-      "helpMarkDown": "Security role name or id to assign to the user"
+      "helpMarkDown": "Security role name or id to assign to the group."
     },
     {
       "name": "TeamType",
