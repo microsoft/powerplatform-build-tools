@@ -2,7 +2,7 @@
   "id": "07D9833F-C02D-4CF6-B10A-EA56CC9C32F0",
   "name": "PowerPlatformAssignGroup",
   "friendlyName": "Power Platform Assign Group",
-  "description": "Assign group to target environment with specified security role",
+  "description": "Assign group to a target Power Platform environment with specified security role",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Deploy",
