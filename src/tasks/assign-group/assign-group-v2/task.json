@@ -1,8 +1,8 @@
 {
-  "id": "3137A4C5-0E44-4D89-AC0C-BEEDEC036428",
-  "name": "PowerPlatformAssignUser",
-  "friendlyName": "Power Platform Assign User",
-  "description": "Assign a user to a target environment with specified security role.",
+  "id": "07D9833F-C02D-4CF6-B10A-EA56CC9C32F0",
+  "name": "PowerPlatformAssignGroup",
+  "friendlyName": "Power Platform Assign Group",
+  "description": "Assign group to a target Power Platform environment with specified security role",
   "author": "Microsoft",
   "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
   "category": "Deploy",
@@ -20,7 +20,7 @@
   },
   "preview": false,
   "minimumAgentVersion": "1.95.0",
-  "instanceNameFormat": "Power Platform Assign User $(message)",
+  "instanceNameFormat": "Power Platform Assign Group $(message)",
   "inputs": [
     {
       "name": "authenticationType",
@@ -59,25 +59,51 @@
       "helpMarkDown": "Environment URL or ID this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
     },
     {
-      "name": "User",
-      "label": "User",
+      "name": "Group",
+      "label": "Group",
       "type": "string",
       "required": true,
-      "helpMarkDown": "Azure AD Object ID or user's principal name to assign to the target environment"
+      "helpMarkDown": "AAD object id of group to assign to target Dataverse environment."
+    },
+    {
+      "name": "GroupName",
+      "label": "Group Name",
+      "type": "string",
+      "required": true,
+      "helpMarkDown": "Name of group/team that will created in Dataverse."
     },
     {
       "name": "Role",
       "label": "Role",
       "type": "string",
       "required": true,
-      "helpMarkDown": "Security role name or id to assign to the user"
+      "helpMarkDown": "Security role name or id to assign to the group."
     },
     {
-      "name": "ApplicationUser",
-      "label": "Application User",
-      "type": "boolean",
-      "required": false,
-      "helpMarkDown": "Specifies whether the input user is an application user. If business unit is not specified, the application user will be added to the authenticated user's business unit."
+      "name": "TeamType",
+      "label": "Team Type",
+      "type": "pickList",
+      "required": true,
+      "helpMarkDown": "Type of team",
+      "options": {
+        "Owner": "Owner",
+        "Access": "Access",
+        "AadSecurityGroup": "AAD Security Group",
+        "AadOfficeGroup": "AAD Office Group"
+      }
+    },
+    {
+      "name": "MembershipType",
+      "label": "Membership Type",
+      "type": "pickList",
+      "required": true,
+      "helpMarkDown": "Team membership type",
+      "options": {
+        "MembersAndGuests": "Members and Guests",
+        "Members": "Members",
+        "Owners": "Owners",
+        "Guests": "Guests"
+      }
     },
     {
       "name": "BusinessUnit",
@@ -86,6 +112,7 @@
       "required": false,
       "helpMarkDown": "ID of business unit to associate application user with."
     }
+
   ],
   "execution": {
     "Node10": {
