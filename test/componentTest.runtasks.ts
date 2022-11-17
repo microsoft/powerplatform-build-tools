@@ -30,7 +30,7 @@ process.env['INPUT_AUTHENTICATIONTYPE'] = authType;
 console.log(`Selected authN mode: ${process.env.INPUT_AUTHENTICATIONTYPE} `);
 
 // for inner dev loop facilitation, specify the below env variables to override the given defaults here:
-const username = process.env['PA_BT_ORG_USER'] ?? 'davidjen@ppdevtools.onmicrosoft.com';
+const username = process.env['PA_BT_ORG_USER'] ?? 'ppdevautomation@ppdevtools.onmicrosoft.com';
 const password = process.env['PA_BT_ORG_PASSWORD'];
 if (!password && (authType as AuthTypes) === AuthTypes.Legacy) {
   throw new Error("Require PA_BT_ORG_PASSWORD env variable to be set!");

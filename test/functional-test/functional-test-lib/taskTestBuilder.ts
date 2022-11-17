@@ -44,7 +44,7 @@ export class TaskTestBuilder {
   }
 
   private setPasswordBasedAuthEnvironmentVariables(authType: AuthTypes, envUrl: string) {
-    const username = process.env['PA_BT_ORG_USER'] ?? 'davidjen@ppdevtools.onmicrosoft.com';
+    const username = process.env['PA_BT_ORG_USER'] ?? 'ppdevautomation@ppdevtools.onmicrosoft.com';
     const password = process.env['PA_BT_ORG_PASSWORD'];
     if (!password && authType === AuthTypes.Legacy) {
       throw new Error("Require PA_BT_ORG_PASSWORD environment variable to be set!");
