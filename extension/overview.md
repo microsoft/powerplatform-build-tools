@@ -23,6 +23,7 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 
 {{NextReleaseVersion}}:
 - new task 'Install Applications' to install D365 apps from AppSource
+- 'Deploy Package' has new optional parameter to pass in a package runtime settings json file
 
 2.0.8:
 - pac CLI 1.19.x (September refresh)
