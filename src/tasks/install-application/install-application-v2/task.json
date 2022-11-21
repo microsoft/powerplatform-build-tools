@@ -69,7 +69,7 @@
       "name": "ApplicationList",
       "label": "JSON file with Application List",
       "type": "filePath",
-      "required": false,
+      "required": true,
       "helpMarkDown": "Specify the path and file name of the JSON file with list of the Dataverse applications from AppSource to be installed. Generate that file with `pac application list --output <path to json file>`"
     }
   ],
