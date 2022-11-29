@@ -76,7 +76,7 @@
   },
   "dependencies": {
     "@microsoft/powerplatform-cli-wrapper": "0.1.82",
-    "azure-pipelines-task-lib": "^3.3.1",
+    "azure-pipelines-task-lib": "^3.4.0",
     "debug": "^4.3.4",
     "fs-extra": "^10.0.1",
     "semver": "^7.3.5",
