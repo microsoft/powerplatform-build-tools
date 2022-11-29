@@ -82,8 +82,9 @@
     {
       "name": "AddRequiredComponents",
       "label": "Add Required Components",
-      "type": "radio",
+      "type": "boolean",
       "required": false,
+      "defaultValue": false,
       "helpMarkDown": "Indicates whether other solution components that are required by the solution component that you are adding should also be added to the unmanaged solution"
     }
   ],
