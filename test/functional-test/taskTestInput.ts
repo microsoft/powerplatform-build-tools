@@ -166,15 +166,16 @@ export const tasksToTest: TaskInfo[] =
     //     { name: 'memberType', value: 'Members' },
     //   ]
     // },
-    // {
-    //   name: 'add-solution-component',
-    //   path: '/tasks/add-solution-component/add-solution-component-v2',
-    //   inputVariables: [
-    //     { name: 'solutionName', value: 'emptySolution' },
-    //     { name: 'Component', value: 'account' },
-    //     { name: 'ComponentType', value: '1' }
-    //   ]
-    // },
+    {
+      name: 'add-solution-component',
+      path: '/tasks/add-solution-component/add-solution-component-v2',
+      inputVariables: [
+        { name: 'solutionName', value: 'emptySolution' },
+        { name: 'Component', value: 'account' },
+        { name: 'ComponentType', value: '1' },
+        { name: 'AddRequiredComponents', value: 'true' },
+      ]
+    },
     {
       name: deleteEnvironmentTaskName,
       path: '/tasks/delete-environment/delete-environment-v2'
