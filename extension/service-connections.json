@@ -56,7 +56,7 @@
           },
           {
             "type": "ms.vss-endpoint.endpoint-auth-scheme-managed-service-identity",
-            "displayName": "Managed Identity",
+            "displayName": "Azure Managed Identity",
             "inputDescriptors": [
               {
                 "id": "tenantid",
