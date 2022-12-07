@@ -3,7 +3,7 @@
 
 import { URL } from 'url';
 import { ClientCredentials, UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
-import { getEndpointAuthorization, getEndpointUrl } from "azure-pipelines-task-lib";
+import { EndpointAuthorization, getEndpointAuthorization, getEndpointUrl } from "azure-pipelines-task-lib";
 import { getAuthenticationType, AuthenticationType } from "./getAuthenticationType";
 import { getEndpointName } from "./getEndpointName";
 
@@ -20,33 +20,34 @@ export function getCredentials(defaultAuthType?: AuthenticationType): ClientCred
 
 function getClientCredentials(): ClientCredentials {
   const endpointName = getEndpointName("PowerPlatformSPN");
-  const params = getEndpointAuthorizationParameters(endpointName);
+  const authorization = getEndpointAuthorizationParameters(endpointName);
   return {
-    tenantId: params.tenantId,
-    appId: params.applicationId,
-    clientSecret: params.clientSecret,
-    cloudInstance: resolveCloudInstance(endpointName)
+    tenantId: authorization.parameters.tenantId,
+    appId: authorization.parameters.applicationId,
+    clientSecret: authorization.parameters.clientSecret,
+    cloudInstance: resolveCloudInstance(endpointName),
+    scheme: authorization.scheme
   };
 }
 
 function getUsernamePassword(): UsernamePassword {
   const endpointName = getEndpointName("PowerPlatformEnvironment");
-  const params = getEndpointAuthorizationParameters(endpointName);
+  const authorization = getEndpointAuthorizationParameters(endpointName);
   return {
-    username: params.username,
-    password: params.password,
+    username: authorization.parameters.username,
+    password: authorization.parameters.password,
     cloudInstance: resolveCloudInstance(endpointName)
   };
 }
 
 function getEndpointAuthorizationParameters(
   endpointName: string
-): { [key: string]: string } {
+): EndpointAuthorization {
   const authorization = getEndpointAuthorization(endpointName, false);
   if (authorization === undefined) {
     throw new Error(`Could not get credentials for endpoint: ${endpointName}`);
   }
-  return authorization.parameters;
+  return authorization;
 }
 
 // needed for backwards compatibility to the PS implementation:

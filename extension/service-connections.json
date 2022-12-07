@@ -14,12 +14,12 @@
         "authenticationSchemes": [
           {
             "type": "ms.vss-endpoint.endpoint-auth-scheme-none",
-            "displayName": "Power Platform authentication via Application ID and client secret",
+            "displayName": "Application Id and client secret",
             "inputDescriptors": [
               {
                 "id": "tenantId",
-                "name": "Tenant ID",
-                "description": "Tenant ID (also called directory ID in Azure portal) to authenticate to.\nRefer to <a href=\"https://aka.ms/buildtools-spn\" target=\"_blank\">https://aka.ms/buildtools-spn</a> for a script that shows Tenant ID and configures an Application ID and associated Client Secret. The application user must also be <a href=\"https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/use-single-tenant-server-server-authentication#application-user-creation\" target=\"_blank\">created in CDS</a> ",
+                "name": "Tenant Id",
+                "description": "Tenant Id (also called directory Id in Azure portal) to authenticate to.\nRefer to <a href=\"https://aka.ms/buildtools-spn\" target=\"_blank\">https://aka.ms/buildtools-spn</a> for a script that shows Tenant ID and configures an Application ID and associated Client Secret. The application user must also be <a href=\"https://docs.microsoft.com/en-us/powerapps/developer/common-data-service/use-single-tenant-server-server-authentication#application-user-creation\" target=\"_blank\">created in CDS</a> ",
                 "inputMode": "textBox",
                 "isConfidential": false,
                 "groupName": "AuthenticationParameter",
@@ -30,8 +30,8 @@
               },
               {
                 "id": "applicationId",
-                "name": "Application ID",
-                "description": "Azure Application ID to authenticate with.",
+                "name": "Application Id",
+                "description": "Azure Application Id to authenticate with.",
                 "inputMode": "textBox",
                 "isConfidential": false,
                 "groupName": "AuthenticationParameter",
@@ -42,14 +42,35 @@
               },
               {
                 "id": "clientSecret",
-                "name": "Client secret of Application ID",
-                "description": "Client secret of the Service Principal associated to above Application ID; used to prove identity.",
+                "name": "Client secret of Application Id",
+                "description": "Client secret of the Service Principal associated to above Application Id; used to prove identity.",
                 "inputMode": "passwordBox",
                 "isConfidential": true,
                 "groupName": "AuthenticationParameter",
                 "validation": {
                   "dataType": "string",
                   "isRequired": true
+                }
+              }
+            ]
+          },
+          {
+            "type": "ms.vss-endpoint.endpoint-auth-scheme-managed-service-identity",
+            "displayName": "Azure Managed Identity",
+            "inputDescriptors": [
+              {
+                "id": "tenantid",
+                "name": "Tenant Id",
+                "inputMode": "textBox",
+                "isConfidential": false,
+                "validation": {
+                  "dataType": "guid",
+                  "isRequired": false
+                },
+                "values": {
+                  "inputId": "tenantidInput",
+                  "defaultValue": "",
+                  "isDisabled": true
                 }
               }
             ]
