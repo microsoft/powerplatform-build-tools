@@ -25,6 +25,7 @@ function getClientCredentials(): ClientCredentials {
     tenantId: authorization.parameters.tenantId,
     appId: authorization.parameters.applicationId,
     clientSecret: authorization.parameters.clientSecret,
+    encodeSecret: true,
     cloudInstance: resolveCloudInstance(endpointName),
     scheme: authorization.scheme
   };
@@ -36,6 +37,7 @@ function getUsernamePassword(): UsernamePassword {
   return {
     username: authorization.parameters.username,
     password: authorization.parameters.password,
+    encodePassword: true,
     cloudInstance: resolveCloudInstance(endpointName)
   };
 }
