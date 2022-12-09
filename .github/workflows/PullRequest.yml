@@ -36,7 +36,7 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Setup Node.js environment
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           # must be node v14, since AzDevOps agents only supports v14
           node-version: 14
@@ -45,7 +45,12 @@ jobs:
       - name: Configure npm
         run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
 
-      - name: Install npm globally
+      - name: Install npm@8 globally (windows)
+        if: matrix.os == 'windows-latest'
+        run: npm i -g npm@8
+
+      - name: Install npm@9 globally (linux)
+        if: matrix.os != 'windows-latest'
         run: npm i -g npm@9
 
       - name: Install npm dependencies
