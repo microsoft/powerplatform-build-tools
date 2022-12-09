@@ -22,6 +22,9 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- added support for authentication via Azure Managed Identities
+
+2.0.10:
 - new task 'Install Applications' to install D365 apps from AppSource
 - 'Deploy Package' has new optional parameter to pass in a package runtime settings json file
 
