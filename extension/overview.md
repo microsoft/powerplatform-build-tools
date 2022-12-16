@@ -22,8 +22,16 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- pac CLI 1.21.5 to fix Managed Identities authN on linux agents
+
+2.0.13:
+- added support for authentication via Azure Managed Identities
+- pac CLI 1.21.x (November refresh)
+
+2.0.10:
 - new task 'Install Applications' to install D365 apps from AppSource
 - 'Deploy Package' has new optional parameter to pass in a package runtime settings json file
+- pac CLI 1.20.x (October refresh)
 
 2.0.8:
 - pac CLI 1.19.x (September refresh)
