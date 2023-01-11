@@ -155,17 +155,17 @@ export const tasksToTest: TaskInfo[] =
         { name: 'role', value: 'System Customizer' }
       ]
     },
-    // {
-    //   name: 'assign-group',
-    //   path: '/tasks/assign-group/assign-group-v2',
-    //   inputVariables: [
-    //     { name: 'group', value: 'fef01b9b-da30-4cb5-b6b9-ff34c5d2ca2e' },
-    //     { name: 'groupName', value: `${envFriendlyName} -- Test Group` },
-    //     { name: 'role', value: 'System Customizer' },
-    //     { name: 'teamType', value: 'AadSecurityGroup' },
-    //     { name: 'memberType', value: 'Members' },
-    //   ]
-    // },
+    {
+      name: 'assign-group',
+      path: '/tasks/assign-group/assign-group-v2',
+      inputVariables: [
+        { name: 'group', value: 'fef01b9b-da30-4cb5-b6b9-ff34c5d2ca2e' },
+        { name: 'groupName', value: `${envFriendlyName} -- Test Group` },
+        { name: 'role', value: 'System Customizer' },
+        { name: 'teamType', value: 'AadSecurityGroup' },
+        { name: 'MembershipType', value: 'Members' },
+      ]
+    },
     {
       name: 'add-solution-component',
       path: '/tasks/add-solution-component/add-solution-component-v2',
