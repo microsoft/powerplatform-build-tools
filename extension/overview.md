@@ -22,6 +22,9 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- pac CLI 1.21.8 (December refresh)
+
+2.0.15:
 - pac CLI 1.21.5 to fix Managed Identities authN on linux agents
 
 2.0.13:
