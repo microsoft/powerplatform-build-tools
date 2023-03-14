@@ -47,7 +47,7 @@ steps:
   displayName: 'setup package feed authN with github'
   inputs:
     workingFile: .npmrc
-    customEndpoint: github.com_npm_davidjenni
+    customEndpoint: github.com_npm_tehcrashxor
 
 - task: Npm@1
   displayName: 'Restore (npm install)'
