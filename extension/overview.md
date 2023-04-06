@@ -22,6 +22,9 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- pac CLI 1.21.13
+
+2.0.17:
 - pac CLI 1.21.8 (December refresh)
 
 2.0.15:
