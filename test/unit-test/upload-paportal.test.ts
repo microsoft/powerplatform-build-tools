@@ -46,6 +46,7 @@ describe("upload paportal test", () => {
       environmentUrl: mockEnvironmentUrl,
       path: { name: 'UploadPath', required: true, defaultValue: undefined },
       deploymentProfile: { name: 'DeploymentProfile', required: false, defaultValue: undefined },
+      schemaVersion: { name: 'SchemaVersion', required: false, defaultValue: undefined },
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

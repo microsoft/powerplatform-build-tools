@@ -29,5 +29,6 @@ export async function main(): Promise<void> {
     environmentUrl: getEnvironmentUrl(),
     path: parameterMap['UploadPath'],
     deploymentProfile: parameterMap['DeploymentProfile'],
+    schemaVersion: parameterMap['SchemaVersion'],
   },new BuildToolsRunnerParams(), new BuildToolsHost());
 }
