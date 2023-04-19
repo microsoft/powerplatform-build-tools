@@ -64,6 +64,13 @@
       "helpMarkDown": "Deployment profile name to be used. Defaults to default"
     },
     {
+      "name": "ModelVersion",
+      "type": "string",
+      "label": "Version of the model",
+      "required": false,
+      "helpMarkDown": "Model version to be used. Defaults to 1.0.0"
+    },
+    {
       "name": "Environment",
       "label": "Environment Url",
       "type": "string",
