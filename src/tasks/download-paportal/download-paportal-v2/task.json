@@ -84,6 +84,13 @@
       "label": "Entities to exclude",
       "required": false,
       "helpMarkDown": "Comma separated list of entity logical names to exclude while downloading"
+    },
+    {
+      "name": "ModelVersion",
+      "type": "string",
+      "label": "Version for model",
+      "required": false,
+      "helpMarkDown": "Version of the model to download. If not specified, the latest version will be downloaded."
     }
   ],
   "execution": {

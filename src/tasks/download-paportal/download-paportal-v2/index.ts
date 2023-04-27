@@ -34,6 +34,7 @@ export async function main(): Promise<void> {
       websiteId: parameterMap["WebsiteId"],
       overwrite: parameterMap["Overwrite"],
       excludeEntities: parameterMap["ExcludeEntities"],
+      modelVersion: parameterMap["ModelVersion"],
     },
     new BuildToolsRunnerParams(),
     new BuildToolsHost()

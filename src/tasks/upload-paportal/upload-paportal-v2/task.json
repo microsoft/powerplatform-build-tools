@@ -70,6 +70,13 @@
       "defaultValue": "$(BuildTools.EnvironmentUrl)",
       "required": false,
       "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
+    },
+    {
+      "name": "ModelVersion",
+      "type": "string",
+      "label": "Version for model",
+      "required": false,
+      "helpMarkDown": "Version of the model to download. If not specified, the latest version will be downloaded."
     }
   ],
   "execution": {
