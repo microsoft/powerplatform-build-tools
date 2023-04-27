@@ -48,7 +48,7 @@ describe("download paportal test", () => {
       websiteId: { name: 'WebsiteId', required: true, defaultValue: undefined },
       overwrite: { name: 'Overwrite', required: false, defaultValue: undefined },
       excludeEntities: { name: 'ExcludeEntities', required: false, defaultValue: undefined },
-      modelVersion: undefined
+      modelVersion: { name: 'ModelVersion', required: false, defaultValue: undefined }
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

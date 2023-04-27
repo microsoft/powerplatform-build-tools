@@ -17,11 +17,11 @@ use(sinonChai);
 
 describe("upload paportal test", () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let unloadPaportalStub: Sinon.SinonStub<any[], any>;
+  let uploadPaportalStub: Sinon.SinonStub<any[], any>;
   let credentials: UsernamePassword;
 
   beforeEach(() => {
-    unloadPaportalStub = stub();
+    uploadPaportalStub = stub();
     credentials = stubInterface<UsernamePassword>();
   });
   afterEach(() => restore());
@@ -30,7 +30,7 @@ describe("upload paportal test", () => {
     const upload = await rewiremock.around(
       () => import("../../src/tasks/upload-paportal/upload-paportal-v2/index"),
       (mock) => {
-        mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ uploadPaportal: unloadPaportalStub });
+        mock(() => import("@microsoft/powerplatform-cli-wrapper/dist/actions")).with({ uploadPaportal: uploadPaportalStub });
         mock(() => import("../../src/params/auth/getCredentials")).with({ getCredentials: () => credentials });
         mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
       });
@@ -41,12 +41,12 @@ describe("upload paportal test", () => {
 
     await callActionWithMocks();
 
-    unloadPaportalStub.should.have.been.calledOnceWithExactly({
+    uploadPaportalStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl,
       path: { name: 'UploadPath', required: true, defaultValue: undefined },
       deploymentProfile: { name: 'DeploymentProfile', required: false, defaultValue: undefined },
-      modelVersion: undefined
+      modelVersion: { name: 'ModelVersion', required: false, defaultValue: undefined }
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });
