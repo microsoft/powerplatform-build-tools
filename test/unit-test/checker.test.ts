@@ -56,7 +56,8 @@ describe("check solution test", () => {
       artifactStoreName: { name: 'ArtifactDestinationName', required: false, defaultValue: "CodeAnalysisLogs" },
       useDefaultPAEndpoint: { name: 'UseDefaultPACheckerEndpoint', required: false, defaultValue: true },
       customPAEndpoint: { name: 'CustomPACheckerEndpoint', required: true, defaultValue: '' },
-      geoInstance: { name: 'GeoInstance', required: false, defaultValue: undefined }
+      geoInstance: { name: 'GeoInstance', required: false, defaultValue: undefined },
+	  saveResults: { name: 'SaveResults', required: false, defaultValue: false }
     }, new BuildToolsRunnerParams(), new BuildToolsHost('PowerAppsChecker'));
   });
 });
