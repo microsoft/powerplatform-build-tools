@@ -44,6 +44,7 @@ export async function main(): Promise<void> {
     artifactStoreName: parameterMap['ArtifactDestinationName'],
     useDefaultPAEndpoint: parameterMap['UseDefaultPACheckerEndpoint'],
     customPAEndpoint: parameterMap['CustomPACheckerEndpoint'],
-    geoInstance: { name: "GeoInstance", required: false, defaultValue: undefined }
+    geoInstance: { name: "GeoInstance", required: false, defaultValue: undefined },
+    saveResults: { name: "SaveResults", required: false, defaultValue: false }
   }, new BuildToolsRunnerParams(), new BuildToolsHost('PowerAppsChecker'));
 }
