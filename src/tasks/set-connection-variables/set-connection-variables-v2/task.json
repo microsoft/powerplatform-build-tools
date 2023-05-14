@@ -80,7 +80,7 @@
       "name": "Environment",
       "label": "Environment Url",
       "type": "string",
-      "defaultValue": "$(BuildTools.EnvironmentUrl)",
+      "defaultValue": "",
       "required": false,
       "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
     },

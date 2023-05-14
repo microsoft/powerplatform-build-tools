@@ -3,8 +3,8 @@
 
 import * as tl from 'azure-pipelines-task-lib/task';
 import { isRunningOnAgent } from "../../../params/auth/isRunningOnAgent";
+import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import {
-  EnvUrlVariableName,
   ApplicationIdlVariableName,
   ClientSecretVariableName,
   TenantIdVariableName,
@@ -23,7 +23,7 @@ import {
 
 export async function main(): Promise<void> {
   const authenticationType = tl.getInputRequired('authenticationType');
-  const endpointUrl = tl.getVariable(EnvUrlVariableName);
+  const environmentUrl = getEnvironmentUrl();
 
   switch (authenticationType) {
     case 'PowerPlatformSPN': {
@@ -36,7 +36,7 @@ export async function main(): Promise<void> {
       tl.setVariable(ClientSecretVariableName, clientSecret, true);
       tl.setVariable(TenantIdVariableName, tenantId, true);
 
-      const dataverseConnectionString = `AuthType=ClientSecret;url=${endpointUrl};ClientId=${applicationId};ClientSecret=${clientSecret}`;
+      const dataverseConnectionString = `AuthType=ClientSecret;url=${environmentUrl};ClientId=${applicationId};ClientSecret=${clientSecret}`;
       tl.setVariable(DataverseConnectionStringVariableName, dataverseConnectionString, true);
 
       break;
@@ -51,7 +51,7 @@ export async function main(): Promise<void> {
       const applicationId = tl.getInputRequired('ApplicationId');
       const redirectUri = tl.getInputRequired('RedirectUri');
 
-      const dataverseConnectionString = `AuthType=OAuth;url=${endpointUrl};UserName=${userName};Password=${password};AppId=${applicationId};RedirectUri=${redirectUri}`;
+      const dataverseConnectionString = `AuthType=OAuth;url=${environmentUrl};UserName=${userName};Password=${password};AppId=${applicationId};RedirectUri=${redirectUri}`;
       tl.setVariable(DataverseConnectionStringVariableName, dataverseConnectionString, true);
 
       break;
