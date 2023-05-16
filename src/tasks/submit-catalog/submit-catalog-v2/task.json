@@ -62,7 +62,7 @@
       "label": "Environment Url",
       "type": "string",
       "required": true,
-      "helpMarkDown": "Environment url this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
+      "helpMarkDown": "Environment url this task targets."
     },
     {
       "name": "CatalogSubmissionFile",
