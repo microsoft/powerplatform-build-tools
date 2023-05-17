@@ -15,7 +15,7 @@
       "packages": [
         {
           "name": "Microsoft.PowerApps.CLI",
-          "version": "1.22.3",
+          "version": "1.23.3",
           "internalName": "pac"
         },
         {

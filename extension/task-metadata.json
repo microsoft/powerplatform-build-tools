@@ -242,6 +242,33 @@
         "DEV": "3F6966ED-9158-41F0-8052-CC3F4C8FD404",
         "EXPERIMENTAL": "7FD8BDA7-1A62-4574-9596-DC78E3DCDD0F"
       }
+    },
+    {
+      "name": "catalog-status",
+      "id": {
+        "LIVE": "1af11133-e848-475d-8328-2962d9700fdd",
+        "BETA": "273230ef-c1b0-4134-b843-392cd05deb3a",
+        "DEV": "87e1c02e-53d3-42b4-9f5e-f22216d253cb",
+        "EXPERIMENTAL": "2ea56aa5-8f3d-45a2-8013-090b09b9ca98"
+      }
+    },
+    {
+      "name": "install-catalog",
+      "id": {
+        "LIVE": "24eabc4f-f782-4afa-ae37-8a3ad2cfea9d",
+        "BETA": "f24fb72f-bf5f-4fe9-bf48-e49aedeed7b5",
+        "DEV": "3397cc36-f363-4216-ad48-0c27da225e0b",
+        "EXPERIMENTAL": "3275d1fd-cb7b-4a9d-a9b9-c66651fb4de3"
+      }
+    },
+    {
+      "name": "submit-catalog",
+      "id": {
+        "LIVE": "24f6656a-2be0-4bb9-8e3a-e7f2a933c686",
+        "BETA": "3b22c344-3ade-4f6b-8e3c-f485baa819a2",
+        "DEV": "a4896ef3-b75b-4a8a-beea-81d15c94e125",
+        "EXPERIMENTAL": "db09c317-f26a-4476-a2e6-3e9380acecca"
+      }
     }
   ]
 }
