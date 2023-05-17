@@ -178,7 +178,7 @@
       "label": "Save Results",
       "type": "boolean",
       "required": false,
-	  "defaultValue": false,
+	    "defaultValue": false,
       "helpMarkDown": "Uses current environment to store solution analysis results. By default, this argument is set to false"
     }
   ],
