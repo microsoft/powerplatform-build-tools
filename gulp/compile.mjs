@@ -1,8 +1,11 @@
-const { statSync } = require("fs-extra");
-const path = require("path");
-const webpack = require("webpack");
+import fs from "fs-extra";
+import { join } from "path";
+import webpack from "webpack";
 
-module.exports = function compile() {
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
+
+export default function compile() {
   // detect if running on an AzDevOps build agent
   const packageJson = require("../package.json");
   if (process.env.BUILD_BUILDID) {
@@ -29,7 +32,7 @@ function onBuild(done) {
         Object.keys(stats.compilation.assets).forEach(function (key) {
           console.log(`Webpack: output ${key}`);
         });
-        const size = statSync(path.join(stats.compilation.outputOptions.path, stats.compilation.outputOptions.filename)).size;
+        const size = fs.statSync(join(stats.compilation.outputOptions.path, stats.compilation.outputOptions.filename)).size;
         console.log(`Webpack: finished, size = ${size}`);
       });
       if (done) {
