@@ -63,7 +63,7 @@ async function generateNpmPackage() {
   console.log(`>> packaged as: ${fileName}`);
 
   const pkgRoot = path.resolve(npmPackageDir, 'package');
-  await tar.extract.extractTar({
+  await tar.extract({
     file: fileName,
     cwd: npmPackageDir,
   });
