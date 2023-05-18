@@ -72,17 +72,42 @@
       "helpMarkDown": "Specify the path and file name of the catalog submission file."
     },
     {
+      "name": "UsePackageSolutionZipFile",
+      "label": "Use package/solution zip file",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "helpMarkDown": "Specify package or solution zip file for catalog submit request."
+    },
+    {
+      "name": "FileType",
+      "type": "radio",
+      "label": "File type",
+      "defaultValue": "PackageZipFile",
+      "required": false,
+      "helpMarkDown": "File type: package or solution zip file",
+      "visibleRule": "UsePackageSolutionZipFile = true",
+      "options": {
+        "PackageZipFile": "Package Zip File",
+        "SolutionZipFile": "Solution Zip File"
+      }
+    },
+    {
       "name": "PackageZipFile",
       "label": "Package Zip File",
       "type": "filePath",
+      "visibleRule": "FileType = PackageZipFile && UsePackageSolutionZipFile = true",
       "required": false,
+      "defaultValue": "",
       "helpMarkDown": "Specify the path and file name of the package zip file."
     },
     {
       "name": "SolutionZipFile",
       "label": "Solution Zip File",
       "type": "filePath",
+      "visibleRule": "FileType = SolutionZipFile && UsePackageSolutionZipFile = true",
       "required": false,
+      "defaultValue": "",
       "helpMarkDown": "Specify the path and file name of the solution zip file."
     },
     {

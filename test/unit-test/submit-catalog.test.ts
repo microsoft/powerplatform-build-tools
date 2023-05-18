@@ -44,8 +44,8 @@ describe("submit-catalog tests", () => {
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl,
       path: { name: 'CatalogSubmissionFile', required: true, defaultValue: undefined },
-      solutionZip: { name: 'SolutionZipFile', required: false, defaultValue: undefined },
-      packageZip: { name: 'PackageZipFile', required: false, defaultValue: undefined },
+      solutionZip: { name: 'SolutionZipFile', required: false, defaultValue: '' },
+      packageZip: { name: 'PackageZipFile', required: false, defaultValue: '' },
       pollStatus: { name: 'PollStatus', required: false, defaultValue: false }
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
