@@ -6,17 +6,12 @@ import { info as _info } from "fancy-log";
 import { kill } from "process";
 import { emptyDir } from "fs-extra";
 
-const _killUploaderProcess = killUploaderProcess;
-export { _killUploaderProcess as killUploaderProcess };
-const _clean = clean;
-export { _clean as clean };
-
-async function clean() {
+export async function clean() {
   await killUploaderProcess();
   await Promise.all(["dist", "out", "bin"].map((dir) => emptyDir(dir)));
 }
 
-async function killUploaderProcess() {
+export async function killUploaderProcess() {
   (await pslist())
     .filter((info) => info.name.startsWith("pacTelemetryUpload"))
     .forEach((info) => {
