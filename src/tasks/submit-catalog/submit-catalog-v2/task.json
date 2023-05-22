@@ -75,14 +75,11 @@
       "name": "PackageSolutionZipFile",
       "type": "radio",
       "label": "Package/solution zip file",
-      "defaultValue": "UploadedPackageFile",
+      "defaultValue": "ExistingPackage",
       "required": false,
       "helpMarkDown": "Specify package or solution zip file for catalog submit request.",
       "options": {
-        "UploadedPackageFile": {
-          "text": "Uploaded Package File",
-          "helpMarkDown": "Specify name and sas link of the uploaded package file in the catalog submission file."
-        },
+        "ExistingPackage": "Existing Package",
         "PackageZipFile": "Upload Package Zip File",
         "SolutionZipFile": "Upload Solution Zip File"
       }
