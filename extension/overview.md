@@ -22,10 +22,13 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- pac CLI 1.23.4 - QFE for [#327](https://github.com/microsoft/powerplatform-build-tools/issues/327)
+
+2.0.25:
 - pac CLI 1.22.3 (March Refresh), [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
   - includes SolutionPackager update to address #285
 
-2.0.18
+2.0.18:
 - pac CLI 1.21.13
 
 2.0.17:
