@@ -1,7 +1,11 @@
-const { resolve } = require("path");
-const { createCommandRunner } = require("@microsoft/powerplatform-cli-wrapper");
+import { resolve, dirname } from "path";
+import { createCommandRunner } from "@microsoft/powerplatform-cli-wrapper";
 
-module.exports = function createTfxRunner() {
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+export default function createTfxRunner() {
   const rootDirectory = resolve(__dirname, "..", "..");
   const tfxPath = resolve(
     rootDirectory,
@@ -29,4 +33,4 @@ module.exports = function createTfxRunner() {
       return await runCommand(...args);
     },
   };
-};
+}

@@ -1,11 +1,15 @@
-const { mkdir, pathExists, copy, existsSync, writeJsonSync, readFileSync, writeFileSync } = require("fs-extra");
-const createTfxRunner = require("./lib/createTfxRunner");
-const argv = require('yargs').argv;
-const { createCommandRunner } = require("@microsoft/powerplatform-cli-wrapper");
-const { extract: extractTar } = require("tar");
-const find = require("find");
-const path = require("path");
-const { rm } = require("fs/promises");
+import fs from "fs-extra";
+import createTfxRunner from "./lib/createTfxRunner.mjs";
+import yargs from 'yargs';
+const argv = yargs(process.argv.slice(2)).argv; // skip 'node' and 'gulp.js' args
+import { createCommandRunner } from "@microsoft/powerplatform-cli-wrapper";
+import tar from "tar";
+import find from "find";
+import path from "path";
+import { rm } from "fs/promises";
+
+import { createRequire } from "node:module";
+const require = createRequire(import.meta.url);
 
 const outDir = 'out';
 const stagingDir = `${outDir}/staging`;
@@ -13,7 +17,7 @@ const npmPackageDir = `${outDir}/npm-package`;
 const packagesDir = `${outDir}/packages`;
 const isOfficial = argv.isOfficial || false;
 
-module.exports = async () => {
+export default async () => {
   const packageJson = require("../package.json");
   const manifest = require("../extension/extension-manifest.json");
 
@@ -26,7 +30,7 @@ module.exports = async () => {
   const taskVersion = setVersion(packageJson, manifest);
   setContributions(manifest);
   await addTaskFiles();
-  await copy("extension/assets", `${stagingDir}/assets`, {
+  await fs.copy("extension/assets", `${stagingDir}/assets`, {
     recursive: true,
   });
 
@@ -34,10 +38,10 @@ module.exports = async () => {
 };
 
 async function createDir(dirName) {
-  if (await pathExists(dirName)) {
+  if (await fs.pathExists(dirName)) {
     await rm(dirName, { recursive: true });
   }
-  await mkdir(dirName, { recursive: true });
+  await fs.mkdir(dirName, { recursive: true });
 }
 
 async function generateNpmPackage() {
@@ -59,12 +63,12 @@ async function generateNpmPackage() {
   console.log(`>> packaged as: ${fileName}`);
 
   const pkgRoot = path.resolve(npmPackageDir, 'package');
-  await extractTar({
+  await tar.extract({
     file: fileName,
     cwd: npmPackageDir,
   });
 
-  await copy(pkgRoot, stagingDir, {
+  await fs.copy(pkgRoot, stagingDir, {
     recursive: true,
   });
 }
@@ -108,7 +112,7 @@ function setContributions(manifest) {
 
   manifest.contributions = [
     ...tasks
-      .filter((task) => existsSync(`src/tasks/${task.name}`))
+      .filter((task) => fs.existsSync(`src/tasks/${task.name}`))
       .map((task) => ({
         id: task.name,
         type: "ms.vss-distributed-task.task",
@@ -132,7 +136,7 @@ async function addTaskFiles() {
       const relativePath = file
         .replace(/src[/\\]/, "")
         .replace(/dist[/\\]/, "");
-      return copy(file, `${stagingDir}/${relativePath}`);
+      return fs.copy(file, `${stagingDir}/${relativePath}`);
     })
   );
 }
@@ -142,19 +146,19 @@ async function copyDependencies() {
   const toolInstallerFolder = `${stagingDir}/tasks/tool-installer/tool-installer-v2`;
 
   await Promise.all([
-    copy(binFolder, `${toolInstallerFolder}/bin`, { recursive: true }),
+    fs.copy(binFolder, `${toolInstallerFolder}/bin`, { recursive: true }),
   ]);
 }
 
 function updateOverview(overviewFile, versionString) {
   const versionPlaceholder = '{{NextReleaseVersion}}';
 
-  const overview = readFileSync(overviewFile, { encoding: 'utf-8' });
-  writeFileSync(overviewFile, overview.replace(versionPlaceholder, versionString));
+  const overview = fs.readFileSync(overviewFile, { encoding: 'utf-8' });
+  fs.writeFileSync(overviewFile, overview.replace(versionPlaceholder, versionString));
 }
 
 async function generateAllStages(manifest, taskVersion, manifestVersion) {
-  if (existsSync(packagesDir))
+  if (fs.existsSync(packagesDir))
     await rm(packagesDir, { recursive: true });
 
   const tfxRunner = createTfxRunner();
@@ -203,16 +207,16 @@ async function generateAllStages(manifest, taskVersion, manifestVersion) {
       taskJson.version.Minor = taskVersion.minor;
       taskJson.version.Patch = taskVersion.patch;
 
-      writeJsonSync(entry.file, taskJson, {
+      fs.writeJsonSync(entry.file, taskJson, {
         spaces: 2,
       });
     })
 
-    writeJsonSync(`${stagingDir}/vss-extension.json`, stageManifest, {
+    fs.writeJsonSync(`${stagingDir}/vss-extension.json`, stageManifest, {
       spaces: 2,
     });
 
-    await copy("extension/overview.md", overviewFile);
+    await fs.copy("extension/overview.md", overviewFile);
     updateOverview(overviewFile, manifestVersion);
 
     await generateVsix();

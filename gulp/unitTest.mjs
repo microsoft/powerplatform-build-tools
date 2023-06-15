@@ -1,8 +1,8 @@
-const gulp = require("gulp");
-const mocha = require("gulp-mocha");
-const eslint = require("gulp-eslint");
+import gulp from "gulp";
+import mocha from "gulp-mocha";
+import eslint from "gulp-eslint";
 
-module.exports = function unitTest() {
+export default function unitTest() {
   return gulp
     .src("test/unit-test/*.test.ts", { read: false })
     .pipe(

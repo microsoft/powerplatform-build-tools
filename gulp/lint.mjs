@@ -1,7 +1,7 @@
-const gulp = require("gulp");
-const eslint = require("gulp-eslint");
+import gulp from "gulp";
+import eslint from "gulp-eslint";
 
-module.exports = async function lint() {
+export default async function lint() {
   return Promise.all(
     ["src", "test"].map(async (folder) =>
       gulp

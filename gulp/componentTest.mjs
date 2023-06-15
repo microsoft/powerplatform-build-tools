@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const gulp = require("gulp");
-const mocha = require("gulp-mocha");
-const eslint = require("gulp-eslint");
-const killUploaderProcess = require('./clean').killUploaderProcess;
+import gulp from "gulp";
+import mocha from "gulp-mocha";
+import eslint from "gulp-eslint";
+import { killUploaderProcess } from './clean.mjs';
 
-module.exports = async function componentTest() {
+export default async function componentTest() {
   await killUploaderProcess();
   return gulp
     .src("test/**/*.runtasks.ts", { read: false })
