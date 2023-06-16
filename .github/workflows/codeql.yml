@@ -38,7 +38,7 @@ jobs:
         # Use only 'java' to analyze code written in Java, Kotlin or both
         # Use only 'javascript' to analyze code written in JavaScript, TypeScript or both
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
-
+          
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
@@ -56,10 +56,47 @@ jobs:
         # queries: security-extended,security-and-quality
 
 
-    # Autobuild attempts to build any compiled languages (C/C++, C#, Go, Java, or Swift).
-    # If this step fails, then you should remove it and run the build manually (see below)
-    - name: Autobuild
-      uses: github/codeql-action/autobuild@v2
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: 6.0.x
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v3
+      with:
+          # must be node v14, since AzDevOps agents only supports v14
+        node-version: 14
+        registry-url: https://npm.pkg.github.com
+
+    - name: Configure npm
+      run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
+
+    - name: Install npm@8 globally (windows)
+      if: matrix.os == 'windows-latest'
+      run: npm i -g npm@8
+
+    - name: Install npm@9 globally (linux)
+      if: matrix.os != 'windows-latest'
+      run: npm i -g npm@9
+
+    - name: Install npm dependencies
+      run: npm ci
+
+    - name: Build and test
+      run: npm run ci
+        # Note: To set version:
+        # npm run ci -- --major 1 --minor 0 --patch 30
+        # all version parts are optional
+        # each will default to whatever version is set to in src at extension/extension-manifest.json
+        # Example:
+        # npm run ci --patch 30
+        # "version": "1.0.29" (in extension-manifest.json)
+        # output VSIX version: 1.0.30
+      env:
+        AZ_DevOps_Read_PAT: ${{ secrets.AZ_DevOps_Read_PAT }}
+        PA_BT_ORG_PASSWORD: ${{ secrets.PA_BT_ORG_PASSWORD }}
+        PR_NUMBER: ${{ github.event.number }}
+        RUN_ID: ${{ github.run_id }}
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
