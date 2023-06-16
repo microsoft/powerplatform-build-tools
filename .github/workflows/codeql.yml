@@ -12,6 +12,7 @@
 name: "CodeQL"
 
 on:
+  workflow_dispatch:    # allow for manual workflow triggering as needed
   push:
     branches: [ "main", release/stable ]
   pull_request:
