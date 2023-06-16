@@ -12,6 +12,7 @@
 name: "CodeQL"
 
 on:
+  workflow_dispatch:    # allow for manual workflow triggering as needed
   push:
     branches: [ "main", release/stable ]
   pull_request:
@@ -80,7 +81,7 @@ jobs:
       run: npm i -g npm@9
 
     - name: Install npm dependencies
-      run: npm ci
+      run: npm install
 
     - name: Build and test
       run: npm run build
