@@ -83,20 +83,7 @@ jobs:
       run: npm ci
 
     - name: Build and test
-      run: npm run ci
-        # Note: To set version:
-        # npm run ci -- --major 1 --minor 0 --patch 30
-        # all version parts are optional
-        # each will default to whatever version is set to in src at extension/extension-manifest.json
-        # Example:
-        # npm run ci --patch 30
-        # "version": "1.0.29" (in extension-manifest.json)
-        # output VSIX version: 1.0.30
-      env:
-        AZ_DevOps_Read_PAT: ${{ secrets.AZ_DevOps_Read_PAT }}
-        PA_BT_ORG_PASSWORD: ${{ secrets.PA_BT_ORG_PASSWORD }}
-        PR_NUMBER: ${{ github.event.number }}
-        RUN_ID: ${{ github.run_id }}
+      run: npm run build
 
     # ℹ️ Command-line programs to run using the OS shell.
     # 📚 See https://docs.github.com/en/actions/using-workflows/workflow-syntax-for-github-actions#jobsjob_idstepsrun
