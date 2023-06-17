@@ -12,6 +12,10 @@ Learn more about the Build Tools [here](https://aka.ms/buildtoolsdoc).
 
 Each tasks wraps the existing [Power Platform CLI](https://aka.ms/PowerPlatformCLI).
 
+## High level architecture
+
+![High level architecture](docs/architecture.png)
+
 ## Feedback & Questions
 
 Please use the issues tracker in the home repo: <https://github.com/microsoft/powerplatform-build-tools/issues>
