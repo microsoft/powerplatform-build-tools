@@ -1,0 +1,78 @@
+# For most projects, this workflow file will not need changing; you simply need
+# to commit it to your repository.
+#
+# You may wish to alter this file to override the set of languages analyzed,
+# or to provide custom queries or build logic.
+#
+# ******** NOTE ********
+# We have attempted to detect the languages in your repository. Please check
+# the `language` matrix defined below to confirm you have the correct set of
+# supported CodeQL languages.
+#
+name: "CodeQL"
+
+on:
+  workflow_dispatch:    # allow for manual workflow triggering as needed
+  push:
+    branches: [ "main", release/stable ]
+  pull_request:
+    # The branches below must be a subset of the branches above
+    branches: [ "main" ]
+  schedule:
+    - cron: '21 0 * * 6'
+
+jobs:
+  analyze:
+    name: Analyze
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    timeout-minutes: ${{ (matrix.language == 'swift' && 120) || 360 }}
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    strategy:
+      fail-fast: false
+      matrix:
+        language: [ 'javascript' ]
+        os:
+          - windows-latest
+          
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v2
+      with:
+        languages: ${{ matrix.language }}
+
+    - name: Setup Node.js environment
+      uses: actions/setup-node@v3
+      with:
+          # must be node v14, since AzDevOps agents only supports v14
+        node-version: 14
+        registry-url: https://npm.pkg.github.com
+
+    - name: Configure npm
+      run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
+
+    - name: Install npm@8 globally (windows)
+      if: matrix.os == 'windows-latest'
+      run: npm i -g npm@8
+
+    - name: Install npm@9 globally (linux)
+      if: matrix.os != 'windows-latest'
+      run: npm i -g npm@9
+
+    - name: Install npm dependencies
+      run: npm install
+
+    - name: Build and test
+      run: npm run build
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v2
+      with:
+        category: "/language:${{matrix.language}}"

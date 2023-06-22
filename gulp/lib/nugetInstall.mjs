@@ -1,13 +1,15 @@
-const log = require("fancy-log");
-const { chmod } = require("fs-extra");
-const fetch = require("node-fetch");
-const path = require("path");
-const unzip = require("unzip-stream");
-const argv = require('yargs').argv;
+import { info } from "fancy-log";
+import fs from "fs-extra";
+const chmod = fs.chmod;
+import fetch from "node-fetch";
+import { resolve as _resolve } from "path";
+import { Extract } from "unzip-stream";
+import yargs from 'yargs';
+const argv = yargs(process.argv.slice(2)).argv; // skip 'node' and 'gulp.js' args
 
-module.exports = async function nugetInstall(feed, package) {
-  const packageName = package.name.toLowerCase();
-  const version = package.version.toLowerCase();
+export default async function nugetInstall(feed, pkg) {
+  const packageName = pkg.name.toLowerCase();
+  const version = pkg.version.toLowerCase();
   const packagePath = `${packageName}/${version}/${packageName}.${version}.nupkg`;
 
   const nupkgUrl = new URL(packagePath, feed.url);
@@ -30,12 +32,12 @@ module.exports = async function nugetInstall(feed, package) {
     ).toString("base64")}`;
   }
 
-  log.info(`Downloading package: ${nupkgUrl}...`);
+  info(`Downloading package: ${nupkgUrl}...`);
   let res = await fetch(nupkgUrl, reqInit);
   if (res.status === 303) {
     const location = res.headers.get("location");
     const url = new URL(location);
-    log.info(` ... redirecting to: ${url.origin}${url.pathname}}...`);
+    info(` ... redirecting to: ${url.origin}${url.pathname}}...`);
     // AzDevOps feeds will redirect to Azure storage with location url w/ SAS token: on 2nd request drop authZ header
     delete reqInit.headers["Authorization"];
     res = await fetch(location, reqInit);
@@ -48,16 +50,16 @@ module.exports = async function nugetInstall(feed, package) {
     );
   }
 
-  const targetDir = path.resolve(`bin/${package.internalName}`);
-  log.info(`Extracting into folder: ${targetDir}`);
+  const targetDir = _resolve(`bin/${pkg.internalName}`);
+  info(`Extracting into folder: ${targetDir}`);
   return new Promise((resolve, reject) => {
     res.body
-      .pipe(unzip.Extract({ path: targetDir }))
+      .pipe(Extract({ path: targetDir }))
       .on("close", () => {
-        if (package.chmod) {
-          const exePath = path.resolve(
+        if (pkg.chmod) {
+          const exePath = _resolve(
             targetDir,
-            ...package.chmod.split(/[\\/]/g)
+            ...pkg.chmod.split(/[\\/]/g)
           );
           chmod(exePath, 0o711);
         }

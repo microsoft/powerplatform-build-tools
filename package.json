@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "clean": "node node_modules/gulp/bin/gulp.js clean",
-    "build": "node node_modules/gulp/bin/gulp.js compile",
+    "build": "node node_modules/gulp/bin/gulp.js compile --max_old_space_size=4096",
     "test": "node node_modules/gulp/bin/gulp.js test",
     "ci": "node node_modules/gulp/bin/gulp.js ci --max_old_space_size=4096",
     "prepare-pack": "node node_modules/gulp/bin/gulp.js --max_old_space_size=4096 preparePack",
@@ -75,7 +75,7 @@
     "yargs": "^17.3.1"
   },
   "dependencies": {
-    "@microsoft/powerplatform-cli-wrapper": "^0.1.92",
+    "@microsoft/powerplatform-cli-wrapper": "^0.1.100",
     "azure-pipelines-task-lib": "^4.3.1",
     "debug": "^4.3.4",
     "fs-extra": "^10.0.1",

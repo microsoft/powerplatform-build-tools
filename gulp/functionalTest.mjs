@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const gulp = require("gulp");
-const mocha = require("gulp-mocha");
-const eslint = require("gulp-eslint");
+import gulp from "gulp";
+import mocha from "gulp-mocha";
+import eslint from "gulp-eslint";
 
-module.exports = function functionalTest() {
+export default function functionalTest() {
   return gulp
     .src("test/functional-test/*.test.ts", { read: false })
     .pipe(

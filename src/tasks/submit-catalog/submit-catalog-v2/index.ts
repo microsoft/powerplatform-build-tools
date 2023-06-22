@@ -29,6 +29,7 @@ export async function main(): Promise<void> {
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
     path: parameterMap['CatalogSubmissionFile'],
+    packageSolutionZipFile: parameterMap['PackageSolutionZipFile'],
     packageZip: parameterMap['PackageZipFile'],
     solutionZip: parameterMap['SolutionZipFile'],
     pollStatus: parameterMap['PollStatus'],
