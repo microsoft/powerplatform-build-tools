@@ -55,7 +55,7 @@
     "gulp-typescript": "^6.0.0-alpha.1",
     "merge-stream": "^2.0.0",
     "mocha": "^10.0.0",
-    "node-fetch": "^2.6.7",
+    "node-fetch": "^3.3.1",
     "path-parse": "^1.0.7",
     "ps-list": "^7.2.0",
     "release-it": "^15.5.0",
