@@ -79,7 +79,7 @@
     "azure-pipelines-task-lib": "^4.4.0",
     "debug": "^4.3.4",
     "fs-extra": "^11.1.1",
-    "semver": "^7.5.2",
+    "semver": "^7.5.3",
     "unzip-stream": "^0.3.1"
   },
   "bundleDependencies": [
