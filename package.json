@@ -59,7 +59,7 @@
     "path-parse": "^1.0.7",
     "ps-list": "^7.2.0",
     "release-it": "^15.5.0",
-    "rewiremock": "^3.14.3",
+    "rewiremock": "^3.14.5",
     "sinon": "^15.2.0",
     "sinon-chai": "^3.6.0",
     "sync-request": "^6.1.0",
