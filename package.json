@@ -65,7 +65,7 @@
     "sync-request": "^6.1.0",
     "tar": "^6.1.9",
     "tfx-cli": "^0.15.0",
-    "ts-loader": "^9.2.8",
+    "ts-loader": "^9.4.3",
     "ts-node": "^10.7.0",
     "ts-sinon": "^2.0.1",
     "typescript": "^5.1.3",
