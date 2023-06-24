@@ -1,5 +1,5 @@
 import gulp from "gulp";
-import eslint from "gulp-eslint";
+import eslint from "gulp-eslint-new";
 
 export default async function lint() {
   return Promise.all(
@@ -8,8 +8,7 @@ export default async function lint() {
         .src(`${folder}/**/*.ts`)
         .pipe(
           eslint({
-            formatter: "verbose",
-            configuration: `${folder}/.eslintrc.yml`,
+            configType: "eslintrc"
           })
         )
         .pipe(eslint.format())
