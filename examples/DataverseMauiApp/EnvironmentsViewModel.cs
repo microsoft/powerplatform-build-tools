@@ -52,8 +52,10 @@ public class EnvironmentsViewModel : ObservableCollection<Environment>
     foreach (var environmentJson in jsonElement.GetProperty("value").EnumerateArray())
     {
       var environment = environmentJson.Deserialize<Environment>();
+      /* Filter
       if (environment.OrganizationType != OrganizationType.CustomerTest)
         continue;
+      */
       Items.Add(environment);
     }
     OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
