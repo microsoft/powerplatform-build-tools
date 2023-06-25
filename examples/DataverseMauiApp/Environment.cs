@@ -9,7 +9,7 @@ namespace DataverseMauiApp
     public string Purpose { get; set; }
     public int StatusMessage { get; set; }
     public DateTime TrialExpirationDate { get; set; }
-    public int OrganizationType { get; set; }
+    public OrganizationType OrganizationType { get; set; }
     public string TenantId { get; set; }
     public string EnvironmentId { get; set; }
     public string DatacenterId { get; set; }

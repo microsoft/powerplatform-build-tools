@@ -20,6 +20,8 @@ public class EnvironmentsViewModel : ObservableCollection<Environment>
 
   internal async Task RefreshAsync()
   {
+    // https://learn.microsoft.com/en-us/power-apps/developer/data-platform/discovery-service
+
     // Get auth token
     var scopes = new string[] {
       "https://globaldisco.crm.dynamics.com//.default",
@@ -47,9 +49,12 @@ public class EnvironmentsViewModel : ObservableCollection<Environment>
   private void UpdateEnvironments(JsonElement jsonElement)
   {
     Clear();
-    foreach (var environment in jsonElement.GetProperty("value").EnumerateArray())
+    foreach (var environmentJson in jsonElement.GetProperty("value").EnumerateArray())
     {
-      Items.Add(environment.Deserialize<Environment>());
+      var environment = environmentJson.Deserialize<Environment>();
+      if (environment.OrganizationType != OrganizationType.CustomerTest)
+        continue;
+      Items.Add(environment);
     }
     OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
   }

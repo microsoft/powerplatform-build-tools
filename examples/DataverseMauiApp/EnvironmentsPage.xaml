@@ -13,14 +13,16 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Label Grid.Row="0" Text="{Binding FriendlyName}" FontSize="Title" />
-                    <Label Grid.Row="1" Text="{Binding Url}" Padding="10,0,0,0" />
-                    <Label Grid.Row="2" Text="{Binding UniqueName}" Padding="10,0,0,0" />
-                    <Label Grid.Row="3" Text="{Binding Version}" Padding="10,0,0,0" />
+                    <Label Grid.Row="1" Text="{Binding OrganizationType}" FontSize="Subtitle" />
+                    <Label Grid.Row="2" Text="{Binding Url}" Padding="10,0,0,0" />
+                    <Label Grid.Row="3" Text="{Binding UniqueName}" Padding="10,0,0,0" />
+                    <Label Grid.Row="4" Text="{Binding Version}" Padding="10,0,0,0" />
                 </Grid>
             </DataTemplate>
         </CollectionView.ItemTemplate>

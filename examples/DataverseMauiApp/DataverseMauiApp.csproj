@@ -53,12 +53,14 @@
 
 	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
-		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0-preview.5.23280.8" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0-preview.5.23280.8" />
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.54.1" />
 		<PackageReference Include="Microsoft.Identity.Client.Broker" Version="4.54.1" />
 		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
-	</ItemGroup>
+        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+    </ItemGroup>
 
 	<ItemGroup>
 	  <Compile Update="WelcomePage.xaml.cs">
