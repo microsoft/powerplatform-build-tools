@@ -1,13 +1,13 @@
 using Microsoft.Identity.Client;
-using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Text.Json;
-using System.Windows.Input;
 
 namespace DataverseMauiApp;
 
-public class EnvironmentsViewModel
+public class EnvironmentsViewModel : ObservableCollection<Environment>
 {
   IPublicClientApplication _publicClient;
   HttpClient _httpClient;
@@ -24,33 +24,38 @@ public class EnvironmentsViewModel
     var scopes = new string[] {
       "https://globaldisco.crm.dynamics.com//.default",
     };
+    Debug.WriteLine("Getting auth token");
     var authResponse = await _publicClient.AcquireTokenSilent(scopes, PublicClientApplication.OperatingSystemAccount)
       .ExecuteAsync().ConfigureAwait(false);
 
     // Get environments
+    Debug.WriteLine("Getting environments");
     var requestMessage = new HttpRequestMessage(HttpMethod.Get, BuildUrl());
     requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Bearer", authResponse.AccessToken);
 
     var httpResponse = await _httpClient.SendAsync(requestMessage);
     var responseContent = await httpResponse.Content.ReadAsStringAsync();
+
+    Debug.WriteLine("Deserializing environments");
     var responseJson = JsonSerializer.Deserialize<JsonElement>(responseContent);
 
-    Application.Current.Dispatcher.Dispatch(() => UpdateEnvironments(responseJson));
+    UpdateEnvironments(responseJson);
+
+    Debug.WriteLine("Refresh complete");
   }
 
   private void UpdateEnvironments(JsonElement jsonElement)
   {
-    Items.Clear();
+    Clear();
     foreach (var environment in jsonElement.GetProperty("value").EnumerateArray())
     {
       Items.Add(environment.Deserialize<Environment>());
     }
+    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
   }
 
   private Uri BuildUrl()
   {
     return new Uri($"https://globaldisco.crm.dynamics.com/api/discovery/v2.0/Instances");
   }
-
-  public ObservableCollection<Environment> Items { get; } = new ObservableCollection<Environment>();
 }

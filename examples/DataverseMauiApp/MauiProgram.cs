@@ -1,9 +1,11 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Identity.Client;
 using Microsoft.Identity.Client.Broker;
-using System.Reflection.PortableExecutable;
+
+[assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
 namespace DataverseMauiApp;
+
 
 public static class MauiProgram
 {
@@ -52,15 +54,15 @@ public static class MauiProgram
   }
   public static MauiAppBuilder RegisterViews(this MauiAppBuilder mauiAppBuilder)
   {
-    mauiAppBuilder.Services.AddSingleton<WelcomePage>();
-    mauiAppBuilder.Services.AddSingleton<EnvironmentsPage>();
+    mauiAppBuilder.Services.AddTransient<WelcomePage>();
+    mauiAppBuilder.Services.AddTransient<EnvironmentsPage>();
 
     return mauiAppBuilder;
   }
 
   public static MauiAppBuilder RegisterViewModels(this MauiAppBuilder mauiAppBuilder)
   {
-    mauiAppBuilder.Services.AddSingleton<EnvironmentsViewModel>();
+    mauiAppBuilder.Services.AddTransient<EnvironmentsViewModel>();
 
     return mauiAppBuilder;
   }
