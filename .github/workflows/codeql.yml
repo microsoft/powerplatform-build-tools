@@ -34,7 +34,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: [ 'javascript', 'csharp' ]
+        language: [ 'javascript' ]
         os:
           - windows-latest
 
@@ -47,6 +47,7 @@ jobs:
       uses: github/codeql-action/init@v2
       with:
         languages: ${{ matrix.language }}
+        config-file: ./.github/codeql/codeql-config.yml
 
     - name: Setup Node.js environment
       uses: actions/setup-node@v3
