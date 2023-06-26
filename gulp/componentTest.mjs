@@ -3,7 +3,7 @@
 
 import gulp from "gulp";
 import mocha from "gulp-mocha";
-import eslint from "gulp-eslint";
+import eslint from "gulp-eslint-new";
 import { killUploaderProcess } from './clean.mjs';
 
 export default async function componentTest() {
