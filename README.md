@@ -1,7 +1,7 @@
 # Power Platform Build Tools
 
 [![PullRequest](https://github.com/microsoft/powerplatform-build-tools/actions/workflows/PullRequest.yml/badge.svg)](https://github.com/microsoft/powerplatform-build-tools/actions/workflows/PullRequest.yml)
-[![Official Build](https://dev.azure.com/dynamicscrm/OneCRM/_apis/build/status/DPX-Tools/powerplatform-build-tools%20Official%20Build?branchName=main)](https://dev.azure.com/dynamicscrm/OneCRM/_build/latest?definitionId=15006&branchName=main)
+[![Official Build](https://dev.azure.com/dynamicscrm/OneCRM/_apis/build/status%2FDPX-Tools%2Fpowerplatform-build-tools%20Official%20Build?branchName=main)](https://dev.azure.com/dynamicscrm/OneCRM/_build/latest?definitionId=15006&branchName=main)
 
 Power Platform Build Tools automate common build and deployment tasks related to Power Platform.
 This includes synchronization of solution metadata (a.k.a. solutions) between development environments and source control,
