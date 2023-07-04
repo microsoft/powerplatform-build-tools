@@ -10,8 +10,11 @@ import { Overlay } from '@fluentui/react/lib/Overlay';
 import { IconButton } from '@fluentui/react/lib/Button';
 import { Selection } from '@fluentui/react/lib/Selection';
 import { Link } from '@fluentui/react/lib/Link';
+import { Text } from '@fluentui/react/lib/Text';
+import { VoteColumn, VoteCountColumn, VoteItem } from './VoteItem';
+import { on } from 'events';
 
-type DataSet = ComponentFramework.PropertyHelper.DataSetApi.EntityRecord & IObjectWithKey;
+type DataSet = VoteItem & IObjectWithKey;
 
 function stringFormat(template: string, ...args: string[]): string {
     for (const k in args) {
@@ -21,24 +24,21 @@ function stringFormat(template: string, ...args: string[]): string {
 }
 
 export interface GridProps {
+    version: number;
     width?: number;
     height?: number;
     columns: ComponentFramework.PropertyHelper.DataSetApi.Column[];
-    records: Record<string, ComponentFramework.PropertyHelper.DataSetApi.EntityRecord>;
+    records: Record<string, VoteItem>;
     sortedRecordIds: string[];
     hasNextPage: boolean;
     hasPreviousPage: boolean;
     currentPage: number;
     sorting: ComponentFramework.PropertyHelper.DataSetApi.SortStatus[];
-    filtering: ComponentFramework.PropertyHelper.DataSetApi.FilterExpression;
-    resources: ComponentFramework.Resources;
     itemsLoading: boolean;
-    highlightValue: string | null;
-    highlightColor: string | null;
     setSelectedRecords: (ids: string[]) => void;
-    onNavigate: (item?: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord) => void;
+    onNavigate: (item?: VoteItem) => void;
+    onVote: (id: string) => void;
     onSort: (name: string, desc: boolean) => void;
-    onFilter: (name: string, filtered: boolean) => void;
     loadFirstPage: () => void;
     loadNextPage: () => void;
     loadPreviousPage: () => void;
@@ -59,19 +59,9 @@ const onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> = (props, defa
     return null;
 };
 
-const onRenderItemColumn = (
-    item?: ComponentFramework.PropertyHelper.DataSetApi.EntityRecord,
-    index?: number,
-    column?: IColumn,
-) => {
-    if (column && column.fieldName && item) {
-        return <>{item?.getFormattedValue(column.fieldName)}</>;
-    }
-    return <></>;
-};
-
 export const Grid = React.memo((props: GridProps) => {
     const {
+        version,
         records,
         sortedRecordIds,
         columns,
@@ -80,21 +70,17 @@ export const Grid = React.memo((props: GridProps) => {
         hasNextPage,
         hasPreviousPage,
         sorting,
-        filtering,
         currentPage,
         itemsLoading,
         setSelectedRecords,
         onNavigate,
+        onVote,
         onSort,
-        onFilter,
-        resources,
         loadFirstPage,
         loadNextPage,
         loadPreviousPage,
         onFullScreen,
         isFullScreen,
-        highlightValue,
-        highlightColor,
     } = props;
 
     const forceUpdate = useForceUpdate();
@@ -102,7 +88,7 @@ export const Grid = React.memo((props: GridProps) => {
         const items = selection.getItems() as DataSet[];
         const selected = selection.getSelectedIndices().map((index: number) => {
             const item: DataSet | undefined = items[index];
-            return item && items[index].getRecordId();
+            return item && items[index].EntityRecord.getRecordId();
         });
 
         setSelectedRecords(selected);
@@ -129,7 +115,7 @@ export const Grid = React.memo((props: GridProps) => {
             const menuItems = [
                 {
                     key: 'aToZ',
-                    name: resources.getString('Label_SortAZ'),
+                    name: 'Label_SortAZ',
                     iconProps: { iconName: 'SortUp' },
                     canCheck: true,
                     checked: column.isSorted && !column.isSortedDescending,
@@ -142,25 +128,13 @@ export const Grid = React.memo((props: GridProps) => {
                 },
                 {
                     key: 'zToA',
-                    name: resources.getString('Label_SortZA'),
+                    name: 'Label_SortZA',
                     iconProps: { iconName: 'SortDown' },
                     canCheck: true,
                     checked: column.isSorted && column.isSortedDescending,
                     disable: (column.data as ComponentFramework.PropertyHelper.DataSetApi.Column).disableSorting,
                     onClick: () => {
                         onSort(column.key, true);
-                        setContextualMenuProps(undefined);
-                        setIsLoading(true);
-                    },
-                },
-                {
-                    key: 'filter',
-                    name: resources.getString('Label_DoesNotContainData'),
-                    iconProps: { iconName: 'Filter' },
-                    canCheck: true,
-                    checked: column.isFiltered,
-                    onClick: () => {
-                        onFilter(column.key, column.isFiltered !== true);
                         setContextualMenuProps(undefined);
                         setIsLoading(true);
                     },
@@ -175,8 +149,30 @@ export const Grid = React.memo((props: GridProps) => {
                 onDismiss: onContextualMenuDismissed,
             };
         },
-        [setIsLoading, onFilter, setContextualMenuProps],
+        [setIsLoading, setContextualMenuProps],
     );
+
+    const onRenderItemColumn = React.useCallback(
+    (
+        item?: VoteItem,
+        index?: number,
+        column?: IColumn
+    ) => {
+        if (column && column.fieldName && item) {
+            if (column.fieldName === VoteCountColumn.name) {
+                return <Text>{item?.voteCount}</Text>;
+            }
+            else if (column.fieldName === VoteColumn.name) {
+                return <IconButton alt="Vote"
+                    iconProps={{ iconName: 'Like' }}
+                    onClick={() => { onVote(item.id); }}
+                />
+            }
+            else
+                return <>{item?.EntityRecord.getFormattedValue(column.fieldName)}</>;
+        }
+        return <></>;
+    }, [onVote]);
 
     const onColumnContextMenu = React.useCallback(
         (column?: IColumn, ev?: React.MouseEvent<HTMLElement>) => {
@@ -224,12 +220,9 @@ export const Grid = React.memo((props: GridProps) => {
 
     const gridColumns = React.useMemo(() => {
         return columns
-            .filter((col) => !col.isHidden && col.order >= 0)
             .sort((a, b) => a.order - b.order)
             .map((col) => {
                 const sortOn = sorting && sorting.find((s) => s.name === col.name);
-                const filtered =
-                    filtering && filtering.conditions && filtering.conditions.find((f) => f.attributeName == col.name);
                 return {
                     key: col.name,
                     name: col.displayName,
@@ -237,7 +230,6 @@ export const Grid = React.memo((props: GridProps) => {
                     isSorted: sortOn != null,
                     isSortedDescending: sortOn?.sortDirection === 1,
                     isResizable: true,
-                    isFiltered: filtered != null,
                     data: col,
                     onColumnContextMenu: onColumnContextMenu,
                     onColumnClick: onColumnClick,
@@ -258,10 +250,7 @@ export const Grid = React.memo((props: GridProps) => {
         if (props && props.item) {
             const item = props.item as DataSet | undefined;
 
-            if (highlightColor && highlightValue && item?.getValue('HighlightIndicator') == highlightValue) {
-                customStyles.root = { backgroundColor: highlightColor };
-            }
-            return <DetailsRow {...props} styles={customStyles} />;
+            return <DetailsRow {...props} styles={customStyles}/>;
         }
 
         return null;
@@ -293,7 +282,7 @@ export const Grid = React.memo((props: GridProps) => {
                 <Stack horizontal style={{ width: '100%', paddingLeft: 8, paddingRight: 8 }}>
                     <Stack.Item grow align="center">
                         {!isFullScreen && (
-                            <Link onClick={onFullScreen}>{resources.getString('Label_ShowFullScreen')}</Link>
+                            <Link onClick={onFullScreen}>{'Label_ShowFullScreen'}</Link>
                         )}
                     </Stack.Item>
                     <IconButton
@@ -310,7 +299,7 @@ export const Grid = React.memo((props: GridProps) => {
                     />
                     <Stack.Item align="center">
                         {stringFormat(
-                            resources.getString('Label_Grid_Footer'),
+                            'Label_Grid_Footer',
                             currentPage.toString(),
                             selection.getSelectedCount().toString(),
                         )}

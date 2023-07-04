@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="DpxCommsChannel" constructor="DpxCommsChannel" version="0.5.1" display-name-key="DpxCommsChannel" description-key="DpxCommsChannel description" control-type="virtual" >
+  <control namespace="DpxCommsChannel" constructor="DpxCommsChannel" version="0.21.0"
+    display-name-key="DpxCommsChannel"
+    description-key="DpxCommsChannel description" control-type="virtual" >
     <!--external-service-usage node declares whether this 3rd party PCF control is using external service or not, if yes, this control will be considered as premium and please also add the external domain it is using.
     If it is not using any external service, please set the enabled="false" and DO NOT add any domain below. The "enabled" will be false by default.
     Example1:
@@ -19,14 +21,9 @@
     </external-service-usage>
 
     <property name="SignalRHubConnectionUrl" display-name-key="SignalR Hub Connection Url" of-type="SingleLine.Text" usage="input" required="true" />
-    <property name="VoteItemId" display-name-key="VoteItemId" of-type="Whole.None" usage="output" required="true" />
-    <property name="VoteItemCount" display-name-key="VoteItem" of-type="Whole.None" usage="output" required="true" />
+    <property name="VoteCount" display-name-key="VoteItem" of-type="Whole.None" usage="output" required="true" />
 
     <data-set name="VoteItems" display-name-key="VoteItems">
-      <property-set name="VoteCount" display-name-key="VoteCount"
-        of-type="Whole.None"
-        usage="bound"
-        required="true" />
     </data-set>
 
     <!-- property node identifies a specific, configurable piece of data that the control expects from CDS
@@ -63,5 +60,8 @@
       <uses-feature name="WebAPI" required="true" />
     </feature-usage>
     -->
+    <feature-usage>
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
   </control>
 </manifest>

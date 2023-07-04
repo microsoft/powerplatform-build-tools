@@ -1,5 +1,5 @@
-team name, count
-team1,0
-team2,0
-team3,0
-teamX,0
+team name, desc, count
+team1,desc1,0
+team2,desc2,0
+team3,desc3,0
+teamX,descX,0

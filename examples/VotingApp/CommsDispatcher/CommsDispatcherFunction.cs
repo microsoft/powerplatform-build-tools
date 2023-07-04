@@ -8,25 +8,19 @@ namespace CommsDispatcher
 {
     public class CommsDispatcherFunction
     {
+        public const string VotesHub = "VotesHub";
         private readonly ILogger _logger;
-        private static readonly ConcurrentDictionary<int, VotingItem> _votes = new ConcurrentDictionary<int, VotingItem>();
+        private static readonly ConcurrentDictionary<string, Lazy<VotingItem>> _votes = new ConcurrentDictionary<string, Lazy<VotingItem>>();
 
         public CommsDispatcherFunction(ILoggerFactory loggerFactory)
         {
             _logger = loggerFactory.CreateLogger("negotiate");
-            if (_votes.IsEmpty)
-            {
-                _votes.TryAdd(0, new VotingItem(0, "i0"));
-                _votes.TryAdd(1, new VotingItem(1, "i1"));
-                _votes.TryAdd(2, new VotingItem(2, "i2"));
-                _votes.TryAdd(3, new VotingItem(3, "i3"));
-            }
         }
 
         [Function("negotiate")]
         public async Task<HttpResponseData>Negotiate(
             [HttpTrigger(AuthorizationLevel.Anonymous)] HttpRequestData req,
-            [SignalRConnectionInfoInput(HubName = "CommsHub")] string connectionInfo)
+            [SignalRConnectionInfoInput(HubName = VotesHub)] string connectionInfo)
         {
             _logger.LogInformation($"Negotiate SignalR Connection");
 
@@ -40,26 +34,32 @@ namespace CommsDispatcher
         }
 
         [Function("vote")]
-        [SignalROutput(HubName = "CommsHub", ConnectionStringSetting = "AzureSignalRConnectionString")]
+        [SignalROutput(HubName = VotesHub, ConnectionStringSetting = "AzureSignalRConnectionString")]
         public SignalRMessageAction? Vote(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "vote/{itemId}")] HttpRequestData req,
-            int itemId)
+            string itemId)
         {
-            _logger.LogInformation($"BroadcastToAll");
+            _logger.LogInformation($"{nameof(Vote)}");
 
-            if (!_votes.TryGetValue(itemId, out var voteItem)) {
-                return null;
-            }
-
-            voteItem.Count++;
+            var voteItem = _votes.GetOrAdd(itemId,
+                x => new Lazy<VotingItem>(() => new VotingItem(itemId), LazyThreadSafetyMode.ExecutionAndPublication));
 
             var message = new SignalRMessageAction("CommsMessage");
-            var arguments = new List<object>
+            try
             {
-                voteItem.Id,
-                voteItem.Count
-            };
-            message.Arguments = arguments.ToArray();
+                voteItem.Value.Lock.EnterWriteLock();
+                voteItem.Value.Count++;
+                var arguments = new List<object>
+                {
+                    voteItem.Value.Id,
+                    voteItem.Value.Count
+                };
+                message.Arguments = arguments.ToArray();
+            }
+            finally
+            {
+                voteItem.Value.Lock.ExitWriteLock();
+            }
 
             return message;
         }
