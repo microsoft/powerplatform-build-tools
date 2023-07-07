@@ -1,0 +1,36 @@
+{
+  "name": "vitetest",
+  "private": true,
+  "version": "0.0.0",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "vite serve ./dist",
+    "build": "tsc && vite build",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "@fluentui/react": "8.29.0"
+  },
+  "devDependencies": {
+    "@types/react": "^16.8.6",
+    "@types/react-dom": "^16.8.6",
+    "@types/powerapps-component-framework": "^1.3.4",
+    "@typescript-eslint/eslint-plugin": "^5.61.0",
+    "@typescript-eslint/parser": "^5.61.0",
+    "@vitejs/plugin-react": "^4.0.2",
+    "@originjs/vite-plugin-commonjs": "^1.0.3",
+    "eslint": "^8.44.0",
+    "eslint-plugin-react": "^7.32.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.1",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-import-resolver-typescript": "^3.5.5",
+    "pcf-start": "^1.24.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.9",
+    "vite-plugin-commonjs": "^0.8.0"
+  }
+}
