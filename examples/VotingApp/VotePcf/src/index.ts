@@ -2,15 +2,18 @@ import { IInputs, IOutputs } from "@/generated/ManifestTypes";
 import * as React from "react";
 import { Grid, GridProps } from "@/Grid";
 import { VoteItem, VoteCountColumn, VoteColumn } from "@/VoteItem";
+import * as signalR from "@microsoft/signalr";
+import * as UrlUtils from "@/UrlUtils"
 
 export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> {
-    private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs> | undefined;
-    private _notifyOutputChanged: (() => void) | undefined;
-    private _context: ComponentFramework.Context<IInputs> | undefined;
+    private _notifyOutputChanged?: (() => void);
+    private _context?: ComponentFramework.Context<IInputs>;
     private _currentPage = 1;
     private _isFullScreen = false;
-    private _gridProps: GridProps | undefined;
-    private _output: IOutputs | undefined;
+    private _gridProps?: GridProps;
+    private _output?: IOutputs;
+    private _signalRApiUrl?: URL;
+    private _connection?: signalR.HubConnection;
 
     private _records: {
         [id: string]: VoteItem;
@@ -36,7 +39,80 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
         this._context?.mode.trackContainerResize(true);
         this._output = {};
         this._records = {};
-        //this.openConnection();
+        this.openConnection();
+    }
+
+    private openConnection() {
+      if (!this._context || !this._context.parameters.SignalRUrl.raw) {
+        return;
+      }
+
+      try {
+        const signalRApiUrl = new URL(this._context.parameters.SignalRUrl.raw);
+        if (this._signalRApiUrl?.toString() == signalRApiUrl.toString()) {
+          return;
+        }
+        this._signalRApiUrl = signalRApiUrl;
+      }
+      catch {
+        console.warn(`SignalRUrl is invalid: ${this._context.parameters.SignalRUrl.raw}`);
+        return;
+      }
+
+      console.info("Opening new SignalR connection");
+      this._connection = new signalR.HubConnectionBuilder()
+        .withUrl(this._signalRApiUrl.toString())
+        .configureLogging(signalR.LogLevel.Information) // for debug
+        .withAutomaticReconnect()
+        .build();
+
+      // Configure the event when a new message arrives
+      this._connection.on("CommsMessage", this.processNewMessage.bind(this));
+
+      //connect
+      this._connection
+        .start()
+        .catch(err => {
+          console.error(err.errorType);
+          this._connection?.stop();
+      });
+    }
+
+    private processNewMessage(voteItemId: string, voteItemCount: number): void {
+      console.info(`CommsMessage: ${voteItemId} / ${voteItemCount}`);
+
+      if (this._output)
+        this._output.VoteCount = voteItemCount;
+      const records: { [id: string]: VoteItem; } = {};
+      for (const [key, value] of Object.entries(this._records)) {
+        if (key === voteItemId)
+          records[key] = new VoteItem(key, value.EntityRecord, voteItemCount);
+        else
+          records[key] = new VoteItem(key, value.EntityRecord, value.voteCount);
+      }
+
+      if (this._gridProps) {
+        this._gridProps.records = this._records;
+      }
+
+      if (this._notifyOutputChanged)
+        this._notifyOutputChanged();
+    }
+
+    private processNewMessage1(voteItemId: string, voteItemCount: number): void {
+      console.info(`CommsMessage: ${voteItemId} / ${voteItemCount}`);
+
+      if (this._output)
+        this._output.VoteCount = voteItemCount;
+
+      for (const [key, value] of Object.entries(this._records)) {
+        if (key === voteItemId)
+          value.voteCount = voteItemCount;
+      }
+
+      this.onNavigate();
+      if (this._notifyOutputChanged)
+        this._notifyOutputChanged();
     }
 
     /**
@@ -46,7 +122,7 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
-      // this.openConnection();
+      this.openConnection();
       const dataset = context.parameters.VoteItems;
       const paging = context.parameters.VoteItems.paging;
       const datasetChanged = context.updatedProperties.indexOf("dataset") > -1;
@@ -90,7 +166,6 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
 
       if (!this._gridProps) {
         this._gridProps = {
-          version: 0,
           width: allocatedWidth,
           height: allocatedHeight,
           columns: this._columns,
@@ -133,13 +208,13 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
     };
 
     onVote = (id: string): void => {
-    //  if (!this._signalRApi)
-    //    return;
-    //  var xhr = new XMLHttpRequest();
-    //  xhr.open("get", `${this._signalRApi}/vote/${id}`, true);
-    //  xhr.setRequestHeader('Origin', window.location.origin);
-    //  // xhr.setRequestHeader('x-ms-client-principal-name', this._userId!)
-    //  xhr.send();
+      if (!this._signalRApiUrl)
+        return;
+
+      const xhr = new XMLHttpRequest();
+      xhr.open("get", UrlUtils.Join(this._signalRApiUrl.toString(), `vote/${id}`), true);
+      // xhr.setRequestHeader('x-ms-client-principal-name', this._userId!)
+      xhr.send();
     }
 
     onSort = (name: string, desc: boolean): void => {

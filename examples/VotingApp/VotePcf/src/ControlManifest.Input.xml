@@ -19,7 +19,7 @@
       -->
         </external-service-usage>
 
-        <property name="SignalRHubConnectionUrl" display-name-key="SignalR Hub Connection Url" of-type="SingleLine.Text" usage="input" required="true" />
+        <property name="SignalRUrl" display-name-key="SignalR Connection Url" of-type="SingleLine.Text" usage="input" required="true" />
         <property name="VoteCount" display-name-key="VoteItem" of-type="Whole.None" usage="output" required="true" />
 
         <data-set name="VoteItems" display-name-key="VoteItems">

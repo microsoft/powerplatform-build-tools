@@ -9,12 +9,14 @@
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "engines": { "node": ">=10.24.1" },
   "files": [ "dist" ],
   "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
     "@fluentui/react": "8.29.0",
-    "@fluentui/react-hooks": "8.6.29"
+    "@fluentui/react-hooks": "8.6.29",
+    "@microsoft/signalr": "^7.0.7",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "@types/react": "^16.8.6",

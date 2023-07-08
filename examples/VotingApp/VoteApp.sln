@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.33808.371
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "VotePcf", "VotePcf\VotePcf.esproj", "{73FE7DE0-DD9E-463F-A671-9D5AEA087582}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VotesDispatcher", "VotesDispatcher\VotesDispatcher.csproj", "{B7639F25-B324-4302-98BA-678FD2E63418}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{73FE7DE0-DD9E-463F-A671-9D5AEA087582}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73FE7DE0-DD9E-463F-A671-9D5AEA087582}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73FE7DE0-DD9E-463F-A671-9D5AEA087582}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{B7639F25-B324-4302-98BA-678FD2E63418}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B7639F25-B324-4302-98BA-678FD2E63418}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B7639F25-B324-4302-98BA-678FD2E63418}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B7639F25-B324-4302-98BA-678FD2E63418}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

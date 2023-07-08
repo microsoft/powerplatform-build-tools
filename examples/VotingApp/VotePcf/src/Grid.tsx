@@ -1,4 +1,4 @@
-import { useConst, useForceUpdate } from '@fluentui/react-hooks';
+import { useConst, useForceUpdate, useOnEvent } from '@fluentui/react-hooks';
 import * as React from 'react';
 import { IObjectWithKey, IRenderFunction, SelectionMode } from '@fluentui/react/lib/Utilities';
 import { ConstrainMode, DetailsList, DetailsListLayoutMode, DetailsRow, IColumn, IDetailsHeaderProps, IDetailsListProps, IDetailsRowStyles } from '@fluentui/react/lib/DetailsList';
@@ -13,6 +13,8 @@ import { Link } from '@fluentui/react/lib/Link';
 import { Text } from '@fluentui/react/lib/Text';
 import { VoteColumn, VoteCountColumn, VoteItem } from './VoteItem';
 import { on } from 'events';
+import { VoteCounter } from './VoteCounter';
+import * as signalR from "@microsoft/signalr";
 
 type DataSet = VoteItem & IObjectWithKey;
 
@@ -24,7 +26,6 @@ function stringFormat(template: string, ...args: string[]): string {
 }
 
 export interface GridProps {
-    version: number;
     width?: number;
     height?: number;
     columns: ComponentFramework.PropertyHelper.DataSetApi.Column[];
@@ -61,7 +62,6 @@ const onRenderDetailsHeader: IRenderFunction<IDetailsHeaderProps> = (props, defa
 
 export const Grid = React.memo((props: GridProps) => {
     const {
-        version,
         records,
         sortedRecordIds,
         columns,
@@ -84,6 +84,7 @@ export const Grid = React.memo((props: GridProps) => {
     } = props;
 
     const forceUpdate = useForceUpdate();
+
     const onSelectionChanged = React.useCallback(() => {
         const items = selection.getItems() as DataSet[];
         const selected = selection.getSelectedIndices().map((index: number) => {
@@ -97,7 +98,7 @@ export const Grid = React.memo((props: GridProps) => {
 
     const selection: Selection = useConst(() => {
         return new Selection({
-            selectionMode: SelectionMode.none,
+            selectionMode: SelectionMode.single,
             onSelectionChanged: onSelectionChanged,
         });
     });
@@ -160,7 +161,7 @@ export const Grid = React.memo((props: GridProps) => {
     ) => {
         if (column && column.fieldName && item) {
             if (column.fieldName === VoteCountColumn.name) {
-                return <Text>{item?.voteCount}</Text>;
+                return <VoteCounter Count={ item.voteCount } />;
             }
             else if (column.fieldName === VoteColumn.name) {
                 return <IconButton alt="Vote"
@@ -171,8 +172,8 @@ export const Grid = React.memo((props: GridProps) => {
             else
                 return <>{item?.EntityRecord.getFormattedValue(column.fieldName)}</>;
         }
-        return <></>;
-    }, [onVote]);
+            return <></>;
+        }, [onVote]);
 
     const onColumnContextMenu = React.useCallback(
         (column?: IColumn, ev?: React.MouseEvent<HTMLElement>) => {
