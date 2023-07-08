@@ -25,7 +25,7 @@
       -->
     </data-set>
     <resources>
-      <code path="index.ts" order="1"/>
+      <code path="bundle.umd.js" order="1"/>
       <platform-library name="React" version="16.8.6" />
       <platform-library name="Fluent" version="8.29.0" />
       <!-- UNCOMMENT TO ADD MORE RESOURCES
