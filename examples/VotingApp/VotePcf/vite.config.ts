@@ -12,7 +12,7 @@ function myPlugin() {
     name: 'transform-file',
 
     closeBundle() {
-      console.warn(`closeBundle copy ${resolve(__dirname, 'src/ControlManifest.Input.xml')}`)
+      console.info(`closeBundle copy ${resolve(__dirname, 'src/ControlManifest.Input.xml')}`)
       fs.copyFileSync(
         resolve(__dirname, 'src/ControlManifest.Input.xml'),
         resolve(__dirname, 'dist/ControlManifest.xml'))
@@ -47,22 +47,50 @@ export default defineConfig({
       name: 'DPX',
       // the proper extensions will be added
       fileName: 'bundle',
-      formats: ['es', 'umd', 'cjs', 'iife']
+      formats: ['es', 'umd', 'cjs']
     },
     rollupOptions: {
       external: [
-        'react',
-        'react-dom',
-        'react/jsx-runtime',
         '@fluentui/react',
+        '@fluentui/react/lib/Button',
+        '@fluentui/react/lib/ContextualMenu',
+        '@fluentui/react/lib/DetailsList',
+        '@fluentui/react/lib/Link',
+        '@fluentui/react/lib/Overlay',
+        '@fluentui/react/lib/ScrollablePane',
+        '@fluentui/react/lib/Selection',
+        '@fluentui/react/lib/Stack',
+        '@fluentui/react/lib/Sticky',
+        '@fluentui/react/lib/Text',
+        '@fluentui/react/lib/Utilities',
+        '@fluentui/react-hooks',
+        '@fluentui/set-version',
+        '@fluentui/style-utilities',
+        'react',
+        'react/jsx-runtime',
+        'react-dom',
       ],
       output: {
         generatedCode: {
           symbols: false
         },
+        preserveModules: false,
         globals: {
           'react': 'React',
+          'react-dom': 'ReactDOM',
           '@fluentui/react': 'FluentUIReactv8290',
+          '@fluentui/react/lib/Button': 'FluentUIReactv8290',
+          '@fluentui/react/lib/ContextualMenu': 'FluentUIReactv8290',
+          '@fluentui/react/lib/DetailsList': 'FluentUIReactv8290',
+          '@fluentui/react/lib/Link': 'FluentUIReactv8290',
+          '@fluentui/react/lib/Overlay': 'FluentUIReactv8290',
+          '@fluentui/react/lib/ScrollablePane': 'FluentUIReactv8290',
+          '@fluentui/react/lib/Selection': 'FluentUIReactv8290',
+          '@fluentui/react/lib/Stack': 'FluentUIReactv8290',
+          '@fluentui/react/lib/Sticky': 'FluentUIReactv8290',
+          '@fluentui/react/lib/Text': 'FluentUIReactv8290',
+          '@fluentui/react/lib/Utilities': 'FluentUIReactv8290',
+          '@fluentui/react-hooks': 'FluentUIReactv8290',
         },
         assetFileNames: resolve(__dirname, 'src/ControlManifest.Input.xml'),
       }

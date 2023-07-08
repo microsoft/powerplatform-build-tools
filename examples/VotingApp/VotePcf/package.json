@@ -13,7 +13,8 @@
   "dependencies": {
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "@fluentui/react": "8.29.0"
+    "@fluentui/react": "8.29.0",
+    "@fluentui/react-hooks": "8.6.29"
   },
   "devDependencies": {
     "@types/react": "^16.8.6",

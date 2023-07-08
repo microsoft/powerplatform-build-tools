@@ -1,10 +1,22 @@
 import { IInputs, IOutputs } from "./generated/ManifestTypes";
 import { HelloWorld, IHelloWorldProps } from "./HelloWorld";
 import * as React from "react";
+import { Grid, GridProps } from "./Grid";
+import { VoteItem, VoteCountColumn, VoteColumn } from "./VoteItem";
 
 export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs> | undefined;
     private notifyOutputChanged: (() => void) | undefined;
+    private _context: ComponentFramework.Context<IInputs> | undefined;
+    private _currentPage = 1;
+    private _isFullScreen = false;
+    private _gridProps: GridProps | undefined;
+
+    private _records: {
+        [id: string]: VoteItem;
+    } = {};
+    private _sortedRecordsIds: string[] = [];
+    private _columns: ComponentFramework.PropertyHelper.DataSetApi.Column[] = [];
 
     /**
      * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
@@ -27,11 +39,136 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
      * @returns ReactElement root react element for the control
      */
     public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
-        const props: IHelloWorldProps = { name: 'Hello, World++!' };
-        return React.createElement(
-            HelloWorld, props
-        );
+
+      // this.openConnection();
+      const dataset = context.parameters.VoteItems;
+      const paging = context.parameters.VoteItems.paging;
+      const datasetChanged = context.updatedProperties.indexOf("dataset") > -1;
+      const resetPaging =
+        datasetChanged &&
+        !dataset.loading &&
+        !dataset.paging.hasPreviousPage &&
+        this._currentPage !== 1;
+
+      if (context.updatedProperties.indexOf('fullscreen_close') > -1) {
+        this._isFullScreen = false;
+      }
+      if (context.updatedProperties.indexOf('fullscreen_open') > -1) {
+        this._isFullScreen = true;
+      }
+
+      if (resetPaging) {
+        this._currentPage = 1;
+      }
+      if (resetPaging || datasetChanged || (this._columns.length - 2) != dataset.columns.length ||
+        Object.entries(this._records).length != Object.entries(dataset.records).length) {
+        this._records = {};
+        this._columns = dataset.columns.map(column => column);
+        for (const [key, value] of Object.entries(dataset.records)) {
+          this._records[key] = new VoteItem(key, value);
+        }
+        this._sortedRecordsIds = dataset.sortedRecordIds;
+        VoteCountColumn.order = this._columns.length;
+        this._columns.push(VoteCountColumn);
+        VoteColumn.order = this._columns.length;
+        this._columns.push(VoteColumn);
+      }
+
+      // The test harness provides width/height as strings
+      const allocatedWidth = parseInt(
+        context.mode.allocatedWidth as unknown as string
+      );
+      const allocatedHeight = parseInt(
+        context.mode.allocatedHeight as unknown as string
+      );
+
+      if (!this._gridProps) {
+        this._gridProps = {
+          version: 0,
+          width: allocatedWidth,
+          height: allocatedHeight,
+          columns: this._columns,
+          records: this._records,
+          sortedRecordIds: this._sortedRecordsIds,
+          hasNextPage: paging.hasNextPage,
+          hasPreviousPage: paging.hasPreviousPage,
+          currentPage: this._currentPage,
+          sorting: dataset.sorting,
+          itemsLoading: dataset.loading,
+          setSelectedRecords: this.setSelectedRecords,
+          onNavigate: this.onNavigate,
+          onVote: this.onVote,
+          onSort: this.onSort,
+          loadFirstPage: this.loadFirstPage,
+          loadNextPage: this.loadNextPage,
+          loadPreviousPage: this.loadPreviousPage,
+          onFullScreen: this.onFullScreen,
+          isFullScreen: this._isFullScreen
+        };
+      }
+      else {
+        this._gridProps.width = allocatedWidth;
+        this._gridProps.height = allocatedHeight;
+        this._gridProps.sortedRecordIds = this._sortedRecordsIds;
+        this._gridProps.records = this._records;
+        this._gridProps.columns = this._columns;
+      }
+      return React.createElement(Grid, this._gridProps);
     }
+
+    setSelectedRecords = (ids: string[]): void => {
+        this._context?.parameters.VoteItems.setSelectedRecordIds(ids);
+    }
+
+    onNavigate = (item?: VoteItem): void => {
+        if (item) {
+            this._context?.parameters.VoteItems.openDatasetItem(item.EntityRecord.getNamedReference());
+        }
+    };
+
+    onVote = (id: string): void => {
+    //  if (!this._signalRApi)
+    //    return;
+    //  var xhr = new XMLHttpRequest();
+    //  xhr.open("get", `${this._signalRApi}/vote/${id}`, true);
+    //  xhr.setRequestHeader('Origin', window.location.origin);
+    //  // xhr.setRequestHeader('x-ms-client-principal-name', this._userId!)
+    //  xhr.send();
+    }
+
+    onSort = (name: string, desc: boolean): void => {
+      if (!this._context) {
+          return;
+      }
+      const sorting = this._context.parameters.VoteItems.sorting;
+      while (sorting.length > 0) {
+        sorting.pop();
+      }
+      this._context?.parameters.VoteItems.sorting.push({
+        name: name,
+        sortDirection: desc ? 1 : 0,
+      });
+      this._context?.parameters.VoteItems.refresh();
+    };
+
+    loadFirstPage = (): void => {
+      this._currentPage = 1;
+      this._context?.parameters.VoteItems.paging.loadExactPage(1);
+    };
+
+    loadNextPage = (): void => {
+      this._currentPage++;
+      this._context?.parameters.VoteItems.paging.loadExactPage(this._currentPage);
+    };
+
+    loadPreviousPage = (): void => {
+      this._currentPage--;
+      this._context?.parameters.VoteItems.paging.loadExactPage(this._currentPage);
+    };
+
+    onFullScreen = (): void => {
+      this._context?.mode.setFullScreen(true);
+    };
 
     /**
      * It is called by the framework prior to a control receiving new data.
