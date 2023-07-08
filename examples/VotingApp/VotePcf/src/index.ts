@@ -1,16 +1,16 @@
-import { IInputs, IOutputs } from "./generated/ManifestTypes";
-import { HelloWorld, IHelloWorldProps } from "./HelloWorld";
+import { IInputs, IOutputs } from "@/generated/ManifestTypes";
 import * as React from "react";
-import { Grid, GridProps } from "./Grid";
-import { VoteItem, VoteCountColumn, VoteColumn } from "./VoteItem";
+import { Grid, GridProps } from "@/Grid";
+import { VoteItem, VoteCountColumn, VoteColumn } from "@/VoteItem";
 
 export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> {
     private theComponent: ComponentFramework.ReactControl<IInputs, IOutputs> | undefined;
-    private notifyOutputChanged: (() => void) | undefined;
+    private _notifyOutputChanged: (() => void) | undefined;
     private _context: ComponentFramework.Context<IInputs> | undefined;
     private _currentPage = 1;
     private _isFullScreen = false;
     private _gridProps: GridProps | undefined;
+    private _output: IOutputs | undefined;
 
     private _records: {
         [id: string]: VoteItem;
@@ -26,11 +26,17 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
      * @param _state A piece of data that persists in one session for a single user. Can be set at any point in a controls life cycle by calling 'setControlState' in the Mode interface.
      */
     public init(
-        _context: ComponentFramework.Context<IInputs>,
+        context: ComponentFramework.Context<IInputs>,
         notifyOutputChanged: () => void,
         state: ComponentFramework.Dictionary
     ): void {
-        this.notifyOutputChanged = notifyOutputChanged;
+        console.info("init");
+        this._notifyOutputChanged = notifyOutputChanged;
+        this._context = context;
+        this._context?.mode.trackContainerResize(true);
+        this._output = {};
+        this._records = {};
+        //this.openConnection();
     }
 
     /**

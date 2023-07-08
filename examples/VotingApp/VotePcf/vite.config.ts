@@ -63,7 +63,6 @@ export default defineConfig({
         '@fluentui/react/lib/Sticky',
         '@fluentui/react/lib/Text',
         '@fluentui/react/lib/Utilities',
-        '@fluentui/react-hooks',
         '@fluentui/set-version',
         '@fluentui/style-utilities',
         'react',
@@ -90,7 +89,6 @@ export default defineConfig({
           '@fluentui/react/lib/Sticky': 'FluentUIReactv8290',
           '@fluentui/react/lib/Text': 'FluentUIReactv8290',
           '@fluentui/react/lib/Utilities': 'FluentUIReactv8290',
-          '@fluentui/react-hooks': 'FluentUIReactv8290',
         },
         assetFileNames: resolve(__dirname, 'src/ControlManifest.Input.xml'),
       }

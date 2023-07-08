@@ -93,11 +93,11 @@ export const Grid = React.memo((props: GridProps) => {
 
         setSelectedRecords(selected);
         forceUpdate();
-    }, [forceUpdate]);
+    }, [forceUpdate, setSelectedRecords]);
 
     const selection: Selection = useConst(() => {
         return new Selection({
-            selectionMode: SelectionMode.single,
+            selectionMode: SelectionMode.none,
             onSelectionChanged: onSelectionChanged,
         });
     });
@@ -149,7 +149,7 @@ export const Grid = React.memo((props: GridProps) => {
                 onDismiss: onContextualMenuDismissed,
             };
         },
-        [setIsLoading, setContextualMenuProps],
+        [setIsLoading, setContextualMenuProps, onContextualMenuDismissed, onSort],
     );
 
     const onRenderItemColumn = React.useCallback(
@@ -201,7 +201,7 @@ export const Grid = React.memo((props: GridProps) => {
         });
 
         return sortedRecords;
-    }, [records, sortedRecordIds, hasNextPage, setIsLoading]);
+    }, [records, sortedRecordIds, setIsLoading]);
 
     const onNextPage = React.useCallback(() => {
         setIsLoading(true);
@@ -267,50 +267,15 @@ export const Grid = React.memo((props: GridProps) => {
                         items={items}
                         setKey={`set${currentPage}`} // Ensures that the selection is reset when paging
                         initialFocusedIndex={0}
+                        selectionMode= { SelectionMode.none }
                         checkButtonAriaLabel="select row"
-                        layoutMode={DetailsListLayoutMode.fixedColumns}
-                        constrainMode={ConstrainMode.unconstrained}
-                        selection={selection}
+                        layoutMode={DetailsListLayoutMode.justified}
+                        constrainMode={ConstrainMode.horizontalConstrained}
                         onItemInvoked={onNavigate}
                         onRenderRow={onRenderRow}
                     ></DetailsList>
-                    {contextualMenuProps && <ContextualMenu {...contextualMenuProps} />}
                 </ScrollablePane>
                 {(itemsLoading || isComponentLoading) && <Overlay />}
-            </Stack.Item>
-            <Stack.Item>
-                <Stack horizontal style={{ width: '100%', paddingLeft: 8, paddingRight: 8 }}>
-                    <Stack.Item grow align="center">
-                        {!isFullScreen && (
-                            <Link onClick={onFullScreen}>{'Label_ShowFullScreen'}</Link>
-                        )}
-                    </Stack.Item>
-                    <IconButton
-                        alt="First Page"
-                        iconProps={{ iconName: 'Rewind' }}
-                        disabled={!hasPreviousPage || isComponentLoading || itemsLoading}
-                        onClick={onFirstPage}
-                    />
-                    <IconButton
-                        alt="Previous Page"
-                        iconProps={{ iconName: 'Previous' }}
-                        disabled={!hasPreviousPage || isComponentLoading || itemsLoading}
-                        onClick={onPreviousPage}
-                    />
-                    <Stack.Item align="center">
-                        {stringFormat(
-                            'Label_Grid_Footer',
-                            currentPage.toString(),
-                            selection.getSelectedCount().toString(),
-                        )}
-                    </Stack.Item>
-                    <IconButton
-                        alt="Next Page"
-                        iconProps={{ iconName: 'Next' }}
-                        disabled={!hasNextPage || isComponentLoading || itemsLoading}
-                        onClick={onNextPage}
-                    />
-                </Stack>
             </Stack.Item>
         </Stack>
     );
