@@ -46,27 +46,37 @@ namespace VotesDispatcher
             var ballot = _ballots.GetOrAdd(ballotId,
                 x => new Lazy<VotingBallot>(() => new VotingBallot(ballotId), LazyThreadSafetyMode.ExecutionAndPublication));
 
-            var voteItem = ballot.Value.Votes.GetOrAdd(itemId,
-                x => new Lazy<VotingItem>(() => new VotingItem(itemId), LazyThreadSafetyMode.ExecutionAndPublication));
-
-            var message = new SignalRMessageAction("CommsMessage");
             try
             {
-                voteItem.Value.Lock.EnterWriteLock();
-                voteItem.Value.Count++;
-                var arguments = new List<object>
+                ballot.Value.Lock.EnterWriteLock();
+
+                var voteItem = ballot.Value.Votes.GetOrAdd(itemId,
+                    x => new Lazy<VotingItem>(() => new VotingItem(itemId), LazyThreadSafetyMode.ExecutionAndPublication));
+
+                var message = new SignalRMessageAction("CommsMessage");
+                try
                 {
-                    voteItem.Value.Id,
-                    voteItem.Value.Count
-                };
-                message.Arguments = arguments.ToArray();
+                    voteItem.Value.Lock.EnterWriteLock();
+                    voteItem.Value.Count++;
+                    ballot.Value.TotalVotes++;
+                    var arguments = new List<object>
+                    {
+                        voteItem.Value.Id,
+                        voteItem.Value.Count,
+                        ballot.Value.TotalVotes
+                    };
+                    message.Arguments = arguments.ToArray();
+                    return message;
+                }
+                finally
+                {
+                    voteItem.Value.Lock.ExitWriteLock();
+                }
             }
             finally
             {
-                voteItem.Value.Lock.ExitWriteLock();
+              ballot.Value.Lock.ExitWriteLock();
             }
-
-            return message;
         }
 
         [Function("votes")]
@@ -80,25 +90,33 @@ namespace VotesDispatcher
             var ballot = _ballots.GetOrAdd(ballotId,
                 x => new Lazy<VotingBallot>(() => new VotingBallot(ballotId), LazyThreadSafetyMode.ExecutionAndPublication));
 
-            var votes = new List<VotingItem>();
-            ballot.Value.Votes.Values.ToList().ForEach(x => {
-                try
+            try
+            {
+                ballot.Value.Lock.EnterReadLock();
+                var votes = new VotesResponse() { TotalVotes = ballot.Value.TotalVotes };
+                ballot.Value.Votes.Values.ToList().ForEach(x =>
                 {
-                    x.Value.Lock.EnterReadLock();
-                    votes.Add(new VotingItem(x.Value));
-                }
-                finally
-                {
-                    x.Value.Lock.ExitReadLock();
-                }
-            });
+                    try
+                    {
+                        x.Value.Lock.EnterReadLock();
+                        votes.Items.Add(new VotingItem(x.Value));
+                    }
+                    finally
+                    {
+                        x.Value.Lock.ExitReadLock();
+                    }
+                });
+                var jsonToReturn = JsonSerializer.Serialize(votes);
+                var response = req.CreateResponse(HttpStatusCode.OK);
+                response.Headers.Add("Content-Type", ApplicationJson);
+                await response.WriteStringAsync(jsonToReturn);
 
-            var jsonToReturn = JsonSerializer.Serialize(votes);
-            var response = req.CreateResponse(HttpStatusCode.OK);
-            response.Headers.Add("Content-Type", ApplicationJson);
-            await response.WriteStringAsync(jsonToReturn);
-
-            return response;
+                return response;
+            }
+            finally
+            {
+                ballot.Value.Lock.ExitReadLock();
+            }
         }
     }
 }

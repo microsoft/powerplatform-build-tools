@@ -20,6 +20,7 @@
         </external-service-usage>
 
         <property name="SignalRUrl" display-name-key="SignalR Connection Url" of-type="SingleLine.Text" usage="input" required="true" />
+        <property name="BallotId" display-name-key="Vote ballot id" of-type="SingleLine.Text" usage="input" required="true" />
         <property name="VoteCount" display-name-key="VoteItem" of-type="Whole.None" usage="output" required="true" />
 
         <data-set name="VoteItems" display-name-key="VoteItems">

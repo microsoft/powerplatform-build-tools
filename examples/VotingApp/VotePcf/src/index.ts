@@ -6,16 +6,17 @@ import * as signalR from "@microsoft/signalr";
 import * as UrlUtils from "@/UrlUtils"
 
 export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> {
-    private _notifyOutputChanged?: (() => void);
-    private _context?: ComponentFramework.Context<IInputs>;
-    private _currentPage = 1;
-    private _isFullScreen = false;
-    private _gridProps?: GridProps;
-    private _output?: IOutputs;
-    private _signalRApiUrl?: URL;
-    private _connection?: signalR.HubConnection;
-    private _sortedRecordsIds: string[] = [];
-    private _columns: ComponentFramework.PropertyHelper.DataSetApi.Column[] = [];
+  private _notifyOutputChanged?: (() => void);
+  private _context?: ComponentFramework.Context<IInputs>;
+  private _currentPage = 1;
+  private _isFullScreen = false;
+  private _gridProps?: GridProps;
+  private _output?: IOutputs;
+  private _signalRApiUrl?: URL;
+  private _connection?: signalR.HubConnection;
+  private _sortedRecordsIds: string[] = [];
+  private _columns: ComponentFramework.PropertyHelper.DataSetApi.Column[] = [];
+  private _ballotId = "";
 
     /**
      * Used to initialize the control instance. Controls can kick off remote server calls and other initialization actions here.
@@ -54,8 +55,6 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
         return;
       }
 
-      this.RefreshVotes();
-
       console.info("Opening new SignalR connection");
       this._connection = new signalR.HubConnectionBuilder()
         .withUrl(this._signalRApiUrl.toString())
@@ -76,51 +75,64 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
     }
 
     private RefreshVotes(): void {
-      if (!this._signalRApiUrl)
+      if (!this._context || !this._gridProps || !this._signalRApiUrl || !this._context.parameters.BallotId || !this._context.parameters.BallotId.raw)
         return;
 
-      fetch(UrlUtils.Join(this._signalRApiUrl.toString(), `votes`))
+
+      // Update with new values
+      fetch(UrlUtils.Join(this._signalRApiUrl.toString(), `votes`, this._context.parameters.BallotId.raw))
         .then(response => response.json())
-        .then(data => console.log(data));
+        .then(
+          data => {
+            if (this._output)
+              this._output.VoteCount = data.TotalVotes;
+            
+            if (this._gridProps) {
+              // Copy existing records
+              const records: { [id: string]: VoteItem; } = {};
+              for (const [key, value] of Object.entries(this._gridProps.records)) {
+                  records[key] = value;
+              }
+              for (const i in data.Items) {
+                if (!data.Items[i] || !data.Items[i].Id || !data.Items[i].Count)
+                  continue;
+                this.updateRecord(records, data.Items[i].Id, data.Items[i].Count);
+              }
+              this._gridProps.records = records;
+            }
+
+            if (this._notifyOutputChanged)
+              this._notifyOutputChanged();
+          }
+      );
     }
 
-    private processNewMessage(voteItemId: string, voteItemCount: number): void {
+    private processNewMessage(voteItemId: string, voteItemCount: number, totalVotes: number): void {
       console.info(`CommsMessage: ${voteItemId} / ${voteItemCount}`);
 
       if (!this._gridProps)
         return;
 
       if (this._output)
-        this._output.VoteCount = voteItemCount;
+        this._output.VoteCount = totalVotes;
+
       const records: { [id: string]: VoteItem; } = {};
       for (const [key, value] of Object.entries(this._gridProps.records)) {
-        if (key === voteItemId)
-          records[key] = new VoteItem(key, value.EntityRecord, voteItemCount);
-        else
-          records[key] = value;
+        records[key] = value;
       }
+
+      this.updateRecord(records, voteItemId, voteItemCount);
 
       this._gridProps.records = records;
       if (this._notifyOutputChanged)
         this._notifyOutputChanged();
     }
 
-    private processNewMessage1(voteItemId: string, voteItemCount: number): void {
-      console.info(`CommsMessage: ${voteItemId} / ${voteItemCount}`);
-
-      if (!this._gridProps)
-        return;
-      if (this._output)
-        this._output.VoteCount = voteItemCount;
-
-      for (const [key, value] of Object.entries(this._gridProps.records)) {
-        if (key === voteItemId)
-          value.voteCount = voteItemCount;
+    private updateRecord(records: { [id: string]: VoteItem; }, recordId: string, voteItemCount: number): void {
+      for (const [key, value] of Object.entries(records)) {
+        if (key === recordId)
+          records[key] = new VoteItem(key, value.EntityRecord, voteItemCount);
       }
-
-      this.onNavigate();
-      if (this._notifyOutputChanged)
-        this._notifyOutputChanged();
     }
 
     /**
@@ -133,7 +145,7 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
       this.openConnection();
       const dataset = context.parameters.VoteItems;
       const paging = context.parameters.VoteItems.paging;
-      const datasetChanged = context.updatedProperties.indexOf("dataset") > -1;
+      let datasetChanged = context.updatedProperties.indexOf("dataset") > -1;
       const resetPaging =
         datasetChanged &&
         !dataset.loading &&
@@ -149,6 +161,11 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
 
       if (resetPaging) {
         this._currentPage = 1;
+      }
+
+      if (this._ballotId != context.parameters.BallotId.raw) {
+        datasetChanged = true;
+        this._ballotId = context.parameters.BallotId.raw ? context.parameters.BallotId.raw : "";
       }
 
       // The test harness provides width/height as strings
@@ -193,6 +210,7 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
           onFullScreen: this.onFullScreen,
           isFullScreen: this._isFullScreen
         };
+        this.RefreshVotes();
       }
 
       return React.createElement(Grid, this._gridProps);
@@ -209,11 +227,11 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
     };
 
     onVote = (id: string): void => {
-      if (!this._signalRApiUrl)
+      if (!this._signalRApiUrl || !this._context)
         return;
 
       const xhr = new XMLHttpRequest();
-      xhr.open("get", UrlUtils.Join(this._signalRApiUrl.toString(), `vote/${id}`), true);
+      xhr.open("get", UrlUtils.Join(this._signalRApiUrl.toString(), `vote/${this._context.parameters.BallotId.raw}/${id}`), true);
       // xhr.setRequestHeader('x-ms-client-principal-name', this._userId!)
       xhr.send();
     }
