@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace VotesDispatcher;
 
 public class VotingItem
@@ -13,6 +15,18 @@ public class VotingItem
         Image = image;
     }
 
+    public VotingItem(VotingItem item)
+    {
+        if (item is null)
+            throw new ArgumentNullException(nameof(item));
+        Id = item.Id;
+        Name = item.Name;
+        Description = item.Description;
+        Image = item.Image;
+        Count = item.Count;
+    }
+
+    [JsonIgnore]
     public ReaderWriterLockSlim Lock { get; } = new ReaderWriterLockSlim();
 
     public string Id { get; set; }

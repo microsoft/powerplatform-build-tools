@@ -54,6 +54,8 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
         return;
       }
 
+      this.RefreshVotes();
+
       console.info("Opening new SignalR connection");
       this._connection = new signalR.HubConnectionBuilder()
         .withUrl(this._signalRApiUrl.toString())
@@ -71,6 +73,15 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
           console.error(err.errorType);
           this._connection?.stop();
       });
+    }
+
+    private RefreshVotes(): void {
+      if (!this._signalRApiUrl)
+        return;
+
+      fetch(UrlUtils.Join(this._signalRApiUrl.toString(), `votes`))
+        .then(response => response.json())
+        .then(data => console.log(data));
     }
 
     private processNewMessage(voteItemId: string, voteItemCount: number): void {
