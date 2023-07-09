@@ -258,9 +258,6 @@ export const Grid = React.memo((props: GridProps) => {
     };
 
     return (
-        <Stack verticalFill grow style={rootContainerStyle}>
-            <Stack.Item grow style={{ position: 'relative', backgroundColor: 'white' }}>
-                <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}>
                     <DetailsList
                         columns={gridColumns}
                         onRenderItemColumn={onRenderItemColumn}
@@ -275,10 +272,6 @@ export const Grid = React.memo((props: GridProps) => {
                         onItemInvoked={onNavigate}
                         onRenderRow={onRenderRow}
                     ></DetailsList>
-                </ScrollablePane>
-                {(itemsLoading || isComponentLoading) && <Overlay />}
-            </Stack.Item>
-        </Stack>
     );
 });
 

@@ -14,10 +14,6 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
     private _output?: IOutputs;
     private _signalRApiUrl?: URL;
     private _connection?: signalR.HubConnection;
-
-    private _records: {
-        [id: string]: VoteItem;
-    } = {};
     private _sortedRecordsIds: string[] = [];
     private _columns: ComponentFramework.PropertyHelper.DataSetApi.Column[] = [];
 
@@ -38,7 +34,6 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
         this._context = context;
         this._context?.mode.trackContainerResize(true);
         this._output = {};
-        this._records = {};
         this.openConnection();
     }
 
@@ -81,20 +76,20 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
     private processNewMessage(voteItemId: string, voteItemCount: number): void {
       console.info(`CommsMessage: ${voteItemId} / ${voteItemCount}`);
 
+      if (!this._gridProps)
+        return;
+
       if (this._output)
         this._output.VoteCount = voteItemCount;
       const records: { [id: string]: VoteItem; } = {};
-      for (const [key, value] of Object.entries(this._records)) {
+      for (const [key, value] of Object.entries(this._gridProps.records)) {
         if (key === voteItemId)
           records[key] = new VoteItem(key, value.EntityRecord, voteItemCount);
         else
-          records[key] = new VoteItem(key, value.EntityRecord, value.voteCount);
+          records[key] = value;
       }
 
-      if (this._gridProps) {
-        this._gridProps.records = this._records;
-      }
-
+      this._gridProps.records = records;
       if (this._notifyOutputChanged)
         this._notifyOutputChanged();
     }
@@ -102,10 +97,12 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
     private processNewMessage1(voteItemId: string, voteItemCount: number): void {
       console.info(`CommsMessage: ${voteItemId} / ${voteItemCount}`);
 
+      if (!this._gridProps)
+        return;
       if (this._output)
         this._output.VoteCount = voteItemCount;
 
-      for (const [key, value] of Object.entries(this._records)) {
+      for (const [key, value] of Object.entries(this._gridProps.records)) {
         if (key === voteItemId)
           value.voteCount = voteItemCount;
       }
@@ -142,19 +139,6 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
       if (resetPaging) {
         this._currentPage = 1;
       }
-      if (resetPaging || datasetChanged || (this._columns.length - 2) != dataset.columns.length ||
-        Object.entries(this._records).length != Object.entries(dataset.records).length) {
-        this._records = {};
-        this._columns = dataset.columns.map(column => column);
-        for (const [key, value] of Object.entries(dataset.records)) {
-          this._records[key] = new VoteItem(key, value);
-        }
-        this._sortedRecordsIds = dataset.sortedRecordIds;
-        VoteCountColumn.order = this._columns.length;
-        this._columns.push(VoteCountColumn);
-        VoteColumn.order = this._columns.length;
-        this._columns.push(VoteColumn);
-      }
 
       // The test harness provides width/height as strings
       const allocatedWidth = parseInt(
@@ -164,12 +148,24 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
         context.mode.allocatedHeight as unknown as string
       );
 
-      if (!this._gridProps) {
+      if (!this._gridProps || resetPaging || datasetChanged || (this._columns.length - 2) != dataset.columns.length ||
+        this._gridProps && Object.entries(this._gridProps.records).length != Object.entries(dataset.records).length) {
+        const records: { [id: string]: VoteItem; } = {};
+        this._columns = dataset.columns.map(column => column);
+        for (const [key, value] of Object.entries(dataset.records)) {
+          records[key] = new VoteItem(key, value);
+        }
+        this._sortedRecordsIds = dataset.sortedRecordIds;
+        VoteCountColumn.order = this._columns.length;
+        this._columns.push(VoteCountColumn);
+        VoteColumn.order = this._columns.length;
+        this._columns.push(VoteColumn);
+
         this._gridProps = {
           width: allocatedWidth,
           height: allocatedHeight,
           columns: this._columns,
-          records: this._records,
+          records: records,
           sortedRecordIds: this._sortedRecordsIds,
           hasNextPage: paging.hasNextPage,
           hasPreviousPage: paging.hasPreviousPage,
@@ -187,13 +183,7 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
           isFullScreen: this._isFullScreen
         };
       }
-      else {
-        this._gridProps.width = allocatedWidth;
-        this._gridProps.height = allocatedHeight;
-        this._gridProps.sortedRecordIds = this._sortedRecordsIds;
-        this._gridProps.records = this._records;
-        this._gridProps.columns = this._columns;
-      }
+
       return React.createElement(Grid, this._gridProps);
     }
 
@@ -256,7 +246,7 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
      * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
      */
     public getOutputs(): IOutputs {
-        return { };
+      return this._output ? this._output : { };
     }
 
     /**
