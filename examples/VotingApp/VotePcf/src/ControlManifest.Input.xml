@@ -21,7 +21,9 @@
 
         <property name="SignalRUrl" display-name-key="SignalR Connection Url" of-type="SingleLine.Text" usage="input" required="true" />
         <property name="BallotId" display-name-key="Vote ballot id" of-type="SingleLine.Text" usage="input" required="true" />
-        <property name="VoteCount" display-name-key="VoteItem" of-type="Whole.None" usage="output" required="true" />
+        
+        <property name="VoteCount" display-name-key="Total Vote Count" of-type="Whole.None" usage="output" required="true" />
+        <property name="LastUpdate" display-name-key="Time of last update" of-type="DateAndTime.DateAndTime" usage="output" required="true" />
 
         <data-set name="VoteItems" display-name-key="VoteItems">
         </data-set>

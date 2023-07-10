@@ -4,15 +4,6 @@ import { Grid, GridProps } from "@/Grid";
 import { VoteItem, VoteCountColumn, VoteColumn } from "@/VoteItem";
 import * as signalR from "@microsoft/signalr";
 import * as UrlUtils from "@/UrlUtils"
-declare global {
-  interface Window { NativePromise: any; }
-}
-function getNativePromise() {
-  if (typeof Promise === "function") {
-    console.info("Using native Promise");
-    return Promise;
-  }
-}
 
 export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> {
   private _notifyOutputChanged?: (() => void);
@@ -20,7 +11,7 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
   private _currentPage = 1;
   private _isFullScreen = false;
   private _gridProps?: GridProps;
-  private _output?: IOutputs;
+  private _output: IOutputs = <IOutputs>{};
   private _signalRApiUrl?: URL;
   private _connection?: signalR.HubConnection;
   private _sortedRecordsIds: string[] = [];
@@ -43,14 +34,8 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
     this._notifyOutputChanged = notifyOutputChanged;
     this._context = context;
     this._context?.mode.trackContainerResize(true);
-    this._output = {};
-
-
-
-    //window.NativePromise = getNativePromise();
+    this._output.LastUpdate = new Date();
   }
-
-
 
   private async openConnection() {
     if (!this._context || !this._context.parameters.SignalRUrl.raw) {
@@ -125,8 +110,10 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
             this._gridProps.records = records;
           }
 
-          if (this._output)
+          if (this._output) {
             this._output.VoteCount = data.TotalVotes;
+            this._output.LastUpdate = new Date();
+          }
           if (this._notifyOutputChanged)
             this._notifyOutputChanged();
         }
@@ -139,9 +126,6 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
     if (!this._gridProps)
       return;
 
-    if (this._output)
-      this._output.VoteCount = totalVotes;
-
     const records: { [id: string]: VoteItem; } = {};
     for (const [key, value] of Object.entries(this._gridProps.records)) {
       records[key] = value;
@@ -150,6 +134,12 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
     this.updateRecord(records, voteItemId, voteItemCount);
 
     this._gridProps.records = records;
+
+    if (this._output) {
+      this._output.VoteCount = totalVotes;
+      this._output.LastUpdate = new Date();
+    }
+
     if (this._notifyOutputChanged)
       this._notifyOutputChanged();
   }
@@ -301,7 +291,7 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
    * @returns an object based on nomenclature defined in manifest, expecting object[s] for property marked as “bound” or “output”
    */
   public getOutputs(): IOutputs {
-    return this._output ? this._output : {};
+    return this._output;
   }
 
   /**
