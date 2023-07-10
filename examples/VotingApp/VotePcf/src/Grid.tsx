@@ -261,7 +261,7 @@ export const Grid = React.memo((props: GridProps) => {
         <Stack verticalFill grow style={rootContainerStyle}>
             <Stack.Item grow style={{ position: 'relative', backgroundColor: 'white' }}>
                 <ScrollablePane scrollbarVisibility={ScrollbarVisibility.auto}>
-                    <DetailsList
+                    <DetailsList 
                         columns={gridColumns}
                         onRenderItemColumn={onRenderItemColumn}
                         onRenderDetailsHeader={onRenderDetailsHeader}
@@ -271,7 +271,7 @@ export const Grid = React.memo((props: GridProps) => {
                         selectionMode= { SelectionMode.none }
                         checkButtonAriaLabel="select row"
                         layoutMode={DetailsListLayoutMode.justified}
-                        constrainMode={ConstrainMode.horizontalConstrained}
+                        constrainMode={ConstrainMode.unconstrained}
                         onItemInvoked={onNavigate}
                         onRenderRow={onRenderRow}
                     ></DetailsList>

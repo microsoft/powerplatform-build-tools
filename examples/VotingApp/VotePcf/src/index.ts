@@ -158,6 +158,7 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
    */
   public updateView(context: ComponentFramework.Context<IInputs>): React.ReactElement {
 
+    console.info(`updateView ${context.mode.allocatedWidth} ${context.mode.allocatedHeight}`);
     this.openConnection();
     const dataset = context.parameters.VoteItems;
     const paging = context.parameters.VoteItems.paging;
@@ -191,6 +192,16 @@ export class Vote implements ComponentFramework.ReactControl<IInputs, IOutputs> 
     const allocatedHeight = parseInt(
       context.mode.allocatedHeight as unknown as string
     );
+
+    if (this._gridProps && (this._gridProps.width != allocatedWidth || this._gridProps.height != allocatedHeight)) {
+
+      this._gridProps.width = allocatedWidth;
+      this._gridProps.height = allocatedHeight;
+      this._output.LastUpdate = new Date();
+
+      if (this._notifyOutputChanged)
+        this._notifyOutputChanged();
+    }
 
     if (!this._gridProps || resetPaging || datasetChanged || (this._columns.length - 2) != dataset.columns.length ||
       this._gridProps && Object.entries(this._gridProps.records).length != Object.entries(dataset.records).length) {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <manifest>
-  <control namespace="DPX" constructor="Vote" version="1.67.0" display-name-key="DPX Vote" description-key="DPX Voting PCF control" control-type="virtual" api-version="1.3.5">
+  <control namespace="DPX" constructor="Vote" version="1.71.0" display-name-key="DPX Vote" description-key="DPX Voting PCF control" control-type="virtual" api-version="1.3.5">
     <external-service-usage enabled="false"/>
     <property name="SignalRUrl" display-name-key="SignalR Connection Url" of-type="SingleLine.Text" usage="input" required="true" />
     <property name="BallotId" display-name-key="Vote ballot id" of-type="SingleLine.Text" usage="input" required="true" />
