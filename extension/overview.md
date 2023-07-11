@@ -22,6 +22,9 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- pac CLI 1.25.1 (June Refresh), [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
+
+2.0.27:
 - pac CLI 1.24.3 (May Refresh), [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
   - includes SolutionPackager update fixing [#274](https://github.com/microsoft/powerplatform-build-tools/issues/274)
 - fixes case sensitivity in boolean arguments expecting `true` failing to accept `True`, seen in [#284](https://github.com/microsoft/powerplatform-build-tools/issues/284) and [#301](https://github.com/microsoft/powerplatform-build-tools/issues/301)
