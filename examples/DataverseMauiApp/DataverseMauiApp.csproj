@@ -52,14 +52,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
-		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0-preview.5.23280.8" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0-preview.5.23280.8" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.1" />
+		<PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0-preview.6.23329.7" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0-preview.6.23329.7" />
 		<PackageReference Include="Microsoft.Identity.Client" Version="4.54.1" />
 		<PackageReference Include="Microsoft.Identity.Client.Broker" Version="4.54.1" />
-		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.31.0" />
-        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
-        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+		<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="6.32.0" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.0-preview.6.8686" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.0-preview.6.8686" />
     </ItemGroup>
 
 	<ItemGroup>
