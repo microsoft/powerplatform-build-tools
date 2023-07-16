@@ -14,7 +14,7 @@ Each tasks wraps the existing [Power Platform CLI](https://aka.ms/PowerPlatformC
 
 ## High level architecture
 
-![High level architecture](docs/architecture.png)
+![High level architecture](docs/assets/images/architecture.png)
 
 ## Feedback & Questions
 
