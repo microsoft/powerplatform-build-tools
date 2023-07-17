@@ -8,4 +8,4 @@ This is an example showing:
 
 welcome             |  environments
 :------------------:|:-------------------------:
-![welcome](DataverseMauiApp/welcome.png)  |  ![environments](DataverseMauiApp/environments.png)
+![welcome](DataverseMauiApp/assets/welcome.png)  |  ![environments](DataverseMauiApp/assets/environments.png)
