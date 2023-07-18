@@ -98,9 +98,9 @@ function resolveCloudInstance(endpointName: string): string {
     case 'crm.dynamics.cn':
       return "Mooncake";
     case 'crm10.dynamics.com':
-      return "Tip1";
+      return "Preprod";
     case 'crmtest.dynamics.com':
-      return "Tip2";
+      return "Test";
     default:
       return "Public";
   }
