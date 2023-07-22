@@ -99,6 +99,7 @@ export const tasksToTest: TaskInfo[] =
         { name: 'MaxAsyncWaitTime', value: '60' },
         { name: 'ConvertToManaged', value: 'false' },
         { name: 'SkipProductUpdateDependencies', value: 'false' },
+        { name: 'SkipLowerVersion', value: 'false' },
         { name: 'OverwriteUnmanagedCustomizations', value: 'false' },
         { name: 'HoldingSolution', value: 'false' },
       ]

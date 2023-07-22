@@ -4,7 +4,7 @@
   "friendlyName": "Power Platform Who Am I",
   "description": "Who Am I for quick connection testing to Power Platform org/environment instance.",
   "author": "Microsoft",
-  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "helpMarkDown": "https://aka.ms/buildtoolsdoc Ideas, feedback: https://github.com/microsoft/powerplatform-build-tools/discussions",
   "category": "Utility",
   "visibility": [
     "Build",

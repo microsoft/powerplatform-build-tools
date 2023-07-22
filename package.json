@@ -18,7 +18,8 @@
     "pack": "node node_modules/gulp/bin/gulp.js pack",
     "tfx": "node node_modules/tfx-cli/_build/tfx-cli.js",
     "set-git-authn": "node ./setGitAuthN.js",
-    "set-version": "node node_modules/release-it/bin/release-it --increment patch --ci -VV"
+    "set-version": "node node_modules/release-it/bin/release-it --increment patch --ci -VV",
+    "pub": "node node_modules/gulp/bin/gulp.js publish"
   },
   "author": "PowerApps-ISV-Tools",
   "license": "MIT",
@@ -75,7 +76,7 @@
     "yargs": "^17.7.2"
   },
   "dependencies": {
-    "@microsoft/powerplatform-cli-wrapper": "^0.1.103",
+    "@microsoft/powerplatform-cli-wrapper": "^0.1.105",
     "azure-pipelines-task-lib": "^4.4.0",
     "debug": "^4.3.4",
     "fs-extra": "^10.0.1",

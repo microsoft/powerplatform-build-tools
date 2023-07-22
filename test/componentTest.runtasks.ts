@@ -73,6 +73,7 @@ process.env['INPUT_AsyncOperation'] = "true";
 process.env['INPUT_MaxAsyncWaitTime'] = "60";
 process.env['INPUT_ConvertToManaged'] = "false";
 process.env['INPUT_SkipProductUpdateDependencies'] = "false";
+process.env['INPUT_SkipLowerVersion'] = "false";
 process.env['INPUT_OverwriteUnmanagedCustomizations'] = "false";
 process.env['INPUT_HoldingSolution'] = "false";
 
