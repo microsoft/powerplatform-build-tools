@@ -43,6 +43,7 @@ export async function main(): Promise<void> {
     forceOverwrite: parameterMap['OverwriteUnmanagedCustomizations'],
     publishChanges: parameterMap['PublishCustomizationChanges'],
     skipDependencyCheck: parameterMap['SkipProductUpdateDependencies'],
+    skipLowerVersion: parameterMap['SkipLowerVersion'],
     convertToManaged: parameterMap['ConvertToManaged'],
     // WORKAROUND: current IHostAbstractions and its input processing in cli-wrapper will only look at the default value
     // IFF the actual property name does NOT exist in task.json -> MergedActivePlugin is NOT defined in task, thus forcing
