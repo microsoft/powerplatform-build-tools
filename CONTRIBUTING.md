@@ -15,6 +15,9 @@ provided by the bot. You will only need to do this once across all repos using o
 Windows, macOS or Linux:
 
 - [Node.js LTS (currently v16)](https://nodejs.org/en/download/)
+- Install the [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli)
+  - Add [Azure DevOps Extension](https://github.com/Azure/azure-devops-cli-extension)
+    - ```az extension add --name azure-devops```
 - gulp CLI: ```npm install -g gulp-cli```
 - [git](https://git-scm.com/downloads)
 - [VS Code](https://code.visualstudio.com/Download) or your different favorite editor

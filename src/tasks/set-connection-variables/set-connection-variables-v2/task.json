@@ -4,7 +4,7 @@
   "friendlyName": "Power Platform Set Connection Variables",
   "description": "Sets BuildTools.* variables to provide custom script tasks access to use the Service Connection as a single source of truth.",
   "author": "Microsoft",
-  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "helpMarkDown": "https://aka.ms/buildtoolsdoc Ideas, feedback: https://github.com/microsoft/powerplatform-build-tools/discussions",
   "category": "Utility",
   "visibility": [
     "Build",

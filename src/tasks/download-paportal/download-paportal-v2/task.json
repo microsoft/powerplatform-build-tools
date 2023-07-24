@@ -3,7 +3,7 @@
   "friendlyName": "Power Platform Download PAPortal",
   "description": "Power Platform Download PowerPages web site (PAPortal)",
   "author": "Microsoft",
-  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "helpMarkDown": "https://aka.ms/buildtoolsdoc Ideas, feedback: https://github.com/microsoft/powerplatform-build-tools/discussions",
   "category": "Deploy",
   "visibility": [
     "Build",
