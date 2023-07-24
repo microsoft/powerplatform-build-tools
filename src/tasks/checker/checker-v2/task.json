@@ -4,7 +4,7 @@
   "friendlyName": "Power Platform Checker",
   "description": "Analyze solutions using Power Apps Checker endpoint",
   "author": "Microsoft",
-  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "helpMarkDown": "https://aka.ms/buildtoolsdoc Ideas, feedback: https://github.com/microsoft/powerplatform-build-tools/discussions",
   "category": "Utility",
   "visibility": [
     "Build",

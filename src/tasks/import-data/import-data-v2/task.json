@@ -4,7 +4,7 @@
   "friendlyName": "Power Platform Import Data",
   "description": "Power Platform import data to environment. Requires Windows build agent",
   "author": "Microsoft",
-  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "helpMarkDown": "https://aka.ms/buildtoolsdoc Ideas, feedback: https://github.com/microsoft/powerplatform-build-tools/discussions",
   "category": "Deploy",
   "visibility": [
     "Build",

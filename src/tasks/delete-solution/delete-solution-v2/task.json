@@ -4,7 +4,7 @@
   "friendlyName": "Power Platform Delete Solution",
   "description": "Power Platform Delete Solution",
   "author": "Microsoft",
-  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "helpMarkDown": "https://aka.ms/buildtoolsdoc Ideas, feedback: https://github.com/microsoft/powerplatform-build-tools/discussions",
   "category": "Deploy",
   "visibility": [
     "Build",

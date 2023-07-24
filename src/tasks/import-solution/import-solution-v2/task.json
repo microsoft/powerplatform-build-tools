@@ -4,7 +4,7 @@
   "friendlyName": "Power Platform Import Solution",
   "description": "Power Platform Import Solution",
   "author": "Microsoft",
-  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "helpMarkDown": "https://aka.ms/buildtoolsdoc Ideas, feedback: https://github.com/microsoft/powerplatform-build-tools/discussions",
   "category": "Deploy",
   "visibility": [
     "Build",
@@ -143,6 +143,15 @@
       "helpMarkDown": "Specify whether the enforcement of dependencies related to product updates should be skipped."
     },
     {
+      "name": "SkipLowerVersion",
+      "label": "Skip lower version",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Skip solution import if same or higher version is present in current environment."
+    },
+    {
       "name": "ConvertToManaged",
       "label": "Import as a Managed solution",
       "type": "boolean",
@@ -160,6 +169,7 @@
       "groupName": "advanced",
       "helpMarkDown": "Publish all customization changes after import succeeds; if set, this replaces the need for a separate 'Publish Customizations' task to follow the import task."
     },
+
     {
       "name": "PublishWorkflows",
       "label": "(DEPRECATED, use 'Activate Plugins' instead) Activate processes (workflows) after import",
