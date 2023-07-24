@@ -32,5 +32,17 @@ export default function createTfxRunner() {
       }
       return await runCommand(...args);
     },
+    publishExtension: async function (publishExtensionOptions) {
+      const args = [tfxPath, "extension", "publish"];
+      if (publishExtensionOptions) {
+        if ("vsix" in publishExtensionOptions) {
+          args.push("--vsix", publishExtensionOptions.vsix);
+        }
+        if ("token" in publishExtensionOptions) {
+          args.push("--token", publishExtensionOptions.token);
+        }
+      }
+      return await runCommand(...args);
+    },
   };
 }

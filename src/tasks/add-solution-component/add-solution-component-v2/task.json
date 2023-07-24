@@ -4,7 +4,7 @@
   "friendlyName": "Power Platform Add Solution Component",
   "description": "Adds a solution component to the target unmanaged solution in the connected Dataverse environment",
   "author": "Microsoft",
-  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "helpMarkDown": "https://aka.ms/buildtoolsdoc Ideas, feedback: https://github.com/microsoft/powerplatform-build-tools/discussions",
   "category": "Deploy",
   "visibility": [
     "Build",

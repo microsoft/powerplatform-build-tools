@@ -4,7 +4,7 @@
   "friendlyName": "Power Platform Apply Solution Upgrade",
   "description": "Power Platform Apply Solution Upgrade",
   "author": "Microsoft",
-  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "helpMarkDown": "https://aka.ms/buildtoolsdoc Ideas, feedback: https://github.com/microsoft/powerplatform-build-tools/discussions",
   "category": "Deploy",
   "visibility": [
     "Build",

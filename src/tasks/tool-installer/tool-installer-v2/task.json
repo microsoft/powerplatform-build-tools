@@ -4,7 +4,7 @@
   "friendlyName": "Power Platform Tool Installer",
   "description": "Power Platform Tool Installer; this task is required before any other PowerPlatform.BuildTools tasks in the job",
   "author": "Microsoft",
-  "helpMarkDown": "[More Info](https://aka.ms/buildtoolsdoc)",
+  "helpMarkDown": "https://aka.ms/buildtoolsdoc Ideas, feedback: https://github.com/microsoft/powerplatform-build-tools/discussions",
   "category": "Tool",
   "visibility": [
     "Build",

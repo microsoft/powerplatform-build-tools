@@ -15,6 +15,7 @@ import lint from "./gulp/lint.mjs";
 import { all as testAll, unitTest, componentTest, functionalTest} from "./gulp/test.mjs";
 import restore from "./gulp/restore.mjs";
 import pack from "./gulp/pack.mjs";
+import publish from "./gulp/publish.mjs";
 
 const preparePack = gulp.series(recompile, restore);
 const repack = gulp.series(compile, pack);
@@ -32,6 +33,7 @@ export {
     preparePack,
     pack,
     repack,
+    publish,
     ci,
     recompile as default,
     restore,
