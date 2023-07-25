@@ -38,8 +38,7 @@ jobs:
       - name: Setup Node.js environment
         uses: actions/setup-node@v3
         with:
-          # must be node v14, since AzDevOps agents only supports v14
-          node-version: 14
+          node-version: 16
           registry-url: https://npm.pkg.github.com
 
       - name: Configure npm
