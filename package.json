@@ -48,7 +48,7 @@
     "eslint-plugin-node": "^11.1.0",
     "fancy-log": "^2.0.0",
     "find": "^0.3.0",
-    "glob": "^7.1.6",
+    "glob": "^10.3.3",
     "gulp": "^4.0.2",
     "gulp-eslint-new": "^1.8.2",
     "gulp-mocha": "^8.0.0",
