@@ -122,9 +122,6 @@
   "execution": {
     "Node16": {
       "target": "index.js"
-    },
-    "Node10": {
-      "target": "index.js"
     }
   }
 }
