@@ -24,6 +24,7 @@ import * as taskDefinitionData from "./task.json";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   const resetResult: EnvironmentResult = await resetEnvironment({
     credentials: getCredentials(),
@@ -36,6 +37,7 @@ export async function main(): Promise<void> {
     domainName: parameterMap['DomainName'],
     overrideFriendlyName: parameterMap['OverrideFriendlyName'],
     friendlyEnvironmentName: parameterMap['FriendlyName'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 
   if (!resetResult.environmentUrl || !resetResult.environmentId) {

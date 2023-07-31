@@ -10,6 +10,7 @@ import { mockEnvironmentUrl } from "./mockData";
 import { UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
 import Sinon = require("sinon");
 import { BuildToolsRunnerParams } from "../../src/host/BuildToolsRunnerParams";
+import { BuildToolsHost } from "../../src/host/BuildToolsHost";
 import * as tl from 'azure-pipelines-task-lib/task';
 import { EnvIdVariableName } from "../../src/host/PipelineVariables";
 
@@ -49,8 +50,9 @@ describe("whoami tests", () => {
 
     whoAmIStub.should.have.been.calledWithExactly({
       credentials: credentials,
-      environmentUrl: mockEnvironmentUrl
-    }, new BuildToolsRunnerParams());
+      environmentUrl: mockEnvironmentUrl,
+      logToConsole: false
+    }, new BuildToolsRunnerParams(), new BuildToolsHost());
 
     tlSetVariableSpy.should.have.been.calledOnceWith(EnvIdVariableName, mockEnvironmentIdReturn);
   });

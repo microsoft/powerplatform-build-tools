@@ -23,6 +23,7 @@ import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   await upgradeSolution({
     credentials: getCredentials(),
@@ -30,5 +31,6 @@ export async function main(): Promise<void> {
     name: parameterMap['SolutionName'],
     async: parameterMap['AsyncOperation'],
     maxAsyncWaitTimeInMin: parameterMap['MaxAsyncWaitTime'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

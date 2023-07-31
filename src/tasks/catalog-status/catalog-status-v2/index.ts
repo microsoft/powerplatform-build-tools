@@ -24,11 +24,13 @@ import * as taskDefinitionData from "./task.json";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   await catalogStatus({
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
     trackingId: parameterMap['TrackingId'],
-    requestType: parameterMap['RequestType']
+    requestType: parameterMap['RequestType'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

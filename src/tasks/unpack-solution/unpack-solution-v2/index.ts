@@ -42,5 +42,6 @@ export async function main(): Promise<void> {
     localize: parameterMap['Localize'],
     useLcid: parameterMap['UseLcid'],
     processCanvasApps: parameterMap['ProcessCanvasApps'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

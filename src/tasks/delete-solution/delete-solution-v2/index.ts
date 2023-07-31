@@ -23,10 +23,12 @@ import { isRunningOnAgent } from '../../../params/auth/isRunningOnAgent';
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   await deleteSolution({
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
     name: parameterMap['SolutionName'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

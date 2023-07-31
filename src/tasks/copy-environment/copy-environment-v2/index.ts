@@ -24,6 +24,7 @@ import * as taskDefinitionData from "./task.json";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   const copyResult: EnvironmentResult = await copyEnvironment({
     credentials: getCredentials(),
@@ -31,7 +32,8 @@ export async function main(): Promise<void> {
     targetEnvironment: parameterMap['TargetEnvironmentUrl'],
     copyType: parameterMap['CopyType'],
     overrideFriendlyName: parameterMap['OverrideFriendlyName'],
-    friendlyTargetEnvironmentName: parameterMap['FriendlyName']
+    friendlyTargetEnvironmentName: parameterMap['FriendlyName'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 
   if (!copyResult.environmentUrl || !copyResult.environmentId) {

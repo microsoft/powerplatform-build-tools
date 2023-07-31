@@ -45,6 +45,7 @@ describe("set assign user to target environment", () => {
       role: { name: 'Role', required: true, defaultValue: undefined },
       applicationUser: { name: 'ApplicationUser', required: false, defaultValue: undefined },
       businessUnit: { name: 'BusinessUnit', required: false, defaultValue: undefined },
+      logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

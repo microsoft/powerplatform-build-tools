@@ -23,6 +23,7 @@ import { BuildToolsHost } from "../../../host/BuildToolsHost";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   await assignGroup({
     credentials: getCredentials(),
@@ -33,5 +34,6 @@ export async function main(): Promise<void> {
     teamType: parameterMap['TeamType'],
     membershipType: parameterMap['MembershipType'],
     businessUnit: parameterMap['BusinessUnit'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

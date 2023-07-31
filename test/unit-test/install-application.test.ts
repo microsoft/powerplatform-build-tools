@@ -42,7 +42,8 @@ describe("install-application tests", () => {
     installApplicationStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
       environment: { name: 'Environment', required: true, defaultValue: '$(BuildTools.EnvironmentUrl)' },
-      applicationListFile: { name: 'ApplicationList', required: true, defaultValue: undefined }
+      applicationListFile: { name: 'ApplicationList', required: true, defaultValue: undefined },
+      logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

@@ -30,6 +30,7 @@ export async function main(): Promise<void> {
   const publishWorkflows = tl.getInput("PublishWorkflows", false);
   const activatePlugins = tl.getInput("ActivatePlugins", false);
   const activatePluginsMerged = publishWorkflows === 'true' || activatePlugins === 'true';
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   await importSolution({
     credentials: getCredentials(),
@@ -49,6 +50,7 @@ export async function main(): Promise<void> {
     // IFF the actual property name does NOT exist in task.json -> MergedActivePlugin is NOT defined in task, thus forcing
     // cli-wrapper to accept the calculated activatePluginMerged as default value.
     // TODO: reconsider cli-wrapper's host abstraction design, but beyond this hot fix
-    activatePlugins: { name: "MergedActivatePlugin", required: false, defaultValue: activatePluginsMerged }
+    activatePlugins: { name: "MergedActivatePlugin", required: false, defaultValue: activatePluginsMerged },
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

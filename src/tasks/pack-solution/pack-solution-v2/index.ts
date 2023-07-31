@@ -42,5 +42,6 @@ export async function main(): Promise<void> {
     useLcid: parameterMap['UseLcid'],
     disablePluginRemap: parameterMap['DisablePluginRemap'],
     processCanvasApps: parameterMap['ProcessCanvasApps'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

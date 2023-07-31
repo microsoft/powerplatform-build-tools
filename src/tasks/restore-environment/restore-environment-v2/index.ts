@@ -24,6 +24,7 @@ import * as taskDefinitionData from "./task.json";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   const restoreResult: EnvironmentResult = await restoreEnvironment({
     credentials: getCredentials(),
@@ -32,6 +33,7 @@ export async function main(): Promise<void> {
     restoreLatestBackup: parameterMap['RestoreLatestBackup'],
     backupDateTime: parameterMap['RestoreTimeStamp'],
     targetEnvironmentName: parameterMap['FriendlyName'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 
   if (!restoreResult.environmentUrl || !restoreResult.environmentId) {

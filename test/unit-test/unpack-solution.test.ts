@@ -9,6 +9,7 @@ import { restore, stub } from "sinon";
 import Sinon = require("sinon");
 import { BuildToolsHost } from "../../src/host/BuildToolsHost";
 import { BuildToolsRunnerParams } from "../../src/host/BuildToolsRunnerParams";
+import { log } from "console";
 should();
 use(sinonChai);
 
@@ -45,7 +46,8 @@ describe("unpack solution test", () => {
       localeTemplate: { name: 'LocaleTemplate', required: false, defaultValue: undefined },
       localize: { name: 'Localize', required: false, defaultValue: false },
       useLcid: { name: 'UseLcid', required: false, defaultValue: false },
-      processCanvasApps: { name: 'ProcessCanvasApps', required: false, defaultValue: false }
+      processCanvasApps: { name: 'ProcessCanvasApps', required: false, defaultValue: false },
+      logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

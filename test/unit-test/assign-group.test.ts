@@ -47,6 +47,7 @@ describe("Assign group to target environment", () => {
       teamType: { name: 'TeamType', required: true, defaultValue: undefined },
       membershipType: { name: 'MembershipType', required: true, defaultValue: undefined },
       businessUnit: { name: 'BusinessUnit', required: false, defaultValue: undefined },
+      logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

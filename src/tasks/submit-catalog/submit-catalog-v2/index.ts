@@ -24,6 +24,7 @@ import * as taskDefinitionData from "./task.json";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   await submitCatalog({
     credentials: getCredentials(),
@@ -33,5 +34,6 @@ export async function main(): Promise<void> {
     packageZip: parameterMap['PackageZipFile'],
     solutionZip: parameterMap['SolutionZipFile'],
     pollStatus: parameterMap['PollStatus'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }
