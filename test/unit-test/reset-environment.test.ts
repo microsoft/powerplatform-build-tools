@@ -52,6 +52,7 @@ describe("reset-environment tests", () => {
       domainName: { name: 'DomainName', required: false, defaultValue: undefined },
       overrideFriendlyName: { name: 'OverrideFriendlyName', required: false, defaultValue: 'false' },
       friendlyEnvironmentName: { name: 'FriendlyName', required: false, defaultValue: undefined },
+      logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

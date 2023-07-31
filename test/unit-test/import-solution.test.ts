@@ -54,7 +54,8 @@ describe("import-solution tests", () => {
       skipDependencyCheck: { name: 'SkipProductUpdateDependencies', required: false, defaultValue: false },
       convertToManaged: { name: 'ConvertToManaged', required: false, defaultValue: false },
       activatePlugins: { name: 'MergedActivatePlugin', required: false, defaultValue: false },
-      skipLowerVersion: { name: 'SkipLowerVersion', required: false, defaultValue: false }
+      skipLowerVersion: { name: 'SkipLowerVersion', required: false, defaultValue: false },
+      logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

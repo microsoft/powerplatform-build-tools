@@ -8,6 +8,7 @@ import { getCredentials } from "../../../params/auth/getCredentials";
 import { getEnvironmentUrl } from "../../../params/auth/getEnvironmentUrl";
 import { BuildToolsRunnerParams } from '../../../host/BuildToolsRunnerParams';
 import { EnvIdVariableName } from "../../../host/PipelineVariables";
+import { BuildToolsHost } from "../../../host/BuildToolsHost";
 
 (async () => {
   if (isRunningOnAgent()) {
@@ -18,10 +19,13 @@ import { EnvIdVariableName } from "../../../host/PipelineVariables";
 });
 
 export async function main(): Promise<void> {
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
+
   const result = await whoAmI({
     credentials: getCredentials(),
-    environmentUrl: getEnvironmentUrl()
-  }, new BuildToolsRunnerParams());
+    environmentUrl: getEnvironmentUrl(),
+    logToConsole: isDiagnosticsMode ? true : false
+  }, new BuildToolsRunnerParams(), new BuildToolsHost());
 
   tl.setVariable(EnvIdVariableName, result.environmentId!);
 }

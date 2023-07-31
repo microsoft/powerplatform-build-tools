@@ -45,6 +45,7 @@ describe("delete solution test", () => {
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl,
       name: { name: 'SolutionName', required: true, defaultValue: undefined },
+      logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

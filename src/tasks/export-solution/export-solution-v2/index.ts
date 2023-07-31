@@ -24,6 +24,7 @@ import * as taskDefinitionData from "./task.json";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   await exportSolution({
     credentials: getCredentials(),
@@ -45,5 +46,6 @@ export async function main(): Promise<void> {
     relationshipRoles: parameterMap['ExportRelationshipRoles'],
     sales: parameterMap['ExportSales'],
     overwrite: parameterMap['OverwriteLocalSolution'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

@@ -27,6 +27,7 @@ export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
   const defaultAuthType: AuthenticationType = 'PowerPlatformSPN';
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   await checkSolution({
     // PS impl only supported single auth mode, SPN; some pipelines have no explicit value for authenticationType
@@ -45,6 +46,7 @@ export async function main(): Promise<void> {
     useDefaultPAEndpoint: parameterMap['UseDefaultPACheckerEndpoint'],
     customPAEndpoint: parameterMap['CustomPACheckerEndpoint'],
     geoInstance: { name: "GeoInstance", required: false, defaultValue: undefined },
-    saveResults: parameterMap['SaveResults']
+    saveResults: parameterMap['SaveResults'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost('PowerAppsChecker'));
 }

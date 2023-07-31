@@ -46,6 +46,7 @@ describe("set online version solution test", () => {
       environmentUrl: mockEnvironmentUrl,
       name: { name: 'SolutionName', required: true, defaultValue: undefined },
       version: { name: 'SolutionVersionNumber', required: true, defaultValue: undefined },
+      logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

@@ -46,6 +46,7 @@ describe("publish customizations tests", () => {
       environmentUrl: mockEnvironmentUrl,
       async: { name: 'AsyncOperation', required: true, defaultValue: true },
       maxAsyncWaitTimeInMin: { name: 'MaxAsyncWaitTime', required: true, defaultValue: '60' },
+      logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

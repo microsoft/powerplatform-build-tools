@@ -23,10 +23,12 @@ import { BuildToolsRunnerParams } from "../../../host/BuildToolsRunnerParams";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   await installApplication({
     credentials: getCredentials(),
     environment: parameterMap['Environment'],
-    applicationListFile: parameterMap['ApplicationList']
+    applicationListFile: parameterMap['ApplicationList'],
+    logToConsole: isDiagnosticsMode ? true : false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

@@ -24,6 +24,7 @@ import { BuildToolsHost } from "../../../host/BuildToolsHost";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   await dataImport({
     credentials: getCredentials(),
@@ -34,5 +35,6 @@ export async function main(): Promise<void> {
       required: false,
       defaultValue: false
     },
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }

@@ -24,6 +24,7 @@ import * as taskDefinitionData from "./task.json";
 export async function main(): Promise<void> {
   const taskParser = new TaskParser();
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
+  const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
   const createResult: EnvironmentResult = await createEnvironment({
     credentials: getCredentials(),
@@ -35,6 +36,7 @@ export async function main(): Promise<void> {
     templates: parameterMap['AppsTemplate'],
     domainName: parameterMap['DomainName'],
     teamId: parameterMap['TeamId'],
+    logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 
   if (!createResult.environmentUrl || !createResult.environmentId) {
