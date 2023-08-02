@@ -14,6 +14,7 @@ import {
   UserNameVariableName,
   PasswordVariableName
 } from "../../src/host/PipelineVariables";
+import { mockEnvironmentUrl } from "./mockData";
 
 should();
 use(sinonChai);
@@ -41,6 +42,7 @@ describe('set-connection-variables tests', () => {
           getVariable: (name: string) => variables[name],
           getEndpointAuthorizationParameterRequired: (id: string, key: string) => authParams[key]
         });
+        mock(() => import("../../src/params/auth/getEnvironmentUrl")).with({ getEnvironmentUrl: () => mockEnvironmentUrl });
       }
     );
 
@@ -60,7 +62,7 @@ describe('set-connection-variables tests', () => {
     authParams['clientSecret'] = mockedSecret;
     authParams['tenantId'] = mockedTenantId;
 
-    const expectedDataverseConnectionString = `AuthType=ClientSecret;url=${variables[EnvUrlVariableName]};ClientId=${mockedAppId};ClientSecret=${mockedSecret}`;
+    const expectedDataverseConnectionString = `AuthType=ClientSecret;url=${mockEnvironmentUrl};ClientId=${mockedAppId};ClientSecret=${mockedSecret}`;
 
     await callActionWithMocks();
 
@@ -83,7 +85,7 @@ describe('set-connection-variables tests', () => {
     authParams['UserName'] = mockedUserNme;
     authParams['Password'] = mockedPassword;
 
-    const expectedDataverseConnectionString = `AuthType=OAuth;url=${variables[EnvUrlVariableName]};UserName=${mockedUserNme};Password=${mockedPassword};AppId=${inputs['ApplicationId']};RedirectUri=${inputs['RedirectUri']}`;
+    const expectedDataverseConnectionString = `AuthType=OAuth;url=${mockEnvironmentUrl};UserName=${mockedUserNme};Password=${mockedPassword};AppId=${inputs['ApplicationId']};RedirectUri=${inputs['RedirectUri']}`;
 
     await callActionWithMocks();
 
