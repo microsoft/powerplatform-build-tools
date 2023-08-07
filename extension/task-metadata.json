@@ -269,6 +269,15 @@
         "DEV": "a4896ef3-b75b-4a8a-beea-81d15c94e125",
         "EXPERIMENTAL": "db09c317-f26a-4476-a2e6-3e9380acecca"
       }
+    },
+    {
+      "name": "update-org-settings",
+      "id": {
+        "LIVE": "67eb8cf9-7e97-4aa6-9f43-8d30c1f71367",
+        "BETA": "16338fe0-defa-48bb-9001-a3a089696547",
+        "DEV": "d77698a3-f50d-494e-8f24-6ab0460616da",
+        "EXPERIMENTAL": "a28bdf0f-314b-4c2d-9855-76709dea2345"
+      }
     }
   ]
 }
