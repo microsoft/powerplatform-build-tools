@@ -62,7 +62,7 @@
       "label": "Setting Value",
       "type": "string",
       "required": false,
-      "helpMarkDown": "Value to which setting should be updated to."
+      "helpMarkDown": "Value to which setting should be updated to. Use true/false for boolean values."
     }
   ],
   "execution": {
