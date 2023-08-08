@@ -74,6 +74,7 @@
       "name": "DisableGroupSharing",
       "label": "Disable Group Sharing",
       "type": "boolean",
+      "visibleRule": "ProtectionLevel = Standard",
       "required": false,
       "helpMarkDown": "Disable group sharing."
     },
@@ -81,6 +82,7 @@
       "name": "ExcludeAnalysis",
       "label": "Exclude Analysis",
       "type": "boolean",
+      "visibleRule": "ProtectionLevel = Standard",
       "required": false,
       "helpMarkDown": "Exclude usage insights for the environment from the weekly digest email."
     },
@@ -88,6 +90,7 @@
       "name": "IncludeInsights",
       "label": "Include Insights",
       "type": "boolean",
+      "visibleRule": "ProtectionLevel = Standard",
       "required": false,
       "helpMarkDown": "Include insights in the Power Platform Admin Center homepage cards."
     },
@@ -95,6 +98,7 @@
       "name": "LimitSharingMode",
       "label": "Limit Sharing Mode",
       "type": "string",
+      "visibleRule": "ProtectionLevel = Standard",
       "required": false,
       "helpMarkDown": "Limit sharing mode."
     },
@@ -102,6 +106,7 @@
       "name": "MaxLimitUserSharing",
       "label": "Max Limit User Sharing",
       "type": "string",
+      "visibleRule": "ProtectionLevel = Standard",
       "required": false,
       "helpMarkDown": "If group sharing is disabled, specify the number of people that makers can share canvas apps with."
     },
@@ -109,6 +114,7 @@
       "name": "SolutionCheckerMode",
       "label": "Solution Checker Mode",
       "type": "radio",
+      "visibleRule": "ProtectionLevel = Standard",
       "required": false,
       "helpMarkDown": "Solution checker validation mode.",
       "options": {
