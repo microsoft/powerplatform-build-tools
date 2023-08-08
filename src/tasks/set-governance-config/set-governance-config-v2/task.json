@@ -1,0 +1,126 @@
+{
+  "id": "23320001-3282-4426-852c-8bc0fc89482c",
+  "name": "PowerPlatformSetGovernanceConfig",
+  "friendlyName": "Power Platform Set Governance Config",
+  "description": "Enable, disable, and edit managed environments.",
+  "author": "Microsoft",
+  "helpMarkDown": "https://aka.ms/buildtoolsdoc Ideas, feedback: https://github.com/microsoft/powerplatform-build-tools/discussions",
+  "category": "Deploy",
+  "visibility": [
+    "Build",
+    "Release"
+  ],
+  "demands": [
+    "PowerPlatformTool"
+  ],
+  "version": {
+    "Major": "0",
+    "Minor": "1",
+    "Patch": "0"
+  },
+  "preview": false,
+  "minimumAgentVersion": "1.95.0",
+  "instanceNameFormat": "Power Platform Set Governance Config $(message)",
+  "inputs": [
+    {
+      "name": "authenticationType",
+      "type": "radio",
+      "label": "Authentication type",
+      "defaultValue": "PowerPlatformEnvironment",
+      "required": true,
+      "helpMarkDown": "Authentication via username/password is simpler to set up but won't work if your AAD tenant requires MFA; use Service Principal Name (SPN) if MFA is required.",
+      "options": {
+        "PowerPlatformEnvironment": "Username/password (no MFA support)",
+        "PowerPlatformSPN": "Service Principal/client secret (supports MFA)"
+      }
+    },
+    {
+      "name": "PowerPlatformEnvironment",
+      "type": "connectedService:Generic",
+      "label": "Service connection",
+      "required": true,
+      "visibleRule": "authenticationType = PowerPlatformEnvironment",
+      "helpMarkDown": "Authenticate with your Power Platform environment with username/password. Does not support MFA."
+    },
+    {
+      "name": "PowerPlatformSPN",
+      "type": "connectedService:powerplatform-spn",
+      "label": "Service connection",
+      "required": true,
+      "visibleRule": "authenticationType = PowerPlatformSPN",
+      "helpMarkDown": "Authenticate with your Power Platform environment with an Azure AppID, tenantID and client secret."
+    },
+    {
+      "name": "Environment",
+      "label": "Environment",
+      "type": "string",
+      "defaultValue": "$(BuildTools.EnvironmentUrl)",
+      "required": true,
+      "helpMarkDown": "Environment URL or ID this task targets; default is the pipeline variable that e.g. the CreateEnvironment task has set before."
+    },
+    {
+      "name": "ProtectionLevel",
+      "label": "Set Protection Level",
+      "type": "radio",
+      "defaultValue": "Standard",
+      "required": true,
+      "helpMarkDown": "Enable / disable managed environments.",
+      "options": {
+        "Standard": "Enable managed environments",
+        "Basic": "Disable managed environments"
+      }
+    },
+    {
+      "name": "DisableGroupSharing",
+      "label": "Disable Group Sharing",
+      "type": "boolean",
+      "required": false,
+      "helpMarkDown": "Disable group sharing."
+    },
+    {
+      "name": "ExcludeAnalysis",
+      "label": "Exclude Analysis",
+      "type": "boolean",
+      "required": false,
+      "helpMarkDown": "Exclude usage insights for the environment from the weekly digest email."
+    },
+    {
+      "name": "IncludeInsights",
+      "label": "Include Insights",
+      "type": "boolean",
+      "required": false,
+      "helpMarkDown": "Include insights in the Power Platform Admin Center homepage cards."
+    },
+    {
+      "name": "LimitSharingMode",
+      "label": "Limit Sharing Mode",
+      "type": "string",
+      "required": false,
+      "helpMarkDown": "Limit sharing mode."
+    },
+    {
+      "name": "MaxLimitUserSharing",
+      "label": "Max Limit User Sharing",
+      "type": "string",
+      "required": false,
+      "helpMarkDown": "If group sharing is disabled, specify the number of people that makers can share canvas apps with."
+    },
+    {
+      "name": "SolutionCheckerMode",
+      "label": "Solution Checker Mode",
+      "type": "radio",
+      "required": false,
+      "helpMarkDown": "Solution checker validation mode.",
+      "options": {
+        "None": "None",
+        "Warn": "Warn",
+        "Block": "Block"
+      }
+    }
+  ],
+  "execution": {
+    "Node16": {
+      "target": "index.js"
+    }
+  }
+}
