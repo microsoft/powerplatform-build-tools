@@ -46,7 +46,6 @@ export async function main(): Promise<void> {
     useDefaultPAEndpoint: parameterMap['UseDefaultPACheckerEndpoint'],
     customPAEndpoint: parameterMap['CustomPACheckerEndpoint'],
     geoInstance: { name: "GeoInstance", required: false, defaultValue: undefined },
-    saveResults: parameterMap['SaveResults'],
     logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost('PowerAppsChecker'));
 }

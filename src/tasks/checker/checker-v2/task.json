@@ -172,14 +172,6 @@
       "defaultValue": "CodeAnalysisLogs",
       "groupName": "advanced",
       "helpMarkDown": "Specify the Azure DevOps artifacts name for the Checker .sarif file."
-    },
-	{
-      "name": "SaveResults",
-      "label": "Save Results",
-      "type": "boolean",
-      "required": false,
-	    "defaultValue": false,
-      "helpMarkDown": "Uses current environment to store solution analysis results. By default, this argument is set to false"
     }
   ],
   "execution": {
