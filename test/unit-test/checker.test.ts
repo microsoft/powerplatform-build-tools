@@ -57,6 +57,7 @@ describe("check solution test", () => {
       useDefaultPAEndpoint: { name: 'UseDefaultPACheckerEndpoint', required: false, defaultValue: true },
       customPAEndpoint: { name: 'CustomPACheckerEndpoint', required: true, defaultValue: '' },
       geoInstance: { name: 'GeoInstance', required: false, defaultValue: undefined },
+      saveResults: { name: 'SaveResults', required: false, defaultValue: false },
       logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost('PowerAppsChecker'));
   });
