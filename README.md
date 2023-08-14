@@ -20,6 +20,12 @@ Each tasks wraps the existing [Power Platform CLI](https://aka.ms/PowerPlatformC
 
 Please use the issues tracker in the home repo: <https://github.com/microsoft/powerplatform-build-tools/issues>
 
+## Community Office Hours
+
+We hold monthly office hours (_every 3rd thursday of the month_) where you can ask specific question to the product team.
+
+See additional details in [COMMUNITY OFFICE HOURS](COMMUNITY.md)
+
 ## Contributing
 
 This project will welcome contributions in the near future. At this stage, we're not ready for contributions,
