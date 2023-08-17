@@ -22,6 +22,12 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- pac CLI 1.26.5 (July Refresh), [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
+- new task `Power Platform Update Org Settings` [#456](https://github.com/microsoft/powerplatform-build-tools/pull/456)
+- tasks can now output PAC logs to console when pipeline is running in diagnostic mode[#447](https://github.com/microsoft/powerplatform-build-tools/pull/447)
+- tasks moved from old Node 10 runner to Node 16
+
+2.0.33:
 - pac CLI 1.25.2 (June Refresh), [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
 
 2.0.27:
