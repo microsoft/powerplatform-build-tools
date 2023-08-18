@@ -278,6 +278,15 @@
         "DEV": "d77698a3-f50d-494e-8f24-6ab0460616da",
         "EXPERIMENTAL": "a28bdf0f-314b-4c2d-9855-76709dea2345"
       }
+    },
+    {
+      "name": "set-governance-config",
+      "id": {
+        "LIVE": "e4d30627-b019-4b0c-9852-ea433bc58af4",
+        "BETA": "ee3f4f5c-afa3-4071-9f07-caae235723b2",
+        "DEV": "529fa654-10a6-4f98-82d1-a647564d1e43",
+        "EXPERIMENTAL": "e81e8f85-c299-4555-a57f-d38bcf6f0b0c"
+      }
     }
   ]
 }
