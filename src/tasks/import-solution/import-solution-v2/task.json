@@ -178,6 +178,20 @@
       "defaultValue": false,
       "groupName": "advanced",
       "helpMarkDown": "Specify whether any processes (workflows) in the solution should be activated after import."
+    },
+    {
+      "name": "EnableConosleLog",
+      "label": "Enable log output to console.",
+      "type": "boolean",
+      "required": false,
+      "helpMarkDown": "Outputs log to the console in addition to the log file."
+    },
+    {
+      "name": "EnableVerboseLogging",
+      "label": "Enable verbose logging.",
+      "type": "boolean",
+      "required": false,
+      "helpMarkDown": "Emit verbose logs to the log outputs."
     }
   ],
   "execution": {

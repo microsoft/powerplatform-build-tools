@@ -71,7 +71,7 @@
       "type": "string",
       "required": false,
       "defaultValue": "60",
-      "helpMarkDown": "Maximum wait time in minutes for package deploment; default is 60 min (1 hr), same as Azure DevOps default for tasks"
+      "helpMarkDown": "Maximum wait time in minutes for package deployment; default is 60 min (1 hr), same as Azure DevOps default for tasks"
     },
     {
       "name": "Settings",
@@ -79,6 +79,20 @@
       "type": "string",
       "required": false,
       "helpMarkDown": "Runtime Package Settings that are passed to the package that is being deployed. The format of the string must be `key=value|key=value`."
+    },
+    {
+      "name": "EnableConosleLog",
+      "label": "Enable log output to console.",
+      "type": "boolean",
+      "required": false,
+      "helpMarkDown": "Outputs log to the console in addition to the log file."
+    },
+    {
+      "name": "EnableVerboseLogging",
+      "label": "Enable verbose logging.",
+      "type": "boolean",
+      "required": false,
+      "helpMarkDown": "Emit verbose logs to the log outputs."
     }
   ],
   "execution": {

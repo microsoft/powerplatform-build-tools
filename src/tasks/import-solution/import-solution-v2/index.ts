@@ -51,6 +51,7 @@ export async function main(): Promise<void> {
     // cli-wrapper to accept the calculated activatePluginMerged as default value.
     // TODO: reconsider cli-wrapper's host abstraction design, but beyond this hot fix
     activatePlugins: { name: "MergedActivatePlugin", required: false, defaultValue: activatePluginsMerged },
-    logToConsole: isDiagnosticsMode ? true : false
+    logToConsole: parameterMap['EnableConosleLog'],
+    verboseLogging: parameterMap['EnableVerboseLog']
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }
