@@ -33,6 +33,7 @@ export async function main(): Promise<void> {
     restoreLatestBackup: parameterMap['RestoreLatestBackup'],
     backupDateTime: parameterMap['RestoreTimeStamp'],
     targetEnvironmentName: parameterMap['FriendlyName'],
+    skipAuditData: parameterMap['SkipAuditData'],
     logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 
