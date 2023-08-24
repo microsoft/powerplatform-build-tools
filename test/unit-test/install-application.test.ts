@@ -43,7 +43,8 @@ describe("install-application tests", () => {
       credentials: credentials,
       environment: { name: 'Environment', required: true, defaultValue: '$(BuildTools.EnvironmentUrl)' },
       applicationListFile: { name: 'ApplicationList', required: true, defaultValue: undefined },
-      logToConsole: false
+      logToConsole: false,
+      verboseLogging: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

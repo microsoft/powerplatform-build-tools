@@ -42,7 +42,8 @@ describe("deleteEnvironment tests", () => {
     deleteEnvironmentStub.should.have.been.calledOnceWithExactly({
       credentials: credentials,
       environment: { name: "Environment", required: false, defaultValue: '$(BuildTools.EnvironmentUrl)' },
-      logToConsole: false
+      logToConsole: false,
+      verboseLogging: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

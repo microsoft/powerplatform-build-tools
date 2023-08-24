@@ -46,7 +46,8 @@ describe("pack solution test", () => {
       useLcid: { name: 'UseLcid', required: false, defaultValue: false },
       disablePluginRemap: { name: 'DisablePluginRemap', required: false, defaultValue: false },
       processCanvasApps: { name: 'ProcessCanvasApps', required: false, defaultValue: false },
-      logToConsole: false
+      logToConsole: false,
+      verboseLogging: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

@@ -51,7 +51,8 @@ describe("whoami tests", () => {
     whoAmIStub.should.have.been.calledWithExactly({
       credentials: credentials,
       environmentUrl: mockEnvironmentUrl,
-      logToConsole: false
+      logToConsole: false,
+      verboseLogging: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
 
     tlSetVariableSpy.should.have.been.calledOnceWith(EnvIdVariableName, mockEnvironmentIdReturn);

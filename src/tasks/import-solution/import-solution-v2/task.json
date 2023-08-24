@@ -180,7 +180,7 @@
       "helpMarkDown": "Specify whether any processes (workflows) in the solution should be activated after import."
     },
     {
-      "name": "EnableConosleLog",
+      "name": "EnableConsoleLog",
       "label": "Enable log output to console.",
       "type": "boolean",
       "required": false,

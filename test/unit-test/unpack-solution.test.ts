@@ -47,7 +47,8 @@ describe("unpack solution test", () => {
       localize: { name: 'Localize', required: false, defaultValue: false },
       useLcid: { name: 'UseLcid', required: false, defaultValue: false },
       processCanvasApps: { name: 'ProcessCanvasApps', required: false, defaultValue: false },
-      logToConsole: false
+      logToConsole: false,
+      verboseLogging: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

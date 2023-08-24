@@ -31,7 +31,7 @@ export async function main(): Promise<void> {
     environmentUrl: getEnvironmentUrl(),
     packagePath: parameterMap['PackageFile'],
     settings: parameterMap['Settings'],
-    logToConsole: parameterMap['EnableConosleLog'] ? true : false,
+    logToConsole: parameterMap['EnableConsoleLog'] ? true : false,
     verboseLogging: parameterMap['EnableVerboseLogging'] ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost('DeployPackage'));
 }

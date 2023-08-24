@@ -46,7 +46,8 @@ describe("deploy package tests", () => {
       environmentUrl: mockEnvironmentUrl,
       packagePath: { name: 'PackageFile', required: true, defaultValue: undefined },
       settings: { name: 'Settings', required: false, defaultValue: undefined },
-      logToConsole: false
+      logToConsole: false,
+      verboseLogging: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost('DeployPackage'));
   });
 });

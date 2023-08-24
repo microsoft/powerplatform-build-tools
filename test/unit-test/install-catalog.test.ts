@@ -48,7 +48,8 @@ describe("install-catalog tests", () => {
       settings: { name: 'Settings', required: false, defaultValue: undefined },
       targetVersion: { name: 'TargetVersion', required: false, defaultValue: undefined },
       pollStatus: { name: 'PollStatus', required: false, defaultValue: false },
-      logToConsole: false
+      logToConsole: false,
+      verboseLogging: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

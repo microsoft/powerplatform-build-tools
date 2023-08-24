@@ -60,7 +60,8 @@ describe("export-solution tests", () => {
       relationshipRoles: { name: 'ExportRelationshipRoles', required: false, defaultValue: false },
       sales: { name: 'ExportSales', required: false, defaultValue: false },
       overwrite: { name: 'OverwriteLocalSolution', required: false, defaultValue: true },
-      logToConsole: false
+      logToConsole: false,
+      verboseLogging: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

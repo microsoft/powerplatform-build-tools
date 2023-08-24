@@ -55,7 +55,8 @@ describe("import-solution tests", () => {
       convertToManaged: { name: 'ConvertToManaged', required: false, defaultValue: false },
       activatePlugins: { name: 'MergedActivatePlugin', required: false, defaultValue: false },
       skipLowerVersion: { name: 'SkipLowerVersion', required: false, defaultValue: false },
-      logToConsole: false
+      logToConsole: false,
+      verboseLogging: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

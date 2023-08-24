@@ -48,7 +48,8 @@ describe("set governance config test", () => {
       limitSharingMode: { name: 'LimitSharingMode', required: false, defaultValue: undefined },
       maxLimitUserSharing: { name: 'MaxLimitUserSharing', required: false, defaultValue: undefined },
       solutionCheckerMode: { name: 'SolutionCheckerMode', required: false, defaultValue: undefined },
-      logToConsole: false
+      logToConsole: false,
+      verboseLogging: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

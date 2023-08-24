@@ -46,7 +46,8 @@ describe("update org settings test", () => {
       environmentUrl: mockEnvironmentUrl,
       name: { name: 'Name', required: true, defaultValue: undefined },
       value: { name: 'Value', required: false, defaultValue: undefined },
-      logToConsole: false
+      logToConsole: false,
+      verboseLogging: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });

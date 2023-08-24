@@ -48,7 +48,8 @@ describe("submit-catalog tests", () => {
       solutionZip: { name: 'SolutionZipFile', required: false, defaultValue: '' },
       packageZip: { name: 'PackageZipFile', required: false, defaultValue: '' },
       pollStatus: { name: 'PollStatus', required: false, defaultValue: false },
-      logToConsole: false
+      logToConsole: false,
+      verboseLogging: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });
