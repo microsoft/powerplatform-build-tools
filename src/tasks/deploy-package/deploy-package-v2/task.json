@@ -84,6 +84,7 @@
       "name": "logConsole",
       "label": "Output log to console",
       "type": "boolean",
+      "defaultValue": false,
       "required": false,
       "helpMarkDown": "Outputs log to console in addition to the file."
     }
