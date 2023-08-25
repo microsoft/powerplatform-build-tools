@@ -31,7 +31,7 @@ export async function main(): Promise<void> {
     environmentUrl: getEnvironmentUrl(),
     packagePath: parameterMap['PackageFile'],
     settings: parameterMap['Settings'],
-    logConsole: parameterMap['LogConsole'],
+    logConsole: parameterMap['logConsole'],
     logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost('DeployPackage'));
 }
