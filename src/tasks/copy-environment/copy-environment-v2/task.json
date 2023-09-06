@@ -116,6 +116,15 @@
       "defaultValue": true,
       "groupName": "advanced",
       "helpMarkDown": "Specify whether to Disable the administration mode."
+    },
+    {
+      "name": "SkipAuditData",
+      "label": "Skip Audit Data",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Switch indicating whether audit data should be skipped."
     }
   ],
   "execution": {

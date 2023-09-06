@@ -33,6 +33,7 @@ export async function main(): Promise<void> {
     copyType: parameterMap['CopyType'],
     overrideFriendlyName: parameterMap['OverrideFriendlyName'],
     friendlyTargetEnvironmentName: parameterMap['FriendlyName'],
+    skipAuditData: parameterMap['SkipAuditData'],
     logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 

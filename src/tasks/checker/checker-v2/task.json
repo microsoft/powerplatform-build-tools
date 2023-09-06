@@ -175,11 +175,11 @@
     },
 	{
       "name": "SaveResults",
-      "label": "Save Results",
+      "label": "Save Results (Parameter is Ignored)",
       "type": "boolean",
       "required": false,
 	    "defaultValue": false,
-      "helpMarkDown": "Uses current environment to store solution analysis results. By default, this argument is set to false"
+      "helpMarkDown": "Uses current environment to store solution analysis results. By default, this argument is set to false."
     }
   ],
   "execution": {
