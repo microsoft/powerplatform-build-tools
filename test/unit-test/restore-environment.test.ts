@@ -49,6 +49,7 @@ describe("restore-environment tests", () => {
       backupDateTime: { name: 'RestoreTimeStamp', required: true, defaultValue: '' },
       targetEnvironmentName: { name: 'FriendlyName', required: false, defaultValue: undefined },
       skipAuditData: { name: 'SkipAuditData', required: false, defaultValue: false },
+      maxAsyncWaitTime: { name: 'MaxAsyncWaitTime', required: false, defaultValue: undefined },
       logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
