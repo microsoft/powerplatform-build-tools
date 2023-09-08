@@ -26,6 +26,8 @@ export async function main(): Promise<void> {
   const authenticationType = tl.getInputRequired('authenticationType');
   const environmentUrl = getEnvironmentUrl();
 
+  tl.setVariable(EnvUrlVariableName, environmentUrl, false);
+
   switch (authenticationType) {
     case 'PowerPlatformSPN': {
       const powerPlatformSPN = tl.getInputRequired(authenticationType);
