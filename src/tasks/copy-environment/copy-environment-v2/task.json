@@ -125,6 +125,14 @@
       "defaultValue": false,
       "groupName": "advanced",
       "helpMarkDown": "Switch indicating whether audit data should be skipped."
+    },
+    {
+      "name": "MaxAsyncWaitTime",
+      "label": "Max Async Wait Time",
+      "type": "string",
+      "required": false,
+      "groupName": "advanced",
+      "helpMarkDown": "Max asynchronous wait time in minutes. The default value is 60 minutes."
     }
   ],
   "execution": {

@@ -34,6 +34,7 @@ export async function main(): Promise<void> {
     overrideFriendlyName: parameterMap['OverrideFriendlyName'],
     friendlyTargetEnvironmentName: parameterMap['FriendlyName'],
     skipAuditData: parameterMap['SkipAuditData'],
+    maxAsyncWaitTime: parameterMap['MaxAsyncWaitTime'],
     logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 

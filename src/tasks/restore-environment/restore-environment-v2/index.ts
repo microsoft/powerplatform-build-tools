@@ -34,6 +34,7 @@ export async function main(): Promise<void> {
     backupDateTime: parameterMap['RestoreTimeStamp'],
     targetEnvironmentName: parameterMap['FriendlyName'],
     skipAuditData: parameterMap['SkipAuditData'],
+    maxAsyncWaitTime: parameterMap['MaxAsyncWaitTime'],
     logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 

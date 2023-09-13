@@ -49,6 +49,7 @@ describe("copy-environment tests", () => {
       overrideFriendlyName: { name: 'OverrideFriendlyName', required: false, defaultValue: "false" },
       friendlyTargetEnvironmentName: { name: 'FriendlyName', required: false, defaultValue: undefined },
       skipAuditData: { name: 'SkipAuditData', required: false, defaultValue: false },
+      maxAsyncWaitTime: { name: 'MaxAsyncWaitTime', required: false, defaultValue: undefined },
       logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
