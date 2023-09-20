@@ -22,7 +22,7 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
-- pac CLI 1.27.5 (August Refresh), [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
+- pac CLI 1.27.6 (August Refresh), [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
 - `Power Platform Copy Environment` and `Power Platform Restore Environment` now support skipping audit data [#500](https://github.com/microsoft/powerplatform-build-tools/pull/500)
 - `Power Platform Copy Environment` and `Power Platform Restore Environment` can now override the default 60 minute async timeout [#521](https://github.com/microsoft/powerplatform-build-tools/pull/521)
 - `Power Platform Deploy Package` now supports outputing the Package Deployment logs to the console [#503](https://github.com/microsoft/powerplatform-build-tools/pull/503)
