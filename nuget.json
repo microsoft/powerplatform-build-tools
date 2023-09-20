@@ -15,12 +15,12 @@
       "packages": [
         {
           "name": "Microsoft.PowerApps.CLI",
-          "version": "1.26.5",
+          "version": "1.27.5",
           "internalName": "pac"
         },
         {
           "name": "Microsoft.PowerApps.CLI.Core.linux-x64",
-          "version": "1.26.5",
+          "version": "1.27.5",
           "internalName": "pac_linux",
           "chmod": "tools/pac"
         }
