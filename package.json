@@ -61,7 +61,7 @@
     "ps-list": "^8.1.1",
     "release-it": "^16.1.5",
     "rewiremock": "^3.14.5",
-    "sinon": "^15.2.0",
+    "sinon": "^16.0.0",
     "sinon-chai": "^3.6.0",
     "sync-request": "^6.1.0",
     "tar": "^6.1.15",
