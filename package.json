@@ -28,7 +28,7 @@
     "url": "https://github.com/microsoft/powerplatform-build-tools"
   },
   "devDependencies": {
-    "@types/chai": "^4.3.5",
+    "@types/chai": "^4.3.6",
     "@types/debug": "^4.1.8",
     "@types/fs-extra": "^11.0.2",
     "@types/mocha": "^10.0.1",
@@ -42,7 +42,7 @@
     "@types/webpack": "^5.28.1",
     "@typescript-eslint/eslint-plugin": "^5.61.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "chai": "^4.3.7",
+    "chai": "^4.3.10",
     "dotenv": "^16.3.1",
     "eslint": "^8.50.0",
     "eslint-plugin-node": "^11.1.0",
