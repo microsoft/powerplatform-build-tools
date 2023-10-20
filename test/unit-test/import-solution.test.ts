@@ -49,6 +49,7 @@ describe("import-solution tests", () => {
       async: { name: 'AsyncOperation', required: true, defaultValue: true },
       maxAsyncWaitTimeInMin: { name: 'MaxAsyncWaitTime', required: true, defaultValue: '60' },
       importAsHolding: { name: 'HoldingSolution', required: false, defaultValue: false },
+      stageAndUpgrade: { name: 'StageAndUpgrade', required: false, defaultValue: false },
       forceOverwrite: { name: 'OverwriteUnmanagedCustomizations', required: false, defaultValue: false },
       publishChanges: { name: 'PublishCustomizationChanges', required: false, defaultValue: false },
       skipDependencyCheck: { name: 'SkipProductUpdateDependencies', required: false, defaultValue: false },
