@@ -116,15 +116,6 @@
       "helpMarkDown": "Specify whether to import as a holding solution to stage for an upgrade."
     },
     {
-      "name": "StageAndUpgrade",
-      "label": "Import the managed solution and immediately apply it as an upgrade.",
-      "type": "boolean",
-      "required": false,
-      "defaultValue": false,
-      "groupName": "advanced",
-      "helpMarkDown": "Specify whether to import the managed solution and apply as an upgrade."
-    },
-    {
       "name": "OverwriteUnmanagedCustomizations",
       "label": "Overwrite unmanaged customizations",
       "type": "boolean",

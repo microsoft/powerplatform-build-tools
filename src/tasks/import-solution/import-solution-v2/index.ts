@@ -41,7 +41,6 @@ export async function main(): Promise<void> {
     async: parameterMap['AsyncOperation'],
     maxAsyncWaitTimeInMin: parameterMap['MaxAsyncWaitTime'],
     importAsHolding: parameterMap['HoldingSolution'],
-    stageAndUpgrade: parameterMap['StageAndUpgrade'],
     forceOverwrite: parameterMap['OverwriteUnmanagedCustomizations'],
     publishChanges: parameterMap['PublishCustomizationChanges'],
     skipDependencyCheck: parameterMap['SkipProductUpdateDependencies'],
