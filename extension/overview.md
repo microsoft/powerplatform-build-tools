@@ -23,6 +23,7 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 
 {{NextReleaseVersion}}:
 - pac CLI 1.28.3 (September Refresh), [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
+- `Power Platform Import Solution` now supports `StageAndUpgrade` to import the solution as Holding and immediately queue as an Upgrade in a single command.  Previously, one would need to import as holding first, then run the `Power Platform Apply Solution Upgrade` as a second operation
 
 2.0.42:
 - pac CLI 1.27.6 (August Refresh), [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
