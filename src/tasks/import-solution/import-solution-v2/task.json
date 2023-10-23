@@ -117,7 +117,7 @@
     },
     {
       "name": "StageAndUpgrade",
-      "label": "Import the managed solution and immediately apply it as an upgrade.",
+      "label": "Stage and Upgrade - Import the managed solution and immediately apply it as an upgrade.",
       "type": "boolean",
       "required": false,
       "defaultValue": false,
