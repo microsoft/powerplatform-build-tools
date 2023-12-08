@@ -22,6 +22,8 @@ We do our best to respond to each submission.
 
 We regularly have Community Office Hours that are open to the **public** to join (_third (3rd) Thursday of the month between 11:00am - 12:00pm US Pacific Time - Excluding holidays_). 
 
+**NOTE: We will not have office hours for December 2023 due to holidays. Happy Holidays!**
+
 Add Power Platform Developer Tools event to your calendar. 
 
 To join our office hours click this meeting link: [Meeting link](https://teams.microsoft.com/l/meetup-join/19%3ameeting_OWU2ZjljNTItOGFhYy00ZWM5LTk2YmEtYmNjYmMxODY0N2E4%40thread.v2/0?context=%7b%22Tid%22%3a%2272f988bf-86f1-41af-91ab-2d7cd011db47%22%2c%22Oid%22%3a%22044be130-b504-4a44-a3b6-47e75194f2dc%22%7d).
