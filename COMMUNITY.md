@@ -22,7 +22,18 @@ We do our best to respond to each submission.
 
 We regularly have Community Office Hours that are open to the **public** to join (_third (3rd) Thursday of the month between 11:00am - 12:00pm US Pacific Time - Excluding holidays_). 
 
-**NOTE: We will not have office hours for December 2023 due to holidays. Happy Holidays!**
+### Announcement
+:yellow_circle:
+:yellow_circle: :yellow_circle: :yellow_circle: </br>
+We are so happy to be back with the start of 2024. We hope everyone had good holidays. And yes, we also enjoyed time with our loved ones during this time.  A good/quite needed break not pushing any updates and not breaking anything.
+
+Well, we did not receive notable questions/queries during this time therefore, **we will not hold Power Platform Developer Office Hours this first month of 2024**.
+
+We will look forward to see you in February episode of our Office Hours and please feel free to send us any feedback/questions/comments at **https://aka.ms/ProDevOfficeHours.**
+
+Thank you,</br>
+Microsoft Power Platform Developer Tools </br>
+:yellow_circle: :yellow_circle: :yellow_circle: :yellow_circle: </br>
 
 Add Power Platform Developer Tools event to your calendar. 
 
