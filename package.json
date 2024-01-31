@@ -58,7 +58,7 @@
     "mocha": "^10.2.0",
     "node-fetch": "^3.3.2",
     "path-parse": "^1.0.7",
-  "ps-list": "^8.1.1",
+    "ps-list": "^8.1.1",
     "release-it": "^16.1.5",
     "rewiremock": "^3.14.5",
     "sinon": "^16.1.0",
