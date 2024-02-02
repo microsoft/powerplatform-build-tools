@@ -118,7 +118,7 @@ describe("getCredentials tests", () => {
     { endpoint: 'https://ppdevtools.crm.dynamics.com', cloudInstance: 'Public' },
     { endpoint: 'https://aurora.crm10.dynamics.com', cloudInstance: 'Tip1' },
     { endpoint: 'https://kc.crm9.dynamics.com', cloudInstance: 'UsGov' },
-    { endpoint: 'https://niehau.crm.dynamics.cn', cloudInstance: 'Mooncake' },
+    { endpoint: 'https://niehau.crm.dynamics.cn', cloudInstance: 'China' },
     { endpoint: undefined, cloudInstance: 'Public' },
     { endpoint: 'http://bing.com', cloudInstance: 'Public' },
   ];
