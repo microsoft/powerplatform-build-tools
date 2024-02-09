@@ -25,11 +25,9 @@ We regularly have Community Office Hours that are open to the **public** to join
 ### Announcement
 :yellow_circle:
 :yellow_circle: :yellow_circle: :yellow_circle: </br>
-We are so happy to be back with the start of 2024. We hope everyone had good holidays. And yes, we also enjoyed time with our loved ones during this time.  A good/quite needed break not pushing any updates and not breaking anything.
+We are so happy to be back with the first episode of 2024 this month of February. 
 
-Well, we did not receive notable questions/queries during this time therefore, **we will not hold Power Platform Developer Office Hours this first month of 2024**.
-
-We will look forward to see you in February episode of our Office Hours and please feel free to send us any feedback/questions/comments at **https://aka.ms/ProDevOfficeHours.**
+There are some change that we will share during our episode on February 15, 2024 and we are looking forward to your attendence. In the meantime, please feel free to send us any feedback/questions/comments at **https://aka.ms/ProDevOfficeHours**.
 
 Thank you,</br>
 Microsoft Power Platform Developer Tools </br>
