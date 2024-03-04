@@ -1,6 +1,7 @@
 # https://github.com/release-it/release-it/blob/master/config/release-it.json
 
-hooks: {}
+hooks:
+  'after:release': 'echo ##vso[task.setvariable variable=PPBT_VERSION;]${version}'
 
 # https://github.com/release-it/release-it/blob/master/docs/git.md
 git:
