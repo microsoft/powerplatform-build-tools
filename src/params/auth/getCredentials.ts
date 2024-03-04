@@ -96,7 +96,7 @@ function resolveCloudInstance(endpointName: string): string {
     case 'crm.appsplatform.us':
       return "UsGovDod";
     case 'crm.dynamics.cn':
-      return "Mooncake";
+      return "China";
     case 'crm10.dynamics.com':
       return "Preprod";
     case 'crmtest.dynamics.com':

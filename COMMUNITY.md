@@ -22,6 +22,17 @@ We do our best to respond to each submission.
 
 We regularly have Community Office Hours that are open to the **public** to join (_third (3rd) Thursday of the month between 11:00am - 12:00pm US Pacific Time - Excluding holidays_). 
 
+### Announcement
+:yellow_circle:
+:yellow_circle: :yellow_circle: :yellow_circle: </br>
+We are so happy to be back with the first episode of 2024 this month of February. 
+
+There are some change that we will share during our episode on February 15, 2024 and we are looking forward to your attendence. In the meantime, please feel free to send us any feedback/questions/comments at **https://aka.ms/ProDevOfficeHours**.
+
+Thank you,</br>
+Microsoft Power Platform Developer Tools </br>
+:yellow_circle: :yellow_circle: :yellow_circle: :yellow_circle: </br>
+
 Add Power Platform Developer Tools event to your calendar. 
 
 To join our office hours click this meeting link: [Meeting link](https://teams.microsoft.com/l/meetup-join/19%3ameeting_OWU2ZjljNTItOGFhYy00ZWM5LTk2YmEtYmNjYmMxODY0N2E4%40thread.v2/0?context=%7b%22Tid%22%3a%2272f988bf-86f1-41af-91ab-2d7cd011db47%22%2c%22Oid%22%3a%22044be130-b504-4a44-a3b6-47e75194f2dc%22%7d).
