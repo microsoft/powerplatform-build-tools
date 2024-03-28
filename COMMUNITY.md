@@ -25,9 +25,11 @@ We regularly have Community Office Hours that are open to the **public** to join
 ### Announcement
 :yellow_circle:
 :yellow_circle: :yellow_circle: :yellow_circle: </br>
-We are so happy to be back with the first episode of 2024 this month of February. 
+If you have missed the office hours, you can find the recordings and previous ones [here](https://www.youtube.com/results?search_query=power+platform+developer+office+hours).
 
-There are some change that we will share during our episode on February 15, 2024 and we are looking forward to your attendence. In the meantime, please feel free to send us any feedback/questions/comments at **https://aka.ms/ProDevOfficeHours**.
+You can find information below to attend the next office hours held every 3rd Thursday of the month during Pacific time-zone.
+
+We highly recommend sending us your questions ahead of time. You can send us any feedback/questions/comments at [**https://aka.ms/ProDevOfficeHours**](https://aka.ms/ProDevOfficeHours).
 
 Thank you,</br>
 Microsoft Power Platform Developer Tools </br>
