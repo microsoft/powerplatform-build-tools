@@ -19,224 +19,6 @@ TZOFFSETTO:-0700
 END:DAYLIGHT
 END:VTIMEZONE
 BEGIN:VEVENT
-ATTENDEE;CN="ShafQat Nizar";RSVP=TRUE:mailto:snizar@microsoft.com
-ATTENDEE;CN="Marcel Ferreira";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:marcelb
-	f@microsoft.com
-ATTENDEE;CN="Andrew Petrochuk";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:Andrew
-	.Petrochuk@microsoft.com
-ATTENDEE;CN="Matthew Barbour";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:mbarbou
-	r@microsoft.com
-ATTENDEE;CN="Angela Kim";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:angelakim@mi
-	crosoft.com
-ATTENDEE;CN="Anshuman Ansu";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:aansu@mic
-	rosoft.com
-ATTENDEE;CN="Peter Villadsen";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:Peter.V
-	illadsen@microsoft.com
-ATTENDEE;CN="Kartik Kanakasabesan";ROLE=OPT-PARTICIPANT;RSVP=TRUE:invalid:n
-	omail
-ATTENDEE;CN="Daniel Laskewitz";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:daniel
-	.laskewitz@microsoft.com
-ATTENDEE;CN="April Dunnam";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:April.Dunn
-	am@microsoft.com
-ATTENDEE;CN="Sally Shi";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:Sally.Shi@mic
-	rosoft.com
-ATTENDEE;CN="Kathy Osborne";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:kathyos@m
-	icrosoft.com
-ATTENDEE;CN=PowerplatformALM_vteam;ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:pp
-	almvteam@microsoft.com
-ATTENDEE;CN=PowerApps-MVP-nda@mstechdiscussions.com;ROLE=OPT-PARTICIPANT;RS
-	VP=TRUE:mailto:powerapps-mvp-nda@mstechdiscussions.com
-ATTENDEE;CN="Power CAT";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:pacustsuccess
-	@microsoft.com
-ATTENDEE;CN="Paul Robichaux";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:paul@rob
-	ichaux.net
-ATTENDEE;CN="Yves Habersaat";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:yveshabe
-	rsaat@hotmail.com
-ATTENDEE;CN="Thomas Vochten";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:mail@tho
-	masvochten.com
-ATTENDEE;CN="Nijo Joseph";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:nijos@live.
-	com
-ATTENDEE;CN="Robert Standefer";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:Robert
-	.Standefer@microsoft.com
-ATTENDEE;CN=kunalsethi@gmail.com;ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:kuna
-	lsethi@gmail.com
-ATTENDEE;CN=mattcollinsjones@gmail.com;ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailt
-	o:mattcollinsjones@gmail.com
-ATTENDEE;CN="Greg Hurlman";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:grhurl@mic
-	rosoft.com
-ATTENDEE;CN="Troy Taylor";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:ttaylor@hit
-	achisolutions.com
-ATTENDEE;CN="Henry Luo";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:henryluo@micr
-	osoft.com
-ATTENDEE;CN="Marcondes Alexandre";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:mar
-	condesalexandre@hotmail.com
-ATTENDEE;CN="Feridun Kadir";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:feridun@e
-	xpertcrm.co.uk
-ATTENDEE;CN="Renato Fajdiga";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:renato@f
-	ajdiga.info
-ATTENDEE;CN="Stefano Demiliani";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:demil
-	iani@outlook.com
-ATTENDEE;CN=k.flaegel@gmail.com;ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:k.fla
-	egel@gmail.com
-ATTENDEE;CN="Danish Naglekar";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:danish.
-	naglekar@hotmail.com
-ATTENDEE;CN="Aurelien Clere";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:aurelien
-	.clere@outlook.com
-ATTENDEE;CN="Anders Eide";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:anders.eide
-	@outlook.com
-ATTENDEE;CN="Jonas Rapp";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:jonas@jonasr
-	.app
-ATTENDEE;CN="Henry Jammes";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:Henry.Jamm
-	es@microsoft.com
-ATTENDEE;CN=mr.furkankaracan@gmail.com;ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailt
-	o:mr.furkankaracan@gmail.com
-ATTENDEE;CN=chris.huntingford83@gmail.com;ROLE=OPT-PARTICIPANT;RSVP=TRUE:ma
-	ilto:chris.huntingford83@gmail.com
-ATTENDEE;CN="Mayra Badillo Villamizar";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailt
-	o:mayra@mabvill.com
-ATTENDEE;CN="Amit Vasu";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:amit.vasu@hot
-	mail.com
-ATTENDEE;CN="Luc Labelle";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:luc.labelle
-	@live.ca
-ATTENDEE;CN="Sulamita Dantas";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:sulamit
-	adantas@outlook.com
-ATTENDEE;CN="Pam DeGraffenreid";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:pam@d
-	egraffenreids.com
-ATTENDEE;CN="Chrisitian Abata";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:christ
-	ianabata@hotmail.com
-ATTENDEE;CN="Renato Romão";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:renato.ro
-	mao@hotmail.com
-ATTENDEE;CN="Jaliya Udagedara";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:jaliya
-	.udagedara@hotmail.com
-ATTENDEE;CN="Gaurav Agarwaal";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:gaurav_
-	mypersonal@hotmail.com
-ATTENDEE;CN="Steven Chinsky";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:schinsky
-	@adaptivenav.com
-ATTENDEE;CN="Raphael Pothin";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:raphael.
-	pothin@outlook.com
-ATTENDEE;CN="Julie Yack";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:jyack@colora
-	dotc.com
-ATTENDEE;CN="Paul Andrew";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:paul@mrpaul
-	andrew.com
-ATTENDEE;CN="Andrew Butenko";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:andrewbu
-	tenko@outlook.com
-ATTENDEE;CN="Nathan Rose";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:nathan.rose
-	@outlook.co.nz
-ATTENDEE;CN="Django Lohn";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:DjangoLohn@
-	outlook.com
-ATTENDEE;CN="Daniel Christian";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:daniel
-	.christian@christianfamily.biz
-ATTENDEE;CN="Enders, Nicole";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:nenders@
-	conet.de
-ATTENDEE;CN="Marc Schweigert";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:marcsc@
-	microsoft.com
-ATTENDEE;CN="Simon Doy (iThink 365)";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:
-	simon@ithink365.co.uk
-ATTENDEE;CN="Amey Holden";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:ameyholden@
-	outlook.com
-ATTENDEE;CN="Henrique Souza";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:hsouza.e
-	duardo@hotmail.com
-ATTENDEE;CN="Sahan Wijayasekera";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:saha
-	n.wijayasekera@outlook.com
-ATTENDEE;CN="Malin Martnes";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:malin_mar
-	tnes@hotmail.com
-ATTENDEE;CN="Guido Preite";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:guido.prei
-	te@live.com
-ATTENDEE;CN="Michael Megel";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:michael.m
-	egel@hotmail.com
-ATTENDEE;CN="Loryan Strant";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:loryan@lo
-	ryanstrant.com
-ATTENDEE;CN="George Doubinski";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:george
-	@alexacrm.com
-ATTENDEE;CN="Catalin Gheorghiu";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:cgheo
-	rghiu@icomputersolutions.ro
-ATTENDEE;CN="Eduardo Amaral";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:eduardo.
-	amaral@somospower.com.br
-ATTENDEE;CN="Juan Ignacio Oller Aznar";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailt
-	o:jioller@live.com
-ATTENDEE;CN=yusufoluwatobi21@gmail.com;ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailt
-	o:yusufoluwatobi21@gmail.com
-ATTENDEE;CN="Su Fan";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:sufan_cn@msn.com
-ATTENDEE;CN=linnzawwin@gmail.com;ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:linn
-	zawwin@gmail.com
-ATTENDEE;CN="Dr. Gomathi Srinivasan";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:
-	gomathi.srinivasan@outlook.com
-ATTENDEE;CN="Kasam Shaikh";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:Kasambinah
-	med@outlook.com
-ATTENDEE;CN="Betim Beja";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:Betim.Beja@l
-	ive.it
-ATTENDEE;CN="Swamy PKV";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:Swamy.PKV@hot
-	mail.com
-ATTENDEE;CN="Jens Schrøder";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:Jens.Sch
-	roder@microsoft.com
-ATTENDEE;CN="ibrahim idowu";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:ibscrib@h
-	otmail.com
-ATTENDEE;CN="Nati Papirovitch";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:nati@P
-	ointU.co.il
-ATTENDEE;CN="Benedikt Bergmann";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:bened
-	ikt.bergmann@crmkonsulterna.se
-ATTENDEE;CN="Tomas Riha";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:tom@tomriha.
-	com
-ATTENDEE;CN="Meltem Ballieker";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:meltem
-	@rise-consulting.net
-ATTENDEE;CN="Neetu Srivastava";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:nesriv
-	astava@microsoft.com
-ATTENDEE;CN="Nuno Árias Silva";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:email
-	@nuno-silva.net
-ATTENDEE;CN="Michael Olafusi";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:mike@ur
-	bizedge.com
-ATTENDEE;CN="Tomislav Bronzin";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:tbronz
-	in@citus.hr
-ATTENDEE;CN=kristine.kolodziejski@gmail.com;ROLE=OPT-PARTICIPANT;RSVP=TRUE:
-	mailto:kristine.kolodziejski@gmail.com
-ATTENDEE;CN="Jakub Skałbania";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:jakub.
-	skalbania@netwise.pl
-ATTENDEE;CN=hugomsbarona@gmail.com;ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:hu
-	gomsbarona@gmail.com
-ATTENDEE;CN="David McCarter";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:davidmcc
-	arter@live.com
-ATTENDEE;CN="Erik Svensen";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:es@catmans
-	olution.com
-ATTENDEE;CN="Samuel Adranyi";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:samuel@a
-	frilogicsolutions.com
-ATTENDEE;CN="Geetha Sivasailam";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:GSiva
-	sailam@artisconsulting.com
-ATTENDEE;CN="Darren Neese";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:darren@nee
-	se.us
-ATTENDEE;CN="Nikita Polyakov";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:Nikita.
-	Polyakov@microsoft.com
-ATTENDEE;CN="Tomislav Karafilov";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:kara
-	filov@live.com
-ATTENDEE;CN="Audrie Gordon";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:audrie@mi
-	crosoft.com
-ATTENDEE;CN="DPX Tools Dev Team";RSVP=TRUE:mailto:capisvaatdev@microsoft.co
-	m
-ATTENDEE;CN="Crash Collison";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:Crash.Co
-	llison@microsoft.com
-ATTENDEE;CN="Victor Dantas";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:dantas_vi
-	ctor@hotmail.com
-ATTENDEE;CN="Gábor Faludi";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:gabor.fal
-	udi@fits.hu
-ATTENDEE;CN="Simon Matthews";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:Simon.Ma
-	tthews@microsoft.com
-ATTENDEE;CN=reekmans.yannick@gmail.com;ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailt
-	o:reekmans.yannick@gmail.com
-ATTENDEE;CN=ing.marcofarina@gmail.com;ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto
-	:ing.marcofarina@gmail.com
-ATTENDEE;CN="Christoph Twiehaus | Ihr M365 CoPilot (Skillkom GmbH)";ROLE=OP
-	T-PARTICIPANT;RSVP=TRUE:mailto:Christoph.Twiehaus@skillkom.de
-ATTENDEE;CN="Oliver Rodrigues";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:oliver
-	.frodrigues@outlook.com
-ATTENDEE;CN="Juan Soto";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:jsoto@itimpac
-	t.com
-ATTENDEE;CN="Yash Patel (POWERCAT)";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:y
-	apatel@microsoft.com
-ATTENDEE;CN="Krishna vandanapu";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:krish
-	na.vandanapu@hotmail.com
-ATTENDEE;CN="Douglas Romão";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:douglas.
-	romao@outlook.com
-ATTENDEE;CN="Clément Olivier";ROLE=OPT-PARTICIPANT;RSVP=TRUE:mailto:clemen
-	t@carfup.com
 CLASS:PUBLIC
 CREATED:20240410T145802Z
 DESCRIPTION:Hello ProDevs!\n\n \n\nThe Power Platform Developer Tool Champs
@@ -253,7 +35,7 @@ DESCRIPTION:Hello ProDevs!\n\n \n\nThe Power Platform Developer Tool Champs
 	%7C%7C%7C&sdata=dj5LRd9L7tdlzRwZ9BLszOe4xQoref%2B5nmMzjuuO25k%3D&reserved=
 	0> \n\n \n\nShows as free\n\n \n\n \n\n \n\n______________________________
 	__________________________________________________ \n\nMicrosoft Teams mee
-	ting \n\nJoin on your computer\, mobile app or room device \n\nClick here 
+	ting \n\nJoin on your computer\, mobile app or room device \n\nClick here
 	to join the meeting <https://teams.microsoft.com/l/meetup-join/19%3ameetin
 	g_OWU2ZjljNTItOGFhYy00ZWM5LTk2YmEtYmNjYmMxODY0N2E4%40thread.v2/0?context=%
 	7b%22Tid%22%3a%2272f988bf-86f1-41af-91ab-2d7cd011db47%22%2c%22Oid%22%3a%22
@@ -300,14 +82,14 @@ DESCRIPTION:Hello ProDevs!\n\n \n\nThe Power Platform Developer Tool Champs
 	d011db47%7C1%7C0%7C638278902217184402%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4w
 	LjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&sda
 	ta=f3PtkIliXiNPoFVTRO4dCRTBVeL9VBfEGQqduhCKmbc%3D&reserved=0>  \n\n_______
-	_________________________________________________________________________ 
+	_________________________________________________________________________
 	\n\n \n\n
 DTEND;TZID="Pacific Standard Time":20230720T120000
 DTSTAMP:20230817T172438Z
 DTSTART;TZID="Pacific Standard Time":20230720T110000
 LAST-MODIFIED:20240410T145802Z
 LOCATION:Microsoft Teams Meeting
-ORGANIZER;CN="ShafQat Nizar":mailto:snizar@microsoft.com
+ORGANIZER;CN="No Reply":mailto:noreply@microsoft.com
 PRIORITY:5
 RRULE:FREQ=MONTHLY;BYDAY=TH;BYSETPOS=3
 SEQUENCE:4
@@ -315,7 +97,7 @@ SUMMARY:Microsoft Power Platform Developer Tools - Office Hours
 TRANSP:OPAQUE
 UID:040000008200E00074C5B7101A82E00800000000906E5F2059B6D901000000000000000
 	010000000B5DB2927EF5A714384E0BA880BA547D0
-X-ALT-DESC;FMTTYPE=text/html:<html xmlns:v="urn:schemas-microsoft-com:vml" 
+X-ALT-DESC;FMTTYPE=text/html:<html xmlns:v="urn:schemas-microsoft-com:vml"
 	xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-mic
 	rosoft-com:office:word" xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C1488
 	2" xmlns:m="http://schemas.microsoft.com/office/2004/12/omml" xmlns="http:
@@ -325,7 +107,7 @@ X-ALT-DESC;FMTTYPE=text/html:<html xmlns:v="urn:schemas-microsoft-com:vml"
 	ace\n	{font-family:"Cambria Math"\;\n	panose-1:2 4 5 3 5 4 6 3 2 4\;}\n@fo
 	nt-face\n	{font-family:Calibri\;\n	panose-1:2 15 5 2 2 2 4 3 2 4\;}\n@font
 	-face\n	{font-family:"Segoe UI"\;\n	panose-1:2 11 5 2 4 2 4 2 2 3\;}\n@fon
-	t-face\n	{font-family:"Segoe UI Semibold"\;\n	panose-1:2 11 7 2 4 2 4 2 2 
+	t-face\n	{font-family:"Segoe UI Semibold"\;\n	panose-1:2 11 7 2 4 2 4 2 2
 	3\;}\n/* Style Definitions */\np.MsoNormal\, li.MsoNormal\, div.MsoNormal\
 	n	{margin:0in\;\n	font-size:11.0pt\;\n	font-family:"Calibri"\,sans-serif\;
 	\n	mso-ligatures:standardcontextual\;}\na:link\, span.MsoHyperlink\n	{mso-
@@ -337,11 +119,11 @@ X-ALT-DESC;FMTTYPE=text/html:<html xmlns:v="urn:schemas-microsoft-com:vml"
 	 l0\n	{mso-list-id:1507670319\;\n	mso-list-template-ids:251024290\;}\n@lis
 	t l0:level1\n	{mso-level-number-format:bullet\;\n	mso-level-text:\\F0B7 \;
 	\n	mso-level-tab-stop:.5in\;\n	mso-level-number-position:left\;\n	text-ind
-	ent:-.25in\;\n	mso-ansi-font-size:10.0pt\;\n	font-family:Symbol\;}\n@list 
+	ent:-.25in\;\n	mso-ansi-font-size:10.0pt\;\n	font-family:Symbol\;}\n@list
 	l0:level2\n	{mso-level-number-format:bullet\;\n	mso-level-text:\\F0B7 \;\n
 		mso-level-tab-stop:1.0in\;\n	mso-level-number-position:left\;\n	text-inde
 	nt:-.25in\;\n	mso-ansi-font-size:10.0pt\;\n	font-family:Symbol\;}\n@list l
-	0:level3\n	{mso-level-number-format:bullet\;\n	mso-level-text:\\F0B7 \;\n	
+	0:level3\n	{mso-level-number-format:bullet\;\n	mso-level-text:\\F0B7 \;\n
 	mso-level-tab-stop:1.5in\;\n	mso-level-number-position:left\;\n	text-inden
 	t:-.25in\;\n	mso-ansi-font-size:10.0pt\;\n	font-family:Symbol\;}\n@list l0
 	:level4\n	{mso-level-number-format:bullet\;\n	mso-level-text:\\F0B7 \;\n	m
@@ -382,7 +164,7 @@ X-ALT-DESC;FMTTYPE=text/html:<html xmlns:v="urn:schemas-microsoft-com:vml"
 	rmat:bullet\;\n	mso-level-text:\\F0A7 \;\n	mso-level-tab-stop:3.0in\;\n	ms
 	o-level-number-position:left\;\n	text-indent:-.25in\;\n	mso-ansi-font-size
 	:10.0pt\;\n	font-family:Wingdings\;}\n@list l1:level7\n	{mso-level-number-
-	format:bullet\;\n	mso-level-text:\\F0A7 \;\n	mso-level-tab-stop:3.5in\;\n	
+	format:bullet\;\n	mso-level-text:\\F0A7 \;\n	mso-level-tab-stop:3.5in\;\n
 	mso-level-number-position:left\;\n	text-indent:-.25in\;\n	mso-ansi-font-si
 	ze:10.0pt\;\n	font-family:Wingdings\;}\n@list l1:level8\n	{mso-level-numbe
 	r-format:bullet\;\n	mso-level-text:\\F0A7 \;\n	mso-level-tab-stop:4.0in\;\
@@ -394,10 +176,10 @@ X-ALT-DESC;FMTTYPE=text/html:<html xmlns:v="urn:schemas-microsoft-com:vml"
 	\n	{margin-bottom:0in\;}\n--></style><!--[if gte mso 9]><xml>\n<o:shapedef
 	aults v:ext="edit" spidmax="1026" />\n</xml><![endif]--><!--[if gte mso 9]
 	><xml>\n<o:shapelayout v:ext="edit">\n<o:idmap v:ext="edit" data="1" />\n<
-	/o:shapelayout></xml><![endif]--></head><body lang="EN-US" link="#0563C1" 
-	vlink="#954F72" style="word-wrap:break-word"><div class="WordSection1"><p 
+	/o:shapelayout></xml><![endif]--></head><body lang="EN-US" link="#0563C1"
+	vlink="#954F72" style="word-wrap:break-word"><div class="WordSection1"><p
 	style="margin:0in">Hello ProDevs!<o:p></o:p></p><p style="margin:0in">&nbs
-	p\;<o:p></o:p></p><p style="margin:0in">The Power Platform Developer Tool 
+	p\;<o:p></o:p></p><p style="margin:0in">The Power Platform Developer Tool
 	Champs are starting a series of Office Hours&nbsp\;to serve the Power Plat
 	form Developer Tools community.<o:p></o:p></p><p style="margin:0in">&nbsp\
 	;<o:p></o:p></p><p style="margin:0in"><b>Why should you attend?<o:p></o:p>
@@ -482,12 +264,12 @@ X-ALT-DESC;FMTTYPE=text/html:<html xmlns:v="urn:schemas-microsoft-com:vml"
 	><div style="margin-bottom:3.0pt"><p class="MsoNormal"><b><span style="fon
 	t-size:10.5pt\;font-family:&quot\;Segoe UI&quot\;\,sans-serif\;color:#2524
 	24">Or call in (audio only)</span></b><span style="font-family:&quot\;Sego
-	e UI&quot\;\,sans-serif\;color:#252424"> <o:p></o:p></span></p></div><div 
+	e UI&quot\;\,sans-serif\;color:#252424"> <o:p></o:p></span></p></div><div
 	style="margin-bottom:3.0pt"><p class="MsoNormal"><span style="font-family:
 	&quot\;Segoe UI&quot\;\,sans-serif\;color:#252424"><a href="tel:+132384948
 	74\,\,379639014# "><span style="font-size:10.5pt\;color:#6264A7">+1 323-84
 	9-4874\,\,379639014#</span></a> </span><span style="font-size:10.5pt\;font
-	-family:&quot\;Segoe UI&quot\;\,sans-serif\;color:#252424">&nbsp\; United 
+	-family:&quot\;Segoe UI&quot\;\,sans-serif\;color:#252424">&nbsp\; United
 	States\, Los Angeles </span><span style="font-family:&quot\;Segoe UI&quot\
 	;\,sans-serif\;color:#252424"><o:p></o:p></span></p></div></div><p class="
 	MsoNormal"><span style="font-size:10.5pt\;font-family:&quot\;Segoe UI&quot
@@ -502,7 +284,7 @@ X-ALT-DESC;FMTTYPE=text/html:<html xmlns:v="urn:schemas-microsoft-com:vml"
 	rosoft.com%7C4a6db1aa821848157a2308db9f479f2d%7C72f988bf86f141af91ab2d7cd0
 	11db47%7C1%7C0%7C638278902217027823%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLj
 	AwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C3000%7C%7C%7C&amp\;
-	sdata=gBt5YTxy49Od%2B55M%2FkxhiUL061MGGf26pyiRwAizqMk%3D&amp\;reserved=0" 
+	sdata=gBt5YTxy49Od%2B55M%2FkxhiUL061MGGf26pyiRwAizqMk%3D&amp\;reserved=0"
 	originalsrc="https://dialin.teams.microsoft.com/8551f4c1-bea3-441a-8738-69
 	aa517a91c5?id=379639014" shash="aDDXbuWzG+L0i/s9u5MCZYPGAF2dHnR+fh5u8ul7LE
 	XItbia+v7F6Q3tzn7Jj15z62HDcLWoIj7AWl0fir2nrckBCMjWqxVrkG9gvwIxZjIJqvpkMn/B
