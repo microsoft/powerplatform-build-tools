@@ -22,7 +22,7 @@ We do our best to respond to each submission.
 
 We regularly have Community Office Hours that are open to the **public** to join (_third (3rd) Thursday of the month between 11:00am - 12:00pm US Pacific Time - Excluding holidays_).
 
-You can add the office hours to your calendar by clicking [Microsoft Power Platform Developer Tools - Office Hours.ics](/community/Office_Hours.md)
+You can add the office hours to your calendar by clicking [Microsoft Power Platform Developer Tools - Office Hours.ics](/community/Microsoft%20Power%20Platform%20Developer%20Tools%20-%20Office%20Hours.ics)
 
 ### Announcement
 :yellow_circle:
