@@ -20,7 +20,9 @@ We do our best to respond to each submission.
 
 ## Public Community Office Hours
 
-We regularly have Community Office Hours that are open to the **public** to join (_third (3rd) Thursday of the month between 11:00am - 12:00pm US Pacific Time - Excluding holidays_). 
+We regularly have Community Office Hours that are open to the **public** to join (_third (3rd) Thursday of the month between 11:00am - 12:00pm US Pacific Time - Excluding holidays_).
+
+You can add the office hours to your calendar by clicking [Microsoft Power Platform Developer Tools - Office Hours.ics](/community/Microsoft%20Power%20Platform%20Developer%20Tools%20-%20Office%20Hours.ics)
 
 ### Announcement
 :yellow_circle:
@@ -35,13 +37,13 @@ Thank you,</br>
 Microsoft Power Platform Developer Tools </br>
 :yellow_circle: :yellow_circle: :yellow_circle: :yellow_circle: </br>
 
-Add Power Platform Developer Tools event to your calendar. 
+Add Power Platform Developer Tools event to your calendar.
 
 To join our office hours click this meeting link: [Meeting link](https://teams.microsoft.com/l/meetup-join/19%3ameeting_OWU2ZjljNTItOGFhYy00ZWM5LTk2YmEtYmNjYmMxODY0N2E4%40thread.v2/0?context=%7b%22Tid%22%3a%2272f988bf-86f1-41af-91ab-2d7cd011db47%22%2c%22Oid%22%3a%22044be130-b504-4a44-a3b6-47e75194f2dc%22%7d).
 
 **To call in (audio only)**
 - +1 323-849-4874,,379639014#   United States, Los Angeles
-- Phone Conference ID: 379 639 014# 
+- Phone Conference ID: 379 639 014#
 
 To keep topics organized, please submit what you'd like us to cover here:
 [https://aka.ms/ProDevOfficeHours](https://aka.ms/ProDevOfficeHours)
@@ -53,7 +55,7 @@ To keep topics organized, please submit what you'd like us to cover here:
 - You need help getting a your challenge resolved.
 - You want to learn more about Power Platform Developer Tools!
 
-**NOTE:** 
+**NOTE:**
 - Please feel free to forward this information along with our community starter link: [https://aka.ms/ProDevOfficeHours](https://aka.ms/ProDevOfficeHours).
 - We will limit any troubleshooting to 5-minutes max or reach us offline.
 
