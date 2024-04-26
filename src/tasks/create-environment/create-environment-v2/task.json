@@ -327,6 +327,13 @@
       "type": "string",
       "required": false,
       "helpMarkDown": "The ID of the Microsoft Teams team to create the Power Apps environment in."
+    },
+    {
+      "name": "SecurityGroupId",
+      "label": "Security Group ID",
+      "type": "string",
+      "required": false,
+      "helpMarkDown": "Microsoft Entra ID Security Group ID to use when creating the environment."
     }
   ],
   "execution": {

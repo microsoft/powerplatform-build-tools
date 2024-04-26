@@ -53,6 +53,7 @@ describe("create-environment tests", () => {
       templates: { name: 'AppsTemplate', required: false, defaultValue: undefined },
       domainName: { name: 'DomainName', required: true, defaultValue: undefined },
       teamId: { name: 'TeamId', required: false, defaultValue: undefined },
+      securityGroupId: { name: 'SecurityGroupId', required: false, defaultValue: undefined },
       logToConsole: false
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
