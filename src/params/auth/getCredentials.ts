@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import * as tl from 'azure-pipelines-task-lib/task';
 import { URL } from 'url';
-import { ClientCredentials, UsernamePassword } from "@microsoft/powerplatform-cli-wrapper";
+import { UsernamePassword, AuthCredentials } from "@microsoft/powerplatform-cli-wrapper";
 import { EndpointAuthorization, getEndpointAuthorization, getEndpointUrl } from "azure-pipelines-task-lib";
 import { getAuthenticationType, AuthenticationType } from "./getAuthenticationType";
 import { getEndpointName } from "./getEndpointName";
 
 
-export function getCredentials(defaultAuthType?: AuthenticationType): ClientCredentials | UsernamePassword {
+export function getCredentials(defaultAuthType?: AuthenticationType): AuthCredentials {
   const authenticationType = getAuthenticationType(defaultAuthType);
   switch (authenticationType) {
     case "PowerPlatformEnvironment":
@@ -18,9 +19,35 @@ export function getCredentials(defaultAuthType?: AuthenticationType): ClientCred
   }
 }
 
-function getClientCredentials(): ClientCredentials {
+function getClientCredentials(): AuthCredentials {
   const endpointName = getEndpointName("PowerPlatformSPN");
   const authorization = getEndpointAuthorizationParameters(endpointName);
+
+  tl.debug("Auth Scheme: " + authorization.scheme);
+
+  if (authorization.scheme === "WorkloadIdentityFederation") {
+    // Set environment variables for Workload Identity Federation
+    tl.debug('Acquiring Workload Identity Federation details from pipeline service connection');
+    process.env.PAC_ADO_ID_TOKEN_REQUEST_URL = buildIdTokenRequestUrl();
+
+    const pipelineAuth = tl.getEndpointAuthorization('SYSTEMVSSCONNECTION', false);
+    if (pipelineAuth && pipelineAuth.scheme === 'OAuth') {
+        tl.debug('Pipeline connection found with OAuth scheme');
+        process.env.PAC_ADO_ID_TOKEN_REQUEST_TOKEN = pipelineAuth.parameters['AccessToken'];
+        tl.setSecret(process.env.PAC_ADO_ID_TOKEN_REQUEST_TOKEN); // Mask in logs, though that *should* already be done.
+    } else {
+        tl.warning('Could not find pipeline connection details. Workload Identity Federation may not work as expected.');
+    }
+
+    return {
+      tenantId: authorization.parameters.tenantid,
+      appId: authorization.parameters.serviceprincipalid,
+      cloudInstance: resolveCloudInstance(endpointName),
+      scheme: authorization.scheme,
+      federationProvider: "AzureDevOps"
+    };
+  }
+
   return {
     tenantId: authorization.parameters.tenantId,
     appId: authorization.parameters.applicationId,
@@ -29,6 +56,24 @@ function getClientCredentials(): ClientCredentials {
     cloudInstance: resolveCloudInstance(endpointName),
     scheme: authorization.scheme
   };
+}
+
+// Docs: https://learn.microsoft.com/en-us/rest/api/azure/devops/distributedtask/oidctoken/create?view=azure-devops-rest-7.2
+function buildIdTokenRequestUrl(): string {
+  const oidcApiVersion = '7.2-preview.1';
+  const projectId = tl.getVariable('System.TeamProjectId');
+  const hub = tl.getVariable("System.HostType");
+  const planId = tl.getVariable('System.PlanId');
+  const jobId = tl.getVariable('System.JobId');
+  const serviceConnectionId = tl.getInput("PowerPlatformSPN", true);
+  let uri = tl.getVariable("System.CollectionUri");
+  if (!uri) {
+      uri = tl.getVariable("System.TeamFoundationServerUri");
+  }
+
+  const tokenRequestUrl = `${uri}${projectId}/_apis/distributedtask/hubs/${hub}/plans/${planId}/jobs/${jobId}/oidctoken?serviceConnectionId=${serviceConnectionId}&api-version=${oidcApiVersion}`;
+  tl.debug(`OIDC Token Request URL: ${tokenRequestUrl}`);
+  return tokenRequestUrl;
 }
 
 function getUsernamePassword(): UsernamePassword {
