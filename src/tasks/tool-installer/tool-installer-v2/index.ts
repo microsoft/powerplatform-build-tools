@@ -17,6 +17,7 @@ export async function main(): Promise<void> {
   const pacPath = await findPacCLI();
 
   tl.debug(`Found required pac CLI executable under: ${pacPath}`);
+  tl.debug(`Setting ${PacPathEnvVarName} : ${pacPath}`);
   tl.setVariable(PacPathEnvVarName, pacPath);
 }
 

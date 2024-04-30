@@ -1,0 +1,83 @@
+BEGIN:VCALENDAR
+PRODID:-//Microsoft Corporation//Outlook 16.0 MIMEDIR//EN
+VERSION:2.0
+METHOD:PUBLISH
+X-MS-OLK-FORCEINSPECTOROPEN:TRUE
+BEGIN:VTIMEZONE
+TZID:Pacific Standard Time
+BEGIN:STANDARD
+DTSTART:16011104T020000
+RRULE:FREQ=YEARLY;BYDAY=1SU;BYMONTH=11
+TZOFFSETFROM:-0700
+TZOFFSETTO:-0800
+END:STANDARD
+BEGIN:DAYLIGHT
+DTSTART:16010311T020000
+RRULE:FREQ=YEARLY;BYDAY=2SU;BYMONTH=3
+TZOFFSETFROM:-0800
+TZOFFSETTO:-0700
+END:DAYLIGHT
+END:VTIMEZONE
+BEGIN:VEVENT
+CLASS:PUBLIC
+CREATED:20240411T182756Z
+DESCRIPTION:The Microsoft Power Platform Pro/Code-First Developer Office Ho
+	urs is open to the public.  Office Hours is an opportunity to get monthly 
+	updates from various members of the Power Platform product group as well a
+	s ask questions in an Ask Me Anything (AMA) question and answer session at
+	 the end.\n\n_____________________________________________________________
+	___________________ \nMicrosoft Teams meeting \nJoin on your computer\, mo
+	bile app or room device \nClick here to join the meeting: https://teams.mi
+	crosoft.com/l/meetup-join/19%3ameeting_OWU2ZjljNTItOGFhYy00ZWM5LTk2YmEtYmN
+	jYmMxODY0N2E4%40thread.v2/0?context=%7b%22Tid%22%3a%2272f988bf-86f1-41af-9
+	1ab-2d7cd011db47%22%2c%22Oid%22%3a%22044be130-b504-4a44-a3b6-47e75194f2dc%
+	22%7d \n\nMeeting ID: 221 153 976 794 \nPasscode: MKJTdN \nOr call in (aud
+	io only) \n+1 323-849-4874\,\,379639014#   United States\, Los Angeles \nP
+	hone Conference ID: 379 639 014# \nFind a local number: https://dialin.tea
+	ms.microsoft.com/8551f4c1-bea3-441a-8738-69aa517a91c5?id=379639014 \n_____
+	__________________________________________________________________________
+	_ \n\n
+DTEND;TZID="Pacific Standard Time":20240418T120000
+DTSTAMP:20240410T165445Z
+DTSTART;TZID="Pacific Standard Time":20240418T110000
+LAST-MODIFIED:20240411T182756Z
+LOCATION:Microsoft Teams Meeting
+PRIORITY:5
+RRULE:FREQ=MONTHLY;BYDAY=TH;BYSETPOS=3
+SEQUENCE:0
+SUMMARY;LANGUAGE=en-us:Microsoft Power Platform Pro/Code-First Developer Of
+	fice Hours
+TRANSP:OPAQUE
+UID:1712768039380-43317@ical.marudot.com
+X-ALT-DESC;FMTTYPE=text/html:<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//E
+	N">\n<HTML>\n<HEAD>\n<META NAME="Generator" CONTENT="MS Exchange Server ve
+	rsion 16.0.17531.20032">\n<TITLE></TITLE>\n</HEAD>\n<BODY>\n<!-- Converted
+	 from text/plain format -->\n\n<P><FONT SIZE=2>The Microsoft Power Platfor
+	m Pro/Code-First Developer Office Hours is open to the public.&nbsp\; Offi
+	ce Hours is an opportunity to get monthly updates from various members of 
+	the Power Platform product group as well as ask questions in an Ask Me Any
+	thing (AMA) question and answer session at the end.</FONT></P>\n\n<P><FONT
+	 SIZE=2>__________________________________________________________________
+	______________ </FONT>\n\n<BR><FONT SIZE=2>Microsoft Teams meeting </FONT>
+	\n\n<BR><FONT SIZE=2>Join on your computer\, mobile app or room device </F
+	ONT>\n\n<BR><FONT SIZE=2>Click here to join the meeting: <A HREF="https://
+	teams.microsoft.com/l/meetup-join/19%3ameeting_OWU2ZjljNTItOGFhYy00ZWM5LTk
+	2YmEtYmNjYmMxODY0N2E4%40thread.v2/0?context=%7b%22Tid%22%3a%2272f988bf-86f
+	1-41af-91ab-2d7cd011db47%22%2c%22Oid%22%3a%22044be130-b504-4a44-a3b6-47e75
+	194f2dc%22%7d">https://teams.microsoft.com/l/meetup-join/19%3ameeting_OWU2
+	ZjljNTItOGFhYy00ZWM5LTk2YmEtYmNjYmMxODY0N2E4%40thread.v2/0?context=%7b%22T
+	id%22%3a%2272f988bf-86f1-41af-91ab-2d7cd011db47%22%2c%22Oid%22%3a%22044be1
+	30-b504-4a44-a3b6-47e75194f2dc%22%7d</A> </FONT></P>\n\n<P><FONT SIZE=2>Me
+	eting ID: 221 153 976 794 </FONT>\n\n<BR><FONT SIZE=2>Passcode: MKJTdN </F
+	ONT>\n\n<BR><FONT SIZE=2>Or call in (audio only) </FONT>\n\n<BR><FONT SIZE
+	=2>+1 323-849-4874\,\,379639014#&nbsp\;&nbsp\; United States\, Los Angeles
+	 </FONT>\n\n<BR><FONT SIZE=2>Phone Conference ID: 379 639 014# </FONT>\n\n
+	<BR><FONT SIZE=2>Find a local number: <A HREF="https://dialin.teams.micros
+	oft.com/8551f4c1-bea3-441a-8738-69aa517a91c5?id=379639014">https://dialin.
+	teams.microsoft.com/8551f4c1-bea3-441a-8738-69aa517a91c5?id=379639014</A> 
+	</FONT>\n\n<BR><FONT SIZE=2>______________________________________________
+	__________________________________</FONT>\n</P>\n\n</BODY>\n</HTML>
+X-MICROSOFT-CDO-BUSYSTATUS:BUSY
+X-MICROSOFT-CDO-IMPORTANCE:1
+END:VEVENT
+END:VCALENDAR
