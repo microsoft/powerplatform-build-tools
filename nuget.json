@@ -5,14 +5,6 @@
       "url": "https://api.nuget.org/v3-flatcontainer/",
       "authenticated": false,
       "packages": [
-      ]
-    },
-    {
-      "name":  "CAP_ISVExp_Tools_Stable",
-      "url": "https://pkgs.dev.azure.com/msazure/_packaging/b0441cf8-0bc8-4fad-b126-841a6184e784/nuget/v3/flat2/",
-      "authenticated": true,
-      "patEnvironmentVariable": "AZ_DevOps_Read_PAT",
-      "packages": [
         {
           "name": "Microsoft.PowerApps.CLI",
           "version": "1.31.6",
@@ -27,12 +19,18 @@
       ]
     },
     {
+      "name": "CAP_ISVExp_Tools_Stable",
+      "url": "https://pkgs.dev.azure.com/msazure/_packaging/b0441cf8-0bc8-4fad-b126-841a6184e784/nuget/v3/flat2/",
+      "authenticated": true,
+      "patEnvironmentVariable": "AZ_DevOps_Read_PAT",
+      "packages": []
+    },
+    {
       "name": "CAP_ISVExp_Tools_Daily",
       "url": "https://pkgs.dev.azure.com/msazure/_packaging/d3fb5788-d047-47f9-9aba-76890f5cecf0/nuget/v3/flat2/",
       "authenticated": true,
       "patEnvironmentVariable": "AZ_DevOps_Read_PAT",
-      "packages": [
-      ]
+      "packages": []
     }
   ]
 }

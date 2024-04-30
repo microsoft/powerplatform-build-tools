@@ -36,6 +36,7 @@ export async function main(): Promise<void> {
     templates: parameterMap['AppsTemplate'],
     domainName: parameterMap['DomainName'],
     teamId: parameterMap['TeamId'],
+    securityGroupId: parameterMap['SecurityGroupId'],
     logToConsole: isDiagnosticsMode ? true : false
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 
