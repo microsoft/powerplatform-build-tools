@@ -44,7 +44,7 @@
     "@typescript-eslint/parser": "^5.62.0",
     "chai": "^4.3.10",
     "dotenv": "^16.3.1",
-    "eslint": "^8.50.0",
+    "eslint": "^9.1.1",
     "eslint-plugin-node": "^11.1.0",
     "fancy-log": "^2.0.0",
     "find": "^0.3.0",
