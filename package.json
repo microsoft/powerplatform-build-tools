@@ -59,7 +59,7 @@
     "node-fetch": "^3.3.2",
     "path-parse": "^1.0.7",
     "ps-list": "^8.1.1",
-    "release-it": "^16.1.5",
+    "release-it": "^17.2.1",
     "rewiremock": "^3.14.5",
     "sinon": "^16.1.0",
     "sinon-chai": "^3.6.0",
