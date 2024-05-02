@@ -42,7 +42,7 @@
     "@types/webpack": "^5.28.5",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
-    "chai": "^4.3.10",
+    "chai": "^4.4.1",
     "dotenv": "^16.4.5",
     "eslint": "^8.50.0",
     "eslint-plugin-node": "^11.1.0",
