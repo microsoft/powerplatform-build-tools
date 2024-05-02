@@ -77,6 +77,7 @@
         "Trial": "Trial",
         "Sandbox": "Sandbox",
         "Production": "Production",
+        "Developer": "Developer",
         "SubscriptionBasedTrial": "Trial (subscription-based)"
       }
     },
