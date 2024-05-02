@@ -30,7 +30,7 @@
   "devDependencies": {
     "@types/chai": "^4.3.11",
     "@types/debug": "^4.1.12",
-    "@types/fs-extra": "^11.0.2",
+    "@types/fs-extra": "^11.0.4",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.12.7",
     "@types/q": "^1.5.4",
@@ -79,7 +79,7 @@
     "@microsoft/powerplatform-cli-wrapper": "^0.1.121",
     "azure-pipelines-task-lib": "^4.9.1",
     "debug": "^4.3.4",
-    "fs-extra": "^11.1.1",
+    "fs-extra": "^11.2.0",
     "semver": "^7.6.0",
     "unzip-stream": "^0.3.4"
   },
