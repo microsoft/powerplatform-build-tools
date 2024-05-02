@@ -47,6 +47,7 @@ describe("create-environment tests", () => {
       credentials: credentials,
       environmentName: { name: 'DisplayName', required: true, defaultValue: undefined },
       environmentType: { name: 'EnvironmentSku', required: true, defaultValue: 'Sandbox' },
+      user: { name: 'User', required: false, defaultValue: undefined },
       region: { name: 'LocationName', required: true, defaultValue: 'unitedstates' },
       currency: { name: 'CurrencyName', required: true, defaultValue: 'USD' },
       language: { name: 'LanguageName', required: true, defaultValue: 'English (United States)' },
