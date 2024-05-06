@@ -30,6 +30,7 @@ export async function main(): Promise<void> {
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
     dataFile: parameterMap['DataFile'],
+    connectionCount: parameterMap['ConnectionCount'],
     verbose: {
       name: "Verbose",
       required: false,
