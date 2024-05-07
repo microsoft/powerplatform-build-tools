@@ -18,6 +18,7 @@ export async function main(): Promise<void> {
 
   tl.debug(`Found required pac CLI executable under: ${pacPath}`);
   tl.debug(`Setting ${PacPathEnvVarName} : ${pacPath}`);
+  tl.prependPath(pacPath);
   tl.setVariable(PacPathEnvVarName, pacPath);
 }
 
