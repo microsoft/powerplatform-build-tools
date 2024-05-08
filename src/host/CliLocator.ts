@@ -4,6 +4,11 @@ import path = require('path');
 import { pathExists, chmod } from 'fs-extra';
 
 export async function findPacCLI(): Promise<string> {
+  // cli-wrapper expects the root folder, see: src\pac\createPacRunner.ts
+  return (await findPacCLIPath()).pacRootPath;
+}
+
+export async function findPacCLIPath(): Promise<{ pacRootPath: string, pacPath: string }> {
   const pacRootPath = path.resolve(__dirname, 'bin');
   let pacPath: string;
   switch (process.platform) {
@@ -20,6 +25,9 @@ export async function findPacCLI(): Promise<string> {
   if (!await pathExists(pacPath)) {
     throw new Error(`Cannot find required pac CLI executable under: ${pacPath}`);
   }
-  // cli-wrapper expects the root folder, see: src\pac\createPacRunner.ts
-  return pacRootPath;
+
+  const lastSlashIndex = pacPath.lastIndexOf("/");
+  pacPath = pacPath.substring(0, lastSlashIndex);
+
+  return { pacRootPath, pacPath};
 }
