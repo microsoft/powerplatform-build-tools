@@ -29,7 +29,15 @@
       "type": "boolean",
       "required": true,
       "helpMarkDown": "OBSOLETE: Current task implementations are no longer based on Powershell modules. This ToolInstaller task always installs the latest pac CLI (Power Platform CLI) that is available for this task extension. The additional task parameters are kept to avoid breaking changes with existing Azure DevOps pipelines.",
-      "defaultValue":true
+      "defaultValue": true
+    },
+    {
+      "name": "AddToolsToPath",
+      "label": "Adds the pac cli to the PATH environment variable",
+      "type": "boolean",
+      "required": false,
+      "helpMarkDown": "Enables you to use pac cli from script tasks without needing to set up the path manually.",
+      "defaultValue": false
     },
     {
       "name": "PowerAppsAdminVersion",
@@ -38,7 +46,7 @@
       "required": false,
       "helpMarkDown": "IGNORED: This version of the BuildTools no longer depends on any PowerShell modules; specifying any version value will be ignored",
       "defaultValue": "(obsolete)",
-      "groupname":"advanced"
+      "groupname": "advanced"
     },
     {
       "name": "XrmToolingPackageDeploymentVersion",
@@ -47,7 +55,7 @@
       "required": false,
       "helpMarkDown": "IGNORED: This version of the BuildTools no longer depends on any PowerShell modules; specifying any version value will be ignored",
       "defaultValue": "(obsolete)",
-      "groupname":"advanced"
+      "groupname": "advanced"
     },
     {
       "name": "MicrosoftPowerAppsCheckerVersion",
@@ -56,7 +64,7 @@
       "required": true,
       "helpMarkDown": "IGNORED: This version of the BuildTools no longer depends on any PowerShell modules; specifying any version value will be ignored",
       "defaultValue": "(obsolete)",
-      "groupname":"advanced"
+      "groupname": "advanced"
     },
     {
       "name": "CrmSdkCoreToolsVersion",
@@ -65,7 +73,7 @@
       "required": false,
       "helpMarkDown": "IGNORED: This version of the BuildTools no longer depends on any PowerShell modules; specifying any version value will be ignored",
       "defaultValue": "(obsolete)",
-      "groupname":"advanced"
+      "groupname": "advanced"
     },
     {
       "name": "XrmOnlineManagementApiVersion",
@@ -74,15 +82,15 @@
       "required": false,
       "helpMarkDown": "IGNORED: This version of the BuildTools no longer depends on any PowerShell modules; specifying any version value will be ignored",
       "defaultValue": "(obsolete)",
-      "groupname":"advanced"
+      "groupname": "advanced"
     }
   ],
   "groups": [
     {
-        "name": "advanced",
-        "displayName": "Advanced",
-        "isExpanded": false,
-        "visibleRule": "DefaultVersion = false"
+      "name": "advanced",
+      "displayName": "Advanced",
+      "isExpanded": false,
+      "visibleRule": "DefaultVersion = false"
     }
   ],
   "execution": {
