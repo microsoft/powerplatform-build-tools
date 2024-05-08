@@ -30,6 +30,7 @@ export async function main(): Promise<void> {
     credentials: getCredentials(),
     environmentName: parameterMap['DisplayName'],
     environmentType: parameterMap['EnvironmentSku'],
+    user: parameterMap['User'],
     region: parameterMap['LocationName'],
     currency: parameterMap['CurrencyName'],
     language: parameterMap['LanguageName'],

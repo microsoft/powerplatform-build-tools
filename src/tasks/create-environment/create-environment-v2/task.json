@@ -77,8 +77,17 @@
         "Trial": "Trial",
         "Sandbox": "Sandbox",
         "Production": "Production",
+        "Developer": "Developer",
         "SubscriptionBasedTrial": "Trial (subscription-based)"
       }
+    },
+    {
+      "name": "User",
+      "label": "Create on behalf of user",
+      "type": "string",
+      "required": false,
+      "helpMarkDown": "Object ID or user principal name (UPN) of Microsoft Entra ID user to be assigned to the environment.",
+      "visibleRule": "EnvironmentSku = Developer"
     },
     {
       "name": "AppsTemplate",
