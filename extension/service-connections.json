@@ -74,6 +74,11 @@
                 }
               }
             ]
+          },
+          {
+            "type": "ms.vss-endpoint.endpoint-auth-scheme-workload-identity-federation",
+            "displayName": "Workload Identity federation (preview)",
+            "inputDescriptors": []
           }
         ]
       }

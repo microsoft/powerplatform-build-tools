@@ -22,6 +22,14 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- (Preview) The Power Platform Service Connection now supports Workload Identity federation, enabling Service Principals or Managed Identities to authenticate without a Client Secret when configured with Federated Credentials in the Azure Portal.
+- Power Platform Tool Installer task can now optionally prepend PAC CLI to the System PATH
+- Power Platform Import Data task can now specify the connection count
+- Power Platform Create Environment task can now set the Security Group ID for created environments
+- Power Platform Create Environment task can now create Developer type environments
+- pac CLI 1.32, [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
+
+2.0.63:
 - pac CLI 1.31.6, [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
 
 2.0.52:
