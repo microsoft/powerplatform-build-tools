@@ -26,8 +26,7 @@ export async function findPacCLIPath(): Promise<{ pacRootPath: string, pacPath: 
     throw new Error(`Cannot find required pac CLI executable under: ${pacPath}`);
   }
 
-  const lastSlashIndex = pacPath.lastIndexOf("/");
-  pacPath = pacPath.substring(0, lastSlashIndex);
+  pacPath = pacPath.replace(/(\/|\\)(pac.exe|pac)$/, '');
 
-  return { pacRootPath, pacPath};
+  return { pacRootPath, pacPath };
 }
