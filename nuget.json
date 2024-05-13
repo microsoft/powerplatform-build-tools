@@ -4,26 +4,26 @@
       "name": "nuget.org",
       "url": "https://api.nuget.org/v3-flatcontainer/",
       "authenticated": false,
-      "packages": []
+      "packages": [
+        {
+          "name": "Microsoft.PowerApps.CLI",
+          "version": "1.32.5",
+          "internalName": "pac"
+        },
+        {
+          "name": "Microsoft.PowerApps.CLI.Core.linux-x64",
+          "version": "1.32.5",
+          "internalName": "pac_linux",
+          "chmod": "tools/pac"
+        }
+      ]
     },
     {
       "name": "CAP_ISVExp_Tools_Stable",
       "url": "https://pkgs.dev.azure.com/msazure/_packaging/b0441cf8-0bc8-4fad-b126-841a6184e784/nuget/v3/flat2/",
       "authenticated": true,
       "patEnvironmentVariable": "AZ_DevOps_Read_PAT",
-      "packages": [
-        {
-          "name": "Microsoft.PowerApps.CLI",
-          "version": "1.32.4",
-          "internalName": "pac"
-        },
-        {
-          "name": "Microsoft.PowerApps.CLI.Core.linux-x64",
-          "version": "1.32.4",
-          "internalName": "pac_linux",
-          "chmod": "tools/pac"
-        }
-      ]
+      "packages": []
     },
     {
       "name": "CAP_ISVExp_Tools_Daily",
