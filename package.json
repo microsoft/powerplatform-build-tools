@@ -76,7 +76,7 @@
     "yargs": "^17.7.2"
   },
   "dependencies": {
-    "@microsoft/powerplatform-cli-wrapper": "^0.1.122",
+    "@microsoft/powerplatform-cli-wrapper": "^0.1.124",
     "azure-pipelines-task-lib": "^4.13.0",
     "debug": "^4.3.5",
     "fs-extra": "^11.2.0",
