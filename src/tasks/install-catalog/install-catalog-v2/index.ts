@@ -26,23 +26,12 @@ export async function main(): Promise<void> {
   const parameterMap = taskParser.getHostParameterEntries((taskDefinitionData as unknown) as AzurePipelineTaskDefiniton);
   const isDiagnosticsMode = tl.getVariable('agent.diagnostic');
 
-  const targetEnvironmentUrl = parameterMap['TargetEnvironmentUrl'];
-  const targetEnvironment = parameterMap['TargetEnvironment'];
-
-  if (!targetEnvironmentUrl && !targetEnvironment) {
-    throw new Error('Please provide either TargetEnvironmentUrl or TargetEnvironment.');
-  }
-
-  if (targetEnvironmentUrl && targetEnvironment) {
-    throw new Error('Please provide only one: TargetEnvironmentUrl or TargetEnvironment.');
-  }
-
   await installCatalog({
     credentials: getCredentials(),
     environmentUrl: getEnvironmentUrl(),
     catalogItemId: parameterMap['CatalogItemId'],
-    targetEnvironmentUrl: targetEnvironmentUrl,
-    targetEnvironment: targetEnvironment,
+    targetEnvironmentUrl: parameterMap['TargetEnvironmentUrl'],
+    targetEnvironment: parameterMap['TargetEnvironment'],
     settings: parameterMap['Settings'],
     targetVersion: parameterMap['TargetVersion'],
     pollStatus: parameterMap['PollStatus'],
