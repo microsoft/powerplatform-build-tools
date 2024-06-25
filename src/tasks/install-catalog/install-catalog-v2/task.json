@@ -73,7 +73,7 @@
     },
     {
       "name": "TargetEnvironmentUrl",
-      "label": "Target environment url (depcrecated)",
+      "label": "Target environment url (deprecated)",
       "type": "string",
       "required": false,
       "helpMarkDown": "Url of the target environment for catalog item installation."
