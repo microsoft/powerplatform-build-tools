@@ -17,7 +17,7 @@ import * as taskDefinitionData from "./task.json";
   if (isRunningOnAgent()) {
     await main();
   }
-  })().catch(error => {
+})().catch(error => {
   tl.setResult(tl.TaskResult.Failed, error);
 });
 
@@ -31,6 +31,7 @@ export async function main(): Promise<void> {
     environmentUrl: getEnvironmentUrl(),
     catalogItemId: parameterMap['CatalogItemId'],
     targetEnvironmentUrl: parameterMap['TargetEnvironmentUrl'],
+    targetEnvironment: parameterMap['TargetEnvironment'],
     settings: parameterMap['Settings'],
     targetVersion: parameterMap['TargetVersion'],
     pollStatus: parameterMap['PollStatus'],
