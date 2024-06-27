@@ -1,6 +1,6 @@
 # Contributing
 
-This project will welcome contributions and suggestions in the near future.
+This project will welcome code and PR contributions and suggestions in the near future.  While we are excited to accept code contributions, there are other valuable forms of contributions, including filing [issues](https://github.com/microsoft/powerplatform-build-tools/issues) and engaging in [discussions](https://github.com/microsoft/powerplatform-build-tools/discussions).  Many open source projects ask for enhancement suggestions in the form of issues.  We prefer that you start an [idea discussion](https://github.com/microsoft/powerplatform-build-tools/discussions/new?category=ideas) instead of creating enhancement issues.
 
 Once this project is ready to welcome contributions and suggestions:  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
