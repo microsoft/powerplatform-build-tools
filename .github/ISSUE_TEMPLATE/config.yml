@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Feature request
+    url: https://github.com/microsoft/powerplatform-build-tools/discussions/new?category=ideas
+    about: We prefer feature requests to start as discussions.  You will be redirected to start a new discussion.
+  - name: Question
+    url: https://github.com/microsoft/powerplatform-build-tools/discussions/new?category=q-a
+    about: Ask a question.
