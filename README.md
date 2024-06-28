@@ -29,7 +29,7 @@ See additional details in [COMMUNITY OFFICE HOURS](COMMUNITY.md)
 ## Contributing
 
 This project will welcome contributions in the near future. At this stage, we're not ready for contributions,
-but do welcome your suggestions via this repository's issue tracker.
+but do welcome your suggestions. Many open source projects ask for enhancement suggestions in the form of issues. We prefer that you start an [idea discussion](https://github.com/microsoft/powerplatform-build-tools/discussions/new?category=ideas) instead of creating enhancement issues.
 
 See details in [CONTRIBUTING](CONTRIBUTING.md)
 
