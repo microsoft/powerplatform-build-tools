@@ -22,6 +22,10 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- pac CLI 1.33, [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
+- Power Platform Install Catalog task now supports the TargetEnvironment parameter, via [#942]](https://github.com/microsoft/powerplatform-build-tools/pull/942)
+
+2.0.71:
 - (Preview) The Power Platform Service Connection now supports Workload Identity federation, enabling Service Principals or Managed Identities to authenticate without a Client Secret when configured with Federated Credentials in the Azure Portal.
 - Power Platform Tool Installer task can now optionally prepend PAC CLI to the System PATH
 - Power Platform Import Data task can now specify the connection count
