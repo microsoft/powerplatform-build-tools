@@ -61,17 +61,14 @@ function getClientCredentials(): AuthCredentials {
 // Docs: https://learn.microsoft.com/en-us/rest/api/azure/devops/distributedtask/oidctoken/create?view=azure-devops-rest-7.2
 function buildIdTokenRequestUrl(): string {
   const oidcApiVersion = '7.2-preview.1';
-  const projectId = tl.getVariable('System.TeamProjectId');
-  const hub = tl.getVariable("System.HostType");
-  const planId = tl.getVariable('System.PlanId');
-  const jobId = tl.getVariable('System.JobId');
+  const oidcRequstUrlBase = tl.getVariable('System.OidcRequestUri');
   const serviceConnectionId = tl.getInput("PowerPlatformSPN", true);
   let uri = tl.getVariable("System.CollectionUri");
   if (!uri) {
       uri = tl.getVariable("System.TeamFoundationServerUri");
   }
 
-  const tokenRequestUrl = `${uri}${projectId}/_apis/distributedtask/hubs/${hub}/plans/${planId}/jobs/${jobId}/oidctoken?serviceConnectionId=${serviceConnectionId}&api-version=${oidcApiVersion}`;
+  const tokenRequestUrl = `${oidcRequstUrlBase}?serviceConnectionId=${serviceConnectionId}&api-version=${oidcApiVersion}`;
   tl.debug(`OIDC Token Request URL: ${tokenRequestUrl}`);
   return tokenRequestUrl;
 }
