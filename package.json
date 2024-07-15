@@ -50,7 +50,7 @@
     "find": "^0.3.0",
     "glob": "^10.4.1",
     "gulp": "^5.0.0",
-    "gulp-eslint-new": "^2.0.0",
+    "gulp-eslint-new": "^2.2.0",
     "gulp-mocha": "^8.0.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-typescript": "^6.0.0-alpha.1",
