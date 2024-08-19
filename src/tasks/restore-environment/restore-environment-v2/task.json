@@ -103,15 +103,6 @@
       "helpMarkDown": "Set the friendly name of the restore instance."
     },
     {
-      "name": "DisableAdminMode",
-      "label": "Disable Admin Mode",
-      "type": "boolean",
-      "required": false,
-      "defaultValue": true,
-      "groupName": "advanced",
-      "helpMarkDown": "Specify whether to Disable the administration mode."
-    },
-    {
       "name": "SkipAuditData",
       "label": "Skip Audit Data",
       "type": "boolean",
