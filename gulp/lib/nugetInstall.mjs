@@ -7,10 +7,15 @@ import { Extract } from "unzip-stream";
 import yargs from 'yargs';
 const argv = yargs(process.argv.slice(2)).argv; // skip 'node' and 'gulp.js' args
 
-export default async function nugetInstall(feed, pkg) {
+export default async function nugetInstall(pkg, feeds) {
   const packageName = pkg.name.toLowerCase();
   const version = pkg.version.toLowerCase();
   const packagePath = `${packageName}/${version}/${packageName}.${version}.nupkg`;
+
+  // Override the feed used if specified by the --useFeed argument
+  const selectedFeedName = argv.useFeed || pkg.useFeed;
+  info('Using feed:', selectedFeedName);
+  const feed = feeds.find((f) => f.name === selectedFeedName);
 
   const nupkgUrl = new URL(packagePath, feed.url);
   const reqInit = {
