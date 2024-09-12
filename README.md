@@ -22,6 +22,11 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 
 ## Community Office Hours
 
+:yellow_circle:
+:yellow_circle: :yellow_circle: :yellow_circle: </br>
+### Announcement - No office hours in September - see you at [Power Platform Community Conference](https://aka.ms/ppcc2024)</br>
+:yellow_circle: :yellow_circle: :yellow_circle: :yellow_circle: </br>
+
 We hold monthly office hours (_every 3rd thursday of the month_) where you can ask specific question to the product team.
 
 See additional details in [COMMUNITY OFFICE HOURS](COMMUNITY.md)

@@ -1,6 +1,10 @@
+:yellow_circle:
+:yellow_circle: :yellow_circle: :yellow_circle: </br>
+### Announcement - No office hours in September - see you at [Power Platform Community Conference](https://aka.ms/ppcc2024)</br>
+:yellow_circle: :yellow_circle: :yellow_circle: :yellow_circle: </br>
+
+
 # Welcome to the Microsoft Power Platform Developer Tools Community!
-
-
 
 Power Platform Developer Tools automate common build and deployment tasks related to Power Platform.
 This includes synchronization of solution metadata (a.k.a. solutions) between development environments and source control,
@@ -23,19 +27,6 @@ We do our best to respond to each submission.
 We regularly have Community Office Hours that are open to the **public** to join (_third (3rd) Thursday of the month between 11:00am - 12:00pm US Pacific Time - Excluding holidays_).
 
 You can add the office hours to your calendar by clicking [Microsoft Power Platform Developer Tools - Office Hours.ics](/community/Microsoft%20Power%20Platform%20Developer%20Tools%20-%20Office%20Hours.ics)
-
-### Announcement
-:yellow_circle:
-:yellow_circle: :yellow_circle: :yellow_circle: </br>
-If you have missed the office hours, you can find the recordings and previous ones [here](https://www.youtube.com/results?search_query=power+platform+developer+office+hours).
-
-You can find information below to attend the next office hours held every 3rd Thursday of the month during Pacific time-zone.
-
-We highly recommend sending us your questions ahead of time. You can send us any feedback/questions/comments at [**https://aka.ms/ProDevOfficeHours**](https://aka.ms/ProDevOfficeHours).
-
-Thank you,</br>
-Microsoft Power Platform Developer Tools </br>
-:yellow_circle: :yellow_circle: :yellow_circle: :yellow_circle: </br>
 
 Add Power Platform Developer Tools event to your calendar.
 
