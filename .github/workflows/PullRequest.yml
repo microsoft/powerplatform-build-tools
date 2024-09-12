@@ -73,7 +73,7 @@ jobs:
 
       - name: Upload PAC CLI logs
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: pac-cli-log ${{ matrix.os }}
           path: out/pp-bt-test/tasks/tool-installer/**/pac*/tools/logs/pac-log.txt
