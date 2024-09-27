@@ -22,6 +22,9 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- pac CLI 1.35, [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
+
+2.0.77
 - pac CLI 1.34, [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
 - Copy Environment and Restore Environment task have had their unusable DisableAdminMode parameter removed, via [#1000](https://github.com/microsoft/powerplatform-build-tools/pull/1000)
 
