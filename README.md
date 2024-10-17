@@ -18,7 +18,7 @@ Each tasks wraps the existing [Power Platform CLI](https://aka.ms/PowerPlatformC
 
 ## Feedback & Questions
 
-Please use the issues tracker in the home repo: <https://github.com/microsoft/powerplatform-build-tools/issues>
+For additional support: https://learn.microsoft.com/en-us/power-platform/admin/get-help-support
 
 ## Engage with the Community
 
