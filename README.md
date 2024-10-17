@@ -23,6 +23,7 @@ For additional support: https://learn.microsoft.com/en-us/power-platform/admin/g
 ## Engage with the Community
 
 Stay up-to-date with the latest in Microsoft 365 & Power Platform topics: https://aka.ms/community/home
+
 Recurring call invite - https://aka.ms/community/ms-speakers-call-invite
 
 ## Contributing
