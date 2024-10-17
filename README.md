@@ -20,23 +20,12 @@ Each tasks wraps the existing [Power Platform CLI](https://aka.ms/PowerPlatformC
 
 Please use the issues tracker in the home repo: <https://github.com/microsoft/powerplatform-build-tools/issues>
 
-## Community Office Hours
+## Engage with the Community
 
-:yellow_circle:
-:yellow_circle: :yellow_circle: :yellow_circle: </br>
-### Announcement - No office hours in September - see you at [Power Platform Community Conference](https://aka.ms/ppcc2024)</br>
-:yellow_circle: :yellow_circle: :yellow_circle: :yellow_circle: </br>
+Stay up-to-date with the latest in Microsoft 365 & Power Platform topics
+https://aka.ms/community/home
 
-We hold monthly office hours (_every 3rd thursday of the month_) where you can ask specific question to the product team.
-
-See additional details in [COMMUNITY OFFICE HOURS](COMMUNITY.md)
-
-## Contributing
-
-This project will welcome contributions in the near future. At this stage, we're not ready for contributions,
-but do welcome your suggestions. Many open source projects ask for enhancement suggestions in the form of issues. We prefer that you start an [idea discussion](https://github.com/microsoft/powerplatform-build-tools/discussions/new?category=ideas) instead of creating enhancement issues.
-
-See details in [CONTRIBUTING](CONTRIBUTING.md)
+Recurring call invite - https://aka.ms/community/ms-speakers-call-invite
 
 ### Code of Conduct
 
