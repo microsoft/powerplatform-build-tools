@@ -1,3 +1,4 @@
+DO NOT MERGE
 # Power Platform Build Tools
 
 [![PullRequest](https://github.com/microsoft/powerplatform-build-tools/actions/workflows/PullRequest.yml/badge.svg)](https://github.com/microsoft/powerplatform-build-tools/actions/workflows/PullRequest.yml)
