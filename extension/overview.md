@@ -22,6 +22,9 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
+- pac CLI 1.38, [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
+
+2.0.81
 - pac CLI 1.37, [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI)
 
 2.0.80
