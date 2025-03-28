@@ -41,9 +41,6 @@ jobs:
           node-version: 16
           registry-url: https://npm.pkg.github.com
 
-      - name: Configure npm
-        run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
-
       - name: Install npm@8 globally (windows)
         if: matrix.os == 'windows-latest'
         run: npm i -g npm@8
