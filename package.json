@@ -2,7 +2,7 @@
   "name": "@microsoft/powerplatform-build-tools",
   "version": "2.0.0",
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=20.0.0"
   },
   "description": "Azure DevOps tasks for Power Platform",
   "main": "index.js",
@@ -76,7 +76,7 @@
     "yargs": "^17.7.2"
   },
   "dependencies": {
-    "@microsoft/powerplatform-cli-wrapper": "^0.1.131",
+    "@microsoft/powerplatform-cli-wrapper": "^0.1.134",
     "azure-pipelines-task-lib": "^4.13.0",
     "debug": "^4.3.5",
     "fs-extra": "^11.2.0",
