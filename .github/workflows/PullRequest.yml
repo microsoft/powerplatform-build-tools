@@ -44,13 +44,13 @@ jobs:
       - name: Configure npm
         run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
 
-      - name: Install npm@8 globally (windows)
+      - name: Install npm@11 globally (windows)
         if: matrix.os == 'windows-latest'
-        run: npm i -g npm@8
+        run: npm i -g npm@11
 
-      - name: Install npm@9 globally (linux)
+      - name: Install npm@11 globally (linux)
         if: matrix.os != 'windows-latest'
-        run: npm i -g npm@9
+        run: npm i -g npm@11
 
       - name: Install npm dependencies
         run: npm ci
