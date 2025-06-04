@@ -47,6 +47,7 @@ describe("Add solution component to target solution", () => {
       component: { name: 'Component', required: true, defaultValue: undefined },
       componentType: { name: 'ComponentType', required: true, defaultValue: undefined },
       addRequiredComponents: { name: 'AddRequiredComponents', required: false, defaultValue: false },
+      async: { name: 'AsyncOperation', required: false, defaultValue: false },
     }, new BuildToolsRunnerParams(), new BuildToolsHost());
   });
 });
