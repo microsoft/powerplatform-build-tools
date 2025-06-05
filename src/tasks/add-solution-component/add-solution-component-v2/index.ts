@@ -32,5 +32,6 @@ export async function main(): Promise<void> {
     component: parameterMap['Component'],
     componentType: parameterMap['ComponentType'],
     addRequiredComponents: parameterMap['AddRequiredComponents'],
+    async: parameterMap['AsyncOperation'],
   }, new BuildToolsRunnerParams(), new BuildToolsHost());
 }
