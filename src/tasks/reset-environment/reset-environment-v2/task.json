@@ -336,6 +336,9 @@
     }
   ],
   "execution": {
+    "Node20_1": {
+      "target": "index.js"
+    },
     "Node16": {
       "target": "index.js"
     }

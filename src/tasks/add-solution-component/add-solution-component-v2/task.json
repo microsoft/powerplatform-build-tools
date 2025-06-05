@@ -86,6 +86,14 @@
       "required": false,
       "defaultValue": false,
       "helpMarkDown": "Indicates whether other solution components that are required by the solution component that you are adding should also be added to the unmanaged solution"
+    },
+    {
+      "name": "AsyncOperation",
+      "label": "Run operation as an asynchronous operation",
+      "type": "boolean",
+      "required": false,
+      "defaultValue": false,
+      "helpMarkDown": "Run the operation in async mode."
     }
   ],
   "execution": {
