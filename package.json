@@ -32,7 +32,6 @@
     "@types/debug": "^4.1.12",
     "@types/fs-extra": "^11.0.4",
     "@types/mocha": "^10.0.6",
-    "@types/node": "^20.12.11",
     "@types/q": "^1.5.8",
     "@types/semver": "^7.5.8",
     "@types/sinon": "^10.0.16",
@@ -74,6 +73,9 @@
     "webpack-cli": "^5.1.4",
     "webpack-node-externals": "^3.0.0",
     "yargs": "^17.7.2"
+  },
+  "overrides": {
+      "@types/node": "~20.19.0"
   },
   "dependencies": {
     "@microsoft/powerplatform-cli-wrapper": "^0.1.135",
