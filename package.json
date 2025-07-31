@@ -64,7 +64,7 @@
     "sinon-chai": "^3.6.0",
     "sync-request": "^6.1.0",
     "tar": "^6.2.0",
-    "tfx-cli": "^0.16.0",
+    "tfx-cli": "^0.21.1",
     "ts-loader": "^9.5.1",
     "ts-node": "^10.9.2",
     "ts-sinon": "^2.0.2",
