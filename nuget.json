@@ -2,13 +2,13 @@
   "packages": [
     {
       "name": "Microsoft.PowerApps.CLI",
-      "version": "1.46.1",
+      "version": "1.44.2",
       "internalName": "pac",
       "useFeed": "nuget.org"
     },
     {
       "name": "Microsoft.PowerApps.CLI.Core.linux-x64",
-      "version": "1.46.1",
+      "version": "1.44.2",
       "internalName": "pac_linux",
       "chmod": "tools/pac",
       "useFeed": "nuget.org"
