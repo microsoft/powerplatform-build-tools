@@ -76,7 +76,7 @@
   },
   "overrides": {
       "@types/node": "~24.3.0",
-      "electron-to-chromium": "1.5.191"
+      "electron-to-chromium": "1.5.250"
   },
   "dependencies": {
     "@microsoft/powerplatform-cli-wrapper": "^0.1.135",
