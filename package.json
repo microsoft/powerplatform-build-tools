@@ -75,8 +75,9 @@
     "yargs": "^17.7.2"
   },
   "overrides": {
-      "@types/node": "~20.19.0",
-      "nanoid": "3.3.11"
+    "@types/node": "~20.19.0",
+    "nanoid": "3.3.11",
+    "electron-to-chromium": "^1.5.191"
   },
   "dependencies": {
     "@microsoft/powerplatform-cli-wrapper": "^0.1.135",
