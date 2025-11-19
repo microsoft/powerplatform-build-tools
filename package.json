@@ -69,14 +69,14 @@
     "ts-node": "^10.9.2",
     "ts-sinon": "^2.0.2",
     "typescript": "^5.4.5",
-    "webpack": "^5.94.0",
+    "webpack": "^5.102.1",
     "webpack-cli": "^5.1.4",
     "webpack-node-externals": "^3.0.0",
     "yargs": "^17.7.2"
   },
   "overrides": {
-      "@types/node": "~24.3.0",
-      "electron-to-chromium": "1.5.250"
+    "@types/node": "~24.3.0",
+    "electron-to-chromium": "1.5.250"
   },
   "dependencies": {
     "@microsoft/powerplatform-cli-wrapper": "^0.1.135",
