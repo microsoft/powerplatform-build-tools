@@ -18,10 +18,18 @@ git diff main...HEAD --stat 2>&1
 git log main...HEAD --oneline 2>&1
 npm install 2>&1 | tail -3          # must be clean
 npm audit 2>&1 | tail -5            # note any remaining vulns
-npm run build 2>&1 | tail -10       # must pass
 ```
 
-If `npm run build` fails, stop and fix it before creating the PR.
+Then run the full CI pipeline:
+```bash
+npm run ci 2>&1
+```
+
+`npm run ci` runs: clean → compile (all 32 tasks) → lint → restore (pac CLI) → unitTest → pack (4 VSIX stages).
+**Functional tests will fail locally** — they require `PA_BT_ORG_PASSWORD` and live environment credentials
+that are only available in the CI pipeline. This is expected and not a blocker for the PR.
+
+If anything other than `functionalTest` fails, stop and fix it before pushing.
 
 ### Step 2 — Commit any remaining changes
 
@@ -74,8 +82,7 @@ gh pr create \
 ## Test plan
 - [ ] `npm install` clean (no unexpected warnings)
 - [ ] `npm audit` — no new vulnerabilities introduced
-- [ ] `npm run build` passes
-- [ ] `npm test` passes
+- [ ] `npm run ci` passes locally (functional tests exempt — require live env credentials)
 - [ ] Manual pipeline run on DEV stage (if task behaviour changed)
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
