@@ -3,13 +3,13 @@ import createTfxRunner from "./lib/createTfxRunner.mjs";
 import yargs from 'yargs';
 const argv = yargs(process.argv.slice(2)).argv; // skip 'node' and 'gulp.js' args
 import { createCommandRunner } from "@microsoft/powerplatform-cli-wrapper";
-import tar from "tar";
 import find from "find";
 import path from "path";
 import { rm } from "fs/promises";
 
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
+const tar = require("tar");
 
 const outDir = 'out';
 const stagingDir = `${outDir}/staging`;
