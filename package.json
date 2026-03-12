@@ -11,10 +11,10 @@
   ],
   "scripts": {
     "clean": "node node_modules/gulp/bin/gulp.js clean",
-    "build": "node node_modules/gulp/bin/gulp.js compile --max-old-space-size=5120",
+    "build": "node node_modules/gulp/bin/gulp.js compile --max-old-space-size=8192",
     "test": "node node_modules/gulp/bin/gulp.js test",
-    "ci": "node node_modules/gulp/bin/gulp.js ci --max-old-space-size=5120",
-    "prepare-pack": "node node_modules/gulp/bin/gulp.js --max-old-space-size=5120 preparePack",
+    "ci": "node node_modules/gulp/bin/gulp.js ci --max-old-space-size=8192",
+    "prepare-pack": "node node_modules/gulp/bin/gulp.js --max-old-space-size=8192 preparePack",
     "pack": "node node_modules/gulp/bin/gulp.js pack",
     "tfx": "node node_modules/tfx-cli/_build/tfx-cli.js",
     "set-git-authn": "node ./setGitAuthN.js",
