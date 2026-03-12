@@ -142,7 +142,7 @@ nested transitive deps are marked `inBundle: true` in package-lock.json.
 
 | Bundled Package | Key nested dep | Known issue |
 |-----------------|---------------|-------------|
-| `azure-pipelines-task-lib@4.17.3` | `minimatch@3.0.5` (exact pin) | Vulnerable (ReDoS). Fix = upgrade to v5.x (breaking) |
+| `azure-pipelines-task-lib@5.2.8` | — | No known issues (upgraded from 4.x which had minimatch@3.0.5 ReDoS) |
 | `@microsoft/powerplatform-cli-wrapper@0.1.135` | `minimatch@10.x` via glob@11 | Patched to 10.2.4 in lock file |
 | `fs-extra` | — | No known issues |
 | `semver` | — | No known issues |
@@ -199,6 +199,36 @@ During re-resolution it hits `npm.pkg.github.com` for `@microsoft/*` packages.
 1. Task GUIDs per stage are in `extension/task-metadata.json`
 2. LIVE uses the canonical GUIDs; BETA/DEV/EXPERIMENTAL get unique GUIDs so they don't conflict
 3. `pack.mjs` substitutes GUIDs at pack time — verify the substitution logic if tasks show up under wrong IDs
+
+### Task fails: "Can't resolve AAD/OAuth authority"
+
+**Source:** IcM recurring pattern (ADO #4863652)
+**Layer:** pac CLI auth → Power Platform API
+
+1. Usually caused by incorrect `cloudInstance` value — check `getCredentials.ts` → `resolveCloudInstance()`
+2. Verify the service connection URL matches the actual cloud (Public vs USGov vs China)
+3. Check if the tenant's AAD authority endpoint is reachable from the build agent (network/proxy issues)
+4. Enable diagnostics: set `agent.diagnostic=true` in pipeline variables for verbose pac auth logging
+
+### Task fails: WhoAmI error in non-English build agent context
+
+**Source:** ADO #4846644 (long-term, no code fix yet)
+**Cause:** `whoAmI.ts` in cli-wrapper parses localized pac CLI output to extract the environment ID. Fails when the build agent OS locale is non-English.
+**Workaround:** Ensure build agent uses English locale (`en-US`). Set `LANG=en_US.UTF-8` on Linux agents.
+**Layer:** cli-wrapper `src/actions/whoAmI.ts` ~line 40 — fix must go upstream to cli-wrapper repo.
+
+### Import solution fails with PVA (Power Virtual Agents) components
+
+**Source:** IcM 604312672, ADO #4896777
+**Symptom:** `import-solution` task fails when solution contains PVA components.
+**Layer:** pac CLI → Power Platform API (not a build-tools code issue)
+**Workaround:** Check pac CLI version — update `nuget.json` to latest pac CLI. If persists, raise with PAC CLI team.
+
+### Extension not working on Azure DevOps Server 2020 (on-prem)
+
+**Source:** ADO #5130362
+**Official stance:** Extension is **not supported** on Azure DevOps Server 2020 on-prem.
+**Action:** Deflect IcM tickets. Direct customers to Azure DevOps Services (cloud) or Server 2022+.
 
 ### New pac CLI version needed
 1. Update version in `nuget.json`

@@ -1,141 +1,121 @@
-# Dependency Management
+# Fix Dependencies
 
-Single command for auditing, fixing vulnerabilities, and updating packages.
-Runs in three phases: Audit → Fix → Verify. Always runs all three in order.
+Fix all vulnerabilities on the current branch using `npm audit`. No user input required.
+
+**Scope:** local branch only — no origin sync, no ADO queries, no Dependabot. For S360 / ADO / GitHub alerts use `/security-alerts`.
 
 ---
 
-## Phase 1 — Audit (read-only, always run first)
+## Step 1 — Audit
 
 ```bash
 npm audit --json 2>&1
-npm outdated 2>&1
-npm install 2>&1 | grep EBADENGINE
 ```
 
-Produce a status table before touching anything:
+Build a fix list. For each vulnerability, apply the first matching rule:
 
-| Package | Type | Severity | Current | Safe Version | Fix Strategy |
-|---------|------|----------|---------|--------------|--------------|
-| ...     | ...  | ...      | ...     | ...          | ...          |
+| Condition | Action |
+| --------- | ------ |
+| `patched_version` exists | Fix it — patch/minor/major all acceptable for security |
+| `inBundle: true`, parent has newer version | Upgrade parent (Strategy B) |
+| `inBundle: true`, no parent upgrade | Patch lock file directly (Strategy C) |
+| `patched_version: null` | Accept risk, document, move on |
+| `scope: development` + low severity + no patch | Accept risk, move on |
+
+Known permanent accepted risk — do not flag: `elliptic` (GHSA-848j-6mx2-7j84) via `rewiremock` — dev-only, no patched version.
 
 ---
 
-## Phase 2 — Fix
+## Step 2 — Fix (no pausing between fixes)
 
-Apply fixes in this order. Use the architecture knowledge below to pick the right strategy.
+### Strategy A — npm override (non-bundled transitive dep)
 
-### Strategy A — Override (for non-bundled transitive deps)
-
-Add or update the `"overrides"` block in package.json.
-Verify the safe version exists first: `npm view <pkg> dist-tags.latest`
-
-**HARD RULES — learned from this project:**
-- **Never add a flat `"minimatch": "^3.x"` override.** It causes an infinite npm resolution loop because `readdir-glob` (pulled in by `release-it@19`) requires `minimatch@^5.x`. These conflict and npm loops at 50,000+ iterations.
-- Nested overrides (`"pkg": { "dep": "version" }`) do NOT work for packages marked `inBundle: true` in package-lock.json — use Strategy C instead.
-- After adding overrides, always run `npm install` before checking if they took effect.
-
-### Strategy B — Direct dependency bump (for direct deps)
-
-Update the version spec in `devDependencies` or `dependencies` in package.json, then `npm install`.
-Only bump patch/minor without asking. Flag major version bumps to the user first.
-
-**Do NOT update packages pinned in `overrides`** (e.g. `nanoid`, `electron-to-chromium`) unless explicitly asked — those are intentional pins.
-
-### Strategy C — Lock file patch (for bundled deps with `inBundle: true`)
-
-`npm audit fix` and overrides cannot reach bundled packages. Patch package-lock.json directly.
+Add/update the entry in `"overrides"` in `package.json`, then:
 
 ```bash
-# 1. Confirm the package is bundled
-node -e "const l=require('./package-lock.json'); const k='node_modules/<path>'; console.log(l.packages[k]?.inBundle, l.packages[k]?.version)"
-
-# 2. Find all nested locations of the package
-node -e "const l=require('./package-lock.json'); console.log(Object.keys(l.packages).filter(k=>k.endsWith('/<pkg>')))"
-
-# 3. Get the safe version metadata
-npm view <pkg>@<safe-version> dist.tarball dist.integrity --json
-
-# 4. Patch package-lock.json: update version, resolved, integrity fields
-
-# 5. Delete the old installed copy and reinstall
-rm -rf node_modules/<path-to-nested-pkg>
-npm install
-```
-
-**This project's bundled packages** (always use Strategy C for their nested deps):
-- `azure-pipelines-task-lib@4.17.3` — nested `minimatch@3.0.5` (exact pin, vulnerable, no 4.x fix — needs v5 upgrade, flag to user)
-- `@microsoft/powerplatform-cli-wrapper@0.1.135` — hosted on `npm.pkg.github.com`, requires GitHub PAT in `~/.npmrc`
-- `fs-extra`, `semver` — no known issues
-
-### Strategy D — Accept risk (document and skip)
-
-Use when:
-- Fix requires a **major version breaking change** (e.g. `azure-pipelines-task-lib` 4→5)
-- Vulnerability is **low severity**, devDep only, and fix is a breaking downgrade (e.g. `rewiremock→elliptic` chain)
-- No fix version exists upstream
-
-Always document accepted risks in the summary.
-
----
-
-## Phase 3 — Verify
-
-```bash
+npm view <pkg>@<version> version   # confirm version exists
+# edit package.json overrides
 npm install 2>&1
+npm ls <pkg> 2>&1                  # confirm version took effect
+```
+
+Hard rules:
+
+- **Never add `"minimatch": "^3.x"` as a flat override** — infinite npm loop
+- `ajv` override must stay at `^6.x` — v8 breaks ESLint
+- Do not change intentionally-pinned overrides (`nanoid`, `electron-to-chromium`, `@types/node`) unless explicitly asked
+
+### Strategy B — Direct dependency bump
+
+Update the version in `dependencies` or `devDependencies` in `package.json`, then `npm install`.
+
+### Strategy C — Lock file patch (for `inBundle: true` packages)
+
+```bash
+# Find all paths for the package
+node -e "
+const l = require('./package-lock.json');
+console.log(
+  Object.keys(l.packages)
+    .filter(k => k.endsWith('/<pkg>'))
+    .map(k => k + ' -> ' + l.packages[k].version + ' inBundle:' + l.packages[k].inBundle)
+    .join('\n')
+);"
+
+# Get safe version metadata
+npm view <pkg>@<patched-version> dist.tarball dist.integrity --json
+
+# Patch all matching entries
+node -e "
+const fs = require('fs');
+const l = require('./package-lock.json');
+Object.keys(l.packages)
+  .filter(k => k.endsWith('/<pkg>'))
+  .forEach(k => {
+    l.packages[k].version = '<patched-version>';
+    l.packages[k].resolved = '<tarball-url>';
+    l.packages[k].integrity = '<integrity>';
+  });
+fs.writeFileSync('./package-lock.json', JSON.stringify(l, null, 2) + '\n');
+console.log('Patched');
+"
+npm install 2>&1
+```
+
+### Strategy D — Accept risk
+
+Document in final summary. Do not block or ask.
+
+---
+
+## Step 3 — Verify
+
+```bash
 npm audit 2>&1
-npm ls <changed-package> 2>&1   # confirm correct version is installed
+npm run ci 2>&1
 ```
 
-For lock-file-patched packages, verify the physical install:
-```bash
-node -e "console.log(require('./node_modules/<nested-path>/package.json').version)"
-```
+`npm run ci` functional tests will fail locally (require `PA_BT_ORG_PASSWORD`) — expected, not a blocker.
 
-For build impact, run:
-```bash
-npm run build 2>&1
-npm test 2>&1
-```
+If `npm run ci` fails on a non-functional-test step (TypeScript error, lint, unit test), fix it and re-run before continuing. Do not commit a broken build.
 
 ---
 
-## GitHub Registry Auth (required for `@microsoft/*` packages)
-
-The project `.npmrc` routes `@microsoft:registry` to `https://npm.pkg.github.com/`.
-If `npm install` hangs after all npmjs.org packages resolve, check GitHub auth:
+## Step 4 — Commit and PR (only if Step 3 passes)
 
 ```bash
-# Test auth
-curl -s -o /dev/null -w "%{http_code}" \
-  -H "Authorization: token <your-token>" \
-  "https://npm.pkg.github.com/@microsoft%2fpowerplatform-cli-wrapper"
-# Must return 200
-
-# Token goes in ~/.npmrc:
-# //npm.pkg.github.com/:_authToken=<token>
-# Token needs read:packages scope
+git add package.json package-lock.json
+git status   # confirm nothing accidental staged
+git commit -m "chore: fix dependency vulnerabilities"
 ```
 
----
-
-## Engine Warnings (non-breaking, informational)
-
-Current Node: v20.11.0
-
-| Package | Requires | Status |
-|---------|----------|--------|
-| `release-it@19.2.4` | `^20.12.0 \|\| >=22.0.0` | One patch behind — non-breaking |
-| `chokidar@5.0.0` | `>=20.19.0` | Minor version behind — non-breaking |
-| `readdirp@5.0.0` | `>=20.19.0` | Minor version behind — non-breaking |
-
-A Node upgrade to `>=20.19.0` clears all three. Not required for functionality.
+Then run `/pr` to create the pull request.
 
 ---
 
-## Final Output
+## Final Summary
 
-Produce a summary with three sections:
-1. **Fixed** — what was changed, before/after versions, strategy used
-2. **Skipped** — what couldn't be fixed and why
-3. **Recommended follow-ups** — e.g. Node upgrade, azure-pipelines-task-lib v5 migration
+Print before handing off to `/pr`:
+
+- **Fixed:** package, old → new version, strategy used
+- **Accepted risk:** package, GHSA ID, reason
