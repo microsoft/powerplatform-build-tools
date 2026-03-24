@@ -287,6 +287,24 @@
         "DEV": "529fa654-10a6-4f98-82d1-a647564d1e43",
         "EXPERIMENTAL": "e81e8f85-c299-4555-a57f-d38bcf6f0b0c"
       }
+    },
+    {
+      "name": "download-code-site",
+      "id": {
+        "LIVE": "fdfb8482-3ce6-4d66-a675-a9cffbc98a94",
+        "BETA": "6015e4a1-b763-4b6a-9937-ac69c3cf2168",
+        "DEV": "e8a467f5-165c-4564-b540-7f0bf064a289",
+        "EXPERIMENTAL": "f54b465d-c17a-4488-8248-d60bc0faf617"
+      }
+    },
+    {
+      "name": "upload-code-site",
+      "id": {
+        "LIVE": "1e15d8d1-c3f2-4168-bc85-e6f5bb524007",
+        "BETA": "764696e6-a84e-4825-aee0-2adce59ef96f",
+        "DEV": "6f18f09b-a4fe-4af5-9bf2-ea87464660f5",
+        "EXPERIMENTAL": "6cd0e8be-da6d-4e56-94c4-09b00a0c5702"
+      }
     }
   ]
 }
