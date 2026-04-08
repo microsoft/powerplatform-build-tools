@@ -1,6 +1,6 @@
 ---
 name: workitem
-description: Read an ADO or GitHub work item, research similar past PRs, implement the fix, and leave the branch ready for /pr.
+description: Read an ADO or GitHub work item, research similar past PRs, implement the fix, and leave the branch ready for /create-pr.
 user-invocable: true
 argument-hint: "<ado-id | github-issue-number | url>"
 ---
@@ -8,7 +8,7 @@ argument-hint: "<ado-id | github-issue-number | url>"
 # Work Item — Read, Triage, and Implement
 
 Use this skill to read an ADO or GitHub work item, understand its impact on this codebase,
-research similar past PRs and work items, then implement and leave the branch ready for `/pr`.
+research similar past PRs and work items, then implement and leave the branch ready for `/create-pr`.
 
 Invoke as: `/workitem <url-or-id>`
 
@@ -201,7 +201,7 @@ git commit -m "fix: <short description> (#<work-item-id>)"
 
 ---
 
-## Step 7 — Hand off to `/pr`
+## Step 7 — Hand off to `/create-pr`
 
 Leave the branch in a clean, pushed state and note:
 
@@ -209,4 +209,4 @@ Leave the branch in a clean, pushed state and note:
 - What was changed and why
 - Any follow-up items or known limitations
 
-Then run `/pr` to create the pull request.
+Then run `/create-pr` to create the pull request.

@@ -66,7 +66,7 @@ Capture: `PR_NUMBER`, `HEAD_SHA`, `BASE_BRANCH`.
 
 ## Step 3 — Type-specific checks (run the section matching the PR type)
 
-### Step 3a — PAC CLI bump checks (nuget.json changed)
+### 3a — PAC CLI bump checks (nuget.json changed)
 
 ```bash
 # Verify both packages have the same version
@@ -91,7 +91,7 @@ Request changes immediately if:
 - `overview.md` has no entry for the new version
 - `{{NextReleaseVersion}}` placeholder was removed from `overview.md`
 
-### Step 3b — npm dependency checks (package.json changed)
+### 3b — npm dependency checks (package.json changed)
 
 Check the diff for:
 
@@ -101,7 +101,7 @@ Check the diff for:
 - `inBundle: true` entries in `package-lock.json` changes are intentional (overrides can't reach them)
 - No new direct dependency that should be in `bundleDependencies`
 
-### Step 3c — Release/stable branch checks (base == release/stable)
+### 3c — Release/stable branch checks (base == release/stable)
 
 Release PRs must be version bumps only. Request changes immediately if:
 

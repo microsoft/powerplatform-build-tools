@@ -288,7 +288,7 @@ Azure DevOps / GitHub Actions pipeline
 | Solution component errors / missing dependencies | L5 | CDS / Solution Framework |
 | PVA component import failure | L5 | pac CLI team (known IcM 604312672) |
 
-### 2c — pac command → owning team (the critical split)
+### 2d — pac command → owning team (the critical split)
 
 When pac CLI exits non-zero, the owning team depends on **which pac command ran** AND **where the error originates**:
 

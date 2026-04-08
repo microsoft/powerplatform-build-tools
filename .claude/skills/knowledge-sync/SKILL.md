@@ -12,7 +12,7 @@ the last sync — knowledge accumulates over time rather than being overwritten.
 
 Invoke as: `/knowledge-sync`
 
-Also invoked automatically (inline) by `/review`, `/workitem`, and `/fix-dependencies`
+Also invoked automatically (inline) by `/review`, `/workitem`, and `/pac-cli-update`
 when the knowledge base is more than 7 days old. No manual scheduling needed.
 
 ---
@@ -133,7 +133,7 @@ For each new item, assign one or more categories:
 | Known workaround | `ado-knowledge.md` log + `skills/architecture/SKILL.md` debug runbook |
 | Architecture decision | `ado-knowledge.md` log + `skills/architecture/SKILL.md` layer notes |
 | Dependency conflict / vuln pattern | `ado-knowledge.md` log + `skills/fix-dependencies/SKILL.md` hard rules |
-| Task contract change (input name, GUID) | `ado-knowledge.md` log + `skills/pr/SKILL.md` review checklist |
+| Task contract change (input name, GUID) | `ado-knowledge.md` log + `skills/create-pr/SKILL.md` review checklist |
 | ICM mitigation / guidance | `ado-knowledge.md` log + `skills/architecture/SKILL.md` debug runbook |
 
 Only add facts explicitly stated in resolutions or ICM mitigations — no speculation.
@@ -184,7 +184,7 @@ Update only files where new facts apply. Skip files with no relevant new finding
 - Add new package conflict patterns to Strategy A hard rules
 - Add new formally risk-accepted vulnerabilities to the known accepted risks list
 
-### `skills/pr/SKILL.md`
+### `skills/create-pr/SKILL.md`
 
 - Add to review checklist any new breaking-change patterns from resolved work items
 
