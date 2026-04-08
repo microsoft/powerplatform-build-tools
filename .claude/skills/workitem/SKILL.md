@@ -1,12 +1,8 @@
 ---
 name: workitem
 description: Read an ADO or GitHub work item, research similar past PRs, implement the fix, and leave the branch ready for /pr.
-allowed-tools: Read, Write, Glob, Grep, Bash
 user-invocable: true
-args:
-  id:
-    description: "ADO work item ID, GitHub issue number, or full URL"
-    required: true
+argument-hint: "<ado-id | github-issue-number | url>"
 ---
 
 # Work Item — Read, Triage, and Implement

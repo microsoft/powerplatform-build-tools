@@ -1,7 +1,6 @@
 ---
 name: knowledge-sync
 description: Sync ADO work items and ICM incidents to the persistent knowledge log. Invoked automatically by /review, /workitem, and /pac-cli-update when knowledge is stale.
-allowed-tools: Read, Write, Glob, Grep, Bash
 user-invocable: true
 ---
 

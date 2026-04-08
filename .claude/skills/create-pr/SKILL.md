@@ -1,7 +1,6 @@
 ---
-name: pr
+name: create-pr
 description: Create and push a PR for the current branch. Handles dependency updates and feature/bug fix templates.
-allowed-tools: Read, Write, Glob, Grep, Bash
 user-invocable: true
 ---
 

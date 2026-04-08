@@ -1,12 +1,8 @@
 ---
 name: review
 description: Autonomous PR review — reads diff, cross-references knowledge base, posts inline comments, and leaves an overall verdict.
-allowed-tools: Read, Write, Glob, Grep, Bash
 user-invocable: true
-args:
-  pr:
-    description: "PR number, URL, or omit to review the open PR on the current branch"
-    required: false
+argument-hint: "[pr-number | pr-url]"
 ---
 
 # Review Agent — Autonomous PR Review
@@ -19,7 +15,7 @@ Invoke as:
 - `/review <pr-number-or-url>` — review a specific PR
 - `/review` — review the open PR on the current branch
 
-For **creating** PRs use `/pr`. For **CLI version bumps** use `/pac-cli-update`.
+For **creating** PRs use `/create-pr`. For **CLI version bumps** use `/pac-cli-update`.
 
 ---
 

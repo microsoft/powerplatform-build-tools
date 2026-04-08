@@ -1,12 +1,8 @@
 ---
 name: debug-agent
 description: Diagnose a pipeline failure or customer issue end-to-end. Accepts a log path, error text, ADO work item ID, or GitHub issue URL.
-allowed-tools: Read, Write, Glob, Grep, Bash
 user-invocable: true
-args:
-  input:
-    description: "Log file path, pasted error text, ADO work item ID, or GitHub issue URL"
-    required: true
+argument-hint: "<log-file-path | error-text | ado-id | github-issue-url>"
 ---
 
 # Debug Agent
@@ -457,7 +453,7 @@ Common L1 fixes:
 3. `npm run build 2>&1` — must pass
 4. `npm test 2>&1` — must pass (functional test failures are expected locally — not a blocker)
 5. `git commit -m "fix: <description> (#<work-item-id-if-known>)"`
-6. Hand off to `/pr`
+6. Hand off to `/create-pr`
 
 ---
 

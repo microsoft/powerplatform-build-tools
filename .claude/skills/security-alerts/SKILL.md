@@ -1,7 +1,6 @@
 ---
 name: security-alerts
 description: Fetch all open security alerts from S360/ADO, Dependabot, and npm audit, apply all fixes, verify, commit, and create a PR.
-allowed-tools: Read, Write, Glob, Grep, Bash
 user-invocable: true
 ---
 
@@ -206,7 +205,7 @@ git status
 git commit -m "chore: fix dependency vulnerabilities"
 ```
 
-Then run `/pr` to create the pull request.
+Then run `/create-pr` to create the pull request.
 
 ---
 
