@@ -1,3 +1,10 @@
+---
+name: pac-cli-update
+description: Bump PAC CLI binary version and/or cli-wrapper npm package. Always produces two PRs — main and release/stable.
+user-invocable: true
+argument-hint: "<pac-version> [wrapper-version]"
+---
+
 # PAC CLI Update — PAC CLI and cli-wrapper version bump
 
 Handles the most common update in this repo: bumping the PAC CLI binary version and/or
