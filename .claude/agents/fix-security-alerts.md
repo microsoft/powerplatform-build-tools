@@ -199,7 +199,7 @@ git status
 git commit -m "chore: fix dependency vulnerabilities"
 ```
 
-Then run `/pr` to create the pull request.
+Then run `/create-pr` to create the pull request.
 
 ---
 
