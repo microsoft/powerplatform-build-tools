@@ -1,43 +1,25 @@
-# PR — Create and Push
+---
+name: create-pr
+description: Stage, commit, push, and create a GitHub PR for the current branch. Assumes branch exists and build has passed.
+user-invocable: true
+---
 
-Creates a PR for the current branch. For reviewing an existing PR, use `/review <number>`.
+# Create PR
 
-**For CLI version bumps**, use `/pac-cli-update <version>` — it handles the dual PR workflow (main + release/stable) automatically.
+Assumes you are on the right branch with changes ready to commit (or already committed) and `npm run ci` has passed.
+
+For **CLI version bumps** use `/pac-cli-update` — it handles dual PRs (main + release/stable) automatically.
+For **reviewing** an existing PR use `/review <number>`.
 
 ---
 
-## Step 1 — Branch from latest main
+## Step 1 — Stage and commit (skip if already committed)
 
-```bash
-git fetch origin 2>&1
-git checkout main 2>&1
-git merge origin/main --no-edit 2>&1
-git checkout -b users/<alias>/<short-description> 2>&1
-```
-
-Use the alias `jbujula`. Branch name should be lowercase, hyphen-separated, and describe the change (e.g. `users/jbujula/fix-export-timeout`, `users/jbujula/update-dependencies-s360`).
-
----
-
-## Step 2 — Build and verify
-
-```bash
-npm run ci 2>&1
-```
-
-`npm run ci` = clean → compile (32 tasks) → lint → restore → unitTest → pack (4 VSIX stages).
-Functional tests fail locally (require `PA_BT_ORG_PASSWORD`) — expected, not a blocker.
-If anything **other than** `functionalTest` fails, fix it before continuing.
-
----
-
-## Step 3 — Stage and commit
-
-Stage files explicitly (never `git add .`):
+Stage files explicitly — never `git add .`:
 
 ```bash
 git add <specific files>
-git status  # confirm nothing accidental is staged
+git status  # confirm nothing accidental staged
 git commit -m "<type>: <description>"
 ```
 
@@ -45,15 +27,15 @@ Commit types: `fix:` `feat:` `chore:` `build:` `docs:`
 
 ---
 
-## Step 4 — Push and create PR
+## Step 2 — Push and create PR
 
 ```bash
 git push -u origin HEAD 2>&1
 ```
 
-Choose the right PR template based on what changed:
+Pick the template matching what changed:
 
-### Dependency update (package.json / package-lock.json only)
+### Dependency update (`package.json` / `package-lock.json` only)
 
 ```bash
 gh pr create \
@@ -82,7 +64,7 @@ EOF
 )"
 ```
 
-### Feature / bug fix (src/ changes)
+### Feature / bug fix (`src/` changes)
 
 ```bash
 gh pr create \

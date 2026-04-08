@@ -1,3 +1,9 @@
+---
+name: architecture
+description: Architecture map, layer responsibilities, key files, auth types, and debug runbook by symptom.
+user-invocable: true
+---
+
 # Architecture & Debug Guide
 
 Use this skill to understand the codebase architecture, trace issues across repos, or debug failures.
@@ -88,11 +94,13 @@ cli-wrapper: src/actions/exportSolution.ts
 | File | Purpose |
 |------|---------|
 | `src/tasks/<name>/<name>-v2/index.ts` | Task entry point — reads inputs, calls cli-wrapper action |
-| `src/tasks/<name>/<name>-v2/task.json` | Declares all task inputs, metadata, execution config |
+| `src/tasks/<name>/<name>-v2/task.json` | Declares all task inputs, metadata, and execution config — execution handler is `Node20_1` (primary) + `Node16` (fallback) |
 | `src/host/BuildToolsHost.ts` | Implements `IHostAbstractions` — wraps `tl.getInput()`, artifact store |
 | `src/host/BuildToolsRunnerParams.ts` | Implements `RunnerParameters` — pac path, logger, agent string |
 | `src/host/CliLocator.ts` | Finds pac.exe/pac binary path by platform (win32 vs linux) |
-| `src/params/auth/getCredentials.ts` | Extracts auth from service connection (SPN / UserPass / WorkloadIdentity) |
+| `src/host/logger.ts` | Implements cli-wrapper's `Logger` interface — routes to `tl.warning/error/debug` and `console.log` |
+| `src/host/PipelineVariables.ts` | Defines output pipeline variable names (`BuildTools.EnvironmentUrl`, `BuildTools.EnvironmentId`, etc.) — used by create-environment and others |
+| `src/params/auth/getCredentials.ts` | Extracts auth from service connection — handles `PowerPlatformEnvironment` (UsernamePassword), `PowerPlatformSPN` (SPN or WIF, detected by `authorization.scheme`) |
 | `src/params/auth/getEnvironmentUrl.ts` | Resolves target environment URL (4-level fallback chain) |
 | `src/parser/TaskParser.ts` | Converts task.json inputs array → `Record<string, HostParameterEntry>` |
 | `extension/extension-manifest.json` | Azure DevOps extension metadata |
@@ -121,8 +129,9 @@ cli-wrapper: src/actions/exportSolution.ts
 |-----------|--------------------------|--------------------------|
 | Username/Password | `PowerPlatformEnvironment` | `--username` `--password` (base64) |
 | Service Principal | `PowerPlatformSPN` | `--applicationId` `--clientSecret` (base64) `--tenant` |
-| Managed Identity | `PowerPlatformSPN` (MSI scheme) | `--managedIdentity` |
-| Workload Identity Federation | `WorkloadIdentityFederation` | `--applicationId` `--tenant` `--azureDevOpsFederated` |
+| Workload Identity Federation | `PowerPlatformSPN` + WIF scheme | `--applicationId` `--tenant` `--azureDevOpsFederated` (via OIDC token env vars) |
+
+> **Note:** Managed Identity is NOT supported through PPBT. `getCredentials.ts` only handles the three types above. WIF is detected when `authorization.scheme === "WorkloadIdentityFederation"` inside the `PowerPlatformSPN` branch — PPBT sets `PAC_ADO_ID_TOKEN_REQUEST_URL` / `PAC_ADO_ID_TOKEN_REQUEST_TOKEN` env vars and pac CLI handles the OIDC exchange.
 
 **Environment variables used by tasks:**
 | Variable | Set by | Used by |
