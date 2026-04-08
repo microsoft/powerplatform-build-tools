@@ -1,3 +1,14 @@
+---
+name: workitem
+description: Read an ADO or GitHub work item, research similar past PRs, implement the fix, and leave the branch ready for /pr.
+allowed-tools: Read, Write, Glob, Grep, Bash
+user-invocable: true
+args:
+  id:
+    description: "ADO work item ID, GitHub issue number, or full URL"
+    required: true
+---
+
 # Work Item — Read, Triage, and Implement
 
 Use this skill to read an ADO or GitHub work item, understand its impact on this codebase,
@@ -18,7 +29,7 @@ grep "## Last sync" memory/ado-knowledge.md 2>/dev/null | tail -1
 ```
 
 - If last sync was **≤ 7 days ago**: skip, proceed to Step 1
-- If last sync was **> 7 days ago** or file missing: run `/sync-knowledge` inline now, then continue
+- If last sync was **> 7 days ago** or file missing: run `/knowledge-sync` inline now, then continue
 
 This ensures known patterns, confirmed fixes, and accepted risks are up to date before
 you base any implementation on them.
@@ -202,4 +213,4 @@ Leave the branch in a clean, pushed state and note:
 - What was changed and why
 - Any follow-up items or known limitations
 
-Then run `/create-pr` to create the pull request.
+Then run `/pr` to create the pull request.

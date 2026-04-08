@@ -1,8 +1,15 @@
+---
+name: fix-dependencies
+description: Fix all vulnerabilities on the current branch using npm audit. Local branch only — no ADO/GitHub queries.
+allowed-tools: Read, Write, Glob, Grep, Bash
+user-invocable: true
+---
+
 # Fix Dependencies
 
 Fix all vulnerabilities on the current branch using `npm audit`. No user input required.
 
-**Scope:** local branch only — no origin sync, no ADO queries, no Dependabot. For S360 / ADO / GitHub alerts use `/fix-security-alerts`.
+**Scope:** local branch only — no origin sync, no ADO queries, no Dependabot. For S360 / ADO / GitHub alerts use `/security-alerts`.
 
 ---
 
@@ -109,7 +116,7 @@ git status   # confirm nothing accidental staged
 git commit -m "chore: fix dependency vulnerabilities"
 ```
 
-Then run `/create-pr` to create the pull request.
+Then run `/pr` to create the pull request.
 
 ---
 

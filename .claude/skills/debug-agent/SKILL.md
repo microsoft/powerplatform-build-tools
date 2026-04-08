@@ -1,3 +1,14 @@
+---
+name: debug-agent
+description: Diagnose a pipeline failure or customer issue end-to-end. Accepts a log path, error text, ADO work item ID, or GitHub issue URL.
+allowed-tools: Read, Write, Glob, Grep, Bash
+user-invocable: true
+args:
+  input:
+    description: "Log file path, pasted error text, ADO work item ID, or GitHub issue URL"
+    required: true
+---
+
 # Debug Agent
 
 Diagnose a pipeline failure or customer issue end-to-end.

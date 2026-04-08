@@ -1,3 +1,10 @@
+---
+name: architecture
+description: Architecture map, layer responsibilities, key files, auth types, and debug runbook by symptom.
+allowed-tools: Read, Glob, Grep, Bash
+user-invocable: true
+---
+
 # Architecture & Debug Guide
 
 Use this skill to understand the codebase architecture, trace issues across repos, or debug failures.

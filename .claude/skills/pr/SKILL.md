@@ -1,8 +1,15 @@
+---
+name: pr
+description: Create and push a PR for the current branch. Handles dependency updates and feature/bug fix templates.
+allowed-tools: Read, Write, Glob, Grep, Bash
+user-invocable: true
+---
+
 # PR — Create and Push
 
 Creates a PR for the current branch. For reviewing an existing PR, use `/review <number>`.
 
-**For CLI version bumps**, use `/update-pac-cli <version>` — it handles the dual PR workflow (main + release/stable) automatically.
+**For CLI version bumps**, use `/pac-cli-update <version>` — it handles the dual PR workflow (main + release/stable) automatically.
 
 ---
 

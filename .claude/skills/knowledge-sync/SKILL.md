@@ -1,3 +1,10 @@
+---
+name: knowledge-sync
+description: Sync ADO work items and ICM incidents to the persistent knowledge log. Invoked automatically by /review, /workitem, and /pac-cli-update when knowledge is stale.
+allowed-tools: Read, Write, Glob, Grep, Bash
+user-invocable: true
+---
+
 # Knowledge Sync — ADO Work Items + ICM Incidents
 
 Reads ADO work items and ICM incidents for the PPBT area, extracts patterns and fixes,
@@ -6,7 +13,7 @@ the last sync — knowledge accumulates over time rather than being overwritten.
 
 Invoke as: `/knowledge-sync`
 
-Also invoked automatically (inline) by `/review-pr`, `/implement-workitem`, and `/fix-dependencies`
+Also invoked automatically (inline) by `/review`, `/workitem`, and `/fix-dependencies`
 when the knowledge base is more than 7 days old. No manual scheduling needed.
 
 ---
@@ -123,12 +130,12 @@ For each new item, assign one or more categories:
 
 | Category | Where it goes |
 | -------- | ------------- |
-| Recurring bug / root cause | `ado-knowledge.md` log + `architecture.md` debug runbook |
-| Known workaround | `ado-knowledge.md` log + `architecture.md` debug runbook |
-| Architecture decision | `ado-knowledge.md` log + `architecture.md` layer notes |
-| Dependency conflict / vuln pattern | `ado-knowledge.md` log + `fix-dependencies.md` hard rules |
-| Task contract change (input name, GUID) | `ado-knowledge.md` log + `create-pr.md` review checklist |
-| ICM mitigation / guidance | `ado-knowledge.md` log + `architecture.md` debug runbook |
+| Recurring bug / root cause | `ado-knowledge.md` log + `skills/architecture/SKILL.md` debug runbook |
+| Known workaround | `ado-knowledge.md` log + `skills/architecture/SKILL.md` debug runbook |
+| Architecture decision | `ado-knowledge.md` log + `skills/architecture/SKILL.md` layer notes |
+| Dependency conflict / vuln pattern | `ado-knowledge.md` log + `skills/fix-dependencies/SKILL.md` hard rules |
+| Task contract change (input name, GUID) | `ado-knowledge.md` log + `skills/pr/SKILL.md` review checklist |
+| ICM mitigation / guidance | `ado-knowledge.md` log + `skills/architecture/SKILL.md` debug runbook |
 
 Only add facts explicitly stated in resolutions or ICM mitigations — no speculation.
 
@@ -168,21 +175,21 @@ Append a new dated section. Never delete or overwrite previous sections.
 
 Update only files where new facts apply. Skip files with no relevant new findings.
 
-### `architecture.md`
+### `skills/architecture/SKILL.md`
 
 - Append to **Debug Runbook by Symptom** for any new recurring issue with a confirmed fix
 - Update auth table or bundled dep notes if changed
 
-### `fix-dependencies.md`
+### `skills/fix-dependencies/SKILL.md`
 
 - Add new package conflict patterns to Strategy A hard rules
 - Add new formally risk-accepted vulnerabilities to the known accepted risks list
 
-### `create-pr.md`
+### `skills/pr/SKILL.md`
 
 - Add to review checklist any new breaking-change patterns from resolved work items
 
-### `implement-workitem.md`
+### `skills/workitem/SKILL.md`
 
 - Add recurring fix patterns so future similar work items resolve faster
 

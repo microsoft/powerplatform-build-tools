@@ -1,3 +1,14 @@
+---
+name: review
+description: Autonomous PR review — reads diff, cross-references knowledge base, posts inline comments, and leaves an overall verdict.
+allowed-tools: Read, Write, Glob, Grep, Bash
+user-invocable: true
+args:
+  pr:
+    description: "PR number, URL, or omit to review the open PR on the current branch"
+    required: false
+---
+
 # Review Agent — Autonomous PR Review
 
 Reads a PR diff, cross-references the full knowledge base, posts inline comments on specific
@@ -8,7 +19,7 @@ Invoke as:
 - `/review <pr-number-or-url>` — review a specific PR
 - `/review` — review the open PR on the current branch
 
-For **creating** PRs use `/create-pr`. For **CLI version bumps** use `/update-pac-cli`.
+For **creating** PRs use `/pr`. For **CLI version bumps** use `/pac-cli-update`.
 
 ---
 
@@ -29,7 +40,7 @@ For **creating** PRs use `/create-pr`. For **CLI version bumps** use `/update-pa
 grep "## Last sync" memory/ado-knowledge.md 2>/dev/null | tail -1
 ```
 
-If last sync was > 7 days ago or file missing: run `/sync-knowledge` inline, then continue.
+If last sync was > 7 days ago or file missing: run `/knowledge-sync` inline, then continue.
 
 ---
 

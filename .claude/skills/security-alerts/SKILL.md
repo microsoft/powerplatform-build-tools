@@ -1,3 +1,10 @@
+---
+name: security-alerts
+description: Fetch all open security alerts from S360/ADO, Dependabot, and npm audit, apply all fixes, verify, commit, and create a PR.
+allowed-tools: Read, Write, Glob, Grep, Bash
+user-invocable: true
+---
+
 # Security Alerts
 
 Fetch all open security alerts from S360/ADO, GitHub Dependabot, and npm audit. Merge into one fix plan, apply all fixes, verify build, commit, and create a PR. No user input required.
