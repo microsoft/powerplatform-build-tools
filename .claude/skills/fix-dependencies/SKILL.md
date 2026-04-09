@@ -1,3 +1,9 @@
+---
+name: fix-dependencies
+description: Fix all vulnerabilities on the current branch using npm audit. Local branch only — no ADO/GitHub queries.
+user-invocable: true
+---
+
 # Fix Dependencies
 
 Fix all vulnerabilities on the current branch using `npm audit`. No user input required.
@@ -109,13 +115,13 @@ git status   # confirm nothing accidental staged
 git commit -m "chore: fix dependency vulnerabilities"
 ```
 
-Then run `/pr` to create the pull request.
+Then run `/create-pr` to create the pull request.
 
 ---
 
 ## Final Summary
 
-Print before handing off to `/pr`:
+Print before handing off to `/create-pr`:
 
 - **Fixed:** package, old → new version, strategy used
 - **Accepted risk:** package, GHSA ID, reason

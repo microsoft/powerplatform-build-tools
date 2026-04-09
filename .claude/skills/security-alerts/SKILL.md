@@ -1,3 +1,9 @@
+---
+name: security-alerts
+description: Fetch all open security alerts from S360/ADO, Dependabot, and npm audit, apply all fixes, verify, commit, and create a PR.
+user-invocable: true
+---
+
 # Security Alerts
 
 Fetch all open security alerts from S360/ADO, GitHub Dependabot, and npm audit. Merge into one fix plan, apply all fixes, verify build, commit, and create a PR. No user input required.
@@ -11,7 +17,10 @@ Fetch all open security alerts from S360/ADO, GitHub Dependabot, and npm audit. 
 
 ### 1a — S360 / Component Governance ADO items
 
+Run two queries in parallel — S360 alerts live in both area paths:
+
 ```bash
+# Query 1 — PPBT Extensions area path
 az boards query --wiql "
   SELECT [System.Id], [System.Title], [System.State], [System.Tags],
          [Microsoft.VSTS.Common.Priority], [System.ChangedDate]
@@ -28,7 +37,27 @@ az boards query --wiql "
   ORDER BY [Microsoft.VSTS.Common.Priority] ASC
 " --output json 2>&1
 
-# Fetch full detail for each result to get required package version
+# Query 2 — Deployment Hub\Admin area path (where most S360 alerts are generated)
+az boards query --wiql "
+  SELECT [System.Id], [System.Title], [System.State], [System.Tags],
+         [Microsoft.VSTS.Common.Priority], [System.ChangedDate]
+  FROM WorkItems
+  WHERE [System.AreaPath] UNDER 'OneCRM\Client\UnifiedClient\AppLifeCycle\Deployment Hub\Admin'
+    AND [System.State] NOT IN ('Closed', 'Resolved', 'Done')
+    AND (
+      [System.Tags] CONTAINS 'S360'
+      OR [System.Tags] CONTAINS 'Component Governance'
+      OR [System.Tags] CONTAINS 'SDL'
+      OR [System.Title] CONTAINS 'CVE'
+      OR [System.Title] CONTAINS 'GHSA'
+    )
+  ORDER BY [Microsoft.VSTS.Common.Priority] ASC
+" --output json 2>&1
+```
+
+Merge results from both queries, deduplicate by ID. Fetch full detail for each result to get required package version:
+
+```bash
 az boards work-item show --id <id> 2>&1
 ```
 
@@ -176,7 +205,7 @@ git status
 git commit -m "chore: fix dependency vulnerabilities"
 ```
 
-Then run `/pr` to create the pull request.
+Then run `/create-pr` to create the pull request.
 
 ---
 

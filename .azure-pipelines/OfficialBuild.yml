@@ -32,9 +32,9 @@ steps:
   lfs: true
 
 - task: NodeTool@0
-  displayName: 'Use nodejs 16.x'
+  displayName: 'Use nodejs 20.x'
   inputs:
-    versionSpec: '16.x'
+    versionSpec: '20.x'
 
 - script: |
     node --version
