@@ -145,8 +145,22 @@ async function copyDependencies() {
   const binFolder = path.resolve("bin");
   const toolInstallerFolder = `${stagingDir}/tasks/tool-installer/tool-installer-v2`;
 
+  // Exclude the two nested _rels/.rels files that cause ESRP vsixsigntool.exe to fail
+  // with error 0x80510005. These are OPC metadata artifacts left behind when the pac CLI
+  // NuGet packages are extracted — they reference non-existent targets and confuse the
+  // OPC parser inside vsixsigntool.exe when it encounters them inside a VSIX (itself OPC).
+  // See: ICM 779156496
+  const EXCLUDED_BIN_FILES = new Set([
+    path.join("pac", "_rels", ".rels"),
+    path.join("pac_linux", "_rels", ".rels"),
+  ]);
+  const binFileFilter = (src) => {
+    const rel = path.relative(binFolder, src);
+    return !EXCLUDED_BIN_FILES.has(rel);
+  };
+
   await Promise.all([
-    fs.copy(binFolder, `${toolInstallerFolder}/bin`, { recursive: true }),
+    fs.copy(binFolder, `${toolInstallerFolder}/bin`, { recursive: true, filter: binFileFilter }),
   ]);
 }
 
