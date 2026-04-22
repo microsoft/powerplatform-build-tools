@@ -187,9 +187,10 @@ Please queue it manually:
   https://dev.azure.com/dynamicscrm/OneCRM/_build?definitionId=21491
 
 Set these variables when queuing:
-  - GITHUB_TOKEN       (GitHub PAT with repo scope + SSO enabled for 'microsoft' org)
-  - AZ_DevOps_Read_PAT (PAT to read from AzDO DPX-Tools-Upstream feed)
-  - isEsrpEnabled      true
+  - GITHUB_TOKEN            (GitHub PAT with repo scope + SSO enabled for 'microsoft' org)
+  - AZ_DevOps_Read_PAT      (PAT to read from AzDO DPX-Tools-Upstream feed)
+  - isEsrpEnabled           true   (enables ESRP signing)
+  - PUBLISH_TO_MARKETPLACE  true   (publishes signed VSIX to VS Marketplace after signing)
 ```
 
 ---
