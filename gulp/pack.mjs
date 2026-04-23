@@ -196,7 +196,7 @@ async function generateAllStages(manifest, taskVersion, manifestVersion) {
   for (const stage of stages) {
     const stageManifest = {...manifest};
     if (stage !== "LIVE") {
-      stageManifest.public = false;
+      stageManifest.public = true;
       stageManifest.name = `${stageManifest.name} ([${stage}] ${stageManifest.version})`;
       stageManifest.id = `${stageManifest.id}-${stage}`;
       // Make service endpoint contribution names unique per stage to avoid Marketplace collision
