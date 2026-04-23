@@ -145,63 +145,21 @@ EOF
 
 ---
 
-## Step 4 — Wait for both PRs to merge, then queue the official build
+## Step 4 — Prompt user to queue the official build
 
-After printing both PR URLs, poll until both are merged:
-
-```bash
-MAIN_PR=<main-pr-number>
-RELEASE_PR=<release-pr-number>
-
-echo "Waiting for both PRs to merge..."
-while true; do
-  MAIN_STATE=$(gh pr view $MAIN_PR --json state --jq .state)
-  RELEASE_STATE=$(gh pr view $RELEASE_PR --json state --jq .state)
-
-  echo "Main PR #$MAIN_PR: $MAIN_STATE | Release PR #$RELEASE_PR: $RELEASE_STATE"
-
-  if [ "$MAIN_STATE" = "MERGED" ] && [ "$RELEASE_STATE" = "MERGED" ]; then
-    echo "Both PRs merged. Queuing official build..."
-    break
-  fi
-
-  sleep 60
-done
-```
-
-Once both are merged, queue the official build pipeline:
-
-```bash
-az pipelines build queue \
-  --definition-id 21491 \
-  --org https://dev.azure.com/dynamicscrm \
-  --project OneCRM \
-  --output json 2>&1
-```
-
-**Note:** The pipeline requires secret variables (`GITHUB_TOKEN`, `AZ_DevOps_Read_PAT`, `isEsrpEnabled`) that must be set in the ADO web UI. If the queue command fails with a validation error, prompt the user:
+After printing both PR URLs, tell the user:
 
 ```
-The official build pipeline requires secret variables that can't be set via CLI.
-Please queue it manually:
+Both PRs are open for review:
+  Main PR:    https://github.com/microsoft/powerplatform-build-tools/pull/<n>
+  Release PR: https://github.com/microsoft/powerplatform-build-tools/pull/<m>
+
+Once both are merged, queue the official build to sign and publish the package to the VS Marketplace:
   https://dev.azure.com/dynamicscrm/OneCRM/_build?definitionId=21491
 
-Set these variables when queuing:
-  - GITHUB_TOKEN            (GitHub PAT with repo scope + SSO enabled for 'microsoft' org)
-  - AZ_DevOps_Read_PAT      (PAT to read from AzDO DPX-Tools-Upstream feed)
-  - isEsrpEnabled           true   (enables ESRP signing)
-  - PUBLISH_TO_MARKETPLACE  true   (publishes signed VSIX to VS Marketplace after signing)
-```
-
----
-
-## Return all outputs
-
-Print everything so the user has a complete summary:
-
-```
-Main PR:    https://github.com/microsoft/powerplatform-build-tools/pull/<n>
-Release PR: https://github.com/microsoft/powerplatform-build-tools/pull/<m>
-Build:      https://dev.azure.com/dynamicscrm/OneCRM/_build/results?buildId=<id>
-            (or: queue manually at https://dev.azure.com/dynamicscrm/OneCRM/_build?definitionId=21491)
+When queuing, set these pipeline variables:
+  - GITHUB_TOKEN            GitHub PAT (repo scope, SSO enabled for 'microsoft' org)
+  - AZ_DevOps_Read_PAT      PAT to read from the AzDO DPX-Tools-Upstream feed
+  - isEsrpEnabled           true
+  - PUBLISH_TO_MARKETPLACE  true
 ```
