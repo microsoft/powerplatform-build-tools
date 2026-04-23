@@ -199,6 +199,21 @@ async function generateAllStages(manifest, taskVersion, manifestVersion) {
       stageManifest.public = false;
       stageManifest.name = `${stageManifest.name} ([${stage}] ${stageManifest.version})`;
       stageManifest.id = `${stageManifest.id}-${stage}`;
+      // Make service endpoint contribution names unique per stage to avoid Marketplace collision
+      stageManifest.contributions = stageManifest.contributions.map(contrib => {
+        if (contrib.type === "ms.vss-endpoint.service-endpoint-type") {
+          return {
+            ...contrib,
+            id: `${contrib.id}-${stage.toLowerCase()}`,
+            properties: {
+              ...contrib.properties,
+              name: `${contrib.properties.name}-${stage.toLowerCase()}`,
+              displayName: `${contrib.properties.displayName} [${stage}]`,
+            }
+          };
+        }
+        return contrib;
+      });
     } else {
       stageManifest.public = true;
       stageManifest.name = `${stageManifest.name} (${stageManifest.version})`;
@@ -216,6 +231,15 @@ async function generateAllStages(manifest, taskVersion, manifestVersion) {
       taskJson.id = taskInfo.id[stage];
       if (stage !== "LIVE") {
         taskJson.friendlyName += ` [${stage}]`;
+        // Update service endpoint reference to match the stage-specific endpoint name
+        if (taskJson.inputs) {
+          taskJson.inputs = taskJson.inputs.map(input => {
+            if (input.type && input.type.startsWith("connectedService:powerplatform-spn")) {
+              return { ...input, type: `connectedService:powerplatform-spn-${stage.toLowerCase()}` };
+            }
+            return input;
+          });
+        }
       }
       taskJson.version.Major = taskVersion.major;
       taskJson.version.Minor = taskVersion.minor;
