@@ -66,9 +66,10 @@ export default async function nugetInstall(pkg, feeds) {
             targetDir,
             ...pkg.chmod.split(/[\\/]/g)
           );
-          chmod(exePath, 0o711);
+          chmod(exePath, 0o711).then(resolve).catch(reject);
+        } else {
+          resolve();
         }
-        resolve();
       })
       .on("error", reject);
   });
