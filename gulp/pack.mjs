@@ -6,10 +6,12 @@ import { createCommandRunner } from "@microsoft/powerplatform-cli-wrapper";
 import find from "find";
 import path from "path";
 import { rm } from "fs/promises";
+import { info } from "fancy-log";
 
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const tar = require("tar");
+const AdmZip = require("adm-zip");
 
 const outDir = 'out';
 const stagingDir = `${outDir}/staging`;
@@ -266,4 +268,73 @@ async function generateAllStages(manifest, taskVersion, manifestVersion) {
       outputPath: packagesDir,
     });
   }
+
+  // Fix [Content_Types].xml in all generated VSIX files to add Override entries for
+  // extension-less files inside the pac CLI directories.
+  //
+  // Background: VSIX files are OPC (Open Packaging Convention) containers. Every part
+  // (file) inside must be covered by [Content_Types].xml — either via a <Default> entry
+  // keyed on file extension, or via an <Override> entry keyed on the full part path.
+  //
+  // 'tfx extension create' only generates <Default> entries keyed on extensions, so any
+  // extension-less file gets no entry. When the VSIX is processed by OPC-aware tools
+  // (e.g. the AzDO Marketplace ingestion pipeline), any part not registered in
+  // [Content_Types].xml is silently dropped from the output package.
+  //
+  // Known extension-less files in bin/pac* that must be preserved:
+  //   bin/pac_linux/tools/pac                              — Linux PAC CLI executable
+  //   bin/pac*/tools/.playwright/.../xdg-open              — used by Playwright for browser auth flows
+  //   bin/pac*/tools/.playwright/.../LICENSE|NOTICE        — license text (harmless but included for completeness)
+  //
+  // Note: _rels/.rels files are already excluded during copyDependencies() so they never
+  // reach the VSIX and do not need to be handled here.
+  async function fixVsixContentTypes() {
+    // Match any extension-less file inside the pac or pac_linux tool directories.
+    const PAC_DIR_PATTERN = /^tasks\/tool-installer\/tool-installer-v2\/bin\/pac[^/]*\//;
+
+    const vsixFiles = await findFiles(/\.vsix$/, packagesDir);
+    for (const vsixPath of vsixFiles) {
+      const zip = new AdmZip(vsixPath);
+      const ctEntry = zip.getEntry('[Content_Types].xml');
+      if (!ctEntry) {
+        throw new Error(`[Content_Types].xml not found in ${vsixPath}`);
+      }
+
+      const ctXml = ctEntry.getData().toString('utf8');
+
+      // Collect part paths already covered by <Override> entries (strip leading '/').
+      const overridePaths = new Set(
+        [...ctXml.matchAll(/PartName="([^"]+)"/g)].map(m => m[1].replace(/^\//, ''))
+      );
+
+      // Find all extension-less files inside the pac directories that are missing an Override.
+      const newOverrides = [];
+      for (const entry of zip.getEntries()) {
+        if (entry.isDirectory) continue;
+        const entryName = entry.entryName.replace(/\\/g, '/');
+        const hasNoExtension = path.extname(entryName) === '';
+        if (PAC_DIR_PATTERN.test(entryName) && hasNoExtension && !overridePaths.has(entryName)) {
+          newOverrides.push(
+            `  <Override ContentType="application/octet-stream" PartName="/${entryName}"/>`
+          );
+        }
+      }
+
+      if (newOverrides.length > 0) {
+        const modified = ctXml.replace(
+          '</Types>',
+          newOverrides.join('\n') + '\n</Types>'
+        );
+        zip.updateFile('[Content_Types].xml', Buffer.from(modified, 'utf8'));
+        zip.writeZip(vsixPath);
+        info(
+          `Fixed [Content_Types].xml in ${path.basename(vsixPath)}: ` +
+          `added ${newOverrides.length} Override entr${newOverrides.length === 1 ? 'y' : 'ies'} ` +
+          `(${newOverrides.map(o => /PartName="\/([^"]+)"/.exec(o)?.[1]).join(', ')})`
+        );
+      }
+    }
+  }
+
+  await fixVsixContentTypes();
 }
