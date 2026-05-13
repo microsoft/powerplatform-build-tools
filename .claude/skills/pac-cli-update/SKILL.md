@@ -76,14 +76,39 @@ Both packages must always use the same version. Never update only one.
 
 ## Step 4 — Update extension/overview.md
 
-Add a new entry under `{{NextReleaseVersion}}:` (do not remove the placeholder — it stays):
+**Must be additive — never overwrite the previous pac CLI bullet.**
 
-```markdown
-{{NextReleaseVersion}}:
-- pac CLI <major.minor>, [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI/<pac-version>#releasenotes-body-tab)
+The bullet under `{{NextReleaseVersion}}:` represents the version that shipped most recently. Before replacing it with the new pac CLI version, move it down as a versioned entry using the last published extension version from GitHub releases:
+
+```bash
+LAST_RELEASE=$(gh release list --repo microsoft/powerplatform-build-tools --limit 1 --json tagName --jq '.[0].tagName' | sed 's/^[Vv]//')
+echo "Last published extension version: $LAST_RELEASE"
 ```
 
-If additional changes are in this update (new task, Node target bump, etc.), add bullet points below the pac CLI line.
+Then transform `extension/overview.md`:
+
+Before:
+```markdown
+{{NextReleaseVersion}}:
+- pac CLI <previous-major.minor>, [Release Notes on nuget.org](.../<previous-pac-version>...)
+
+2.0.97:
+- pac CLI 1.49, ...
+```
+
+After:
+```markdown
+{{NextReleaseVersion}}:
+- pac CLI <new-major.minor>, [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI/<pac-version>#releasenotes-body-tab)
+
+<LAST_RELEASE>:
+- pac CLI <previous-major.minor>, [Release Notes on nuget.org](.../<previous-pac-version>...)
+
+2.0.97:
+- pac CLI 1.49, ...
+```
+
+If additional changes are in this update (new task, Node target bump, etc.), add bullet points below the pac CLI line under `{{NextReleaseVersion}}:`.
 
 ---
 
@@ -212,4 +237,5 @@ Print:
 - Never skip the release/stable PR — every CLI update needs both
 - Never cherry-pick to release/stable without verifying the main PR CI passes first
 - The `{{NextReleaseVersion}}` placeholder in `overview.md` must stay — add below it, never replace it
+- Updates to `overview.md` must be **additive** — preserve the previous pac CLI bullet by moving it down as a versioned entry (using the latest GitHub release version), never overwrite it
 - If the Linux pac CLI package (`Microsoft.PowerApps.CLI.Core.linux-x64`) doesn't have the new version yet, wait — don't ship with mismatched versions
