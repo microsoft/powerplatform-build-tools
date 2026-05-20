@@ -1,6 +1,6 @@
 ---
 name: create-pr
-description: Stage, commit, push, and create a GitHub PR for the current branch. Assumes branch exists and build has passed.
+description: Stage, commit, push, and create GitHub PRs for the current branch — always main, then automatically cherry-picks to release/stable.
 user-invocable: true
 ---
 
@@ -27,10 +27,17 @@ Commit types: `fix:` `feat:` `chore:` `build:` `docs:`
 
 ---
 
-## Step 2 — Push and create PR
+## Step 2 — Push and create the main PR
 
 ```bash
 git push -u origin HEAD 2>&1
+```
+
+Capture the current branch name and the SHA(s) to cherry-pick:
+
+```bash
+MAIN_BRANCH=$(git branch --show-current)
+COMMITS=$(git log origin/main..HEAD --reverse --format="%H")
 ```
 
 Pick the template matching what changed:
@@ -64,7 +71,7 @@ EOF
 )"
 ```
 
-### Feature / bug fix (`src/` changes)
+### Feature / bug fix (`src/` or `gulp/` changes)
 
 ```bash
 gh pr create \
@@ -93,4 +100,66 @@ EOF
 )"
 ```
 
-Return the PR URL.
+Capture the main PR number/URL from the output — you'll reference it in the release PR.
+
+---
+
+## Step 3 — Cherry-pick to release/stable
+
+Create a release branch off `release/stable`, cherry-pick all commits from the main branch, push, and open the paired PR.
+
+```bash
+RELEASE_BRANCH="${MAIN_BRANCH}-release"
+
+git fetch origin release/stable 2>&1
+git checkout -b "$RELEASE_BRANCH" origin/release/stable 2>&1
+
+# Cherry-pick each commit from the main branch (in order)
+for SHA in $COMMITS; do
+  git cherry-pick "$SHA" 2>&1
+done
+
+git push -u origin "$RELEASE_BRANCH" 2>&1
+```
+
+Then open the release PR targeting `release/stable`:
+
+```bash
+gh pr create \
+  --base release/stable \
+  --title "<same title as main PR>" \
+  --body "$(cat <<'EOF'
+## Summary
+
+Cherry-pick of #<main-pr-number> to `release/stable`.
+
+- <one-line description of what changed>
+
+## Paired main PR
+#<main-pr-number>
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+EOF
+)"
+```
+
+---
+
+## Step 4 — Prompt user to queue the official build
+
+After printing both PR URLs, tell the user:
+
+```
+Both PRs are open for review:
+  Main PR:    https://github.com/microsoft/powerplatform-build-tools/pull/<n>
+  Release PR: https://github.com/microsoft/powerplatform-build-tools/pull/<m>
+
+Once both are merged, queue the official build to sign and publish the package to the VS Marketplace:
+  https://dev.azure.com/dynamicscrm/OneCRM/_build?definitionId=21491
+
+When queuing, set these pipeline variables:
+  - GITHUB_TOKEN            GitHub PAT (repo scope, SSO enabled for 'microsoft' org)
+  - AZ_DevOps_Read_PAT      PAT to read from the AzDO DPX-Tools-Upstream feed
+  - isEsrpEnabled           true
+  - PUBLISH_TO_MARKETPLACE  true
+```

@@ -17,13 +17,17 @@ export async function findPacCLIPath(): Promise<{ pacRootPath: string, pacPath: 
       break;
     case 'linux':
       pacPath = path.resolve(pacRootPath, 'pac_linux', 'tools', 'pac');
-      await chmod(pacPath, 0o711);
       break;
     default:
       throw new Error(`Unsupported OS for tool-installer: ${process.platform}`);
   }
   if (!await pathExists(pacPath)) {
     throw new Error(`Cannot find required pac CLI executable under: ${pacPath}`);
+  }
+  // chmod must come after the pathExists check so that a missing-file error is reported
+  // clearly rather than surfacing as a confusing ENOENT from chmod itself.
+  if (process.platform === 'linux') {
+    await chmod(pacPath, 0o711);
   }
 
   pacPath = pacPath.replace(/(\/|\\)(pac.exe|pac)$/, '');

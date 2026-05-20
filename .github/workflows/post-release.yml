@@ -1,0 +1,144 @@
+name: Stamp release notes and publish GitHub release after publish
+
+on:
+  push:
+    tags:
+      - 'v[0-9]*'
+
+jobs:
+  post-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Get build info from ADO pipeline 21491
+        id: ado
+        env:
+          AZURE_DEVOPS_EXT_PAT: ${{ secrets.AZ_DevOps_Read_PAT }}
+        run: |
+          az extension add --name azure-devops --yes --only-show-errors
+          az devops configure --defaults \
+            organization=https://dev.azure.com/dynamicscrm \
+            project=OneCRM
+
+          BUILD_JSON=$(az pipelines runs list \
+            --pipeline-ids 21491 \
+            --status completed \
+            --result succeeded \
+            --top 1 \
+            --output json)
+
+          VERSION=$(echo "$BUILD_JSON" | node -e "
+            const d = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
+            console.log(d[0].buildNumber);
+          ")
+          RUN_ID=$(echo "$BUILD_JSON" | node -e "
+            const d = JSON.parse(require('fs').readFileSync('/dev/stdin','utf8'));
+            console.log(d[0].id);
+          ")
+
+          if [ -z "$VERSION" ] || [ -z "$RUN_ID" ]; then
+            echo "ERROR: could not read build info from ADO pipeline 21491" >&2
+            exit 1
+          fi
+
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          echo "run_id=$RUN_ID"   >> "$GITHUB_OUTPUT"
+          echo "Detected version: $VERSION (run: $RUN_ID)"
+
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract release notes from overview.md
+        id: notes
+        run: |
+          NOTES=$(node -e "
+            const fs = require('fs');
+            const c = fs.readFileSync('extension/overview.md', 'utf-8');
+            const start = c.indexOf('{{NextReleaseVersion}}:');
+            const after = c.indexOf('\n', start) + 1;
+            const nextSection = c.indexOf('\n\n', after);
+            const block = c.slice(after, nextSection === -1 ? undefined : nextSection).trim();
+            console.log(block);
+          ")
+          echo "notes<<EOF" >> "$GITHUB_OUTPUT"
+          echo "$NOTES"     >> "$GITHUB_OUTPUT"
+          echo "EOF"        >> "$GITHUB_OUTPUT"
+
+      - name: Download signed VSIXs from ADO drop artifact
+        env:
+          AZURE_DEVOPS_EXT_PAT: ${{ secrets.AZ_DevOps_Read_PAT }}
+        run: |
+          az pipelines runs artifact download \
+            --organization https://dev.azure.com/dynamicscrm \
+            --project OneCRM \
+            --run-id ${{ steps.ado.outputs.run_id }} \
+            --artifact-name drop \
+            --path ./vsix-drop
+
+          ls ./vsix-drop/*.vsix
+
+      - name: Create GitHub release with VSIXs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VERSION: ${{ steps.ado.outputs.version }}
+          NOTES: ${{ steps.notes.outputs.notes }}
+        run: |
+          gh release create "v$VERSION" \
+            --title "v$VERSION" \
+            --notes "$NOTES" \
+            ./vsix-drop/*.vsix
+
+      - name: Stamp overview.md on main
+        env:
+          VERSION: ${{ steps.ado.outputs.version }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            const v = process.env.VERSION;
+            let c = fs.readFileSync('extension/overview.md', 'utf-8');
+            if (!c.includes('{{NextReleaseVersion}}:')) {
+              console.log('placeholder already replaced, skipping');
+              process.exit(0);
+            }
+            c = c.replace('{{NextReleaseVersion}}:', \`{{NextReleaseVersion}}:\n\n\${v}:\`);
+            fs.writeFileSync('extension/overview.md', c);
+            console.log('Stamped version:', v);
+          "
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/overview.md
+          git diff --staged --quiet || git commit -m "chore: stamp release notes for $VERSION"
+          git push
+
+      - name: Checkout release/stable
+        uses: actions/checkout@v4
+        with:
+          ref: release/stable
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Stamp overview.md on release/stable
+        env:
+          VERSION: ${{ steps.ado.outputs.version }}
+        run: |
+          node -e "
+            const fs = require('fs');
+            const v = process.env.VERSION;
+            let c = fs.readFileSync('extension/overview.md', 'utf-8');
+            if (!c.includes('{{NextReleaseVersion}}:')) {
+              console.log('placeholder already replaced, skipping');
+              process.exit(0);
+            }
+            c = c.replace('{{NextReleaseVersion}}:', \`{{NextReleaseVersion}}:\n\n\${v}:\`);
+            fs.writeFileSync('extension/overview.md', c);
+            console.log('Stamped version:', v);
+          "
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add extension/overview.md
+          git diff --staged --quiet || git commit -m "chore: stamp release notes for $VERSION"
+          git push

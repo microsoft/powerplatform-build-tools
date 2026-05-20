@@ -6,10 +6,12 @@ import { createCommandRunner } from "@microsoft/powerplatform-cli-wrapper";
 import find from "find";
 import path from "path";
 import { rm } from "fs/promises";
+import { info } from "fancy-log";
 
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
 const tar = require("tar");
+const AdmZip = require("adm-zip");
 
 const outDir = 'out';
 const stagingDir = `${outDir}/staging`;
@@ -145,8 +147,22 @@ async function copyDependencies() {
   const binFolder = path.resolve("bin");
   const toolInstallerFolder = `${stagingDir}/tasks/tool-installer/tool-installer-v2`;
 
+  // Exclude the two nested _rels/.rels files that cause ESRP vsixsigntool.exe to fail
+  // with error 0x80510005. These are OPC metadata artifacts left behind when the pac CLI
+  // NuGet packages are extracted — they reference non-existent targets and confuse the
+  // OPC parser inside vsixsigntool.exe when it encounters them inside a VSIX (itself OPC).
+  // See: ICM 779156496
+  const EXCLUDED_BIN_FILES = new Set([
+    path.join("pac", "_rels", ".rels"),
+    path.join("pac_linux", "_rels", ".rels"),
+  ]);
+  const binFileFilter = (src) => {
+    const rel = path.relative(binFolder, src);
+    return !EXCLUDED_BIN_FILES.has(rel);
+  };
+
   await Promise.all([
-    fs.copy(binFolder, `${toolInstallerFolder}/bin`, { recursive: true }),
+    fs.copy(binFolder, `${toolInstallerFolder}/bin`, { recursive: true, filter: binFileFilter }),
   ]);
 }
 
@@ -182,9 +198,24 @@ async function generateAllStages(manifest, taskVersion, manifestVersion) {
   for (const stage of stages) {
     const stageManifest = {...manifest};
     if (stage !== "LIVE") {
-      stageManifest.public = false;
+      stageManifest.public = true;
       stageManifest.name = `${stageManifest.name} ([${stage}] ${stageManifest.version})`;
       stageManifest.id = `${stageManifest.id}-${stage}`;
+      // Make service endpoint contribution names unique per stage to avoid Marketplace collision
+      stageManifest.contributions = stageManifest.contributions.map(contrib => {
+        if (contrib.type === "ms.vss-endpoint.service-endpoint-type") {
+          return {
+            ...contrib,
+            id: `${contrib.id}-${stage.toLowerCase()}`,
+            properties: {
+              ...contrib.properties,
+              name: `${contrib.properties.name}-${stage.toLowerCase()}`,
+              displayName: `${contrib.properties.displayName} [${stage}]`,
+            }
+          };
+        }
+        return contrib;
+      });
     } else {
       stageManifest.public = true;
       stageManifest.name = `${stageManifest.name} (${stageManifest.version})`;
@@ -202,6 +233,15 @@ async function generateAllStages(manifest, taskVersion, manifestVersion) {
       taskJson.id = taskInfo.id[stage];
       if (stage !== "LIVE") {
         taskJson.friendlyName += ` [${stage}]`;
+        // Update service endpoint reference to match the stage-specific endpoint name
+        if (taskJson.inputs) {
+          taskJson.inputs = taskJson.inputs.map(input => {
+            if (input.type && input.type.startsWith("connectedService:powerplatform-spn")) {
+              return { ...input, type: `connectedService:powerplatform-spn-${stage.toLowerCase()}` };
+            }
+            return input;
+          });
+        }
       }
       taskJson.version.Major = taskVersion.major;
       taskJson.version.Minor = taskVersion.minor;
@@ -228,4 +268,73 @@ async function generateAllStages(manifest, taskVersion, manifestVersion) {
       outputPath: packagesDir,
     });
   }
+
+  // Fix [Content_Types].xml in all generated VSIX files to add Override entries for
+  // extension-less files inside the pac CLI directories.
+  //
+  // Background: VSIX files are OPC (Open Packaging Convention) containers. Every part
+  // (file) inside must be covered by [Content_Types].xml — either via a <Default> entry
+  // keyed on file extension, or via an <Override> entry keyed on the full part path.
+  //
+  // 'tfx extension create' only generates <Default> entries keyed on extensions, so any
+  // extension-less file gets no entry. When the VSIX is processed by OPC-aware tools
+  // (e.g. the AzDO Marketplace ingestion pipeline), any part not registered in
+  // [Content_Types].xml is silently dropped from the output package.
+  //
+  // Known extension-less files in bin/pac* that must be preserved:
+  //   bin/pac_linux/tools/pac                              — Linux PAC CLI executable
+  //   bin/pac*/tools/.playwright/.../xdg-open              — used by Playwright for browser auth flows
+  //   bin/pac*/tools/.playwright/.../LICENSE|NOTICE        — license text (harmless but included for completeness)
+  //
+  // Note: _rels/.rels files are already excluded during copyDependencies() so they never
+  // reach the VSIX and do not need to be handled here.
+  async function fixVsixContentTypes() {
+    // Match any extension-less file inside the pac or pac_linux tool directories.
+    const PAC_DIR_PATTERN = /^tasks\/tool-installer\/tool-installer-v2\/bin\/pac[^/]*\//;
+
+    const vsixFiles = await findFiles(/\.vsix$/, packagesDir);
+    for (const vsixPath of vsixFiles) {
+      const zip = new AdmZip(vsixPath);
+      const ctEntry = zip.getEntry('[Content_Types].xml');
+      if (!ctEntry) {
+        throw new Error(`[Content_Types].xml not found in ${vsixPath}`);
+      }
+
+      const ctXml = ctEntry.getData().toString('utf8');
+
+      // Collect part paths already covered by <Override> entries (strip leading '/').
+      const overridePaths = new Set(
+        [...ctXml.matchAll(/PartName="([^"]+)"/g)].map(m => m[1].replace(/^\//, ''))
+      );
+
+      // Find all extension-less files inside the pac directories that are missing an Override.
+      const newOverrides = [];
+      for (const entry of zip.getEntries()) {
+        if (entry.isDirectory) continue;
+        const entryName = entry.entryName.replace(/\\/g, '/');
+        const hasNoExtension = path.extname(entryName) === '';
+        if (PAC_DIR_PATTERN.test(entryName) && hasNoExtension && !overridePaths.has(entryName)) {
+          newOverrides.push(
+            `  <Override ContentType="application/octet-stream" PartName="/${entryName}"/>`
+          );
+        }
+      }
+
+      if (newOverrides.length > 0) {
+        const modified = ctXml.replace(
+          '</Types>',
+          newOverrides.join('\n') + '\n</Types>'
+        );
+        zip.updateFile('[Content_Types].xml', Buffer.from(modified, 'utf8'));
+        zip.writeZip(vsixPath);
+        info(
+          `Fixed [Content_Types].xml in ${path.basename(vsixPath)}: ` +
+          `added ${newOverrides.length} Override entr${newOverrides.length === 1 ? 'y' : 'ies'} ` +
+          `(${newOverrides.map(o => /PartName="\/([^"]+)"/.exec(o)?.[1]).join(', ')})`
+        );
+      }
+    }
+  }
+
+  await fixVsixContentTypes();
 }
