@@ -48,10 +48,18 @@ function getClientCredentials(): AuthCredentials {
     };
   }
 
+  const clientSecret = authorization.parameters.clientSecret;
+  if (clientSecret) {
+    // Register the Service Principal secret with task-lib so it is masked in
+    // pipeline logs and in task-lib debug output (e.g. `auth param clientSecret = ...`).
+    // Mitigates MSRC 117102: clientSecret previously appeared unmasked in pipeline logs.
+    tl.setSecret(clientSecret);
+  }
+
   return {
     tenantId: authorization.parameters.tenantId,
     appId: authorization.parameters.applicationId,
-    clientSecret: authorization.parameters.clientSecret,
+    clientSecret: clientSecret,
     encodeSecret: true,
     cloudInstance: resolveCloudInstance(endpointName),
     scheme: authorization.scheme
@@ -79,9 +87,16 @@ function buildIdTokenRequestUrl(): string {
 function getUsernamePassword(): UsernamePassword {
   const endpointName = getEndpointName("PowerPlatformEnvironment");
   const authorization = getEndpointAuthorizationParameters(endpointName);
+  const password = authorization.parameters.password;
+  if (password) {
+    // Register the username/password credential with task-lib so it is masked in
+    // pipeline logs and in task-lib debug output (e.g. `auth param password = ...`).
+    // Mitigates MSRC 117102: password previously appeared unmasked in pipeline logs.
+    tl.setSecret(password);
+  }
   return {
     username: authorization.parameters.username,
-    password: authorization.parameters.password,
+    password: password,
     encodePassword: true,
     cloudInstance: resolveCloudInstance(endpointName)
   };
