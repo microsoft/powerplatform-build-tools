@@ -54,6 +54,10 @@ function getClientCredentials(): AuthCredentials {
     // pipeline logs and in task-lib debug output (e.g. `auth param clientSecret = ...`).
     // Mitigates MSRC 117102: clientSecret previously appeared unmasked in pipeline logs.
     tl.setSecret(clientSecret);
+    // Also mask the base64-encoded form, because the cli-wrapper passes the secret to
+    // pac as `data:text/plain;base64,<base64>` — without this, the encoded form would
+    // not be masked in pipeline logs.
+    tl.setSecret(Buffer.from(clientSecret, 'binary').toString('base64'));
   }
 
   return {
@@ -93,6 +97,10 @@ function getUsernamePassword(): UsernamePassword {
     // pipeline logs and in task-lib debug output (e.g. `auth param password = ...`).
     // Mitigates MSRC 117102: password previously appeared unmasked in pipeline logs.
     tl.setSecret(password);
+    // Also mask the base64-encoded form, because the cli-wrapper passes the password
+    // to pac as `data:text/plain;base64,<base64>` — without this, the encoded form
+    // would not be masked in pipeline logs.
+    tl.setSecret(Buffer.from(password, 'binary').toString('base64'));
   }
   return {
     username: authorization.parameters.username,
