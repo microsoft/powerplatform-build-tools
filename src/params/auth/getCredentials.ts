@@ -48,10 +48,22 @@ function getClientCredentials(): AuthCredentials {
     };
   }
 
+  const clientSecret = authorization.parameters.clientSecret;
+  if (clientSecret) {
+    // Register the Service Principal secret with task-lib so it is masked in
+    // pipeline logs and in task-lib debug output (e.g. `auth param clientSecret = ...`).
+    // Mitigates MSRC 117102: clientSecret previously appeared unmasked in pipeline logs.
+    tl.setSecret(clientSecret);
+    // Also mask the base64-encoded form, because the cli-wrapper passes the secret to
+    // pac as `data:text/plain;base64,<base64>` — without this, the encoded form would
+    // not be masked in pipeline logs.
+    tl.setSecret(Buffer.from(clientSecret, 'binary').toString('base64'));
+  }
+
   return {
     tenantId: authorization.parameters.tenantId,
     appId: authorization.parameters.applicationId,
-    clientSecret: authorization.parameters.clientSecret,
+    clientSecret: clientSecret,
     encodeSecret: true,
     cloudInstance: resolveCloudInstance(endpointName),
     scheme: authorization.scheme
@@ -79,9 +91,20 @@ function buildIdTokenRequestUrl(): string {
 function getUsernamePassword(): UsernamePassword {
   const endpointName = getEndpointName("PowerPlatformEnvironment");
   const authorization = getEndpointAuthorizationParameters(endpointName);
+  const password = authorization.parameters.password;
+  if (password) {
+    // Register the username/password credential with task-lib so it is masked in
+    // pipeline logs and in task-lib debug output (e.g. `auth param password = ...`).
+    // Mitigates MSRC 117102: password previously appeared unmasked in pipeline logs.
+    tl.setSecret(password);
+    // Also mask the base64-encoded form, because the cli-wrapper passes the password
+    // to pac as `data:text/plain;base64,<base64>` — without this, the encoded form
+    // would not be masked in pipeline logs.
+    tl.setSecret(Buffer.from(password, 'binary').toString('base64'));
+  }
   return {
     username: authorization.parameters.username,
-    password: authorization.parameters.password,
+    password: password,
     encodePassword: true,
     cloudInstance: resolveCloudInstance(endpointName)
   };
