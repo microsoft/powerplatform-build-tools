@@ -162,4 +162,14 @@ When queuing, set these pipeline variables:
   - AZ_DevOps_Read_PAT      PAT to read from the AzDO DPX-Tools-Upstream feed
   - isEsrpEnabled           true
   - PUBLISH_TO_MARKETPLACE  true
+
+When the pipeline succeeds, the build automatically:
+  - Pushes a v<version> tag (e.g. v2.0.147) to the repo
+  - Signs and publishes the VSIXs to the VS Marketplace
+  - Creates a published GitHub Release with all 4 signed VSIXs attached, marked Latest
+
+Verify the release at:
+  https://github.com/microsoft/powerplatform-build-tools/releases/tag/v<version>
+
+If no GitHub Release shows up after a successful build, inspect the "Create GitHub release with VSIX assets" task in the ADO build logs — most likely cause is the GITHUB_TOKEN pipeline variable being missing, expired, or lacking `repo` scope / SSO authorization for `microsoft`.
 ```

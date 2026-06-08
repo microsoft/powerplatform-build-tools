@@ -204,6 +204,29 @@ Print:
 4. **Release PR:** URL
 5. **Restore verified:** yes / no (did `gulp restore` download the new pac CLI successfully?)
 
+Then tell the user what to do after both PRs merge:
+
+```
+Once both PRs merge, queue the official build to sign, publish to Marketplace, and create the GitHub Release:
+  https://dev.azure.com/dynamicscrm/OneCRM/_build?definitionId=21491
+
+Pipeline variables to set when queuing:
+  - GITHUB_TOKEN            GitHub PAT (repo scope, SSO enabled for 'microsoft' org)
+  - AZ_DevOps_Read_PAT      PAT to read from the AzDO DPX-Tools-Upstream feed
+  - isEsrpEnabled           true
+  - PUBLISH_TO_MARKETPLACE  true
+
+On success, a published GitHub Release will appear automatically at:
+  https://github.com/microsoft/powerplatform-build-tools/releases/tag/v<new-extension-version>
+
+That release will include:
+  - All 4 signed VSIXs (LIVE, BETA, DEV, EXPERIMENTAL) as assets
+  - Release notes extracted from `extension/overview.md`'s `{{NextReleaseVersion}}:` block
+  - Latest tag
+
+If the release does not appear, check the "Create GitHub release with VSIX assets" task in the build log — usually GITHUB_TOKEN scope or SSO authorization is the issue.
+```
+
 ---
 
 ## Hard rules
