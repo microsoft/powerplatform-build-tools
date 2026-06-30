@@ -3,6 +3,7 @@
 
 import * as tl from 'azure-pipelines-task-lib/task';
 import path = require('path');
+import { realpathSync } from 'fs';
 import { Logger, RunnerParameters } from "@microsoft/powerplatform-cli-wrapper";
 import { cwd } from "process";
 import buildToolsLogger from "./logger";
@@ -20,16 +21,64 @@ const ToolInstallerTaskGuids: ReadonlyArray<string> = [
   '133b55b8-c51f-4ceb-8270-6d68c0cac6e4', // EXPERIMENTAL
 ];
 
+/** Normalizes a path for case-insensitive, forward-slash prefix/substring comparison. */
+function normalizeForCompare(p: string): string {
+  return path.resolve(p).toLowerCase().replace(/\\/g, '/');
+}
+
+/**
+ * Determines whether `pacPath` resides under the agent's `_tasks` directory.
+ *
+ * A plain substring check for `/_tasks/` is not sufficient on agents that cache
+ * downloaded tasks in a separate folder and expose it through a `_tasks`
+ * symbolic link. Node resolves a running task's `__dirname` (and therefore the
+ * PAC path that the ToolInstaller derives from it) to the real, symlink-resolved
+ * location, which no longer contains a literal `_tasks` segment. To handle that,
+ * when the literal check fails we resolve the agent's genuine `_tasks` directory
+ * through any symlinks and verify the PAC path lives under its real location.
+ */
+function isUnderAgentTasksDir(pacPath: string): boolean {
+  const normalizedPath = normalizeForCompare(pacPath);
+
+  // Fast path: the conventional, non-symlinked layout.
+  if (normalizedPath.includes('/_tasks/')) {
+    return true;
+  }
+
+  // Symlink-aware fallback: compare against the real location of the agent's
+  // own `_tasks` directory. AGENT_WORKFOLDER is set by the trusted agent, so an
+  // attacker cannot redirect it; the GUID check below remains the strong guard.
+  const workFolder = process.env['AGENT_WORKFOLDER'] || process.env['AGENT_ROOTDIRECTORY'];
+  if (!workFolder) {
+    return false;
+  }
+  try {
+    const realTasksDir = normalizeForCompare(realpathSync(path.join(workFolder, '_tasks')));
+    let realPacPath: string;
+    try {
+      realPacPath = normalizeForCompare(realpathSync(pacPath));
+    } catch {
+      // PAC path may not exist on disk (e.g. during validation-only checks);
+      // fall back to its normalized form so a symlinked _tasks still matches.
+      realPacPath = normalizedPath;
+    }
+    return realPacPath === realTasksDir || realPacPath.startsWith(`${realTasksDir}/`);
+  } catch {
+    // _tasks directory could not be resolved (missing or unreadable); reject.
+    return false;
+  }
+}
+
 /**
  * Validates that a PAC CLI path originates from the official ToolInstaller task directory.
  * This prevents a low-trust build step from redirecting protected tasks to an
  * attacker-controlled PAC binary by overwriting the job-scoped PACCLIPATH variable.
  */
 export function validatePacPath(pacPath: string): void {
-  const normalizedPath = path.resolve(pacPath).toLowerCase().replace(/\\/g, '/');
+  const normalizedPath = normalizeForCompare(pacPath);
 
-  // The path must be under the agent's _tasks directory
-  if (!normalizedPath.includes('/_tasks/')) {
+  // The path must be under the agent's _tasks directory (resolving symlinks if needed)
+  if (!isUnderAgentTasksDir(pacPath)) {
     throw new Error(
       `Security validation failed: PAC CLI path "${pacPath}" is not under the agent's _tasks directory. ` +
       `The PAC CLI must be resolved from the official PowerPlatformToolInstaller task. ` +
