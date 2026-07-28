@@ -22,7 +22,7 @@ Please use the issues tracker in the home repo: <https://github.com/microsoft/po
 # Release Notes
 
 {{NextReleaseVersion}}:
-- pac CLI 2.7, [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI/2.7.4#releasenotes-body-tab) (revert from 2.8.1)
+- pac CLI 2.10, [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI/2.10.1#releasenotes-body-tab)
 
 2.0.145:
 - pac CLI 2.8, [Release Notes on nuget.org](https://www.nuget.org/packages/Microsoft.PowerApps.CLI/2.8.1#releasenotes-body-tab)
