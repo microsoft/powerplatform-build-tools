@@ -83,7 +83,7 @@
     "serialize-javascript": "^7.0.5",
     "postcss": "^8.5.15",
     "qs": "^6.15.2",
-    "diff": "^5.2.0",
+    "diff": "^8.0.3",
     "ajv": "^6.12.6",
     "underscore": "^1.13.8",
     "bn.js": "^5.2.3",
