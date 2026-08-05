@@ -1,4 +1,8 @@
 # https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+#
+# Note: Dependabot only understands `dependencies` / `devDependencies`. It cannot read or
+# update the npm `overrides` block, which is where most transitive fixes in this repo live.
+# Those are handled by .github/workflows/dependency-security.yml instead.
 
 version: 2
 updates:
@@ -6,3 +10,31 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    open-pull-requests-limit: 10
+    labels:
+      - "dependencies"
+    # Keep routine version churn to a single PR so security PRs stay easy to spot.
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+      production-dependencies:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+    ignore:
+      # ajv v8 breaks ESLint 8 - see the overrides block in package.json.
+      - dependency-name: "ajv"
+        versions: ["8.x", ">=8"]
+      # Pinned to unblock the official build.
+      - dependency-name: "azure-pipelines-task-lib"
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    labels:
+      - "dependencies"

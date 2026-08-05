@@ -90,6 +90,44 @@ If auth fails: run `gh auth login --hostname github.com --git-protocol https --w
 npm audit --json 2>&1
 ```
 
+### 1d — Map S360 CVE/GHSA ids to packages
+
+Most `[S360]` items carry only a Component Governance `alertId` and no package name, and the
+Component Governance REST API is not reachable (`_apis/governance/...` returns 404). Resolve them
+against the GitHub Advisory DB instead — this reliably yields the package, the vulnerable range,
+and the real patched version:
+
+```bash
+# From a CVE id (as it appears in the S360 work item title)
+gh api "/advisories?cve_id=CVE-2026-14257" \
+  --jq '.[0] | "\(.ghsa_id) | \(.severity) | " + ([.vulnerabilities[]? | "\(.package.name) vuln=\(.vulnerable_version_range) patched=\(.first_patched_version)"] | join(" ;; "))'
+
+# From a GHSA id
+gh api /advisories/GHSA-5c6j-r48x-rmvq \
+  --jq '"\(.severity) | " + ([.vulnerabilities[]? | "\(.package.name) patched=\(.first_patched_version)"] | join(" ;; "))'
+```
+
+Do this for every unmapped S360 item before declaring anything unresolvable.
+
+---
+
+## Step 1e — Run the resolver script first
+
+`scripts/audit-overrides.js` already does steps 2 and 3 mechanically: it reads `npm audit`,
+resolves every advisory against the Advisory DB, compares against each installed copy in the
+lock file, and reports exactly which ranges need to move.
+
+```bash
+node scripts/audit-overrides.js            # report only
+node scripts/audit-overrides.js --write    # apply the safe override bumps
+```
+
+Use its output as the fix plan, then hand-fix only what it lists under **Needs a human**.
+
+**Check the existing range before editing `package.json`.** Most alerts here are a stale lock
+file, not a too-low range — e.g. `postcss` at `^8.5.15` already permits the patched `8.5.25`.
+For those, `npm update` is the entire fix and `package.json` should not be touched.
+
 ---
 
 ## Step 2 — Build fix plan
@@ -132,6 +170,9 @@ Hard rules:
 - Never add `"minimatch": "^3.x"` flat override — infinite npm loop
 - `ajv` stays at `^6.x` — v8 breaks ESLint
 - Do not change: `nanoid`, `electron-to-chromium`, `@types/node` overrides
+- **Never add a flat override for a package installed across several major lines** — it
+  rewrites every copy and silently downgrades the other lines. `brace-expansion` is installed
+  on the 1.x, 2.x and 5.x lines simultaneously; each needs its own nested override.
 
 ### Strategy B — Direct dependency bump
 
