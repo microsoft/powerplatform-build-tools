@@ -12,5 +12,9 @@
 /package.json                               @microsoft/managed-app-devops-team
 /package-lock.json                          @microsoft/managed-app-devops-team
 /.github/dependabot.yml                     @microsoft/managed-app-devops-team
-/.github/workflows/dependency-security.yml  @microsoft/managed-app-devops-team
 /scripts/audit-overrides.js                 @microsoft/managed-app-devops-team
+
+# All workflows, not just dependency-security.yml: the `github-actions` ecosystem in
+# dependabot.yml raises PRs against any workflow file (PullRequest.yml, codeql.yml,
+# post-release.yml), and those would otherwise land with no reviewer requested.
+/.github/workflows/                         @microsoft/managed-app-devops-team
