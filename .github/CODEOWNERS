@@ -5,9 +5,12 @@
 #
 # Scoped deliberately to the dependency and security-automation surface rather than the whole
 # repo, so it does not add a reviewer to every unrelated PR.
+#
+# @microsoft/managed-app-devops-team has `maintain` on this repo, which satisfies the write
+# access CODEOWNERS requires - entries naming a team without write access are silently ignored.
 
-/package.json                           @jbujula
-/package-lock.json                      @jbujula
-/.github/dependabot.yml                 @jbujula
-/.github/workflows/dependency-security.yml  @jbujula
-/scripts/audit-overrides.js             @jbujula
+/package.json                               @microsoft/managed-app-devops-team
+/package-lock.json                          @microsoft/managed-app-devops-team
+/.github/dependabot.yml                     @microsoft/managed-app-devops-team
+/.github/workflows/dependency-security.yml  @microsoft/managed-app-devops-team
+/scripts/audit-overrides.js                 @microsoft/managed-app-devops-team
