@@ -152,6 +152,13 @@ Decision rules per vulnerability:
 
 Known permanent accepted risk — skip: `elliptic` (GHSA-848j-6mx2-7j84) — dev-only, no patched version.
 
+**"No published fix" may just be feed lag.** This machine resolves npm through the 1ES feed
+mirror (`ms-feed-*.pkgs.visualstudio.com`), which can trail the public registry by days. Before
+recording something as an accepted risk, cross-check against Dependabot — if Dependabot has
+opened a PR for a version `npm view` says does not exist, the fix is real and the mirror is
+simply behind. Say "not yet on our feed mirror", not "no fix exists", and let the Dependabot PR
+land it.
+
 ---
 
 ## Step 3 — Apply fixes

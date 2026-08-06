@@ -194,7 +194,7 @@ function main() {
           continue;
         }
         if (!publishedVersions(pkg, versionCache).includes(patched)) {
-          manual.push(`${pkg}@${copy.version}: ${ghsa} - patched version ${patched} is not published yet`);
+          manual.push(`${pkg}@${copy.version}: ${ghsa} - patched version ${patched} is not on the configured registry yet (it may already exist upstream; cross-check Dependabot before calling this an accepted risk)`);
           continue;
         }
         if (copy.inBundle && !isDirect && copy.path !== `node_modules/${pkg}`) {
