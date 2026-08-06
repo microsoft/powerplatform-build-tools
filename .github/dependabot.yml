@@ -3,6 +3,11 @@
 # Note: Dependabot only understands `dependencies` / `devDependencies`. It cannot read or
 # update the npm `overrides` block, which is where most transitive fixes in this repo live.
 # Those are handled by .github/workflows/dependency-security.yml instead.
+#
+# Reviewers are assigned via .github/CODEOWNERS - the `reviewers:` option below was retired
+# by GitHub in 2025 and no longer has any effect.
+#
+# Nothing here auto-merges. Every PR needs a human to review and merge it.
 
 version: 2
 updates:

@@ -1,0 +1,13 @@
+# https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Dependabot's `reviewers:` option was retired in favour of CODEOWNERS, so this file is now
+# the only way to get a review automatically requested on dependency PRs.
+#
+# Scoped deliberately to the dependency and security-automation surface rather than the whole
+# repo, so it does not add a reviewer to every unrelated PR.
+
+/package.json                           @jbujula
+/package-lock.json                      @jbujula
+/.github/dependabot.yml                 @jbujula
+/.github/workflows/dependency-security.yml  @jbujula
+/scripts/audit-overrides.js             @jbujula
