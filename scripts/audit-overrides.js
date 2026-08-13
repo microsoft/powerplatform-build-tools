@@ -40,13 +40,27 @@ const ACCEPTED_RISKS = {
   'GHSA-848j-6mx2-7j84': 'elliptic - dev-only (rewiremock -> node-libs-browser -> crypto-browserify), no patched version published',
 };
 
+/**
+ * Quote a single argument for the Windows command line.
+ *
+ * Backslashes are only special immediately before a quote (or at the end of the argument,
+ * where they would otherwise escape the closing quote), so those runs are doubled and the
+ * quote itself is escaped. Escaping the quote alone would leave `foo\` able to break out.
+ */
+function quoteWinArg(value) {
+  const escaped = String(value)
+    .replace(/(\\*)"/g, '$1$1\\"')
+    .replace(/(\\*)$/, '$1$1');
+  return `"${escaped}"`;
+}
+
 function run(cmd, args) {
   // On Windows npm/gh are .cmd shims, which Node refuses to spawn without a shell.
   // Every argument here is repo-controlled (package names, advisory ids), but quote
   // them anyway so a shell never re-splits or interprets them.
   const useShell = process.platform === 'win32';
   const res = useShell
-    ? spawnSync(`${cmd} ${args.map((a) => `"${String(a).replace(/"/g, '\\"')}"`).join(' ')}`, {
+    ? spawnSync(`${cmd} ${args.map(quoteWinArg).join(' ')}`, {
         cwd: REPO_ROOT,
         encoding: 'utf8',
         shell: true,
