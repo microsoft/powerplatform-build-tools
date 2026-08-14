@@ -1,0 +1,20 @@
+# https://docs.github.com/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+#
+# Dependabot's `reviewers:` option was retired in favour of CODEOWNERS, so this file is now
+# the only way to get a review automatically requested on dependency PRs.
+#
+# Scoped deliberately to the dependency and security-automation surface rather than the whole
+# repo, so it does not add a reviewer to every unrelated PR.
+#
+# @microsoft/managed-app-devops-team has `maintain` on this repo, which satisfies the write
+# access CODEOWNERS requires - entries naming a team without write access are silently ignored.
+
+/package.json                               @microsoft/managed-app-devops-team
+/package-lock.json                          @microsoft/managed-app-devops-team
+/.github/dependabot.yml                     @microsoft/managed-app-devops-team
+/scripts/audit-overrides.js                 @microsoft/managed-app-devops-team
+
+# All workflows, not just dependency-security.yml: the `github-actions` ecosystem in
+# dependabot.yml raises PRs against any workflow file (PullRequest.yml, codeql.yml,
+# post-release.yml), and those would otherwise land with no reviewer requested.
+/.github/workflows/                         @microsoft/managed-app-devops-team
