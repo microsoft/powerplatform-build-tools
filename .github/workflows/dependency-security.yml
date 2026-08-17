@@ -26,6 +26,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  packages: read
 
 jobs:
   refresh:
@@ -40,7 +41,7 @@ jobs:
           registry-url: https://npm.pkg.github.com
 
       - name: Configure npm
-        run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
+        run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}
 
       - name: Install npm@11 globally
         run: npm i -g npm@11
