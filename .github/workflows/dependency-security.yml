@@ -1,0 +1,115 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+#
+# Weekly dependency security refresh.
+#
+# Dependabot cannot see npm `overrides`, and almost every vulnerability in this repo is
+# transitive and pinned through `overrides`. That gap is why S360/Component Governance
+# keeps re-raising the same alerts and why they have to be fixed by hand each time.
+#
+# This workflow closes it:
+#   1. `npm update` refreshes package-lock.json inside the ranges already declared.
+#      Historically this alone clears most alerts - the ranges were fine, the lock was stale.
+#   2. `scripts/audit-overrides.js --write` raises any range that is genuinely too low,
+#      resolving each advisory against the GitHub Advisory DB for its real patched version.
+#   3. The build must pass before a PR is opened.
+#
+# Anything the script cannot fix safely (bundled copies, multi-major packages, advisories
+# with no published fix) is reported in the PR body for a human to pick up.
+name: Dependency security refresh
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://npm.pkg.github.com
+
+      - name: Configure npm
+        run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
+
+      - name: Install npm@11 globally
+        run: npm i -g npm@11
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Refresh lock file within existing ranges
+        run: npm update
+
+      - name: Raise ranges that are still too low
+        id: overrides
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node scripts/audit-overrides.js --write | tee audit-report.md
+          npm install
+
+      - name: Check for changes
+        id: diff
+        run: |
+          if git diff --quiet -- package.json package-lock.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # The PR is only opened if the build is green, so a broken tree is never proposed.
+      - name: Build and test
+        if: steps.diff.outputs.changed == 'true'
+        run: npm run ci
+        env:
+          AZ_DevOps_Read_PAT: ${{ secrets.AZ_DevOps_Read_PAT }}
+          PA_BT_ORG_PASSWORD: ${{ secrets.PA_BT_ORG_PASSWORD }}
+          RUN_ID: ${{ github.run_id }}
+
+      - name: Open pull request
+        if: steps.diff.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          BRANCH="bot/dependency-refresh-$(date -u +%Y%m%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add package.json package-lock.json
+          git commit -m "chore: weekly dependency security refresh"
+          git push -u origin "$BRANCH"
+
+          {
+            echo "## Summary"
+            echo
+            echo "Automated weekly refresh of vulnerable dependencies."
+            echo
+            cat audit-report.md
+            echo
+            echo "## Test plan"
+            echo
+            echo "- [x] \`npm ci\` clean"
+            echo "- [x] \`npm run ci\` passed before this PR was opened"
+            echo "- [ ] Functional tests - exempt (require \`PA_BT_ORG_PASSWORD\`)"
+            echo
+            echo "Anything listed under **Needs a human** could not be fixed safely by the script"
+            echo "and still requires a manual override, a lock-file patch, or an accepted-risk note."
+          } > pr-body.md
+
+          # No --assignee / --reviewer here: .github/CODEOWNERS already requests a review from
+          # @microsoft/managed-app-devops-team for every file this PR touches, and passing a
+          # team reviewer explicitly can fail depending on the GITHUB_TOKEN's permissions.
+          gh pr create --base main --head "$BRANCH" \
+            --title "chore: weekly dependency security refresh" \
+            --body-file pr-body.md
