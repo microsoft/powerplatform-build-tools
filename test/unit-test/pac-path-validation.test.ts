@@ -3,6 +3,9 @@
 
 import { assert, should, use } from "chai";
 import * as sinonChai from "sinon-chai";
+import * as fs from "fs";
+import * as os from "os";
+import * as path from "path";
 import { validatePacPath, PacPathEnvVarName } from "../../src/host/BuildToolsRunnerParams";
 
 should();
@@ -76,6 +79,87 @@ describe("PAC CLI path validation", () => {
     it("rejects path with _tasks but fabricated GUID mimicking installer", () => {
       const attackerPath = "/home/vsts/work/_tasks/PowerPlatformToolInstaller_00000000-0000-0000-0000-000000000000/1.0.0/bin";
       assert.throws(() => validatePacPath(attackerPath), /Security validation failed.*does not reference a known/);
+    });
+  });
+
+  describe("validatePacPath - symlinked _tasks directory", () => {
+    // Simulates agents that cache downloaded tasks in a separate folder and then
+    // expose it through a `_tasks` symbolic link. Node resolves the running
+    // task's __dirname to the real (cache) location, which has no literal
+    // `_tasks` segment, so the validation must resolve the symlink to succeed.
+    const taskGuid = "8015465b-f367-4ec4-8215-8edf682574d3"; // LIVE
+    let tempRoot: string;
+    let workFolder: string;
+    let cacheTasksDir: string;
+    let symlinkSupported = true;
+    const originalWorkFolder = process.env['AGENT_WORKFOLDER'];
+    const originalRootDir = process.env['AGENT_ROOTDIRECTORY'];
+
+    before(() => {
+      tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), "ppbt-symlink-test-"));
+      workFolder = path.join(tempRoot, "_work");
+      // The real cache folder lives outside _work; _work/_tasks links to it.
+      cacheTasksDir = path.join(tempRoot, "task-cache");
+      const realPacBin = path.join(cacheTasksDir, `PowerPlatformToolInstaller_${taskGuid}`, "2.0.137", "bin");
+      fs.mkdirSync(realPacBin, { recursive: true });
+      fs.mkdirSync(workFolder, { recursive: true });
+      try {
+        fs.symlinkSync(cacheTasksDir, path.join(workFolder, "_tasks"), "junction");
+      } catch {
+        symlinkSupported = false;
+      }
+    });
+
+    const restoreEnv = (name: string, value: string | undefined) => {
+      if (value === undefined) {
+        delete process.env[name];
+      } else {
+        process.env[name] = value;
+      }
+    };
+
+    after(() => {
+      restoreEnv('AGENT_WORKFOLDER', originalWorkFolder);
+      restoreEnv('AGENT_ROOTDIRECTORY', originalRootDir);
+      fs.rmSync(tempRoot, { recursive: true, force: true });
+    });
+
+    it("accepts the real (symlink-resolved) cache path when _tasks is a symlink", function () {
+      if (!symlinkSupported) {
+        this.skip();
+      }
+      process.env['AGENT_WORKFOLDER'] = workFolder;
+      const realPacPath = path.join(cacheTasksDir, `PowerPlatformToolInstaller_${taskGuid}`, "2.0.137", "bin");
+      assert.doesNotThrow(() => validatePacPath(realPacPath));
+    });
+
+    it("still accepts the path via the symlinked _tasks location", function () {
+      if (!symlinkSupported) {
+        this.skip();
+      }
+      process.env['AGENT_WORKFOLDER'] = workFolder;
+      const linkedPacPath = path.join(workFolder, "_tasks", `PowerPlatformToolInstaller_${taskGuid}`, "2.0.137", "bin");
+      assert.doesNotThrow(() => validatePacPath(linkedPacPath));
+    });
+
+    it("rejects a real cache path when AGENT_WORKFOLDER is not set", function () {
+      if (!symlinkSupported) {
+        this.skip();
+      }
+      delete process.env['AGENT_WORKFOLDER'];
+      delete process.env['AGENT_ROOTDIRECTORY'];
+      const realPacPath = path.join(cacheTasksDir, `PowerPlatformToolInstaller_${taskGuid}`, "2.0.137", "bin");
+      assert.throws(() => validatePacPath(realPacPath), /Security validation failed.*not under the agent's _tasks directory/);
+    });
+
+    it("rejects a cache-resident path with an unknown GUID even when reachable via the symlink", function () {
+      if (!symlinkSupported) {
+        this.skip();
+      }
+      const badGuidBin = path.join(cacheTasksDir, "PowerPlatformToolInstaller_00000000-0000-0000-0000-000000000000", "1.0.0", "bin");
+      fs.mkdirSync(badGuidBin, { recursive: true });
+      process.env['AGENT_WORKFOLDER'] = workFolder;
+      assert.throws(() => validatePacPath(badGuidBin), /Security validation failed.*does not reference a known/);
     });
   });
 });
