@@ -88,8 +88,22 @@ nativeSuite(`PAC CLI path validation (native ${process.platform})`, () => {
     return runnerModule.validatePacPath(candidate, moduleDir);
   }
 
+  function captureError(action: () => void): Error {
+    let thrown: unknown;
+    try {
+      action();
+    } catch (error: unknown) {
+      thrown = error;
+    }
+    if (thrown instanceof Error) {
+      return thrown;
+    }
+    throw new Error("Expected validation to throw an Error");
+  }
+
   function rejects(candidate: string, reason: RegExp, moduleDir = trustedModuleDir): void {
-    const error = assert.throws(() => validate(candidate, moduleDir), reason);
+    const error = captureError(() => validate(candidate, moduleDir));
+    assert.match(error.message, reason);
     assert.match(error.message, /^Security validation failed:/);
     assert.include(error.message, "PowerPlatformToolInstaller@2");
     assert.include(error.message, runnerModule.PacPathEnvVarName);
@@ -97,7 +111,7 @@ nativeSuite(`PAC CLI path validation (native ${process.platform})`, () => {
   }
 
   function rejectsWithCode(candidate: string, code: string): void {
-    assert.propertyVal(assert.throws(() => validate(candidate)), "code", code);
+    assert.propertyVal(captureError(() => validate(candidate)), "code", code);
   }
 
   function directoryLink(target: string, link: string): void {
@@ -350,7 +364,7 @@ nativeSuite(`PAC CLI path validation (native ${process.platform})`, () => {
       const failure = Object.assign(new Error("Fixture directory identity access denied"), { code: "EACCES" });
       sandbox.stub(fs, "statSync").callThrough()
         .withArgs(canonicalRoot, { bigint: true }).throws(failure);
-      assert.strictEqual(assert.throws(() => validate(fixture.bin)), failure);
+      assert.strictEqual(captureError(() => validate(fixture.bin)), failure);
     });
 
     it("propagates a canonicalization failure unchanged", () => {
@@ -359,7 +373,7 @@ nativeSuite(`PAC CLI path validation (native ${process.platform})`, () => {
       const failure = Object.assign(new Error("Fixture bin access denied"), { code: "EACCES" });
       sandbox.stub(fs.realpathSync, "native").callThrough()
         .withArgs(path.join(canonicalVersion, "bin")).throws(failure);
-      assert.strictEqual(assert.throws(() => validate(fixture.bin)), failure);
+      assert.strictEqual(captureError(() => validate(fixture.bin)), failure);
     });
   });
 
