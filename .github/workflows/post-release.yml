@@ -48,7 +48,7 @@ jobs:
           echo "Detected version: $VERSION (run: $RUN_ID)"
 
       - name: Checkout main
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: main
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -116,7 +116,7 @@ jobs:
           git push
 
       - name: Checkout release/stable
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           ref: release/stable
           token: ${{ secrets.GITHUB_TOKEN }}
