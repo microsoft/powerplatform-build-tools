@@ -35,44 +35,22 @@ jobs:
       fail-fast: false
       matrix:
         language: [ 'javascript' ]
-        os:
-          - windows-latest
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    # Initializes the CodeQL tools for scanning.
+    # JavaScript/TypeScript is extracted straight from source (build-mode: none), so no npm
+    # install or build is needed. Keeping them out means the scan no longer depends on
+    # GitHub Packages credentials, which broke every scan once GPR_ACCESS_TOKEN expired.
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v4
       with:
         languages: ${{ matrix.language }}
+        build-mode: none
         config-file: ./.github/codeql/codeql-config.yml
 
-    - name: Setup Node.js environment
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20
-        registry-url: https://npm.pkg.github.com
-
-    - name: Configure npm
-      run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
-
-    - name: Install npm@8 globally (windows)
-      if: matrix.os == 'windows-latest'
-      run: npm i -g npm@8
-
-    - name: Install npm@9 globally (linux)
-      if: matrix.os != 'windows-latest'
-      run: npm i -g npm@9
-
-    - name: Install npm dependencies
-      run: npm install
-
-    - name: Build and test
-      run: npm run build
-
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v4
       with:
         category: "/language:${{matrix.language}}"
