@@ -110,6 +110,33 @@ jobs:
           # No --assignee / --reviewer here: .github/CODEOWNERS already requests a review from
           # @microsoft/managed-app-devops-team for every file this PR touches, and passing a
           # team reviewer explicitly can fail depending on the GITHUB_TOKEN's permissions.
-          gh pr create --base main --head "$BRANCH" \
-            --title "chore: weekly dependency security refresh" \
-            --body-file pr-body.md
+          #
+          # Actions cannot open a PR when the org/repo policy "Allow GitHub Actions to create
+          # and approve pull requests" is disabled. By this point the branch is pushed and the
+          # build is green, so the work is not lost. Failing the run would put a red X on the
+          # weekly job every week for a reason nobody can fix from the workflow, which just
+          # trains people to ignore it. Surface an actionable link instead.
+          if ! gh pr create --base main --head "$BRANCH" \
+                --title "chore: weekly dependency security refresh" \
+                --body-file pr-body.md 2> pr-error.log; then
+            cat pr-error.log >&2
+            if grep -q "not permitted to create or approve pull requests" pr-error.log; then
+              echo "::warning::Branch '$BRANCH' was pushed and is green, but Actions is not allowed to open PRs in this repo. Open it manually, or enable Settings > Actions > General > 'Allow GitHub Actions to create and approve pull requests'."
+              {
+                echo "## Dependency refresh is ready, but the PR could not be opened automatically"
+                echo
+                echo "Branch \`$BRANCH\` has been pushed and \`npm run ci\` passed."
+                echo
+                echo "**Open the PR:** https://github.com/${GITHUB_REPOSITORY}/compare/main...${BRANCH}?expand=1"
+                echo
+                echo "To let future runs open it themselves, enable **Settings > Actions > General >"
+                echo "\"Allow GitHub Actions to create and approve pull requests\"**."
+                echo
+                echo "---"
+                echo
+                cat pr-body.md
+              } >> "$GITHUB_STEP_SUMMARY"
+            else
+              exit 1
+            fi
+          fi
