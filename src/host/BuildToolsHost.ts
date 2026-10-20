@@ -54,15 +54,15 @@ class AzDevOpsArtifactStore implements IArtifactStore {
   public async upload(artifactName: string, files: string[]): Promise<void> {
     buildToolsLogger.debug(`files: ${files.join(';')}`);
     await fs.emptyDir(this._resultsDirectory);
-    for (const file of files) {
+    await Promise.all(files.map((file) => {
       if (path.extname(file).toLowerCase() === '.zip') {
         buildToolsLogger.debug(`unzipping ${file} into ${this._resultsDirectory} ...`);
-        await extractToFolder(file, this._resultsDirectory);
+        return extractToFolder(file, this._resultsDirectory);
       } else {
         buildToolsLogger.debug(`copying ${file} into ${this._resultsDirectory} ...`);
-        await fs.copyFile(file, path.join(this._resultsDirectory, path.basename(file)));
+        return fs.copyFile(file, path.join(this._resultsDirectory, path.basename(file)));
       }
-    }
+    }));
 
     if (this._hasArtifactFolder) {
       // https://docs.microsoft.com/en-us/azure/devops/pipelines/scripts/logging-commands?view=azure-devops&tabs=bash#upload-upload-an-artifact
