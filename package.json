@@ -16,6 +16,8 @@
     "ci": "node node_modules/gulp/bin/gulp.js ci --max-old-space-size=8192",
     "prepare-pack": "node node_modules/gulp/bin/gulp.js --max-old-space-size=8192 preparePack",
     "pack": "node node_modules/gulp/bin/gulp.js pack",
+    "pack:server": "node node_modules/gulp/bin/gulp.js pack --os=win32",
+    "pack:server-linux": "node node_modules/gulp/bin/gulp.js pack --os=linux",
     "tfx": "node node_modules/tfx-cli/_build/tfx-cli.js",
     "set-git-authn": "node ./setGitAuthN.js",
     "set-version": "node node_modules/release-it/bin/release-it --increment patch --ci -VV",
