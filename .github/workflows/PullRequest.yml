@@ -55,6 +55,12 @@ jobs:
       - name: Install npm dependencies
         run: npm ci
 
+      # npm overrides never reach bundled dependencies, and `npm ci` does not notice. Fail here
+      # instead of shipping a vulnerable copy that package.json claims is fixed.
+      - name: Check dependency overrides reach the lock file
+        if: matrix.os == 'ubuntu-latest'
+        run: node scripts/audit-overrides.js --check
+
       - name: Build and test
         run: npm run ci
         # Note: To set version:

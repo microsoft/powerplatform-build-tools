@@ -92,10 +92,27 @@ npm audit --json 2>&1
 
 ### 1d — Map S360 CVE/GHSA ids to packages
 
-Most `[S360]` items carry only a Component Governance `alertId` and no package name, and the
-Component Governance REST API is not reachable (`_apis/governance/...` returns 404). Resolve them
-against the GitHub Advisory DB instead — this reliably yields the package, the vulnerable range,
-and the real patched version:
+Most `[S360]` items carry only a Component Governance `alertId` and no package name. The legacy
+`_apis/governance/...` route returns 404, but the Component Governance API the portal itself uses
+works with an Azure DevOps bearer token (`az account get-access-token --resource
+499b84ac-1321-427f-aa17-267ca6975798`). Take the org, project, governed repository id and
+`typeId` from the alert's portal URL:
+
+```bash
+# Alerts as S360 sees them: production state for one pipeline (typeId) on one branch.
+# Use stateDetails.alertState - the repository-level /alerts list aggregates every pipeline and
+# PR snapshot and reports far more "active" alerts than S360 does.
+GET https://governance.dev.azure.com/<org>/<project-guid>/_apis/ComponentGovernance/GovernedRepositories/<repo-id>/Branches/<branch>/Alerts?snapshotTypeId=<typeId>&api-version=7.1-preview.1
+
+# One alert, including the lock-file locations and root dependencies
+GET .../GovernedRepositories/<repo-id>/Branches/<branch>/Alerts/<alertId>?pipelinesTrackingFilter=0&api-version=7.1-preview.1
+```
+
+Component Governance only clears an alert after the pipeline that detected it scans again, so a
+merged fix shows up there (and in S360) after the next official build of that branch.
+
+Resolve each advisory against the GitHub Advisory DB — this reliably yields the package, the
+vulnerable range, and the real patched version:
 
 ```bash
 # From a CVE id (as it appears in the S360 work item title)
@@ -115,11 +132,14 @@ Do this for every unmapped S360 item before declaring anything unresolvable.
 
 `scripts/audit-overrides.js` already does steps 2 and 3 mechanically: it reads `npm audit`,
 resolves every advisory against the Advisory DB, compares against each installed copy in the
-lock file, and reports exactly which ranges need to move.
+lock file, and reports exactly which ranges need to move. With `--write` it also patches bundled
+(`inBundle`) lock entries, which neither `npm update` nor `overrides` ever change.
 
 ```bash
 node scripts/audit-overrides.js            # report only
-node scripts/audit-overrides.js --write    # apply the safe override bumps
+node scripts/audit-overrides.js --write    # apply the safe override bumps and bundled lock patches
+npm install
+node scripts/audit-overrides.js --check    # every override must be reflected in the lock (CI runs this)
 ```
 
 Use its output as the fix plan, then hand-fix only what it lists under **Needs a human**.
@@ -127,6 +147,9 @@ Use its output as the fix plan, then hand-fix only what it lists under **Needs a
 **Check the existing range before editing `package.json`.** Most alerts here are a stale lock
 file, not a too-low range — e.g. `postcss` at `^8.5.15` already permits the patched `8.5.25`.
 For those, `npm update` is the entire fix and `package.json` should not be touched.
+
+**An override is not a fix until the lock file says so.** Overrides never reach bundled copies:
+`npm ci` stays green and the old version still ships. `--check` catches that.
 
 ---
 
@@ -180,12 +203,26 @@ Hard rules:
 - **Never add a flat override for a package installed across several major lines** — it
   rewrites every copy and silently downgrades the other lines. `brace-expansion` is installed
   on the 1.x, 2.x and 5.x lines simultaneously; each needs its own nested override.
+- **Scope a nested override to the parent's major line** when the parent is itself installed on
+  several lines: `"minimatch@^10": { "brace-expansion": "^5.0.12" }`, not `"minimatch": {...}`.
+  The unscoped form also forced brace-expansion 5 under minimatch 5 and 9, which then threw
+  `expand is not a function` on any `{a,b}` pattern.
+- **Pin bundled packages that are also declared in `package.json` to an exact version** (both
+  the dependency and the override, e.g. `adm-zip`). With a range, `npm ci` fails with EUSAGE
+  as soon as a newer matching version is published.
+- Forcing a production dependency onto another major line than its parent declares fails
+  `--check` until it is added to `KNOWN_FORCED_MAJORS` in the script with the reason it is safe.
 
 ### Strategy B — Direct dependency bump
 
 Update `package.json` version, then `npm install`.
 
 ### Strategy C — Lock file patch (`inBundle: true`)
+
+`node scripts/audit-overrides.js --write` does this for you whenever the patched version stays
+on the same major line and its own dependencies are already in the tree; it rebuilds the entry
+from the registry manifest (version, resolved, integrity, dependencies, engines, ...) and keeps
+the `inBundle` flag. Patch by hand only what it reports under **Needs a human**:
 
 ```bash
 node -e "
@@ -197,22 +234,13 @@ console.log(
     .join('\n')
 );"
 
-npm view <pkg>@<patched-version> dist.tarball dist.integrity --json
-
-node -e "
-const fs = require('fs');
-const l = require('./package-lock.json');
-Object.keys(l.packages)
-  .filter(k => k.endsWith('/<pkg>'))
-  .forEach(k => {
-    l.packages[k].version = '<patched-version>';
-    l.packages[k].resolved = '<tarball-url>';
-    l.packages[k].integrity = '<integrity>';
-  });
-fs.writeFileSync('./package-lock.json', JSON.stringify(l, null, 2) + '\n');
-"
-npm install 2>&1
+npm view <pkg>@<patched-version> --json   # version, dist.tarball, dist.integrity, dependencies, engines
 ```
+
+Update `version`, `resolved` and `integrity`, and also `dependencies` / `engines` / `license`
+if they changed, keeping `inBundle`. Every new dependency must already resolve from that
+location in the tree. A fix on another major line means the parent has to be upgraded instead.
+Then run `npm install` and `node scripts/audit-overrides.js --check`.
 
 ---
 
@@ -220,6 +248,7 @@ npm install 2>&1
 
 ```bash
 npm audit 2>&1
+node scripts/audit-overrides.js --check 2>&1
 npm run ci 2>&1
 ```
 
