@@ -11,11 +11,13 @@
 #   1. `npm update` refreshes package-lock.json inside the ranges already declared.
 #      Historically this alone clears most alerts - the ranges were fine, the lock was stale.
 #   2. `scripts/audit-overrides.js --write` raises any range that is genuinely too low,
-#      resolving each advisory against the GitHub Advisory DB for its real patched version.
-#   3. The build must pass before a PR is opened.
+#      resolving each advisory against the GitHub Advisory DB for its real patched version,
+#      and patches bundled lock entries, which neither `npm update` nor overrides ever move.
+#   3. `scripts/audit-overrides.js --check` fails the run if any override did not land.
+#   4. The build must pass before a PR is opened.
 #
-# Anything the script cannot fix safely (bundled copies, multi-major packages, advisories
-# with no published fix) is reported in the PR body for a human to pick up.
+# Anything the script cannot fix safely (multi-major packages, bundled copies whose fix is on
+# another major line, advisories with no published fix) is reported in the PR body for a human.
 name: Dependency security refresh
 
 on:
@@ -56,8 +58,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Without pipefail, `tee` would hide a failing script and the run would carry on.
+          set -o pipefail
           node scripts/audit-overrides.js --write | tee audit-report.md
           npm install
+          echo >> audit-report.md
+          node scripts/audit-overrides.js --check | tee -a audit-report.md
 
       - name: Check for changes
         id: diff
