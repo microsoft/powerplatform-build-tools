@@ -111,11 +111,11 @@
     },
     {
       "name": "ProcessCanvasApps",
-      "label": "Process CanvasApps",
+      "label": "DEPRECATED: Process CanvasApps",
       "type": "boolean",
       "required": false,
       "defaultValue": false,
-      "helpMarkDown": "(Preview) While processing the solution, unpack any Canvas apps .msapp file into its YAML source format"
+      "helpMarkDown": "DEPRECATED: While processing the solution, unpack any Canvas apps .msapp file into the deprecated .fx.yaml source format"
     }
 
   ],
