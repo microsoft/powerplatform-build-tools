@@ -106,7 +106,8 @@
     },
     "tfx-cli": {
       "uuid": "^13.0.1"
-    }
+    },
+    "decode-uri-component": "^0.5.1"
   },
   "dependencies": {
     "@microsoft/powerplatform-cli-wrapper": "^0.1.135",
