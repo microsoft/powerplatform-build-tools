@@ -147,6 +147,8 @@ async function copyDependencies() {
   const binFolder = path.resolve("bin");
   const toolInstallerFolder = `${stagingDir}/tasks/tool-installer/tool-installer-v2`;
 
+  const targetOs = (argv.os || argv.targetOs || '').toLowerCase();
+
   // Exclude the two nested _rels/.rels files that cause ESRP vsixsigntool.exe to fail
   // with error 0x80510005. These are OPC metadata artifacts left behind when the pac CLI
   // NuGet packages are extracted — they reference non-existent targets and confuse the
@@ -158,7 +160,28 @@ async function copyDependencies() {
   ]);
   const binFileFilter = (src) => {
     const rel = path.relative(binFolder, src);
-    return !EXCLUDED_BIN_FILES.has(rel);
+    if (EXCLUDED_BIN_FILES.has(rel)) {
+      return false;
+    }
+
+    // Support targeting a specific OS for Azure DevOps Server 100MB limit (#1443, #1191)
+    if ((targetOs === 'win32' || targetOs === 'windows') && rel.startsWith('pac_linux')) {
+      return false;
+    }
+    if (targetOs === 'linux' && rel.startsWith('pac') && !rel.startsWith('pac_linux')) {
+      return false;
+    }
+
+    // Exclude debug symbol files, documentation, macOS dylibs, and unused architectures to minimize VSIX size
+    if (
+      src.endsWith('.pdb') ||
+      src.endsWith('.dylib') ||
+      (src.endsWith('.xml') && !src.endsWith('[Content_Types].xml')) ||
+      /[\\/](win-arm64|win-x86|linux-ppc64le|linux-s390x|linux-arm)[\\/]/.test(src)
+    ) {
+      return false;
+    }
+    return true;
   };
 
   await Promise.all([
