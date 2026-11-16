@@ -19,6 +19,9 @@ env:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    permissions:
+      contents: read
+      packages: read # restore @microsoft/powerplatform-cli-wrapper from GitHub Packages
     strategy:
       matrix:
         os:
@@ -42,7 +45,10 @@ jobs:
           registry-url: https://npm.pkg.github.com
 
       - name: Configure npm
-        run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GPR_ACCESS_TOKEN }}
+        # GITHUB_TOKEN is minted per run and expires with it - nothing to rotate.
+        # Requires @microsoft/powerplatform-cli-wrapper to grant this repo read access
+        # under the package's "Manage Actions access" settings.
+        run: npm config set //npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}
 
       - name: Install npm@11 globally (windows)
         if: matrix.os == 'windows-latest'
@@ -54,6 +60,12 @@ jobs:
 
       - name: Install npm dependencies
         run: npm ci
+
+      # npm overrides never reach bundled dependencies, and `npm ci` does not notice. Fail here
+      # instead of shipping a vulnerable copy that package.json claims is fixed.
+      - name: Check dependency overrides reach the lock file
+        if: matrix.os == 'ubuntu-latest'
+        run: node scripts/audit-overrides.js --check
 
       - name: Build and test
         run: npm run ci
