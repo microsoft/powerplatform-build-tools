@@ -43,3 +43,6 @@ updates:
       interval: "weekly"
     labels:
       - "dependencies"
+    # Wait 7 days before proposing a new release, so a compromised one has time to be reported.
+    cooldown:
+      default-days: 7
